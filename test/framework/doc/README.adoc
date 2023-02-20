@@ -1,0 +1,163 @@
+= Libunit
+:nofooter:
+:toc: left
+:sectnums:
+
+== Signal
+
+=== Bus error
+
+[source, c]
+----
+void bus_error(void) {
+  char *s = "string";
+
+  *s = 'a';
+}
+----
+
+=== Segmentation fault
+
+[source, c]
+----
+void segfault_error(void) {
+  int *s = malloc(0);
+
+  s[10000000] = 'a';
+}
+----
+
+== Files stucture
+
+----
+/tests/main.c
+/tests/function/00_launcher.c
+/tests/function/01_basic_test.c
+/tests/another_function/00_launcher.c
+/tests/another_function/01_basic_test.c
+----
+
+== Framework
+
+[graphviz, target=assets/framework, format=svg]
+....
+graph ""
+{
+  main [label="main.c"] ;
+
+  one_launcher [label="a launcher function"] ;
+  two_launcher [label="another launcher function"] ;
+
+  main -- one_launcher ;
+  main -- two_launcher ;
+
+  one_a_test_function [label="a test function"] ;
+  one_another_test_function [label="another test function"] ;
+
+  one_launcher -- one_a_test_function ;
+  one_launcher -- one_another_test_function ;
+
+  two_a_test_function [label="a test function"] ;
+  two_another_test_function [label="another test function"] ;
+
+  two_launcher -- two_a_test_function ;
+  two_launcher -- two_another_test_function ;
+}
+....
+
+== mini-norme
+
+Main:: The main.c call each launcher
+
+Launcher:: Launcher is used to load and run all tests
++
+[source, c]
+----
+#include "101_basic_tests.h"
+#include "libunit.h"
+int strlen_launcher(void)
+{
+  t_unit_test *testlist;
+
+  load_test(&testlist, "Basic test", &a_test_function);
+  load_test(&testlist, "NULL test", &another_test_function);
+  return(launch_tests(&testlist));
+}
+----
+
+Test:: A basic function for testing a function
++
+[source, c]
+----
+/* if successful return 0 else return -1 */
+int a_test_function(void);
+----
+
+== Framework architecture
+
+=== enum: `result`
+
+[source, c]
+----
+enum e_result
+{
+    OK,
+    KO,
+    SIGSEGV,
+    SIGBUS,
+};
+----
+
+The purpose of this enumaration is to record the result of the test.
+
+=== struct: `unit_test`
+
+[blockquote, typedef]
+____
+`typedef struct s_unit_test t_unit_test;`
+____
+
+[source, c]
+----
+struct s_unit_test {
+  int    (*test_function)(void);
+  char    *test_name;
+
+  enum e_result result;
+
+  struct s_unit_test *next;
+};
+----
+
+=== function: `launch_tests`
+
+[blockquote, prototype]
+____
+`int function_launcher(void);`
+____
+
+. Load all tests
+. Launch tests
+
+=== function: `load_test`
+
+[blockquote, prototype]
+____
+`void load_test(t_unit_test **testlist, const char * name, const int (*function_test)(void));`
+____
+
+. Allocate a new `t_unit_test`
+. Append the new node to `testlist`
+
+=== function: `launch_test`
+
+[blockquote, prototype]
+____
+`int launch_test(t_unit_test **testlist);`
+____
+
+For each test:
+
+. fork()
+. read the result
+. deallocate the node
