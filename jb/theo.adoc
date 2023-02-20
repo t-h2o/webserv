@@ -1,0 +1,176 @@
+= week 1
+:toc: left
+:nofooter:
+
+== Checklist
+
+=== Stage one
+
+____
+2023.02.20
+____
+
+* [ ] documentation
+** [ ] how this project is organized ?
+** [ ] usecase of the web server
+* [ ] code
+** [ ] check if there is 1 argument else print help message
+** [ ] print webserv in the terminal
+** [ ] created tests for theses functions
+
+== Manage the github repository
+
+=== Create the repository
+
+____
+2023.02.20
+____
+
+Create branches and set rules for them
+
+* `main`
+** require a pull request before merging
+** require two approvals
+** dismiss stale pull request approvals when new commits are pushed
+** lock branch
+** do not allow bypassing the above settings
+* `stage`
+** require a pull request before merging
+** require one approvals
+** dismiss stale pull request approvals when new commits are pushed
+* `dev`
+** require a pull request before merging
+** require one approvals
+
+=== Need two approvement
+
+____
+2023.02.23
+____
+
+For each branches (dev, stage and main), each member has to approved pull request.
+We set it for one or two for everyone takes the habit to check pull request
+
+=== Merge stage into the main
+
+____
+2023.03.08
+____
+
+. duplicate `stage` into `stage-1`
+. squash and merge `stage` into `main`
+. delete `stage`
+. create another `stage` branch based on `main`
+
+How to update branch ?
+
+. go into your branch to update
+. rebase it
++
+[,bash]
+----
+git rebase --onto origin/stage origin/stage-1 ${my-branch-to-update}
+----
+. fix conflicts
+. force push
++
+[,bash]
+----
+git push -f origin ${my-branch-to-update}
+----
+
+== Web server
+
+=== Copy big-box
+
+____
+2023.02.20
+____
+
+Do a pull request: `theo-infra` -> `dev`
+
+Approved by Robin
+
+== Documentation
+
+=== Chapter 56.1 of the linux programming interface
+
+____
+2023.02.20
+____
+
+==== I don't understang this point
+
+The server binds its socket to a well-known address (name) so that clients can locate it.
+
+==== Difference MacOS and GNU/Linux
+
+Examples of differences:
+
+|===
+| Domains |MacOS `man 2 socket` | GNU/Linux `man 2 socket` | This book
+
+|UNIX
+|PF_UNIX
+|AF_UNIX
+|AF_UNIX
+
+|IPv4
+|PF_INET
+|AF_INET
+|AF_INET
+
+|IPv6
+|PF_INET6
+|AF_INET6
+|AF_INET6
+|===
+
+AF:: Address family
+PF:: Protocol family
+
+== Framework
+
+=== Miscellaneous changes #11
+
+____
+2023.02.23
+____
+
+* framework: fix return value
+* framework: add libraries for GNU/Linux compilation
+
+=== Rewrite and add cland-format file
+
+____
+2023.02.21
+____
+
+Rewrite https://en.wikipedia.org/wiki/Object-oriented_programming[OOP] the framework, that make easier to use
+
+=== Check the standard and error output of the function
+
+____
+2023.02.20
+____
+
+Add a checker of stdout and stderr
+
+== Docker
+
+=== Create a clang image
+
+____
+2023.03.10 : Create a docker image for formating the source files.
+____
+
+I tried with an `alpine` image, the problem was that the `clang` package wasn't up of date. Finally, I used an `archlinux` image.
+
+Create a `docker` folder and `clang` as a subfolder and its own `Makefile` and `Dockerfile`
+
+How use it ?
+
+. go into `docker/clang`
+. execute `make`
+. back to the root of the project
+. execute `make formatdocker`
