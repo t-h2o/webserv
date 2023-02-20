@@ -1,7 +1,7 @@
 #include "tests.hpp"
 
 int
-main (void)
+main(void)
 {
-	f_launcher ();
+	f_launcher();
 }
