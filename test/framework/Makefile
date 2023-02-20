@@ -48,7 +48,7 @@ $(NAME):	$(OBJS)
 
 $(OBJD)/%.o: $(SRCD)/%.cpp
 	@mkdir -p $(@D)
-	@$(CC) -c $(<) $(CFLAGS) -I$(INCD) -o $(@)
+	@$(CXX) -c $(<) $(CFLAGS) -I$(INCD) -o $(@)
 
 format:
 	@printf "$(YELLOW)Formating the sources..$(DEFAULT)\n"

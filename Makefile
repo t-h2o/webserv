@@ -2,7 +2,7 @@ NAME	=	program
 LIB		=	lib$(NAME).a
 
 
-CC		=	g++
+CXX		=	g++
 AR		=	ar rs
 DB		=	lldb
 MAKE	=	make --no-print-directory
@@ -45,12 +45,12 @@ all : $(NAME)
 
 $(NAME):	$(OBJS)
 	@printf "$(YELLOW)Creating executable..$(DEFAULT)\n"
-	@$(CC) $(OBJS) $(OFLAGS) -o $(NAME)
+	@$(CXX) $(OBJS) $(OFLAGS) -o $(NAME)
 	@printf "$(GREEN)---> $(NAME) is ready$(DEFAULT)\n"
 
 $(OBJD)/%.o: $(SRCD)/%.cpp
 	@mkdir -p $(@D)
-	@$(CC) -c $(<) $(CFLAGS) -I$(INCD) -o $(@)
+	@$(CXX) -c $(<) $(CFLAGS) -I$(INCD) -o $(@)
 
 $(LIB): $(OBJS)
 	@$(AR) $(LIB) $(OBJS) > /dev/null

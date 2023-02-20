@@ -1,6 +1,6 @@
 NAME	=	test
 
-CC		=	g++
+CXX		=	g++
 DB		=	lldb
 MAKE	=	make --no-print-directory
 
@@ -46,12 +46,12 @@ all : $(NAME)
 $(NAME):	$(OBJS)
 	@$(MAKE) --directory=framework
 	@printf "$(YELLOW)Creating executable..$(DEFAULT)\n"
-	@$(CC) $(OBJS) $(LIBS_FLAGS) $(OFLAGS) -o $(NAME)
+	@$(CXX) $(OBJS) $(LIBS_FLAGS) $(OFLAGS) -o $(NAME)
 	@printf "$(GREEN)---> $(NAME) is ready$(DEFAULT)\n"
 
 $(OBJD)/%.o: $(SRCD)/%.cpp
 	@mkdir -p $(@D)
-	@$(CC) -c $(<) $(CFLAGS) $(INCD_FLAGS) -o $(@)
+	@$(CXX) -c $(<) $(CFLAGS) $(INCD_FLAGS) -o $(@)
 
 db: $(NAME)
 	$(DB) $(NAME)
