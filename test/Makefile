@@ -27,7 +27,7 @@ SRCS	+=	$(SRCD)/f/01_test.cpp
 
 INCD	=	inc
 
-INCS	+=	$(INCD)/f.hpp
+INCS	+=	$(INCD)/tests.hpp
 
 INCD_FLAGS	=	$(addprefix -I, $(INCD) framework/inc ../inc)
 
