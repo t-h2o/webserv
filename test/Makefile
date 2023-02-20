@@ -21,6 +21,8 @@ SRCD	=	src
 SRCS	=	$(SRCD)/main.cpp
 SRCS	+=	$(SRCD)/f/00_launcher.cpp
 SRCS	+=	$(SRCD)/f/01_test.cpp
+SRCS	+=	$(SRCD)/arguments/00_launcher.cpp
+SRCS	+=	$(SRCD)/arguments/01_test.cpp
 
 
 #	Headers
