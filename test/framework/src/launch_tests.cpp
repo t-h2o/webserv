@@ -1,15 +1,17 @@
 #include "libunit.h"
 #include "utils.h"
 
-static void do_test(t_unit_test *testlist)
+static void
+do_test(t_unit_test *testlist)
 {
 	pid_t pid;
-	int sig;
-	int res;
+	int	  sig;
+	int	  res;
 
 	testlist->result = unknown;
 	pid = fork();
-	if (!pid) {
+	if (!pid)
+	{
 		res = testlist->test_function();
 		if (res == 1)
 			exit(1);
@@ -19,12 +21,13 @@ static void do_test(t_unit_test *testlist)
 	{
 		pid = wait(&sig);
 		if (!pid)
-			return ;
+			return;
 		testlist->result = catch_res(sig);
 	}
 }
 
-static void print_result(t_unit_test *testlist)
+static void
+print_result(t_unit_test *testlist)
 {
 	std::cout << "function : " << testlist->test_name << " : ";
 	if (testlist->result == OK)
@@ -47,14 +50,16 @@ static void print_result(t_unit_test *testlist)
 		std::cout << "\n";
 }
 
-static void free_node(t_unit_test *testlist)
+static void
+free_node(t_unit_test *testlist)
 {
 	delete testlist;
 }
 
-static void last_line(t_unit_test *testlist)
+static void
+last_line(t_unit_test *testlist)
 {
-	int	tests;
+	int tests;
 	int success;
 
 	tests = 0;
@@ -68,7 +73,8 @@ static void last_line(t_unit_test *testlist)
 	std::cout << " tests checked\n";
 }
 
-int launch_tests(t_unit_test **testlist)
+int
+launch_tests(t_unit_test **testlist)
 {
 	iter_list(*testlist, &do_test);
 	iter_list(*testlist, &print_result);

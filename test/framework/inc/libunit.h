@@ -10,7 +10,6 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-
 /* enumation result */
 enum e_result
 {
@@ -29,12 +28,12 @@ typedef enum e_result t_result;
 /* structure unit_test */
 struct s_unit_test
 {
-  int	(*test_function)(void);
-  std::string test_name;
+	int (*test_function)(void);
+	std::string test_name;
 
-  enum e_result result;
+	enum e_result result;
 
-  struct s_unit_test *next;
+	struct s_unit_test *next;
 };
 typedef struct s_unit_test t_unit_test;
 
@@ -47,4 +46,4 @@ enum e_result catch_res(int signal);
 /* launch_test */
 int launch_tests(t_unit_test **testlist);
 
-#endif //LIBUNIT_LIBUNIT_H
+#endif // LIBUNIT_LIBUNIT_H

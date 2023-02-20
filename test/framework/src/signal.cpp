@@ -4,7 +4,8 @@
 
 #include "libunit.h"
 
-enum e_result catch_res(int signal)
+enum e_result
+catch_res(int signal)
 {
 	int status;
 
