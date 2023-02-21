@@ -1,3 +1,4 @@
+#include "Json.hpp"
 #include "arguments.hpp"
 #include <iostream>
 
@@ -11,5 +12,6 @@ main(int argc, char **argv)
 
 	std::cout << "Web server C++98" << std::endl;
 
+	Json::read("config.json");
 	return 0;
 }

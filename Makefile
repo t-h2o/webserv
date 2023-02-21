@@ -29,6 +29,7 @@ SRCD	=	src
 
 SRCS	=	$(SRCD)/main.cpp
 SRCS	+=	$(SRCD)/arguments/check_argc_number.cpp
+SRCS	+=	$(SRCD)/Json/Json.cpp
 
 
 #	Headers
