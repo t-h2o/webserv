@@ -23,7 +23,6 @@ OFLAGS	=	-fsanitize=address
 SRCD	=	src
 
 SRCS	=	$(SRCD)/main.cpp
-SRCS	+=	$(SRCD)/f/f.cpp
 SRCS	+=	$(SRCD)/arguments/check_argc_number.cpp
 
 
@@ -32,7 +31,6 @@ SRCS	+=	$(SRCD)/arguments/check_argc_number.cpp
 INCD	=	inc
 
 INCS	+=	$(INCD)/arguments.hpp
-INCS	+=	$(INCD)/f.hpp
 
 
 #	Objets
