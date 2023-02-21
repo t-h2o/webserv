@@ -1,6 +1,6 @@
 NAME	=	libunit.a
 
-AR		=	ar rs
+AR		=	ar rs 2> /dev/null
 DB		=	lldb
 
 CFLAGS	=	-Wall

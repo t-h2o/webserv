@@ -2,7 +2,7 @@ NAME	=	test
 
 CXX		=	g++
 DB		=	lldb
-MAKE	=	make --no-print-directory
+MAKE	=	make --no-print-directory 1> /dev/null
 
 CFLAGS	=	-Wall
 CFLAGS	+=	-Wextra

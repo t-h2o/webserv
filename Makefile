@@ -3,9 +3,9 @@ LIB		=	lib$(NAME).a
 
 
 CXX		=	g++
-AR		=	ar rs
+AR		=	ar rs 2> /dev/null
 DB		=	lldb
-MAKE	=	make --no-print-directory
+MAKE	=	make --no-print-directory 1> /dev/null
 
 
 CFLAGS	=	-Wall
@@ -53,7 +53,7 @@ $(OBJD)/%.o: $(SRCD)/%.cpp
 	@$(CXX) -c $(<) $(CFLAGS) -I$(INCD) -o $(@)
 
 $(LIB): $(OBJS)
-	@$(AR) $(LIB) $(OBJS) > /dev/null
+	@$(AR) $(LIB) $(OBJS)
 
 test: $(LIB)
 	@$(MAKE) --directory=test
