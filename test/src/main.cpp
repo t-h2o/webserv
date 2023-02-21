@@ -3,6 +3,10 @@
 int
 main(void)
 {
-	f_launcher();
-	arguments_launcher();
+	int result;
+
+	result = f_launcher();
+	result |= arguments_launcher();
+
+	return result;
 }
