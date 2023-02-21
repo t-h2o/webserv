@@ -31,7 +31,7 @@ INCS	+=	$(INCD)/tests.hpp
 
 INCD_FLAGS	=	$(addprefix -I, $(INCD) framework/inc ../inc)
 
-LIBS_FLAGS	=	$(addprefix -l, program unit) $(addprefix -L, .. framework)
+LIBS_FLAGS	=	$(addprefix -l, webserv unit) $(addprefix -L, .. framework)
 
 #	Objets
 

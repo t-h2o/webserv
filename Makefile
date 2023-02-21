@@ -1,4 +1,4 @@
-NAME	=	program
+NAME	=	webserv
 LIB		=	lib$(NAME).a
 
 
