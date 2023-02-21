@@ -1,13 +1,12 @@
-#include "libunit.h"
+#include "Unit_test.hpp"
 #include "tests.hpp"
 #include <stdio.h>
 
 int
-f_launcher (void)
+f_launcher(void)
 {
-	t_unit_test *list = 0;
+	Unit_test list("f");
 
-	printf ("Hello world\n");
-	load_test (&list, "test true", &f_test_true);
-	return (launch_tests (&list));
+	list.load_test("test true", &f_test_true);
+	return (list.launch_tests());
 }

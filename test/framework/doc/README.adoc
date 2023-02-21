@@ -77,11 +77,11 @@ Launcher:: Launcher is used to load and run all tests
 #include "libunit.h"
 int strlen_launcher(void)
 {
-  t_unit_test *testlist;
+  Unit_test list("function_name");
 
-  load_test(&testlist, "Basic test", &a_test_function);
-  load_test(&testlist, "NULL test", &another_test_function);
-  return(launch_tests(&testlist));
+  load_test("Basic test", &a_test_function);
+  load_test("NULL test", &another_test_function);
+  return(launch_tests());
 }
 ----
 
@@ -92,72 +92,3 @@ Test:: A basic function for testing a function
 /* if successful return 0 else return -1 */
 int a_test_function(void);
 ----
-
-== Framework architecture
-
-=== enum: `result`
-
-[source, c]
-----
-enum e_result
-{
-    OK,
-    KO,
-    SIGSEGV,
-    SIGBUS,
-};
-----
-
-The purpose of this enumaration is to record the result of the test.
-
-=== struct: `unit_test`
-
-[blockquote, typedef]
-____
-`typedef struct s_unit_test t_unit_test;`
-____
-
-[source, c]
-----
-struct s_unit_test {
-  int    (*test_function)(void);
-  char    *test_name;
-
-  enum e_result result;
-
-  struct s_unit_test *next;
-};
-----
-
-=== function: `launch_tests`
-
-[blockquote, prototype]
-____
-`int function_launcher(void);`
-____
-
-. Load all tests
-. Launch tests
-
-=== function: `load_test`
-
-[blockquote, prototype]
-____
-`void load_test(t_unit_test **testlist, const char * name, const int (*function_test)(void));`
-____
-
-. Allocate a new `t_unit_test`
-. Append the new node to `testlist`
-
-=== function: `launch_test`
-
-[blockquote, prototype]
-____
-`int launch_test(t_unit_test **testlist);`
-____
-
-For each test:
-
-. fork()
-. read the result
-. deallocate the node

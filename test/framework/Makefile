@@ -17,18 +17,18 @@ OFLAGS	=	-fsanitize=address
 
 SRCD	=	src
 
-SRCS	+=	$(SRCD)/load_test.cpp
-SRCS	+=	$(SRCD)/launch_tests.cpp
-SRCS	+=	$(SRCD)/utils_s_unit_test.cpp
-SRCS	+=	$(SRCD)/signal.cpp
+SRCS	+=	$(SRCD)/Unit_test.cpp
+SRCS	+=	$(SRCD)/Test.cpp
+SRCS	+=	$(SRCD)/Result.cpp
 
 
 #	Headers
 
 INCD	=	inc
 
-INCS	+=	$(INCD)/libunit.h
-INCS	+=	$(INCD)/utils.h
+INCS	+=	$(INCD)/Unit_test.hpp
+INCS	+=	$(INCD)/Test.hpp
+INCS	+=	$(INCD)/Result.hpp
 
 
 #	Objets

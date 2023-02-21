@@ -451,15 +451,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_files_stucture">2. Files stucture</a></li>
 <li><a href="#_framework">3. Framework</a></li>
 <li><a href="#_mini_norme">4. mini-norme</a></li>
-<li><a href="#_framework_architecture">5. Framework architecture</a>
-<ul class="sectlevel2">
-<li><a href="#_enum_result">5.1. enum: <code>result</code></a></li>
-<li><a href="#_struct_unit_test">5.2. struct: <code>unit_test</code></a></li>
-<li><a href="#_function_launch_tests">5.3. function: <code>launch_tests</code></a></li>
-<li><a href="#_function_load_test">5.4. function: <code>load_test</code></a></li>
-<li><a href="#_function_launch_test">5.5. function: <code>launch_test</code></a></li>
-</ul>
-</li>
 </ul>
 </div>
 </div>
@@ -512,7 +503,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="imageblock">
 <div class="content">
-<img src="assets/framework.svg" alt="framework" width="872" height="250">
+<img src="assets/framework.svg" alt="framework" width="1106" height="250">
 </div>
 </div>
 </div>
@@ -535,11 +526,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #include "libunit.h"
 int strlen_launcher(void)
 {
-  t_unit_test *testlist;
+  Unit_test list("function_name");
 
-  load_test(&amp;testlist, "Basic test", &amp;a_test_function);
-  load_test(&amp;testlist, "NULL test", &amp;another_test_function);
-  return(launch_tests(&amp;testlist));
+  load_test("Basic test", &amp;a_test_function);
+  load_test("NULL test", &amp;another_test_function);
+  return(launch_tests());
 }</code></pre>
 </div>
 </div>
@@ -555,128 +546,6 @@ int a_test_function(void);</code></pre>
 </div>
 </dd>
 </dl>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_framework_architecture">5. Framework architecture</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_enum_result">5.1. enum: <code>result</code></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-c" data-lang="c">enum e_result
-{
-    OK,
-    KO,
-    SIGSEGV,
-    SIGBUS,
-};</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The purpose of this enumaration is to record the result of the test.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_struct_unit_test">5.2. struct: <code>unit_test</code></h3>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p><code>typedef struct s_unit_test t_unit_test;</code></p>
-</div>
-</blockquote>
-<div class="attribution">
-&#8212; typedef
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-c" data-lang="c">struct s_unit_test {
-  int    (*test_function)(void);
-  char    *test_name;
-
-  enum e_result result;
-
-  struct s_unit_test *next;
-};</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_function_launch_tests">5.3. function: <code>launch_tests</code></h3>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p><code>int function_launcher(void);</code></p>
-</div>
-</blockquote>
-<div class="attribution">
-&#8212; prototype
-</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Load all tests</p>
-</li>
-<li>
-<p>Launch tests</p>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_function_load_test">5.4. function: <code>load_test</code></h3>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p><code>void load_test(t_unit_test **testlist, const char * name, const int (*function_test)(void));</code></p>
-</div>
-</blockquote>
-<div class="attribution">
-&#8212; prototype
-</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Allocate a new <code>t_unit_test</code></p>
-</li>
-<li>
-<p>Append the new node to <code>testlist</code></p>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_function_launch_test">5.5. function: <code>launch_test</code></h3>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p><code>int launch_test(t_unit_test **testlist);</code></p>
-</div>
-</blockquote>
-<div class="attribution">
-&#8212; prototype
-</div>
-</div>
-<div class="paragraph">
-<p>For each test:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>fork()</p>
-</li>
-<li>
-<p>read the result</p>
-</li>
-<li>
-<p>deallocate the node</p>
-</li>
-</ol>
-</div>
 </div>
 </div>
 </div>

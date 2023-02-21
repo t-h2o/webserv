@@ -58,7 +58,7 @@ $(LIB): $(OBJS)
 test: $(LIB)
 	@$(MAKE) --directory=test
 	@printf "$(YELLOW)Launching test..$(DEFAULT)\n"
-	@test/test
+	@(test/test && printf "$(GREEN)test: SUCCESS$(DEFAULT)\n") || printf "$(RED)test: ERROR$(DEFAULT)\n"
 
 db: $(NAME)
 	$(DB) $(NAME)
