@@ -1,4 +1,4 @@
-#include "httpParser.hpp"
+#include "HttpParser.hpp"
 
 HttpParser::HttpParser(){};
 HttpParser::~HttpParser(){};
@@ -64,32 +64,31 @@ HttpParser::parseOtherLines(std::vector<std::string> tmpVector)
 			_http_req[HttpParser::trim(key)] = HttpParser::trim(value);
 	}
 };
-std::string
-HttpParser::rtrim(const std::string &s)
-{
-	const std::string _WHITESPACE = " \n\r\t\f\v";
-	size_t			  end = s.find_last_not_of(_WHITESPACE);
-	return (end == std::string::npos) ? "" : s.substr(0, end + 1);
-}
-
-std::string
-HttpParser::ltrim(const std::string &s)
-{
-	const std::string _WHITESPACE = " \n\r\t\f\v";
-	size_t			  start = s.find_first_not_of(_WHITESPACE);
-	return (start == std::string::npos) ? "" : s.substr(start);
-}
 
 std::string
 HttpParser::trim(const std::string &s)
 {
-	return HttpParser::rtrim(HttpParser::ltrim(s));
+	const std::string _WHITESPACE = " \n\r\t\f\v";
+	std::string		  leftTrimedString = "";
+	size_t			  start;
+	size_t			  end;
+	start = s.find_first_not_of(_WHITESPACE);
+	if (start == std::string::npos)
+	{
+		return leftTrimedString;
+	}
+	else
+	{
+		leftTrimedString = s.substr(start);
+	}
+	end = leftTrimedString.find_last_not_of(_WHITESPACE);
+	return leftTrimedString.substr(0, end + 1);
 }
 
 void
 HttpParser::print_http_req()
 {
-	std::map<std::string, std::string>::iterator it;
+	std::unordered_map<std::string, std::string>::iterator it;
 	for (it = _http_req.begin(); it != _http_req.end(); it++)
 	{
 		std::cout << it->first << " : " << it->second << std::endl;
