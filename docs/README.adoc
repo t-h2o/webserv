@@ -31,3 +31,13 @@ start
 :parses json file;
 :main loop;
 ....
+
+== Component diagram
+
+[plantuml, target=component, format=svg, width=60%]
+....
+Component "Files of the website\n(/var/www)" as www
+Component "Common Gateway Interface\n(CGI)" as cgi
+Component "Client\n(browser firefox)" as client
+component "Web server" as wbs
+....
