@@ -14,3 +14,11 @@ package "Web server" as wbs {
 }
 client --> ws
 ....
+
+== Sequence diagram
+
+[plantuml, target=sequence, format=svg, width=60%]
+....
+Client -> "Web server": request
+"Web server" -> Client: response
+....
