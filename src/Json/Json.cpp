@@ -37,11 +37,9 @@ Json::_process_line(Config *config, std::string const &line)
 
 	while (line[index])
 	{
-		std::cout << line[index] << "\n";
 		if (isblank(line[index]))
 		{
 			states[WHITESPACE] = 1;
-			std::cout << "whitespace = " << states[WHITESPACE] << "\n";
 			_loop_isblank(line, index);
 		}
 		else
@@ -49,27 +47,22 @@ Json::_process_line(Config *config, std::string const &line)
 			if (line[index] == '{')
 			{
 				states[OBJECT] = 1;
-				std::cout << "object = " << states[OBJECT] << "\n";
 			}
 			if (line[index] == '}')
 			{
 				states[OBJECT] = 0;
-				std::cout << "object = " << states[OBJECT] << "\n";
 			}
 			if (line[index] == '"')
 			{
 				states[STRING] ^= 1;
-				std::cout << "string = " << states[STRING] << "\n";
 			}
 			states[WHITESPACE] = 0;
-			std::cout << "whitespace = " << states[WHITESPACE] << "\n";
 			++index;
 		}
 
 		if (states[STRING])
 		{
 			Value *value = new Value(_get_string(line, index));
-			std::cout << "_get_string: " << value->get() << "\n";
 			if (states[KEY_FILLED] == 0)
 			{
 				config->insert_key(value->get());
@@ -99,7 +92,6 @@ Json::read(std::string const &path)
 	/* Read each lines up to EOF */
 	for (getline(file, line); !file.eof(); getline(file, line))
 		_process_line(config, line);
-	std::cout << std::endl;
 
 	file.close();
 
