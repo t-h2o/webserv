@@ -3,5 +3,9 @@
 int
 main(void)
 {
-	f_launcher();
+	int result;
+
+	result = arguments_launcher();
+
+	return result;
 }
