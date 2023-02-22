@@ -11,7 +11,7 @@ main(int argc, char **argv)
 	if (check_argc_number(argc))
 		return 1;
 
-	std::cout << "Web server C++98" << std::endl;
+	std::cout << "Web server written in C++98" << std::endl;
 	webserver(argv[1]);
 
 	return 0;
