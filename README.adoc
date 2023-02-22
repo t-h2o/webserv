@@ -1,1 +1,4 @@
 = Web server
+
+image::servers.png[]
+image::server_dynam.png[]
