@@ -13,7 +13,10 @@ Json::read(std::string const &path)
 	std::string	 line;
 
 	config.open(path, std::fstream::in);
-	getline(config, line);
-	_process_line(line);
+
+	/* Read each lines up to EOF */
+	for (getline(config, line); !config.eof(); getline(config, line))
+		_process_line(line);
+
 	config.close();
 }
