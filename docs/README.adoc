@@ -2,3 +2,15 @@
 :sectnums:
 :nofooter:
 :toc: left
+
+== Usecase diagram
+
+[plantuml, target=usecase, format=svg, width=60%]
+....
+left to right direction
+actor Client as client
+package "Web server" as wbs {
+  usecase "Web site" as ws
+}
+client --> ws
+....
