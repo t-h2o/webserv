@@ -14,4 +14,6 @@ class Value
 	std::string _value;
 };
 
+std::ostream &operator<<(std::ostream &, Value const &);
+
 #endif /* VALUE_HPP */

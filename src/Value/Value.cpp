@@ -7,3 +7,11 @@ Value::get(void) const
 {
 	return _value;
 }
+
+std::ostream &
+operator<<(std::ostream &output, Value const &value)
+{
+	output << value.get();
+
+	return output;
+}
