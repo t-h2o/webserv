@@ -4,6 +4,8 @@
 #include <fstream>
 #include <iostream>
 
+#include "Value.hpp"
+
 class Json
 {
   public:

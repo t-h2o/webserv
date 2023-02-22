@@ -66,7 +66,11 @@ Json::_process_line(std::string const &line)
 		}
 
 		if (states[STRING])
-			std::cout << "_get_string: " << _get_string(line, index) << "\n";
+		{
+			Value *value = new Value(_get_string(line, index));
+			std::cout << "_get_string: " << value->get() << "\n";
+			delete value;
+		}
 	}
 }
 
