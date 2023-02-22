@@ -85,9 +85,16 @@ Json::read(char const *path)
 	std::fstream file;
 	std::string	 line;
 
-	config = new Config;
-
 	file.open(path, std::fstream::in);
+
+	/* Check if the file is valid */
+	if (file.is_open() == 0)
+	{
+		std::cerr << "Error: Json::read(): file \"" << path << "\" is not valid" << std::endl;
+		return 0;
+	}
+
+	config = new Config;
 
 	/* Read each lines up to EOF */
 	for (getline(file, line); !file.eof(); getline(file, line))
