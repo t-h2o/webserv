@@ -1,4 +1,4 @@
-NAME	=	webserv
+NAME	=	program
 LIB		=	lib$(NAME).a
 
 
@@ -23,14 +23,14 @@ OFLAGS	=	-fsanitize=address
 SRCD	=	src
 
 SRCS	=	$(SRCD)/main.cpp
-SRCS	+=	$(SRCD)/arguments/check_argc_number.cpp
+SRCS	+=	$(SRCD)/f/f.cpp
 
 
 #	Headers
 
 INCD	=	inc
 
-INCS	+=	$(INCD)/arguments.hpp
+INCS	+=	$(INCD)/f.hpp
 
 
 #	Objets

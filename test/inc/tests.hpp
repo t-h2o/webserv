@@ -1,9 +1,9 @@
 #ifndef TESTS_H
 #define TESTS_H
 
-/* int check_argc_number(int); */
+/* int f(void); */
 
-int arguments_launcher(void);
-int test_check_argc_number(void);
+int f_launcher(void);
+int f_test_true(void);
 
 #endif /* TESTS_H */

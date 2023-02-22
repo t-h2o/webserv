@@ -1,5 +1,5 @@
 *.o
 *.a
 *.swp
+program
 .asciidoctor
-webserv

@@ -19,8 +19,8 @@ OFLAGS	=	-fsanitize=address
 SRCD	=	src
 
 SRCS	=	$(SRCD)/main.cpp
-SRCS	+=	$(SRCD)/arguments/00_launcher.cpp
-SRCS	+=	$(SRCD)/arguments/01_test.cpp
+SRCS	+=	$(SRCD)/f/00_launcher.cpp
+SRCS	+=	$(SRCD)/f/01_test.cpp
 
 
 #	Headers
@@ -31,7 +31,7 @@ INCS	+=	$(INCD)/tests.hpp
 
 INCD_FLAGS	=	$(addprefix -I, $(INCD) framework/inc ../inc)
 
-LIBS_FLAGS	=	$(addprefix -l, webserv unit) $(addprefix -L, .. framework)
+LIBS_FLAGS	=	$(addprefix -l, program unit) $(addprefix -L, .. framework)
 
 #	Objets
 
