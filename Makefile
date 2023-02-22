@@ -9,6 +9,10 @@ MAKE	=	make --no-print-directory 1> /dev/null
 ADOC	=	asciidoctor --require=asciidoctor-diagram
 
 
+DOCU	=	docs/README.adoc
+INDEX	=	docs/index.html
+
+
 CFLAGS	=	-Wall
 CFLAGS	+=	-Wextra
 CFLAGS	+=	-Werror
@@ -70,7 +74,7 @@ format:
 
 doc:
 	@printf "$(YELLOW)Generating documentations..$(DEFAULT)\n"
-	@$(ADOC) doc/README.adoc -o doc/index.html
+	@$(ADOC) $(DOCU) -o $(INDEX)
 
 clean:
 	@$(RM) $(OBJD)
