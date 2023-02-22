@@ -3,6 +3,6 @@
 
 /* webserver.cpp */
 
-void	webserver(char const *);
+int	webserver(char const *);
 
 #endif /* WEBSERVER_HPP */

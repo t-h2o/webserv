@@ -12,7 +12,6 @@ main(int argc, char **argv)
 		return 1;
 
 	std::cout << "Web server written in C++98" << std::endl;
-	webserver(argv[1]);
 
-	return 0;
+	return webserver(argv[1]);
 }
