@@ -5,7 +5,7 @@ webserver(const char *path)
 {
 	(void)path;
 
-	std::cout << "Web server C++98" << std::endl;
+	std::cout << "Web server written in C++98" << std::endl;
 
 	return 0;
 }
