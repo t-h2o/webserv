@@ -6,6 +6,7 @@ CXX		=	g++
 AR		=	ar rs 2> /dev/null
 DB		=	lldb
 MAKE	=	make --no-print-directory 1> /dev/null
+ADOC	=	asciidoctor --require=asciidoctor-diagram
 
 
 CFLAGS	=	-Wall
@@ -69,7 +70,7 @@ format:
 
 doc:
 	@printf "$(YELLOW)Generating documentations..$(DEFAULT)\n"
-	@asciidoctor docs/README.adoc -o docs/index.html
+	@$(ADOC) doc/README.adoc -o doc/index.html
 
 clean:
 	@$(RM) $(OBJD)
