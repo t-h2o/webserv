@@ -7,6 +7,18 @@ enum e_states
 	STRING,
 };
 
+/* get the string value */
+std::string
+Json::_get_string(std::string const &line, size_t &index)
+{
+	std::string value;
+
+	while (line[index] && line[index] != '"')
+		value += line[index++];
+
+	return value;
+}
+
 /* loop up to reach end of string or not a blank character */
 void
 Json::_loop_isblank(std::string const &line, size_t &index)
@@ -52,6 +64,9 @@ Json::_process_line(std::string const &line)
 			std::cout << "whitespace = " << states[WHITESPACE] << "\n";
 			++index;
 		}
+
+		if (states[STRING])
+			std::cout << "_get_string: " << _get_string(line, index) << "\n";
 	}
 }
 
