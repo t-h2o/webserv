@@ -4,12 +4,13 @@
 #include <fstream>
 #include <iostream>
 
+#include "Config.hpp"
 #include "Value.hpp"
 
 class Json
 {
   public:
-	static void read(std::string const &);
+	static Config *read(std::string const &);
 
   private:
 	static void		   _process_line(std::string const &line);

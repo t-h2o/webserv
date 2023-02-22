@@ -74,18 +74,22 @@ Json::_process_line(std::string const &line)
 	}
 }
 
-void
+Config *
 Json::read(std::string const &path)
 {
-	std::fstream config;
+	Config		*config;
+	std::fstream file;
 	std::string	 line;
 
-	config.open(path, std::fstream::in);
+	config = new Config;
+	file.open(path, std::fstream::in);
 
 	/* Read each lines up to EOF */
-	for (getline(config, line); !config.eof(); getline(config, line))
+	for (getline(file, line); !file.eof(); getline(file, line))
 		_process_line(line);
 	std::cout << std::endl;
 
-	config.close();
+	file.close();
+
+	return config;
 }

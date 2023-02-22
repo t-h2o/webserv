@@ -1,6 +1,8 @@
+#include <iostream>
+
+#include "Config.hpp"
 #include "Json.hpp"
 #include "arguments.hpp"
-#include <iostream>
 
 int
 main(int argc, char **argv)
@@ -12,6 +14,9 @@ main(int argc, char **argv)
 
 	std::cout << "Web server C++98" << std::endl;
 
-	Json::read("config.json");
+	Config *config = Json::read("config.json");
+
+	delete config;
+
 	return 0;
 }
