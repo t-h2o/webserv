@@ -1,5 +1,4 @@
-#include "../../inc/httpParser.hpp"
-#include "../../inc/trim.hpp"
+#include "httpParser.hpp"
 
 HttpParser::HttpParser(){};
 HttpParser::~HttpParser(){};
@@ -61,12 +60,31 @@ HttpParser::parseOtherLines(std::vector<std::string> tmpVector)
 		delimiter_position = tmpVector[i].find(delimiter);
 		key = tmpVector[i].substr(0, delimiter_position);
 		value = tmpVector[i].substr(delimiter_position + 1);
-		if (trim(key).length() != 0 || trim(value).length() != 0)
-			_http_req[trim(key)] = trim(value);
+		if (HttpParser::trim(key).length() != 0 || HttpParser::trim(value).length() != 0)
+			_http_req[HttpParser::trim(key)] = HttpParser::trim(value);
 	}
-
-	this->print_http_req();
 };
+std::string
+HttpParser::rtrim(const std::string &s)
+{
+	const std::string _WHITESPACE = " \n\r\t\f\v";
+	size_t			  end = s.find_last_not_of(_WHITESPACE);
+	return (end == std::string::npos) ? "" : s.substr(0, end + 1);
+}
+
+std::string
+HttpParser::ltrim(const std::string &s)
+{
+	const std::string _WHITESPACE = " \n\r\t\f\v";
+	size_t			  start = s.find_first_not_of(_WHITESPACE);
+	return (start == std::string::npos) ? "" : s.substr(start);
+}
+
+std::string
+HttpParser::trim(const std::string &s)
+{
+	return HttpParser::rtrim(HttpParser::ltrim(s));
+}
 
 void
 HttpParser::print_http_req()
