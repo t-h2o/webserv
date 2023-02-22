@@ -11,6 +11,7 @@ class Json
 
   private:
 	static void _process_line(std::string const &line);
+	static void _loop_isblank(std::string const &line, size_t &index);
 };
 
 #endif /* JSON_HPP */

@@ -1,5 +1,13 @@
 #include "Json.hpp"
 
+/* loop up to reach end of string or not a blank character */
+void
+Json::_loop_isblank(std::string const &line, size_t &index)
+{
+	while (line[index] && std::isblank(line[index]))
+		++index;
+}
+
 void
 Json::_process_line(std::string const &line)
 {
