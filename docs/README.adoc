@@ -22,3 +22,12 @@ client --> ws
 Client -> "Web server": request
 "Web server" -> Client: response
 ....
+
+== Activity diagram
+
+[plantuml, target=activity, format=svg, width=60%]
+....
+start
+:parses json file;
+:main loop;
+....
