@@ -76,6 +76,10 @@ doc:
 	@printf "$(YELLOW)Generating documentations..$(DEFAULT)\n"
 	@$(ADOC) $(DOCU) -o $(INDEX)
 
+docdocker:
+	@printf "$(YELLOW)launch the asciidoctor/docker-asciidoctor docker image..$(DEFAULT)\n"
+	@docker run --rm -v $(shell pwd):/documents/ asciidoctor/docker-asciidoctor make doc
+
 clean:
 	@$(RM) $(OBJD)
 	@printf "$(RED)Removed $(CYAN)$(OBJD)$(DEFAULT)\n"
