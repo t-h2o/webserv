@@ -41,3 +41,14 @@ Component "Common Gateway Interface\n(CGI)" as cgi
 Component "Client\n(browser firefox)" as client
 component "Web server" as wbs
 ....
+
+== State diagram
+
+[plantuml, target=state, format=svg, width=60%]
+....
+state "parses json file" as pjf
+state "main loop" as loop
+[*] --> pjf : start
+pjf --> loop : success
+pjf --> [*] : failed
+....
