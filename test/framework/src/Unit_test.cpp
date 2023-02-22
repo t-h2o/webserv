@@ -1,4 +1,5 @@
 #include "Unit_test.hpp"
+#include <algorithm>
 
 Unit_test::Unit_test(std::string const &name) : unit_name(name) {}
 

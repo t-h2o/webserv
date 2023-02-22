@@ -1,4 +1,5 @@
 #include "Result.hpp"
+#include <sys/wait.h>
 
 void
 Result::print_result(void) const
