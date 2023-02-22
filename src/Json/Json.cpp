@@ -5,6 +5,7 @@ enum e_states
 	WHITESPACE,
 	OBJECT,
 	STRING,
+	KEY_FILLED,
 };
 
 /* get the string value */
@@ -29,9 +30,9 @@ Json::_loop_isblank(std::string const &line, size_t &index)
 
 /* process a line of the json */
 void
-Json::_process_line(std::string const &line)
+Json::_process_line(Config *config, std::string const &line)
 {
-	static bool states[3];
+	static bool states[4];
 	size_t		index(0);
 
 	while (line[index])
@@ -69,7 +70,17 @@ Json::_process_line(std::string const &line)
 		{
 			Value *value = new Value(_get_string(line, index));
 			std::cout << "_get_string: " << value->get() << "\n";
-			delete value;
+			if (states[KEY_FILLED] == 0)
+			{
+				config->insert_key(value->get());
+				states[KEY_FILLED] = 1;
+				delete value;
+			}
+			else
+			{
+				config->insert_value(value);
+				states[KEY_FILLED] = 0;
+			}
 		}
 	}
 }
@@ -82,11 +93,12 @@ Json::read(std::string const &path)
 	std::string	 line;
 
 	config = new Config;
+
 	file.open(path, std::fstream::in);
 
 	/* Read each lines up to EOF */
 	for (getline(file, line); !file.eof(); getline(file, line))
-		_process_line(line);
+		_process_line(config, line);
 	std::cout << std::endl;
 
 	file.close();
