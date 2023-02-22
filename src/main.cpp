@@ -16,6 +16,8 @@ main(int argc, char **argv)
 
 	Config *config = Json::read("config.json");
 
+	config->print_all();
+
 	delete config;
 
 	return 0;
