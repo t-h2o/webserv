@@ -17,7 +17,7 @@ obj:: Objet, for compiled source code
 
 === The documentation
 
-doc:: Documentation folder
+docs:: Documentation folder
 
 === The tester
 
