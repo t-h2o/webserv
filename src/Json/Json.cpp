@@ -24,7 +24,7 @@ Json::_get_string(std::string const &line, size_t &index)
 void
 Json::_loop_isblank(std::string const &line, size_t &index)
 {
-	while (line[index] && std::isblank(line[index]))
+	while (line[index] && isblank(line[index]))
 		++index;
 }
 
@@ -38,7 +38,7 @@ Json::_process_line(Config *config, std::string const &line)
 	while (line[index])
 	{
 		std::cout << line[index] << "\n";
-		if (std::isblank(line[index]))
+		if (isblank(line[index]))
 		{
 			states[WHITESPACE] = 1;
 			std::cout << "whitespace = " << states[WHITESPACE] << "\n";
@@ -94,7 +94,7 @@ Json::read(std::string const &path)
 
 	config = new Config;
 
-	file.open(path, std::fstream::in);
+	file.open(path.c_str(), std::fstream::in);
 
 	/* Read each lines up to EOF */
 	for (getline(file, line); !file.eof(); getline(file, line))
