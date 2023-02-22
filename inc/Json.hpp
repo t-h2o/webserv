@@ -10,7 +10,7 @@
 class Json
 {
   public:
-	static Config *read(std::string const &);
+	static Config *read(char const *);
 
   private:
 	static void		   _process_line(Config *, std::string const &line);

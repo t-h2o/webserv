@@ -79,7 +79,7 @@ Json::_process_line(Config *config, std::string const &line)
 }
 
 Config *
-Json::read(std::string const &path)
+Json::read(char const *path)
 {
 	Config		*config;
 	std::fstream file;
@@ -87,7 +87,7 @@ Json::read(std::string const &path)
 
 	config = new Config;
 
-	file.open(path.c_str(), std::fstream::in);
+	file.open(path, std::fstream::in);
 
 	/* Read each lines up to EOF */
 	for (getline(file, line); !file.eof(); getline(file, line))
