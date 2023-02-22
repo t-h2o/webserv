@@ -1,8 +1,7 @@
 #include <iostream>
 
-#include "Config.hpp"
-#include "Json.hpp"
 #include "arguments.hpp"
+#include "webserver.hpp"
 
 int
 main(int argc, char **argv)
@@ -13,12 +12,7 @@ main(int argc, char **argv)
 		return 1;
 
 	std::cout << "Web server C++98" << std::endl;
-
-	Config *config = Json::read("config.json");
-
-	config->print_all();
-
-	delete config;
+	webserver(argv[1]);
 
 	return 0;
 }
