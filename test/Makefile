@@ -11,7 +11,7 @@ CFLAGS	+=	-g
 CFLAGS	+=	-Wfatal-errors
 CFLAGS	+=	-std=c++98
 
-OFLAGS	=	-fsanitize=address
+#OFLAGS	=	-fsanitize=address
 
 
 #	Sources
@@ -22,6 +22,9 @@ SRCS	=	$(SRCD)/main.cpp
 SRCS	+=	$(SRCD)/arguments/00_launcher.cpp
 SRCS	+=	$(SRCD)/arguments/01_test.cpp
 SRCS	+=	$(SRCD)/arguments/02_test.cpp
+SRCS	+=	$(SRCD)/Json/00_launcher.cpp
+SRCS	+=	$(SRCD)/Json/01_test.cpp
+SRCS	+=	$(SRCD)/Json/02_test.cpp
 
 
 #	Headers
