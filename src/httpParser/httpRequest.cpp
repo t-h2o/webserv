@@ -1,9 +1,9 @@
-#include "HttpParser.hpp"
+#include "HttpRequest.hpp"
 
-HttpParser::HttpParser(){};
-HttpParser::~HttpParser(){};
+HttpRequest::HttpRequest(){};
+HttpRequest::~HttpRequest(){};
 
-void HttpParser::parseBuffer(char *buff)
+void HttpRequest::parseBuffer(char *buff)
 {
 	std::vector<std::string> tmpVector;
 	std::string				 str_buff = buff;
@@ -21,7 +21,7 @@ void HttpParser::parseBuffer(char *buff)
 	this->parseOtherLines(tmpVector);
 };
 
-void HttpParser::parseFirstLine(std::string firstLine)
+void HttpRequest::parseFirstLine(std::string firstLine)
 {
 	std::vector<std::string> tmpVector;
 	std::string delimiter = " ";
@@ -42,7 +42,7 @@ void HttpParser::parseFirstLine(std::string firstLine)
 	_http_req["Protocol"] = tmpVector[2];
 };
 
-void HttpParser::parseOtherLines(std::vector<std::string> tmpVector)
+void HttpRequest::parseOtherLines(std::vector<std::string> tmpVector)
 {
 	std::string delimiter = ":";
 	std::string key;
@@ -53,12 +53,12 @@ void HttpParser::parseOtherLines(std::vector<std::string> tmpVector)
 		delimiter_position = tmpVector[i].find(delimiter);
 		key = tmpVector[i].substr(0, delimiter_position);
 		value = tmpVector[i].substr(delimiter_position + 1);
-		if (HttpParser::trim(key).length() != 0 || HttpParser::trim(value).length() != 0)
-			_http_req[HttpParser::trim(key)] = HttpParser::trim(value);
+		if (HttpRequest::trim(key).length() != 0 || HttpRequest::trim(value).length() != 0)
+			_http_req[HttpRequest::trim(key)] = HttpRequest::trim(value);
 	}
 };
 
-std::string HttpParser::trim(const std::string &s)
+std::string HttpRequest::trim(const std::string &s)
 {
 	const std::string _WHITESPACE = " \n\r\t\f\v";
 	std::string leftTrimedString = "";
@@ -74,7 +74,7 @@ std::string HttpParser::trim(const std::string &s)
 	return leftTrimedString.substr(0, end + 1);
 }
 
-void HttpParser::printHttpReq()
+void HttpRequest::printHttpReq()
 {
 	std::map<std::string, std::string>::iterator it;
 	for (it = _http_req.begin(); it != _http_req.end(); it++)
@@ -83,14 +83,14 @@ void HttpParser::printHttpReq()
 	}
 };
 
-std::string HttpParser::getMethod() const {
+std::string HttpRequest::getMethod() const {
 	return _http_req.at("Method");
 };
 
-std::string HttpParser::getPath() const {
+std::string HttpRequest::getPath() const {
 	return _http_req.at("Path");
 };
 
-std::string HttpParser::getProtocol() const {
+std::string HttpRequest::getProtocol() const {
 	return _http_req.at("Protocol");
 };
