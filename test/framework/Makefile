@@ -20,6 +20,7 @@ SRCD	=	src
 SRCS	+=	$(SRCD)/Unit_test.cpp
 SRCS	+=	$(SRCD)/Test.cpp
 SRCS	+=	$(SRCD)/Result.cpp
+SRCS	+=	$(SRCD)/Stream.cpp
 
 
 #	Headers
@@ -29,6 +30,7 @@ INCD	=	inc
 INCS	+=	$(INCD)/Unit_test.hpp
 INCS	+=	$(INCD)/Test.hpp
 INCS	+=	$(INCD)/Result.hpp
+INCS	+=	$(INCD)/Stream.hpp
 
 
 #	Objets
