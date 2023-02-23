@@ -7,10 +7,7 @@ test_json_normal_file(void)
 	Config *config = Json::read("test/src/Json/config.json");
 
 	if (config == 0)
-	{
-		delete config;
 		return 1;
-	}
 
 	delete config;
 
