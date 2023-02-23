@@ -1,25 +1,30 @@
 #ifndef HTTPPARSER_HPP
 #define HTTPPARSER_HPP
 
-#include <iostream>
 #include <string.h>
 #include <string>
-#include <unordered_map>
 #include <vector>
+#include <iostream>
+#include <map>
 
 class HttpParser
 {
-  private:
-	std::unordered_map<std::string, std::string> _http_req;
+private:
+	std::map<std::string, std::string> _http_req;
+	void parseFirstLine(std::string firstLine);
+	void parseOtherLines(std::vector<std::string> tmpVector);
 
-  public:
+public:
 	HttpParser();
 	~HttpParser();
-	void		parseBuffer(char *buff);
-	void		parseFirstLine(std::string firstLine);
-	void		parseOtherLines(std::vector<std::string> tmpVector);
+	
+	void parseBuffer(char *buff);
 	std::string trim(const std::string &s);
-	void		print_http_req();
+	void printHttpReq();
+	// getters
+	std::string getMethod() const;
+	std::string getPath() const;
+	std::string getProtocol() const;
 };
 
 #endif

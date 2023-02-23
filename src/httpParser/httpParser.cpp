@@ -3,8 +3,7 @@
 HttpParser::HttpParser(){};
 HttpParser::~HttpParser(){};
 
-void
-HttpParser::parseBuffer(char *buff)
+void HttpParser::parseBuffer(char *buff)
 {
 	std::vector<std::string> tmpVector;
 	std::string				 str_buff = buff;
@@ -22,34 +21,28 @@ HttpParser::parseBuffer(char *buff)
 	this->parseOtherLines(tmpVector);
 };
 
-void
-HttpParser::parseFirstLine(std::string firstLine)
+void HttpParser::parseFirstLine(std::string firstLine)
 {
-	char *token = new char[firstLine.length() + 1];
-	strcpy(token, firstLine.c_str());
-	char *splitedToken = strtok(token, " ");
-	int	  counter = 0;
-	while (splitedToken != NULL)
+	std::vector<std::string> tmpVector;
+	std::string delimiter = " ";
+	std::string str;
+	int delimiter_position = firstLine.find(delimiter);
+	while (delimiter_position != -1)
 	{
-		if (counter == 0)
-		{
-			_http_req["Method"] = splitedToken;
-		}
-		else if (counter == 1)
-		{
-			_http_req["Request Target"] = splitedToken;
-		}
-		else
-		{
-			_http_req["Protocol"] = splitedToken;
-		}
-		splitedToken = strtok(NULL, " ");
-		counter++;
+		str = firstLine.substr(0, delimiter_position);
+		tmpVector.push_back(this->trim(str));
+		firstLine.erase(firstLine.begin(), firstLine.begin() + delimiter_position + 1);
+		delimiter_position = firstLine.find(delimiter);
 	}
+	tmpVector.push_back(this->trim(firstLine));
+
+	if (tmpVector.size() != 3) return;
+	_http_req["Method"] = tmpVector[0];
+	_http_req["Path"] = tmpVector[1];
+	_http_req["Protocol"] = tmpVector[2];
 };
 
-void
-HttpParser::parseOtherLines(std::vector<std::string> tmpVector)
+void HttpParser::parseOtherLines(std::vector<std::string> tmpVector)
 {
 	std::string delimiter = ":";
 	std::string key;
@@ -65,32 +58,39 @@ HttpParser::parseOtherLines(std::vector<std::string> tmpVector)
 	}
 };
 
-std::string
-HttpParser::trim(const std::string &s)
+std::string HttpParser::trim(const std::string &s)
 {
 	const std::string _WHITESPACE = " \n\r\t\f\v";
-	std::string		  leftTrimedString = "";
-	size_t			  start;
-	size_t			  end;
+	std::string leftTrimedString = "";
+	size_t start;
+	size_t end;
 	start = s.find_first_not_of(_WHITESPACE);
-	if (start == std::string::npos)
-	{
+	if (start == std::string::npos) {
 		return leftTrimedString;
-	}
-	else
-	{
+	} else {
 		leftTrimedString = s.substr(start);
 	}
 	end = leftTrimedString.find_last_not_of(_WHITESPACE);
 	return leftTrimedString.substr(0, end + 1);
 }
 
-void
-HttpParser::print_http_req()
+void HttpParser::printHttpReq()
 {
-	std::unordered_map<std::string, std::string>::iterator it;
+	std::map<std::string, std::string>::iterator it;
 	for (it = _http_req.begin(); it != _http_req.end(); it++)
 	{
 		std::cout << it->first << " : " << it->second << std::endl;
 	}
+};
+
+std::string HttpParser::getMethod() const {
+	return _http_req.at("Method");
+};
+
+std::string HttpParser::getPath() const {
+	return _http_req.at("Path");
+};
+
+std::string HttpParser::getProtocol() const {
+	return _http_req.at("Protocol");
 };
