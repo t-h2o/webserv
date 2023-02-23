@@ -18,7 +18,7 @@ class Unit_test
 
 	void load_test(std::string const, int (*)(void));
 	int	 launch_tests(void);
-	void _last_line(void);
+	int	 _last_line(void);
 };
 
 #endif /* UNIT_TEST_HPP */
