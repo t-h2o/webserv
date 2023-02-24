@@ -55,6 +55,28 @@ pjf --> loop : success
 pjf --> [*] : failed
 ....
 
+== JSON parser
+
+=== Class diagram
+
+[plantuml, target=json_class, format=svg, width=60%]
+....
+class Config {
+  == private attribute ==
+  std::map<std::string, value *> _config
+}
+
+class Value {
+  == private attribute ==
+  std::string _value
+}
+
+class Json {
+  == static method ==
+  Config *read(char *path)
+}
+....
+
 == Resources
 
 === Tools
