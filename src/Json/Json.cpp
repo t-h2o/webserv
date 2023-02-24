@@ -49,6 +49,8 @@ Json::_process_line(Config *config, std::string const &line, bool states[NSTATES
 			}
 			if (line[index] == '}')
 			{
+				if (states[OBJECT] == 0)
+					throw std::runtime_error("Json: object didn't start by a '{'");
 				states[OBJECT] = 0;
 			}
 			if (line[index] == '"')
@@ -100,6 +102,9 @@ Json::read(char const *path)
 	/* Read each lines up to EOF */
 	for (getline(file, line); !file.eof(); getline(file, line))
 		_process_line(config, line, states);
+
+	if (states[OBJECT])
+		throw std::runtime_error("Json: object not finished by a '}'");
 
 	file.close();
 
