@@ -12,5 +12,6 @@ int test_check_argc_number_2(void);
 int json_launcher(void);
 int test_json_normal_file(void);
 int test_json_bad_path(void);
+int test_json_empty_string(void);
 
 #endif /* TESTS_H */

@@ -25,6 +25,7 @@ SRCS	+=	$(SRCD)/arguments/02_test.cpp
 SRCS	+=	$(SRCD)/Json/00_launcher.cpp
 SRCS	+=	$(SRCD)/Json/01_test.cpp
 SRCS	+=	$(SRCD)/Json/02_test.cpp
+SRCS	+=	$(SRCD)/Json/03_test.cpp
 
 
 #	Headers
