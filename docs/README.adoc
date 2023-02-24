@@ -77,6 +77,25 @@ class Json {
 }
 ....
 
+=== State diagram
+
+[plantuml, target=json_state, format=svg, width=60%]
+....
+state "open file" as of
+state "close file" as cf
+state "read line" as rl
+state "process line" as pl
+
+[*] --> of : start
+of --> [*] : failed
+of --> rl
+rl --> pl
+rl --> cf : EOF
+pl --> rl
+pl --> [*] : failed
+cf --> [*]
+....
+
 == Resources
 
 === Tools
