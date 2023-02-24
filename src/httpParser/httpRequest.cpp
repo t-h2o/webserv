@@ -6,16 +6,24 @@ HttpRequest::~HttpRequest(){};
 void HttpRequest::parseBuffer(char *buff)
 {
 	std::vector<std::string> tmpVector;
-	std::string				 str_buff = buff;
-	std::string				 delimiter = "\r\n";
-	std::string				 str;
-	int						 delimiter_position = str_buff.find(delimiter);
+	std::string str_buff = buff;
+	std::string delimiter = "\r\n";
+	std::string str;
+	int delimiter_position = str_buff.find(delimiter);
+
+	// std::cout << "*************************************" << std::endl;
+	// std::cout << "RAW buff: " << str_buff << std::endl;
+	// std::cout << "*************************************" << std::endl;
+
 	while (delimiter_position != -1)
 	{
 		str = str_buff.substr(0, delimiter_position);
 		tmpVector.push_back(str);
 		str_buff.erase(str_buff.begin(), str_buff.begin() + delimiter_position + 1);
 		delimiter_position = str_buff.find(delimiter);
+	}
+	if (str_buff.length() != 0) {
+		_http_req["Body"] = this->trim(str_buff);	
 	}
 	this->parseFirstLine(tmpVector[0]);
 	this->parseOtherLines(tmpVector);
@@ -36,7 +44,8 @@ void HttpRequest::parseFirstLine(std::string firstLine)
 	}
 	tmpVector.push_back(this->trim(firstLine));
 
-	if (tmpVector.size() != 3) return;
+	if (tmpVector.size() != 3)
+		return;
 	_http_req["Method"] = tmpVector[0];
 	_http_req["Path"] = tmpVector[1];
 	_http_req["Protocol"] = tmpVector[2];
@@ -47,7 +56,7 @@ void HttpRequest::parseOtherLines(std::vector<std::string> tmpVector)
 	std::string delimiter = ":";
 	std::string key;
 	std::string value;
-	int			delimiter_position;
+	int delimiter_position;
 	for (size_t i = 1; i < tmpVector.size(); i++)
 	{
 		delimiter_position = tmpVector[i].find(delimiter);
@@ -65,9 +74,12 @@ std::string HttpRequest::trim(const std::string &s)
 	size_t start;
 	size_t end;
 	start = s.find_first_not_of(_WHITESPACE);
-	if (start == std::string::npos) {
+	if (start == std::string::npos)
+	{
 		return leftTrimedString;
-	} else {
+	}
+	else
+	{
 		leftTrimedString = s.substr(start);
 	}
 	end = leftTrimedString.find_last_not_of(_WHITESPACE);
@@ -83,14 +95,27 @@ void HttpRequest::printHttpReq()
 	}
 };
 
-std::string HttpRequest::getMethod() const {
+std::string HttpRequest::getMethod() const
+{
 	return _http_req.at("Method");
 };
 
-std::string HttpRequest::getPath() const {
+std::string HttpRequest::getPath() const
+{
 	return _http_req.at("Path");
 };
 
-std::string HttpRequest::getProtocol() const {
+std::string HttpRequest::getProtocol() const
+{
 	return _http_req.at("Protocol");
 };
+
+std::string HttpRequest::getHost() const
+{
+	return _http_req.at("Host");
+};
+
+bool HttpRequest::methodIsAuthorized(std::string method) const
+{
+	return (method.compare("GET") || method.compare("POST") || method.compare("DELETE"));
+}
