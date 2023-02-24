@@ -54,3 +54,9 @@ state "main loop" as loop
 pjf --> loop : success
 pjf --> [*] : failed
 ....
+
+== Resources
+
+=== Tools
+
+* Create UML diagram with https://plantuml.com/[plantUML]
