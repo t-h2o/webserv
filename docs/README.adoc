@@ -3,7 +3,9 @@
 :nofooter:
 :toc: left
 
-== Usecase diagram
+== Web server UML diagram
+
+=== Usecase diagram
 
 [plantuml, target=usecase, format=svg, width=60%]
 ....
@@ -15,7 +17,7 @@ package "Web server" as wbs {
 client --> ws
 ....
 
-== Sequence diagram
+=== Sequence diagram
 
 [plantuml, target=sequence, format=svg, width=60%]
 ....
@@ -23,7 +25,7 @@ Client -> "Web server": request
 "Web server" -> Client: response
 ....
 
-== Activity diagram
+=== Activity diagram
 
 [plantuml, target=activity, format=svg, width=60%]
 ....
@@ -32,7 +34,7 @@ start
 :main loop;
 ....
 
-== Component diagram
+=== Component diagram
 
 [plantuml, target=component, format=svg, width=60%]
 ....
@@ -42,7 +44,7 @@ Component "Client\n(browser firefox)" as client
 component "Web server" as wbs
 ....
 
-== State diagram
+=== State diagram
 
 [plantuml, target=state, format=svg, width=60%]
 ....
