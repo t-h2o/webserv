@@ -17,6 +17,9 @@ Json::_get_string(std::string const &line, size_t &index)
 	while (line[index] && line[index] != '"')
 		value += line[index++];
 
+	if (value == "")
+		throw std::runtime_error("Json: _get_string():\n" + line + "\nempty string");
+
 	return value;
 }
 
