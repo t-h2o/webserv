@@ -188,3 +188,4 @@ libunit : - framework obj
 === JSON parsing
 
 * wikipedia: https://en.wikipedia.org/wiki/JSON[JSON]
+* json.org: https://www.json.org/json-en.html[diagram]
