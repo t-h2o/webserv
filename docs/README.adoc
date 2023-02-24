@@ -122,3 +122,4 @@ map "map<String, Value *>" as config {
 === JSON parsing
 
 * wikipedia: https://en.wikipedia.org/wiki/JSON[JSON]
+* json.org: https://www.json.org/json-en.html[diagram]
