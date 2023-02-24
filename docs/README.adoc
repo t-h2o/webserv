@@ -96,6 +96,23 @@ pl --> [*] : failed
 cf --> [*]
 ....
 
+=== Object diagram example
+
+[plantuml, target=json_object, format=svg, width=60%]
+....
+
+map "map<String, Value *>" as charlie_address {
+ "street" => "Brooklin"
+ "street_number" => 1
+}
+
+map "map<String, Value *>" as config {
+ "name" => "Alice"
+ "age" => 42
+ "address" *-> charlie_address
+}
+....
+
 == Resources
 
 === Tools
