@@ -1,4 +1,5 @@
 #include "Unit_test.hpp"
+#include <algorithm>
 
 Unit_test::Unit_test(std::string const &name) : unit_name(name) {}
 
@@ -15,7 +16,7 @@ do_test(Test &test)
 	test.do_test();
 }
 
-void
+int
 Unit_test::_last_line(void)
 {
 	int success;
@@ -29,6 +30,8 @@ Unit_test::_last_line(void)
 	std::cout << "/";
 	std::cout << _test.size();
 	std::cout << " tests checked\n";
+
+	return static_cast<bool>(success - _test.size());
 }
 
 int
@@ -43,6 +46,5 @@ Unit_test::launch_tests(void)
 		std::cout << unit_name << " : " << it->_name << " : ";
 		it++->_result.print_result();
 	}
-	_last_line();
-	return (0);
+	return _last_line();
 }
