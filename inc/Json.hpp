@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
+#include <string.h>
 
 #include "Config.hpp"
 #include "Value.hpp"

@@ -85,6 +85,7 @@ Json::read(char const *path)
 	std::fstream file;
 	std::string	 line;
 
+	memset(states, 0, sizeof(bool) * NSTATES);
 	file.open(path, std::fstream::in);
 
 	/* Check if the file is valid */
