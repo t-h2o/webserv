@@ -1,12 +1,9 @@
 #include "Json.hpp"
 
-enum e_states
-{
-	WHITESPACE,
-	OBJECT,
-	STRING,
-	KEY_FILLED,
-};
+#define WHITESPACE 0
+#define OBJECT 1
+#define STRING 2
+#define KEY_FILLED 3
 
 /* get the string value */
 std::string
