@@ -32,7 +32,7 @@ Json::_loop_isblank(std::string const &line, size_t &index)
 void
 Json::_process_line(Config *config, std::string const &line)
 {
-	static bool states[4];
+	static bool states[NSTATES];
 	size_t		index(0);
 
 	while (line[index])
