@@ -61,6 +61,9 @@ $(LIB): $(OBJS)
 	@printf "$(YELLOW)Creating $(LIB)..$(DEFAULT)\n"
 	@$(AR) $(LIB) $(OBJS)
 	@printf "$(GREEN)---> $(LIB) is ready$(DEFAULT)\n"
+	@printf "$(YELLOW)make re test..$(DEFAULT)\n"
+	@$(MAKE) --directory=test re
+	@printf "$(GREEN)---> test$(DEFAULT)\n"
 
 test: $(LIB)
 	@$(MAKE) --directory=test
