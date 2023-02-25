@@ -58,7 +58,9 @@ $(OBJD)/%.o: $(SRCD)/%.cpp
 	@$(CXX) -c $(<) $(CFLAGS) -I$(INCD) -o $(@)
 
 $(LIB): $(OBJS)
+	@printf "$(YELLOW)Creating $(LIB)..$(DEFAULT)\n"
 	@$(AR) $(LIB) $(OBJS)
+	@printf "$(GREEN)---> $(LIB) is ready$(DEFAULT)\n"
 
 test: $(LIB)
 	@$(MAKE) --directory=test
