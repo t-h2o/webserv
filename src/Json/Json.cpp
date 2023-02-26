@@ -19,14 +19,6 @@ _get_string(std::string const &line, size_t &index)
 	return value;
 }
 
-/* loop up to reach end of string or not a blank character */
-void
-_loop_isblank(std::string const &line, size_t &index)
-{
-	while (line[index] && isblank(line[index]))
-		++index;
-}
-
 /* move the index up to the next no blank character
  * "last     next"
  *      ^ -> ^

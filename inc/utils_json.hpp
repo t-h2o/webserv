@@ -14,7 +14,6 @@
 #define NSTATES 3
 
 void		_process_line(Config *, std::string const &line, bool states[NSTATES]);
-void		_loop_isblank(std::string const &line, size_t &index);
 std::string _get_string(std::string const &line, size_t &index);
 
 #endif /* UTILS_JSON_HPP */
