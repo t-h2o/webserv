@@ -28,38 +28,42 @@ _loop_isblank(std::string const &line, size_t &index)
 		++index;
 }
 
+/* move the index up to the next no blank character
+ * "last     next"
+ *      ^ -> ^
+ */
+static void
+_ignore_blank(std::string const &line, size_t &index)
+{
+	while (line[index] && isblank(line[index]))
+		++index;
+}
+
 /* process a line of the json */
 void
 _process_line(Config *config, std::string const &line, bool states[NSTATES])
 {
 	size_t index(0);
 
+	_ignore_blank(line, index);
 	while (line[index])
 	{
-		if (isblank(line[index]))
+		if (line[index] == '{')
 		{
-			states[WHITESPACE] = 1;
-			_loop_isblank(line, index);
+			states[OBJECT] = 1;
 		}
-		else
+		if (line[index] == '}')
 		{
-			if (line[index] == '{')
-			{
-				states[OBJECT] = 1;
-			}
-			if (line[index] == '}')
-			{
-				if (states[OBJECT] == 0)
-					throw std::runtime_error("Json: object didn't start by a '{'");
-				states[OBJECT] = 0;
-			}
-			if (line[index] == '"')
-			{
-				states[STRING] ^= 1;
-			}
-			states[WHITESPACE] = 0;
-			++index;
+			if (states[OBJECT] == 0)
+				throw std::runtime_error("Json: object didn't start by a '{'");
+			states[OBJECT] = 0;
 		}
+		if (line[index] == '"')
+		{
+			states[STRING] ^= 1;
+		}
+		states[WHITESPACE] = 0;
+		++index;
 
 		if (states[STRING])
 		{
