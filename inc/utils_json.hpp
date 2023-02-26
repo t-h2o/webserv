@@ -11,7 +11,7 @@
 #include "Json.hpp"
 #include "Value.hpp"
 
-#define NSTATES 4
+#define NSTATES 3
 
 void		_process_line(Config *, std::string const &line, bool states[NSTATES]);
 void		_loop_isblank(std::string const &line, size_t &index);

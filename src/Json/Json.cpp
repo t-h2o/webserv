@@ -1,9 +1,8 @@
 #include "utils_json.hpp"
 
-#define WHITESPACE 0
-#define OBJECT 1
-#define STRING 2
-#define KEY_FILLED 3
+#define OBJECT 0
+#define STRING 1
+#define KEY_FILLED 2
 
 /* get the string value */
 std::string
@@ -62,7 +61,6 @@ _process_line(Config *config, std::string const &line, bool states[NSTATES])
 		{
 			states[STRING] ^= 1;
 		}
-		states[WHITESPACE] = 0;
 		++index;
 
 		if (states[STRING])
