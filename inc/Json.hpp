@@ -11,15 +11,10 @@
 
 #define NSTATES 4
 
-class Json
-{
-  public:
-	static Config *read(char const *);
+Config *read(char const *);
 
-  private:
-	static void		   _process_line(Config *, std::string const &line, bool states[NSTATES]);
-	static void		   _loop_isblank(std::string const &line, size_t &index);
-	static std::string _get_string(std::string const &line, size_t &index);
-};
+void		_process_line(Config *, std::string const &line, bool states[NSTATES]);
+void		_loop_isblank(std::string const &line, size_t &index);
+std::string _get_string(std::string const &line, size_t &index);
 
 #endif /* JSON_HPP */

@@ -8,7 +8,7 @@ webserver(char const *path)
 
 	try
 	{
-		config = Json::read(path);
+		config = read(path);
 	}
 	catch (const std::runtime_error &e)
 	{

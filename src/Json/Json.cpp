@@ -7,7 +7,7 @@
 
 /* get the string value */
 std::string
-Json::_get_string(std::string const &line, size_t &index)
+_get_string(std::string const &line, size_t &index)
 {
 	std::string value;
 
@@ -22,7 +22,7 @@ Json::_get_string(std::string const &line, size_t &index)
 
 /* loop up to reach end of string or not a blank character */
 void
-Json::_loop_isblank(std::string const &line, size_t &index)
+_loop_isblank(std::string const &line, size_t &index)
 {
 	while (line[index] && isblank(line[index]))
 		++index;
@@ -30,7 +30,7 @@ Json::_loop_isblank(std::string const &line, size_t &index)
 
 /* process a line of the json */
 void
-Json::_process_line(Config *config, std::string const &line, bool states[NSTATES])
+_process_line(Config *config, std::string const &line, bool states[NSTATES])
 {
 	size_t index(0);
 
@@ -80,7 +80,7 @@ Json::_process_line(Config *config, std::string const &line, bool states[NSTATES
 }
 
 Config *
-Json::read(char const *path)
+read(char const *path)
 {
 	bool		 states[NSTATES];
 	Config		*config;
@@ -93,7 +93,7 @@ Json::read(char const *path)
 	/* Check if the file is valid */
 	if (file.is_open() == 0)
 	{
-		std::cerr << "Error: Json::read(): file \"" << path << "\" is not valid" << std::endl;
+		std::cerr << "Error: read(): file \"" << path << "\" is not valid" << std::endl;
 		return 0;
 	}
 

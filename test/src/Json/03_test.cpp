@@ -10,7 +10,7 @@ test_empty_string(const char *path)
 
 	try
 	{
-		config = Json::read(path);
+		config = read(path);
 	}
 	catch (const std::runtime_error &e)
 	{

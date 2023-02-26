@@ -10,7 +10,7 @@ test_missing_brace(const char *path)
 
 	try
 	{
-		config = Json::read(path);
+		config = read(path);
 	}
 	catch (const std::runtime_error &e)
 	{

@@ -25,7 +25,7 @@ test_json_normal_file(void)
 	Config *config;
 
 	output.open();
-	config = Json::read("test/src/Json/config.json");
+	config = read("test/src/Json/config.json");
 	output.close();
 
 	if (config == 0)
