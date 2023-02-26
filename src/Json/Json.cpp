@@ -32,7 +32,7 @@ Json::_loop_isblank(std::string const &line, size_t &index)
 void
 Json::_process_line(Config *config, std::string const &line, bool states[NSTATES])
 {
-	size_t		index(0);
+	size_t index(0);
 
 	while (line[index])
 	{
@@ -82,7 +82,7 @@ Json::_process_line(Config *config, std::string const &line, bool states[NSTATES
 Config *
 Json::read(char const *path)
 {
-	bool	states[NSTATES];
+	bool		 states[NSTATES];
 	Config		*config;
 	std::fstream file;
 	std::string	 line;

@@ -9,7 +9,7 @@
 #include "Config.hpp"
 #include "Value.hpp"
 
-#define	NSTATES	4
+#define NSTATES 4
 
 class Json
 {
