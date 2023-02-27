@@ -1,3 +1,5 @@
+#include <unistd.h>
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/ioctl.h>
@@ -11,7 +13,7 @@
 #define TRUE             1
 #define FALSE            0
 
-main (int argc, char *argv[])
+int main (int argc, char *argv[])
 {
    int    i, len, rc, on = 1;
    int    listen_sd, max_sd, new_sd;
@@ -243,6 +245,13 @@ main (int argc, char *argv[])
                      close_conn = TRUE;
                      break;
                   }
+
+				   if (rc != sizeof(buffer))
+				   {
+					   printf("  Connection closed\n");
+					   close_conn = TRUE;
+					   break;
+				   }
 
                   /**********************************************/
                   /* Data was received                          */
