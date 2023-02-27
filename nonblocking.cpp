@@ -1,3 +1,5 @@
+#include <unistd.h>
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/ioctl.h>
@@ -7,6 +9,7 @@
 #include <errno.h>
 #include <unistd.h>
 #include <string.h>
+#include <iostream>
 
 #define SERVER_PORT  12345
 
@@ -24,11 +27,12 @@ int main (void)
    struct timeval       timeout;
    struct fd_set        master_set, working_set;
 
-   /*************************************************************/
-   /* Create an AF_INET6 stream socket to receive incoming      */
-   /* connections on                                            */
-   /*************************************************************/
-   listen_sd = socket(AF_INET6, SOCK_STREAM, 0);
+
+	   /*************************************************************/
+	   /* Create an AF_INET6 stream socket to receive incoming      */
+	   /* connections on                                            */
+	   /*************************************************************/
+	   listen_sd = socket(AF_INET6, SOCK_STREAM, 0);
    if (listen_sd < 0)
    {
       perror("socket() failed");
@@ -235,7 +239,7 @@ int main (void)
                      break;
                   }
 
-                  /**********************************************/
+				  /**********************************************/
                   /* Check to see if the connection has been    */
                   /* closed by the client                       */
                   /**********************************************/
@@ -245,6 +249,13 @@ int main (void)
                      close_conn = TRUE;
                      break;
                   }
+
+				   if (rc != sizeof(buffer))
+				   {
+					   printf("  Connection closed\n");
+					   close_conn = TRUE;
+					   break;
+				   }
 
                   /**********************************************/
                   /* Data was received                          */
