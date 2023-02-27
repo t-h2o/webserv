@@ -55,6 +55,50 @@ pjf --> loop : success
 pjf --> [*] : failed
 ....
 
+== The project organisation
+
+[plantuml, target=project_state, format=svg, width=100%]
+....
+state "Web server repository" as repository {
+  state "Makefile" as makefile {
+    state "src" as makefile_in_src <<entryPoint>>
+    state "$(NAME)" as makefile_out_name <<exitPoint>>
+  }
+  state "docs" as docs {
+  	state "index.html" as index
+  	state "README.adoc" as adoc
+  }
+  state "src" as src
+  state "obj" as obj
+  state "inc" as inc
+  state "libwebserv.a" as libwebserv
+  state "webserv" as program
+  state test {
+	state "Makefile" as test_makefile
+    state "src" as test_src
+    state "obj" as test_obj
+    state "inc" as test_inc
+	state "test" as test_program
+	state "framework" as framework {
+	  state "Makefile" as framework_makefile
+      state "src" as framework_src
+      state "obj" as framework_obj
+      state "inc" as framework_inc
+	  state "libunit.a" as libunit
+	}
+  }
+  src --> makefile_in_src
+  makefile_out_name --> program : make
+  makefile --> index : make doc
+  makefile --> test_makefile : make test
+  makefile --> libwebserv : make test
+  test_makefile --> test_program : make
+  test_makefile --> framework_makefile : make
+  framework_makefile --> libunit : make
+  makefile_in_src --> makefile_out_name
+}
+....
+
 == Resources
 
 === Tools
