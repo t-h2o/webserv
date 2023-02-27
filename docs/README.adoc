@@ -1,49 +1,62 @@
-= Big box
+= Web server
 :sectnums:
 :nofooter:
 :toc: left
 
-____
-A Big box is a generic word for say a "project".
-____
+== Web server UML diagram
 
-== File hierachy
+=== Usecase diagram
 
-=== The program
+[plantuml, target=usecase, format=svg, width=60%]
+....
+left to right direction
+actor Client as client
+package "Web server" as wbs {
+  usecase "Web site" as ws
+}
+client --> ws
+....
 
-inc:: Include, for headers files
-src:: Source, for source code files
-obj:: Objet, for compiled source code
+=== Sequence diagram
 
-=== The documentation
+[plantuml, target=sequence, format=svg, width=60%]
+....
+Client -> "Web server": request
+"Web server" -> Client: response
+....
 
-docs:: Documentation folder
+=== Activity diagram
 
-=== The tester
+[plantuml, target=activity, format=svg, width=60%]
+....
+start
+:parses json file;
+:main loop;
+....
 
-test:: Contains all sources for testing the program
+=== Component diagram
 
-== Tools
+[plantuml, target=component, format=svg, width=60%]
+....
+Component "Files of the website\n(/var/www)" as www
+Component "Common Gateway Interface\n(CGI)" as cgi
+Component "Client\n(browser firefox)" as client
+component "Web server" as wbs
+....
 
-=== Version control
+=== State diagram
 
-git:: no need to say more
+[plantuml, target=state, format=svg, width=60%]
+....
+state "parses json file" as pjf
+state "main loop" as loop
+[*] --> pjf : start
+pjf --> loop : success
+pjf --> [*] : failed
+....
 
-=== A source code formater
+== Resources
 
-clang-format:: Clang format is a tool from `llvm` for formatting source files
+=== Tools
 
-== Makefile rules
-
-all:: Compile the program
-db:: Compile the program and launch a debugger on the program
-format:: Run clang-format in each source files
-doc:: Generate from AsciiDoc into html
-
-== Markup language
-
-AsciiDoc:: It is clear as markdown and has more feature than markdown
-
-== Workflow
-
-An article on a git workflow https://gastaud.io/article/git-workflow/[git-workflow]
+* Create UML diagram with https://plantuml.com/[plantUML]

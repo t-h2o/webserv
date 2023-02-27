@@ -6,6 +6,11 @@ CXX		=	g++
 AR		=	ar rs 2> /dev/null
 DB		=	lldb
 MAKE	=	make --no-print-directory 1> /dev/null
+ADOC	=	asciidoctor --require=asciidoctor-diagram
+
+
+DOCU	=	docs/README.adoc
+INDEX	=	docs/index.html
 
 
 CFLAGS	=	-Wall
@@ -69,7 +74,11 @@ format:
 
 doc:
 	@printf "$(YELLOW)Generating documentations..$(DEFAULT)\n"
-	@asciidoctor docs/README.adoc -o docs/index.html
+	@$(ADOC) $(DOCU) -o $(INDEX)
+
+docdocker:
+	@printf "$(YELLOW)launch the asciidoctor/docker-asciidoctor docker image..$(DEFAULT)\n"
+	@docker run --rm -v $(shell pwd):/documents/ asciidoctor/docker-asciidoctor make doc
 
 clean:
 	@$(RM) $(OBJD)
