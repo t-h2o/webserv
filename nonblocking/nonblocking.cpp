@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <iostream>
+#include "HttpRequest.hpp"
 
 #define SERVER_PORT  12345
 
@@ -26,6 +27,7 @@ int main (void)
    struct sockaddr_in6   addr;
    struct timeval       timeout;
    struct fd_set        master_set, working_set;
+   HttpRequest requestHandler;
 
 
 	   /*************************************************************/
