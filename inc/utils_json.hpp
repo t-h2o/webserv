@@ -18,6 +18,7 @@
 #define KEY_FILLED 2
 #define MIDDLE 3
 
+void		_ignore_blank(std::string const &, size_t &);
 void		_process_line(Config *, std::string const &line, bool states[NSTATES]);
 std::string _get_string(std::string const &line, size_t &index);
 
