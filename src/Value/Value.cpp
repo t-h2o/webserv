@@ -2,12 +2,12 @@
 
 Value::Value(std::string const &value) : _value(0) { _value = new std::string(value); }
 
-Value::~Value(void) { delete _value; }
+Value::~Value(void) { delete static_cast<std::string *>(_value); }
 
 std::string
 Value::get(void) const
 {
-	return *_value;
+	return *static_cast<std::string *>(_value);
 }
 
 std::ostream &
