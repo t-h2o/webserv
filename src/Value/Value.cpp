@@ -12,6 +12,21 @@ Value::~Value(void)
 		delete static_cast<double *>(_value);
 }
 
+Value::Value(Value const &other) { *this = other; }
+
+Value &
+Value::operator=(Value const &other)
+{
+	_type = other._type;
+
+	if (_type == V_STRING)
+		_value = new std::string(*(static_cast<std::string *>(other._value)));
+	else if (_type == V_NUMBER)
+		_value = new double(*(static_cast<double *>(other._value)));
+
+	return *this;
+}
+
 template <typename T>
 T
 Value::get(void) const
