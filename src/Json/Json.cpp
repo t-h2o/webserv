@@ -41,7 +41,7 @@ read(char const *path)
 		}
 	}
 
-	if (states[OBJECT] || states[STRING] || states[KEY_FILLED] || !states[MIDDLE])
+	if (states[OBJECT] || states[STRING] || !states[KEY_FILLED] || states[MIDDLE] || !states[RIGHT])
 	{
 		std::cerr << "Json: object not finished by a '}'" << std::endl;
 		delete config;
