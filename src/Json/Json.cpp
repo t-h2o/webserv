@@ -42,7 +42,11 @@ read(char const *path)
 	}
 
 	if (states[OBJECT])
-		throw std::runtime_error("Json: object not finished by a '}'");
+	{
+		std::cerr << "Json: object not finished by a '}'" << std::endl;
+		delete config;
+		return 0;
+	}
 
 	file.close();
 
