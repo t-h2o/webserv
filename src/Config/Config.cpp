@@ -14,15 +14,6 @@ Config::_print_pair(t_pair pair)
 	std::cout << pair.first << " : " << *(pair.second) << std::endl;
 }
 
-double
-Config::get(std::string const &key)
-{
-	std::map<std::string, Value *>::iterator it(_config.find(key));
-	if (it == _config.end())
-		throw std::exception();
-	return it->second->get<double>();
-}
-
 void
 Config::print_all(void) const
 {
