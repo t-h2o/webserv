@@ -48,10 +48,14 @@ int
 HttpResponse::count_file_size(std::string path)
 {
 	std::ifstream stream;
-	int			  size;
-	stream.open(path.c_str(), std::ios::binary);
-	stream.seekg(0, std::ios::end);
-	size = stream.tellg();
+	int			  size = 0;
+	if (file_exists(path))
+	{
+		stream.open(path.c_str(), std::ios::binary);
+		stream.seekg(0, std::ios::end);
+		size = stream.tellg();
+		stream.close();
+	}
 	return size;
 }
 
