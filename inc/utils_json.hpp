@@ -11,13 +11,14 @@
 #include "Json.hpp"
 #include "Value.hpp"
 
-#define NSTATES 5
+#define NSTATES 6
 
 #define OBJECT 0
 #define STRING 1
 #define KEY_FILLED 2
 #define MIDDLE 3
 #define RIGHT 4
+#define VALUE_FILLED 5
 
 #define LOG false
 
