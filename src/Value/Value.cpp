@@ -1,11 +1,11 @@
 #include "Value.hpp"
 
 Value::Value(std::string const &value) : _value(0), _type(V_STRING) { _value = new std::string(value); }
+
 Value::Value(double const &value) : _value(0), _type(V_NUMBER) { _value = new double(value); }
 
 Value::~Value(void)
 {
-
 	if (_type == V_STRING)
 		delete static_cast<std::string *>(_value);
 	else if (_type == V_NUMBER)
