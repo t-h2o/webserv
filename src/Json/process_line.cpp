@@ -59,18 +59,18 @@ _process_line(Config *config, std::string const &line, bool states[NSTATES])
 		_set_states(line[index], states);
 		_print_case(line, index, states, false);
 
-		if (states[STRING] && states[KEY_FILLED] == 0)
+		if (states[OBJECT] && states[STRING] && !states[KEY_FILLED] && !states[MIDDLE])
 		{
 			value.first = _get_string(line, index);
 			states[KEY_FILLED] = 1;
 		}
-		else if (states[STRING] && states[KEY_FILLED])
+		else if (states[OBJECT] && states[STRING] && states[KEY_FILLED] && states[MIDDLE])
 		{
 			value.second = new Value(_get_string(line, index));
 			config->insert_pair(value);
 			states[KEY_FILLED] = 0;
 		}
-		else if (states[OBJECT] && states[STRING] == 0 && states[KEY_FILLED] && states[MIDDLE] == 0)
+		else if (states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE])
 		{
 		}
 		else if (states[OBJECT] && !states[STRING] && !states[KEY_FILLED] && !states[MIDDLE])
