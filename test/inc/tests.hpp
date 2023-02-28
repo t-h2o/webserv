@@ -16,5 +16,6 @@ int test_http_request(void);
 
 int value_launcher(void);
 int test_value_string(void);
+int test_value_number(void);
 
 #endif /* TESTS_H */
