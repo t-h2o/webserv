@@ -1,11 +1,13 @@
 #include "Value.hpp"
 
-Value::Value(std::string const &value) : _value(value) {}
+Value::Value(std::string const &value) : _value(0) { _value = new std::string(value); }
+
+Value::~Value(void) { delete _value; }
 
 std::string
 Value::get(void) const
 {
-	return _value;
+	return *_value;
 }
 
 std::ostream &
