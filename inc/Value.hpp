@@ -12,7 +12,7 @@ class Value
 	std::string get(void) const;
 
   private:
-	std::string *_value;
+	void *_value;
 };
 
 std::ostream &operator<<(std::ostream &, Value const &);
