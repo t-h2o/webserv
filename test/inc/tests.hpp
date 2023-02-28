@@ -11,5 +11,6 @@ int test_check_argc_number_2(void);
 
 int value_launcher(void);
 int test_value_string(void);
+int test_value_number(void);
 
 #endif /* TESTS_H */
