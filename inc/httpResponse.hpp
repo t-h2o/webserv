@@ -15,6 +15,7 @@ class HttpResponse
 	void		init_response_map(void);
 	void		load_response_map(int status_code);
 	void		print_response_map(void);
+	bool		file_exists(std::string path);
 
   private:
 	std::map<std::string, std::string> _response_map;
