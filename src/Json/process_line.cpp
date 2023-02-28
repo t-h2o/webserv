@@ -64,7 +64,8 @@ _process_line(Config *config, std::string const &line, bool states[NSTATES])
 	while (line[index])
 	{
 		_set_states(line[index], states);
-		_print_case(line, index, states, false);
+		if (LOG)
+			_print_case(line, index, states, false);
 
 		if (states[OBJECT] && states[STRING] && !states[KEY_FILLED] && !states[MIDDLE] && !states[RIGHT]
 			&& !states[VALUE_FILLED])
