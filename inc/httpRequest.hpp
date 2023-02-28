@@ -12,7 +12,7 @@ class HttpRequest
   private:
 	std::map<std::string, std::string> _http_req;
 	void							   parseFirstLine(std::string firstLine);
-	void							   parseOtherLines(std::vector<std::string> tmpVector);
+	void							   parseOtherLines(std::vector<std::string> tmp_vector);
 
   public:
 	HttpRequest();
