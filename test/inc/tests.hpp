@@ -12,4 +12,9 @@ int test_check_argc_number_2(void);
 int http_request_launcher(void);
 int test_http_request(void);
 
+/* Value class */
+
+int value_launcher(void);
+int test_value_string(void);
+
 #endif /* TESTS_H */
