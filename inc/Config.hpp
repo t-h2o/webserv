@@ -16,7 +16,15 @@ class Config
 	void insert_pair(t_pair const &);
 	void print_all(void) const;
 
-	double get(std::string const &);
+	template <typename T>
+	T
+	get(std::string const &key)
+	{
+		std::map<std::string, Value *>::iterator it(_config.find(key));
+		if (it == _config.end())
+			throw std::exception();
+		return it->second->get<T>();
+	}
 
   private:
 	std::map<std::string, Value *> _config;
