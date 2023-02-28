@@ -1,17 +1,29 @@
 #include "utils_json.hpp"
 
-#define OBJECT 0
-#define STRING 1
-#define KEY_FILLED 2
+/* get the string value up to the next '"'
+ * "the value"
+ * ^     -> ^
+ */
 
-/* get the string value */
+static void
+print_line(std::string const &line, size_t index)
+{
+	std::cout << line << "\n";
+	for (; index != 0; --index)
+		std::cout << ' ';
+	std::cout << '^' << std::endl;
+}
 std::string
 _get_string(std::string const &line, size_t &index)
 {
 	std::string value;
 
+	if (line[index] == '"')
+		++index;
 	while (line[index] && line[index] != '"')
 		value += line[index++];
+
+	--index;
 
 	if (value == "")
 		throw std::runtime_error("Json: _get_string():\n" + line + "\nempty string");
@@ -30,46 +42,88 @@ _ignore_blank(std::string const &line, size_t &index)
 		++index;
 }
 
+static void
+_set_states(char character, bool states[NSTATES])
+{
+	if (character == '{')
+	{
+		states[OBJECT] = 1;
+	}
+	else if (character == '}')
+	{
+		if (states[OBJECT] == 0)
+			throw std::runtime_error("Json: object didn't start by a '{'");
+		states[OBJECT] = 0;
+	}
+	else if (character == '"')
+	{
+		states[STRING] ^= 1;
+	}
+	else if (character == ':')
+	{
+		states[MIDDLE] = 1;
+	}
+}
+
+static void
+_print_case(std::string const &line, size_t index, bool states[NSTATES], bool show_states)
+{
+	if (!show_states)
+		print_line(line, index);
+	else
+		std::cout << "Undefined case\n"
+				  << states[OBJECT] << " OBJECT\n"
+				  << states[STRING] << " STRING\n"
+				  << states[KEY_FILLED] << " KEY_FILLED\n"
+				  << states[MIDDLE] << " MIDDLE\n"
+				  << std::endl;
+}
+
 /* process a line of the json */
 void
 _process_line(Config *config, std::string const &line, bool states[NSTATES])
 {
-	size_t index(0);
+	size_t							index(0);
+	std::pair<std::string, Value *> value;
 
 	_ignore_blank(line, index);
 	while (line[index])
 	{
-		if (line[index] == '{')
+		_set_states(line[index], states);
+		_print_case(line, index, states, false);
+
+		if (states[STRING] && states[KEY_FILLED] == 0)
 		{
-			states[OBJECT] = 1;
+			value.first = _get_string(line, index);
+			states[KEY_FILLED] = 1;
 		}
-		if (line[index] == '}')
+		else if (states[STRING] && states[KEY_FILLED])
 		{
-			if (states[OBJECT] == 0)
-				throw std::runtime_error("Json: object didn't start by a '{'");
-			states[OBJECT] = 0;
+			value.second = new Value(_get_string(line, index));
+			config->insert_pair(value);
+			states[KEY_FILLED] = 0;
 		}
-		if (line[index] == '"')
+		else if (states[OBJECT] && states[STRING] == 0 && states[KEY_FILLED] && states[MIDDLE] == 0)
 		{
-			states[STRING] ^= 1;
+		}
+		else if (states[OBJECT] && !states[STRING] && !states[KEY_FILLED] && !states[MIDDLE])
+		{
+		}
+		else if (!states[OBJECT] && !states[STRING] && !states[KEY_FILLED] && states[MIDDLE])
+		{
+		}
+		else if (states[OBJECT] && !states[STRING] && states[KEY_FILLED] && states[MIDDLE])
+		{
+		}
+		else if (states[OBJECT] && !states[STRING] && !states[KEY_FILLED] && states[MIDDLE])
+		{
+		}
+		else
+		{
+			_print_case(line, index, states, true);
 		}
 		++index;
-
-		if (states[STRING])
-		{
-			Value *value = new Value(_get_string(line, index));
-			if (states[KEY_FILLED] == 0)
-			{
-				config->insert_key(value->get());
-				states[KEY_FILLED] = 1;
-				delete value;
-			}
-			else
-			{
-				config->insert_value(value);
-				states[KEY_FILLED] = 0;
-			}
-		}
+		_ignore_blank(line, index);
 	}
 }
 

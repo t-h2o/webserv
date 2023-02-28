@@ -3,19 +3,9 @@
 Config::~Config(void) { _free_values(); }
 
 void
-Config::insert_key(std::string const &key)
+Config::insert_pair(t_pair const &pair)
 {
-	t_pair node(key, 0);
-
-	_config.insert(node);
-	_last_key = key;
-}
-
-void
-Config::insert_value(Value *value)
-{
-	std::map<std::string, Value *>::iterator it = _config.find(_last_key);
-	it->second = value;
+	_config.insert(pair);
 }
 
 void

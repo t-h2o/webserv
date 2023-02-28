@@ -13,8 +13,7 @@ class Config
   public:
 	~Config(void);
 
-	void insert_key(std::string const &);
-	void insert_value(Value *);
+	void insert_pair(t_pair const &);
 	void print_all(void) const;
 
   private:

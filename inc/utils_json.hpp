@@ -11,7 +11,12 @@
 #include "Json.hpp"
 #include "Value.hpp"
 
-#define NSTATES 3
+#define NSTATES 4
+
+#define OBJECT 0
+#define STRING 1
+#define KEY_FILLED 2
+#define MIDDLE 3
 
 void		_process_line(Config *, std::string const &line, bool states[NSTATES]);
 std::string _get_string(std::string const &line, size_t &index);
