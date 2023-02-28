@@ -54,3 +54,17 @@ HttpResponse::count_file_size(std::string path)
 	size = stream.tellg();
 	return size;
 }
+
+bool
+HttpResponse::file_exists(std::string path)
+{
+	std::ifstream file;
+	bool		  ret = false;
+	file.open(path);
+	if (file)
+	{
+		ret = true;
+		file.close();
+	}
+	return ret;
+}
