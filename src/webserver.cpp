@@ -12,11 +12,11 @@ webserver(char const *path)
 	}
 	catch (const std::runtime_error &e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cerr << e.what() << std::endl;
 	}
 	catch (const std::exception &e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cerr << e.what() << std::endl;
 	}
 
 	if (config == 0)
