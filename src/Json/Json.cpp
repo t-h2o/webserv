@@ -30,10 +30,14 @@ read(char const *path)
 		catch (const std::runtime_error &e)
 		{
 			std::cerr << e.what() << std::endl;
+			delete config;
+			return 0;
 		}
 		catch (const std::exception &e)
 		{
 			std::cerr << e.what() << std::endl;
+			delete config;
+			return 0;
 		}
 	}
 
