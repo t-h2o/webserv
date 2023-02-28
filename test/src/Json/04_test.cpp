@@ -8,18 +8,10 @@ test_missing_brace(const char *path)
 {
 	Config *config;
 
-	try
-	{
-		config = read(path);
-	}
-	catch (const std::runtime_error &e)
-	{
-		return 0;
-	}
-
-	delete config;
-
-	return 1;
+	config = read(path);
+	if (config)
+		return 1;
+	return 0;
 }
 
 int
