@@ -10,7 +10,7 @@
 class HttpRequest
 {
   private:
-	std::map<std::string, std::string> _http_req;
+	std::map<std::string, std::string> _request_map;
 	void							   parseFirstLine(std::string firstLine);
 	void							   parseOtherLines(std::vector<std::string> tmp_vector);
 
