@@ -35,8 +35,6 @@ SRCS	+=	$(SRCD)/arguments/check_argc_number.cpp
 
 INCD	=	inc
 
-INCS	+=	$(INCD)/arguments.hpp
-
 
 #	Objets
 
