@@ -11,7 +11,10 @@ class Value
   public:
 	Value(std::string const &);
 	Value(double const &);
+	Value(Value const &);
 	~Value();
+
+	Value &operator=(Value const &);
 
 	template <typename T> T get(void) const;
 
