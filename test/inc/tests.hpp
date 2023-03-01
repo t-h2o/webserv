@@ -11,6 +11,7 @@ int test_check_argc_number_2(void);
 
 int config_launcher(void);
 int test_config_insert(void);
+int test_config_get(void);
 
 /* class httpRequest */
 
