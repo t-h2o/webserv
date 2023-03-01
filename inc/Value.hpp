@@ -9,6 +9,7 @@
 class Value
 {
   public:
+	Value(void);
 	Value(std::string const &);
 	Value(double const &);
 	Value(Value const &);

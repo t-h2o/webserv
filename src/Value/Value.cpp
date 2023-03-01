@@ -1,5 +1,7 @@
 #include "Value.hpp"
 
+Value::Value(void) : _value(0), _type(0) {}
+
 Value::Value(std::string const &value) : _value(0), _type(V_STRING) { _value = new std::string(value); }
 
 Value::Value(double const &value) : _value(0), _type(V_NUMBER) { _value = new double(value); }
