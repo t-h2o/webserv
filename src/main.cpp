@@ -1,4 +1,3 @@
-#include "Config.hpp"
 #include "arguments.hpp"
 #include "webserver.hpp"
 
