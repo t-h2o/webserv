@@ -3,15 +3,26 @@
 
 #include <iostream>
 
+#define V_STRING 1
+#define V_NUMBER 2
+
 class Value
 {
   public:
 	Value(std::string const &);
+	Value(double const &);
+	Value(Value const &);
+	~Value();
 
-	std::string get(void) const;
+	Value &operator=(Value const &);
+
+	template <typename T> T get(void) const;
+
+	int get_type(void) const;
 
   private:
-	std::string _value;
+	void *_value;
+	int	  _type;
 };
 
 std::ostream &operator<<(std::ostream &, Value const &);
