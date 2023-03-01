@@ -35,8 +35,6 @@ SRCS	+=	$(SRCD)/arguments/check_argc_number.cpp
 
 INCD	=	inc
 
-INCS	+=	$(INCD)/arguments.hpp
-
 
 #	Objets
 
@@ -58,7 +56,12 @@ $(OBJD)/%.o: $(SRCD)/%.cpp
 	@$(CXX) -c $(<) $(CFLAGS) -I$(INCD) -o $(@)
 
 $(LIB): $(OBJS)
+	@printf "$(YELLOW)Creating $(LIB)..$(DEFAULT)\n"
 	@$(AR) $(LIB) $(OBJS)
+	@printf "$(GREEN)---> $(LIB) is ready$(DEFAULT)\n"
+	@printf "$(YELLOW)make re test..$(DEFAULT)\n"
+	@$(MAKE) --directory=test re
+	@printf "$(GREEN)---> test$(DEFAULT)\n"
 
 test: $(LIB)
 	@$(MAKE) --directory=test
@@ -70,7 +73,7 @@ db: $(NAME)
 
 format:
 	@printf "$(YELLOW)Formating the sources..$(DEFAULT)\n"
-	@clang-format -i $(SRCS) $(INCS)
+	@clang-format -i $(shell find . -name "*.hpp" -or -name "*.cpp")
 
 doc:
 	@printf "$(YELLOW)Generating documentations..$(DEFAULT)\n"
