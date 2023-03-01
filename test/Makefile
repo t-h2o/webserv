@@ -24,6 +24,7 @@ SRCS	+=	$(SRCD)/arguments/01_test.cpp
 SRCS	+=	$(SRCD)/arguments/02_test.cpp
 SRCS	+=	$(SRCD)/Config/00_launcher.cpp
 SRCS	+=	$(SRCD)/Config/01_test.cpp
+SRCS	+=	$(SRCD)/Config/02_test.cpp
 SRCS	+=	$(SRCD)/Value/00_launcher.cpp
 SRCS	+=	$(SRCD)/Value/01_test.cpp
 SRCS	+=	$(SRCD)/Value/02_test.cpp
