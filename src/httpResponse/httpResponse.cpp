@@ -73,7 +73,7 @@ HttpResponse::file_exists(std::string path)
 	return ret;
 }
 
-void set_response_type(std::string path, std::string type)
+void HttpResponse::set_response_type(std::string path, std::string type)
 {
 	if (type != "")
 	{
