@@ -92,7 +92,7 @@ _process_line(Config *config, std::string const &line, bool states[NSTATES])
 			char *end;
 			int	  number = std::strtod(&(line[index]), &end);
 			std::cout << end - &(line[index]) << " --> " << number << std::endl;
-			index += end - &(line[index]);
+			index += end - &(line[index]) - 1;
 			states[VALUE_FILLED] = 1;
 		}
 		else if (states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
