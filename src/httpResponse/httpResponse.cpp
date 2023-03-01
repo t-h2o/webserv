@@ -64,11 +64,34 @@ HttpResponse::file_exists(std::string path)
 {
 	std::ifstream file;
 	bool		  ret = false;
-	file.open(path);
+	file.open(path.c_str());
 	if (file)
 	{
 		ret = true;
 		file.close();
 	}
 	return ret;
+}
+
+void set_response_type(std::string path, std::string type)
+{
+	if (type != "")
+	{
+		_response_map["Content-Type"] = type;
+	}
+	type = path.substr(path.rfind(".") + 1, path.size() - path.rfind("."));
+	if (type == "html")
+		_response_map["Content-Type"] = "text/html";
+	else if (type == "css")
+		_response_map["Content-Type"] = "text/css";
+	else if (type == "js")
+		_response_map["Content-Type"] = "text/javascript";
+	else if (type == "jpeg" || type == "jpg")
+		_response_map["Content-Type"] = "image/jpeg";
+	else if (type == "png")
+		_response_map["Content-Type"] = "image/png";
+	else if (type == "bmp")
+		_response_map["Content-Type"] = "image/bmp";
+	else
+		_response_map["Content-Type"] = "text/plain";
 }
