@@ -147,7 +147,9 @@ _process_line(Config *config, std::string const &line, bool states[NSTATES])
 		}
 		else
 		{
-			_print_case(line, index, states, true);
+			if (LOG)
+				_print_case(line, index, states, true);
+			throw std::runtime_error("Json: undefined state");
 		}
 		++index;
 		_ignore_blank(line, index);
