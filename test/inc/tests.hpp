@@ -18,5 +18,6 @@ int test_config_get(void);
 int value_launcher(void);
 int test_value_string(void);
 int test_value_number(void);
+int test_value_array_number(void);
 
 #endif /* TESTS_H */
