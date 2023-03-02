@@ -12,5 +12,6 @@ json_launcher(void)
 	list.load_test("exception: missing brace", &test_json_missing_brace);
 	list.load_test("normal JSON number", &test_json_number);
 	list.load_test("normal JSON string & number", &test_json_string_number);
+	list.load_test("normal JSON array of number", &test_json_array_number);
 	return (list.launch_tests());
 }

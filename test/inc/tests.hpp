@@ -22,6 +22,7 @@ int test_json_empty_string(void);
 int test_json_missing_brace(void);
 int test_json_number(void);
 int test_json_string_number(void);
+int test_json_array_number(void);
 
 /* Value class */
 
