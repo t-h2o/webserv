@@ -22,7 +22,7 @@ class Value
 
 	size_t size(void) const;
 
-	template <typename T> T get(void) const;
+	template <typename T> T & get(void) const;
 
 	int get_type(void) const;
 
