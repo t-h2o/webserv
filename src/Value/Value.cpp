@@ -36,11 +36,11 @@ Value::operator=(Value const &other)
 	_type = other._type;
 
 	if (_type == V_STRING)
-		_value = new std::string(*(static_cast<std::string *>(other._value)));
+		_value = new std::string(other.get<std::string>());
 	else if (_type == V_NUMBER)
-		_value = new double(*(static_cast<double *>(other._value)));
+		_value = new double(other.get<double>());
 	else if (_type == V_BOOLEAN)
-		_value = new bool(*(static_cast<bool *>(other._value)));
+		_value = new bool(other.get<bool>());
 
 	return *this;
 }
