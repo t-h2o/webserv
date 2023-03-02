@@ -1,5 +1,7 @@
 #include "Value.hpp"
 
+/* constructor */
+
 Value::Value(void) : _value(0), _type(0) {}
 
 Value::Value(bool *value) : _value(value), _type(V_BOOLEAN) {}
@@ -9,6 +11,10 @@ Value::Value(std::string *value) : _value(value), _type(V_STRING) {}
 Value::Value(double *value) : _value(value), _type(V_NUMBER) {}
 
 Value::Value(std::vector<double> *value) : _value(value), _type(V_VEC_NUMBER) {}
+
+Value::Value(Value const &other) { *this = other; }
+
+/* destructor */
 
 Value::~Value(void)
 {
@@ -22,7 +28,7 @@ Value::~Value(void)
 		delete static_cast<bool *>(_value);
 }
 
-Value::Value(Value const &other) { *this = other; }
+/* operator */
 
 Value &
 Value::operator=(Value const &other)
@@ -51,6 +57,8 @@ Value::size(void) const
 	return static_cast<std::vector<double> *>(_value)->size();
 }
 
+/* getter */
+
 template <typename T>
 T &
 Value::get(void) const
@@ -63,6 +71,8 @@ Value::get_type(void) const
 {
 	return _type;
 }
+
+/* extra */
 
 std::ostream &
 operator<<(std::ostream &output, Value const &value)
