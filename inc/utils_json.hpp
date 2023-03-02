@@ -11,7 +11,7 @@
 #include "Json.hpp"
 #include "Value.hpp"
 
-#define NSTATES 6
+#define NSTATES 7
 
 #define OBJECT 0
 #define STRING 1
@@ -19,6 +19,7 @@
 #define MIDDLE 3
 #define RIGHT 4
 #define VALUE_FILLED 5
+#define END 6 /* ',' character */
 
 #define LOG false
 

@@ -22,6 +22,7 @@ _print_case(std::string const &line, size_t index, bool states[NSTATES], bool sh
 				  << states[MIDDLE] << " MIDDLE\n"
 				  << states[RIGHT] << " RIGHT\n"
 				  << states[VALUE_FILLED] << " VALUE_FILLED\n"
+				  << states[END] << " END\n"
 				  << std::endl;
 }
 
@@ -32,6 +33,13 @@ _set_states(char character, bool states[NSTATES])
 	{
 		states[MIDDLE] = 0;
 		states[RIGHT] = 1;
+	}
+	else if (states[END])
+	{
+		states[RIGHT] = 0;
+		states[KEY_FILLED] = 0;
+		states[VALUE_FILLED] = 0;
+		states[END] = 0;
 	}
 	if (character == '{')
 	{
@@ -50,6 +58,10 @@ _set_states(char character, bool states[NSTATES])
 	else if (character == ':')
 	{
 		states[MIDDLE] = 1;
+	}
+	else if (character == ',')
+	{
+		states[END] = 1;
 	}
 }
 
@@ -70,7 +82,7 @@ _process_line(Config *config, std::string const &line, bool states[NSTATES])
 			_print_case(line, index, states, false);
 
 		if (states[OBJECT] && states[STRING] && !states[KEY_FILLED] && !states[MIDDLE] && !states[RIGHT]
-			&& !states[VALUE_FILLED])
+			&& !states[VALUE_FILLED] && !states[END])
 		{
 			if (LOG)
 				std::cout << "take the key" << std::endl;
@@ -78,7 +90,7 @@ _process_line(Config *config, std::string const &line, bool states[NSTATES])
 			states[KEY_FILLED] = 1;
 		}
 		else if (states[OBJECT] && states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
-				 && !states[VALUE_FILLED])
+				 && !states[VALUE_FILLED] && !states[END])
 		{
 			if (LOG)
 				std::cout << "take the value (string)" << std::endl;
@@ -87,7 +99,7 @@ _process_line(Config *config, std::string const &line, bool states[NSTATES])
 			states[VALUE_FILLED] = 1;
 		}
 		else if (states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
-				 && !states[VALUE_FILLED])
+				 && !states[VALUE_FILLED] && !states[END])
 		{
 			if (LOG)
 				std::cout << "take the value (number)" << std::endl;
@@ -98,31 +110,31 @@ _process_line(Config *config, std::string const &line, bool states[NSTATES])
 			states[VALUE_FILLED] = 1;
 		}
 		else if (states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
-				 && states[VALUE_FILLED])
+				 && states[VALUE_FILLED] && !states[END])
 		{
 			if (LOG)
 				std::cout << "value end of string" << std::endl;
 		}
 		else if (states[OBJECT] && !states[STRING] && !states[KEY_FILLED] && !states[MIDDLE] && !states[RIGHT]
-				 && !states[VALUE_FILLED])
+				 && !states[VALUE_FILLED] && !states[END])
 		{
 			if (LOG)
 				std::cout << "start object" << std::endl;
 		}
 		else if (!states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
-				 && states[VALUE_FILLED])
+				 && states[VALUE_FILLED] && !states[END])
 		{
 			if (LOG)
 				std::cout << "end of object" << std::endl;
 		}
 		else if (states[OBJECT] && !states[STRING] && states[KEY_FILLED] && states[MIDDLE] && !states[RIGHT]
-				 && !states[VALUE_FILLED])
+				 && !states[VALUE_FILLED] && !states[END])
 		{
 			if (LOG)
 				std::cout << "middle -> ':'" << std::endl;
 		}
 		else if (states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && !states[RIGHT]
-				 && !states[VALUE_FILLED])
+				 && !states[VALUE_FILLED] && !states[END])
 		{
 			if (LOG)
 				std::cout << "end of key" << std::endl;
