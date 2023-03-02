@@ -4,10 +4,7 @@
 #include <iostream>
 #include <vector>
 
-#define V_STRING 1
-#define V_NUMBER 2
-#define V_VEC_NUMBER 3
-#define V_BOOLEAN 4
+#include "Type.hpp"
 
 class Value
 {
