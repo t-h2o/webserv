@@ -14,21 +14,10 @@ open_file(std::fstream &file, char const *path)
 	return 0;
 }
 
-Config *
-read(char const *path)
+static int
+read_process_lines(std::fstream &file, Config *config, bool states[NSTATES])
 {
-	bool		 states[NSTATES];
-	Config		*config;
-	std::fstream file;
-	std::string	 line;
-
-	memset(states, 0, sizeof(bool) * NSTATES);
-
-	/* open the file */
-	if (open_file(file, path))
-		return 0;
-
-	config = new Config;
+	std::string line;
 
 	/* Read each lines up to EOF */
 	for (getline(file, line); !file.eof(); getline(file, line))
@@ -41,15 +30,36 @@ read(char const *path)
 		{
 			std::cerr << e.what() << std::endl;
 			delete config;
-			return 0;
+			return 1;
 		}
 		catch (const std::exception &e)
 		{
 			std::cerr << e.what() << std::endl;
 			delete config;
-			return 0;
+			return 1;
 		}
 	}
+	return 0;
+}
+
+Config *
+read(char const *path)
+{
+	bool		 states[NSTATES];
+	Config		*config;
+	std::fstream file;
+
+	memset(states, 0, sizeof(bool) * NSTATES);
+
+	/* open the file */
+	if (open_file(file, path))
+		return 0;
+
+	config = new Config;
+
+	/* read file and fill config */
+	if (read_process_lines(file, config, states))
+		return 0;
 
 	if (states[OBJECT] || states[STRING] || !states[KEY_FILLED] || states[MIDDLE] || !states[RIGHT]
 		|| states[END])
