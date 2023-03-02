@@ -6,10 +6,7 @@ Value::Value(std::string const &value) : _value(0), _type(V_STRING) { _value = n
 
 Value::Value(double const &value) : _value(0), _type(V_NUMBER) { _value = new double(value); }
 
-Value::Value(std::vector<double> const &value) : _value(0), _type(V_VEC_NUMBER)
-{
-	_value = new std::vector<double>(value);
-}
+Value::Value(std::vector<double> *value) : _value(value), _type(V_VEC_NUMBER) {}
 
 Value::~Value(void)
 {
@@ -17,6 +14,8 @@ Value::~Value(void)
 		delete static_cast<std::string *>(_value);
 	else if (_type == V_NUMBER)
 		delete static_cast<double *>(_value);
+	else if (_type == V_VEC_NUMBER)
+		delete static_cast<std::vector<double> *>(_value);
 }
 
 Value::Value(Value const &other) { *this = other; }
