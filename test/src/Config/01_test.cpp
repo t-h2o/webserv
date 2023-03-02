@@ -5,10 +5,10 @@ test_config_insert(void)
 {
 	Config config;
 
-	config.insert_pair(std::make_pair("key1", Value("value1")));
-	config.insert_pair(std::make_pair("key2", Value("value2")));
-	config.insert_pair(std::make_pair("key3", Value(42)));
-	config.insert_pair(std::make_pair("key4", Value(1234.5678)));
+	config.insert_pair(std::make_pair("key1", Value(new std::string("value1"))));
+	config.insert_pair(std::make_pair("key2", Value(new std::string("value2"))));
+	config.insert_pair(std::make_pair("key3", Value(new double(42))));
+	config.insert_pair(std::make_pair("key4", Value(new double(1234.5678))));
 
 	{
 		Config config_copy(config);

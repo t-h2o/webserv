@@ -2,9 +2,9 @@
 
 Value::Value(void) : _value(0), _type(0) {}
 
-Value::Value(std::string const &value) : _value(0), _type(V_STRING) { _value = new std::string(value); }
+Value::Value(std::string *value) : _value(value), _type(V_STRING) {}
 
-Value::Value(double const &value) : _value(0), _type(V_NUMBER) { _value = new double(value); }
+Value::Value(double *value) : _value(value), _type(V_NUMBER) {}
 
 Value::Value(std::vector<double> *value) : _value(value), _type(V_VEC_NUMBER) {}
 
