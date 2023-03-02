@@ -42,6 +42,19 @@ read_process_lines(std::fstream &file, Config *config, bool states[NSTATES])
 	return 0;
 }
 
+static int
+check_states_eof(bool states[NSTATES], Config *config)
+{
+	if (states[OBJECT] || states[STRING] || !states[KEY_FILLED] || states[MIDDLE] || !states[RIGHT]
+		|| states[END])
+	{
+		std::cerr << "Json: object not finished by a '}'" << std::endl;
+		delete config;
+		return 1;
+	}
+	return 0;
+}
+
 Config *
 read(char const *path)
 {
@@ -61,13 +74,9 @@ read(char const *path)
 	if (read_process_lines(file, config, states))
 		return 0;
 
-	if (states[OBJECT] || states[STRING] || !states[KEY_FILLED] || states[MIDDLE] || !states[RIGHT]
-		|| states[END])
-	{
-		std::cerr << "Json: object not finished by a '}'" << std::endl;
-		delete config;
+	/* check states at the end of file */
+	if (check_states_eof(states, config))
 		return 0;
-	}
 
 	file.close();
 
