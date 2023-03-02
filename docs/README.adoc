@@ -118,15 +118,63 @@ libunit : - framework obj
 
 == Json classes
 
+. Class heritance of abstract class
++
 [plantuml, target=json_class, format=svg, width=60%]
 ....
 set separator ::
 abstract json::value
-class json::object
-class json::array
-class json::number
-class json::boolean
-class json::string
+class json::object {
+  map<string, json::value>
+}
+class json::array {
+  vector<T>
+}
+class json::number {
+  double
+}
+class json::boolean {
+  bool
+}
+class json::string {
+  string
+}
+
+json::value <|-- json::object
+json::value <|-- json::array
+json::value <|-- json::number
+json::value <|-- json::boolean
+json::value <|-- json::string
+....
+
+. Do a only value class
++
+[plantuml, target=json_class_2, format=svg, width=60%]
+....
+set separator ::
+class json::value {
+  == constructor ==
+  + value(double *)
+  + value(bool *)
+  + value(string *)
+  + value(map<string, value> *)
+  + value(vector<T> *)
+  == getter ==
+  + e_type	get_type()
+  + template <T> T & get()
+  + data * data()
+  == attributs ==
+  - void		*_value
+  - e_type	_type
+}
+
+enum json::e_type {
+  NUMBER
+  BOOL
+  STRING
+  ARRAY
+  OBJECT
+}
 ....
 
 == Resources
