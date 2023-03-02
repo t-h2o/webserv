@@ -2,9 +2,11 @@
 #define VALUE_HPP
 
 #include <iostream>
+#include <vector>
 
 #define V_STRING 1
 #define V_NUMBER 2
+#define V_VEC_NUMBER 3
 
 class Value
 {
@@ -12,10 +14,14 @@ class Value
 	Value(void);
 	Value(std::string const &);
 	Value(double const &);
+	Value(std::vector<double> const &);
 	Value(Value const &);
 	~Value();
 
 	Value &operator=(Value const &);
+	double operator[](size_t const &);
+
+	size_t size(void) const;
 
 	template <typename T> T get(void) const;
 
