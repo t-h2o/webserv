@@ -5,6 +5,17 @@
 
 == Web server UML diagram
 
+=== Deployment diagram
+
+[plantuml, target=deployment, format=svg, width=60%]
+....
+folder website [
+index.html
+color.css
+code.js
+]
+....
+
 === Usecase diagram
 
 [plantuml, target=usecase, format=svg, width=60%]
