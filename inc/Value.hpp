@@ -12,8 +12,8 @@ class Value
 {
   public:
 	Value(void);
-	Value(std::string const &);
-	Value(double const &);
+	Value(std::string *);
+	Value(double *);
 	Value(std::vector<double> *);
 	Value(Value const &);
 	~Value();

@@ -3,8 +3,8 @@
 int
 test_value_number(void)
 {
-	Value val1(42);
-	Value val2 = Value(1234.5678);
+	Value val1(new double(42));
+	Value val2 = Value(new double(1234.5678));
 	Value val3(val2);
 
 	if (val1.get<double>() != 42)

@@ -3,8 +3,8 @@
 int
 test_value_string(void)
 {
-	Value val1("Hello");
-	Value val2 = Value("World");
+	Value val1(new std::string("Hello"));
+	Value val2 = Value(new std::string("World"));
 	Value val3(val2);
 
 	if (val1.get<std::string>() != "Hello")
