@@ -28,6 +28,7 @@ SRCS	+=	$(SRCD)/Config/02_test.cpp
 SRCS	+=	$(SRCD)/Value/00_launcher.cpp
 SRCS	+=	$(SRCD)/Value/01_test.cpp
 SRCS	+=	$(SRCD)/Value/02_test.cpp
+SRCS	+=	$(SRCD)/Value/03_test.cpp
 
 
 #	Headers
