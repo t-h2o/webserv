@@ -57,6 +57,8 @@ _set_states(char character, bool states[NSTATES])
 void
 _process_line(Config *config, std::string const &line, bool states[NSTATES])
 {
+	double						  number;
+	char						 *end;
 	size_t						  index(0);
 	std::pair<std::string, Value> value;
 
@@ -89,9 +91,9 @@ _process_line(Config *config, std::string const &line, bool states[NSTATES])
 		{
 			if (LOG)
 				std::cout << "take the value (number)" << std::endl;
-			char *end;
-			int	  number = std::strtod(&(line[index]), &end);
-			std::cout << end - &(line[index]) << " --> " << number << std::endl;
+			number = std::strtod(&(line[index]), &end);
+			value.second = Value(number);
+			config->insert_pair(value);
 			index += end - &(line[index]) - 1;
 			states[VALUE_FILLED] = 1;
 		}
