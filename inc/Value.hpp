@@ -29,6 +29,7 @@ class Value
 	/* getter */
 	size_t					 size(void) const;
 	template <typename T> T &get(void) const;
+	template <typename T> T &get(std::string const &) const;
 	int						 get_type(void) const;
 
   private:
