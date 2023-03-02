@@ -6,6 +6,11 @@ Value::Value(std::string const &value) : _value(0), _type(V_STRING) { _value = n
 
 Value::Value(double const &value) : _value(0), _type(V_NUMBER) { _value = new double(value); }
 
+Value::Value(std::vector<double> const &value) : _value(0), _type(V_VEC_NUMBER)
+{
+	_value = new std::vector<double>(value);
+}
+
 Value::~Value(void)
 {
 	if (_type == V_STRING)
@@ -27,6 +32,18 @@ Value::operator=(Value const &other)
 		_value = new double(*(static_cast<double *>(other._value)));
 
 	return *this;
+}
+
+double
+Value::operator[](size_t const &index)
+{
+	return static_cast<std::vector<double> *>(_value)->at(index);
+}
+
+size_t
+Value::size(void) const
+{
+	return static_cast<std::vector<double> *>(_value)->size();
 }
 
 template <typename T>
