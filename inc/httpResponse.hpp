@@ -30,6 +30,7 @@ class HttpResponse
 	void		load_response_map(int status_code);
 	std::string get_time_stamp(void);
 	void		count_file_size(std::string path);
+	void		construct_header_string(void);
 };
 
 #endif
