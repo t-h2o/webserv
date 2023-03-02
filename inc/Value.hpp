@@ -14,7 +14,7 @@ class Value
 	Value(void);
 	Value(std::string const &);
 	Value(double const &);
-	Value(std::vector<double> const &);
+	Value(std::vector<double> *);
 	Value(Value const &);
 	~Value();
 
