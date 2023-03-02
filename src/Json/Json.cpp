@@ -29,13 +29,11 @@ read_process_lines(std::fstream &file, Config *config, bool states[NSTATES])
 		catch (const std::runtime_error &e)
 		{
 			std::cerr << e.what() << std::endl;
-			delete config;
 			return 1;
 		}
 		catch (const std::exception &e)
 		{
 			std::cerr << e.what() << std::endl;
-			delete config;
 			return 1;
 		}
 	}
@@ -43,13 +41,12 @@ read_process_lines(std::fstream &file, Config *config, bool states[NSTATES])
 }
 
 static int
-check_states_eof(bool states[NSTATES], Config *config)
+check_states_eof(bool states[NSTATES])
 {
 	if (states[OBJECT] || states[STRING] || !states[KEY_FILLED] || states[MIDDLE] || !states[RIGHT]
 		|| states[END])
 	{
 		std::cerr << "Json: object not finished by a '}'" << std::endl;
-		delete config;
 		return 1;
 	}
 	return 0;
@@ -62,6 +59,7 @@ read(char const *path)
 	Config		*config;
 	std::fstream file;
 
+	/* set at 0 each values of states */
 	memset(states, 0, sizeof(bool) * NSTATES);
 
 	/* open the file */
@@ -72,11 +70,19 @@ read(char const *path)
 
 	/* read file and fill config */
 	if (read_process_lines(file, config, states))
+	{
+		file.close();
+		delete config;
 		return 0;
+	}
 
 	/* check states at the end of file */
-	if (check_states_eof(states, config))
+	if (check_states_eof(states))
+	{
+		file.close();
+		delete config;
 		return 0;
+	}
 
 	file.close();
 
