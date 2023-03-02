@@ -139,6 +139,12 @@ _process_line(Config *config, std::string const &line, bool states[NSTATES])
 			if (LOG)
 				std::cout << "end of key" << std::endl;
 		}
+		else if (states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
+				 && states[VALUE_FILLED] && states[END])
+		{
+			if (LOG)
+				std::cout << "comma" << std::endl;
+		}
 		else
 		{
 			_print_case(line, index, states, true);
