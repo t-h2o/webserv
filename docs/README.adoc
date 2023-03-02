@@ -118,6 +118,17 @@ libunit : - framework obj
 
 == Json classes
 
+[plantuml, target=json_class, format=svg, width=60%]
+....
+set separator ::
+abstract json::value
+class json::object
+class json::array
+class json::number
+class json::boolean
+class json::string
+....
+
 == Resources
 
 === Tools
