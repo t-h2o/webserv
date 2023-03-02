@@ -19,5 +19,6 @@ int value_launcher(void);
 int test_value_string(void);
 int test_value_number(void);
 int test_value_array_number(void);
+int test_value_boolean(void);
 
 #endif /* TESTS_H */
