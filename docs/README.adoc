@@ -60,10 +60,7 @@ pjf --> [*] : failed
 [plantuml, target=project_state, format=svg, width=100%]
 ....
 state "Web server repository" as repository {
-  state "Makefile" as makefile {
-    state "src" as makefile_in_src <<entryPoint>>
-    state "$(NAME)" as makefile_out_name <<exitPoint>>
-  }
+  state "Makefile" as makefile
   state "docs" as docs {
   	state "index.html" as index
   	state "README.adoc" as adoc
@@ -87,15 +84,13 @@ state "Web server repository" as repository {
 	  state "libunit.a" as libunit
 	}
   }
-  src --> makefile_in_src
-  makefile_out_name --> program : make
+  makefile --> program : make
   makefile --> index : make doc
   makefile --> test_makefile : make test
   makefile --> libwebserv : make test
   test_makefile --> test_program : make
   test_makefile --> framework_makefile : make
   framework_makefile --> libunit : make
-  makefile_in_src --> makefile_out_name
 }
 ....
 
