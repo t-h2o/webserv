@@ -68,6 +68,15 @@ Value::get(void) const
 	return *static_cast<T *>(_value);
 }
 
+/* Search the key into the map for returning the value */
+template <typename T>
+T &
+Value::get(std::string const &key) const
+{
+	void *_map_value = static_cast<std::map<std::string, Value> *>(_value)->find(key)->second;
+	return *static_cast<T *>(_map_value);
+}
+
 int
 Value::get_type(void) const
 {
