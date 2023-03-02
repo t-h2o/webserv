@@ -2,6 +2,8 @@
 
 Value::Value(void) : _value(0), _type(0) {}
 
+Value::Value(bool *value) : _value(value), _type(V_BOOLEAN) {}
+
 Value::Value(std::string *value) : _value(value), _type(V_STRING) {}
 
 Value::Value(double *value) : _value(value), _type(V_NUMBER) {}
@@ -16,6 +18,8 @@ Value::~Value(void)
 		delete static_cast<double *>(_value);
 	else if (_type == V_VEC_NUMBER)
 		delete static_cast<std::vector<double> *>(_value);
+	else if (_type == V_BOOLEAN)
+		delete static_cast<bool *>(_value);
 }
 
 Value::Value(Value const &other) { *this = other; }
@@ -29,6 +33,8 @@ Value::operator=(Value const &other)
 		_value = new std::string(*(static_cast<std::string *>(other._value)));
 	else if (_type == V_NUMBER)
 		_value = new double(*(static_cast<double *>(other._value)));
+	else if (_type == V_BOOLEAN)
+		_value = new bool(*(static_cast<bool *>(other._value)));
 
 	return *this;
 }
@@ -65,6 +71,8 @@ operator<<(std::ostream &output, Value const &value)
 		output << value.get<std::string>();
 	else if (value.get_type() == V_NUMBER)
 		output << value.get<double>();
+	else if (value.get_type() == V_BOOLEAN)
+		output << value.get<bool>();
 
 	return output;
 }

@@ -7,12 +7,14 @@
 #define V_STRING 1
 #define V_NUMBER 2
 #define V_VEC_NUMBER 3
+#define V_BOOLEAN 4
 
 class Value
 {
   public:
 	Value(void);
 	Value(std::string *);
+	Value(bool *);
 	Value(double *);
 	Value(std::vector<double> *);
 	Value(Value const &);
