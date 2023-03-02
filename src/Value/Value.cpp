@@ -12,6 +12,8 @@ Value::Value(double *value) : _value(value), _type(V_NUMBER) {}
 
 Value::Value(std::vector<double> *value) : _value(value), _type(V_VEC_NUMBER) {}
 
+Value::Value(std::map<std::string, Value> *value) : _value(value), _type(V_VEC_NUMBER) {}
+
 Value::Value(Value const &other) { *this = other; }
 
 /* destructor */

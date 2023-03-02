@@ -2,6 +2,7 @@
 #define VALUE_HPP
 
 #include <iostream>
+#include <map>
 #include <vector>
 
 #include "Type.hpp"
@@ -15,6 +16,7 @@ class Value
 	Value(bool *);
 	Value(double *);
 	Value(std::vector<double> *);
+	Value(std::map<std::string, Value> *);
 	Value(Value const &);
 
 	/* destructor */
