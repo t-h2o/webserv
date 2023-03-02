@@ -52,7 +52,7 @@ Value::size(void) const
 }
 
 template <typename T>
-T
+T &
 Value::get(void) const
 {
 	return *static_cast<T *>(_value);
