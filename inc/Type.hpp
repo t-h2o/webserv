@@ -7,6 +7,7 @@ enum e_type
 	V_NUMBER,
 	V_VEC_NUMBER,
 	V_BOOLEAN,
+	V_OBJECT,
 };
 
 #endif /* TYPE_HPP */
