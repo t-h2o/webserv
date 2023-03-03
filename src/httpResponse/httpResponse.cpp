@@ -147,3 +147,25 @@ HttpResponse::construct_header_string(void)
 	_response_map["header-string"] += CRLF;
 	_response_map["header-string"] += CRLF;
 }
+
+void
+HttpResponse::file_to_string(std::string path_to_file)
+{
+	std::ifstream	  file;
+	std::stringstream buffer;
+	std::string		  file_contents;
+
+	file.open(path_to_file.c_str());
+	if (file.fail())
+	{
+		std::cout << "Open file error" << std::endl;
+		return;
+	}
+	buffer << file.rdbuf();
+
+	file_contents = buffer.str();
+
+	_response_map["body-string"] = file_contents;
+
+	file.close();
+}
