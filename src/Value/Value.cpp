@@ -12,7 +12,7 @@ Value::Value(double *value) : _value(value), _type(V_NUMBER) {}
 
 Value::Value(std::vector<double> *value) : _value(value), _type(V_VEC_NUMBER) {}
 
-Value::Value(std::map<std::string, Value> *value) : _value(value), _type(V_OBJECT) {}
+Value::Value(t_object *value) : _value(value), _type(V_OBJECT) {}
 
 Value::Value(Value const &other) { *this = other; }
 
@@ -29,7 +29,7 @@ Value::~Value(void)
 	else if (_type == V_BOOLEAN)
 		delete static_cast<bool *>(_value);
 	else if (_type == V_OBJECT)
-		delete static_cast<std::map<std::string, Value> *>(_value);
+		delete static_cast<t_object *>(_value);
 }
 
 /* operator */
@@ -46,7 +46,7 @@ Value::operator=(Value const &other)
 	else if (_type == V_BOOLEAN)
 		_value = new bool(other.get<bool>());
 	else if (_type == V_OBJECT)
-		_value = new std::map<std::string, Value>(*static_cast<std::map<std::string, Value> *>(other._value));
+		_value = new t_object(*static_cast<t_object *>(other._value));
 
 	return *this;
 }
