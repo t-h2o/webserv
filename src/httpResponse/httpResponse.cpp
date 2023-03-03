@@ -16,7 +16,7 @@ HttpResponse::init_response_map(void)
 	_response_map["Protocol"] = "HTTP/1.1 ";
 	_response_map["header-string"] = "";
 	_response_map["body-string"] = "";
-	_response_map["full-reponse-string"] = "";
+	_response_map["full-response-string"] = "";
 	_response_map["dir_location"] = "/Users/rburri/Desktop/network_cpp/server_lib";
 };
 
@@ -48,7 +48,6 @@ HttpResponse::count_file_size(std::string path)
 		stream.open(path.c_str(), std::ios::binary);
 		stream.seekg(0, std::ios::end);
 		_body_size = stream.tellg();
-		std::cout << "file.html length : " << _body_size << std::endl;
 		stream.close();
 	}
 }
@@ -105,7 +104,6 @@ void
 HttpResponse::load_http_request(HttpRequest &req)
 {
 	_request_path = req.getPath();
-	std::cout << " Request Path: " << _request_path << std::endl;
 	response_handler();
 }
 
@@ -126,6 +124,8 @@ HttpResponse::response_handler(void)
 	count_file_size(_response_map["dir_location"]);
 	load_content_length();
 	construct_header_string();
+	file_to_string(_response_map["dir_location"]);
+	create_full_response();
 }
 
 void
@@ -168,4 +168,10 @@ HttpResponse::file_to_string(std::string path_to_file)
 	_response_map["body-string"] = file_contents;
 
 	file.close();
+}
+
+void
+HttpResponse::create_full_response(void)
+{
+	_response_map["full-response-string"] += _response_map["header-string"] + _response_map["body-string"];
 }
