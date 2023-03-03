@@ -3,6 +3,7 @@
 
 enum e_type
 {
+	V_UNDEFINED,
 	V_STRING,
 	V_NUMBER,
 	V_VEC_NUMBER,

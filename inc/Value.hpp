@@ -28,7 +28,7 @@ class Value
 
 	/* getter */
 	size_t size(void) const;
-	int	   get_type(void) const;
+	enum e_type	   get_type(void) const;
 
 	/* templates functions */
 	template <typename T> T &get(void) const;
@@ -36,7 +36,7 @@ class Value
 
   private:
 	void *_value;
-	int	  _type;
+	enum e_type	  _type;
 };
 
 #include "../templates/Value.cpp"
