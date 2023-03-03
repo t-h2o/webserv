@@ -27,15 +27,19 @@ class Value
 	double operator[](size_t const &);
 
 	/* getter */
-	size_t					 size(void) const;
+	size_t size(void) const;
+	int	   get_type(void) const;
+
+	/* templates functions */
 	template <typename T> T &get(void) const;
 	template <typename T> T &get(std::string const &) const;
-	int						 get_type(void) const;
 
   private:
 	void *_value;
 	int	  _type;
 };
+
+#include "../templates/Value.cpp"
 
 /* extra */
 std::ostream &operator<<(std::ostream &, Value const &);
