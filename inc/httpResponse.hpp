@@ -31,6 +31,7 @@ class HttpResponse
 	std::string get_time_stamp(void);
 	void		count_file_size(std::string path);
 	void		construct_header_string(void);
+	void		file_to_string(std::string path_to_file);
 };
 
 #endif
