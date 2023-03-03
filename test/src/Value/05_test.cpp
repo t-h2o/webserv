@@ -13,7 +13,9 @@ test_value_map_value(void)
 	object->insert(std::make_pair("key2", Value(new std::string("value2"))));
 	config->insert(std::make_pair("object", Value(object)));
 
-	delete config;
+	Value val(config);
+
+	val.get<std::string>("key1");
 
 	return 0;
 }
