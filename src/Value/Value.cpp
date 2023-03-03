@@ -2,7 +2,7 @@
 
 /* constructor */
 
-Value::Value(void) : _value(0), _type(0) {}
+Value::Value(void) : _value(0), _type(V_UNDEFINED) {}
 
 Value::Value(bool *value) : _value(value), _type(V_BOOLEAN) {}
 
@@ -63,7 +63,7 @@ Value::size(void) const
 	return static_cast<std::vector<double> *>(_value)->size();
 }
 
-int
+enum e_type
 Value::get_type(void) const
 {
 	return _type;
