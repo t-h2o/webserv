@@ -16,6 +16,7 @@ class HttpResponse
 	void load_http_request(HttpRequest &req);
 	void print_response_map(void);
 	void init_response_map(void);
+	std::string get_http_response(void);
 
   private:
 	std::map<std::string, std::string> _response_map;

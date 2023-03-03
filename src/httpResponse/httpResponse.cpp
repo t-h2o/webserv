@@ -175,3 +175,11 @@ HttpResponse::create_full_response(void)
 {
 	_response_map["full-response-string"] += _response_map["header-string"] + _response_map["body-string"];
 }
+
+std::string
+HttpResponse::get_http_response(void)
+{
+	std::string ret;
+	ret = _response_map["full-response-string"];
+	return ret;
+}
