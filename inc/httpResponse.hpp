@@ -33,6 +33,7 @@ class HttpResponse
 	void		count_file_size(std::string path);
 	void		construct_header_string(void);
 	void		file_to_string(std::string path_to_file);
+	void		create_full_response(void);
 };
 
 #endif
