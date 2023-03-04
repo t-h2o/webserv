@@ -7,6 +7,10 @@
 #include <sys/time.h>
 #include <netinet/in.h>
 #include <errno.h>
+#include <unistd.h>
+#include <string.h>
+#include <iostream>
+#include "HttpRequest.hpp"
 
 #define SERVER_PORT1  12345
 #define SERVER_PORT2  54321
@@ -15,7 +19,7 @@
 #define TRUE             1
 #define FALSE            0
 
-int main (int argc, char *argv[])
+int main (void)
 {
    int    i, len, rc, on = 1;
    int    listen_sd, max_sd, new_sd;
@@ -25,12 +29,14 @@ int main (int argc, char *argv[])
    struct sockaddr_in6   addr;
    struct timeval       timeout;
    struct fd_set        master_set, working_set;
+   HttpRequest requestHandler;
 
-   /*************************************************************/
-   /* Create an AF_INET6 stream socket to receive incoming      */
-   /* connections on                                            */
-   /*************************************************************/
-   listen_sd = socket(AF_INET6, SOCK_STREAM, 0);
+
+	   /*************************************************************/
+	   /* Create an AF_INET6 stream socket to receive incoming      */
+	   /* connections on                                            */
+	   /*************************************************************/
+	   listen_sd = socket(AF_INET6, SOCK_STREAM, 0);
    if (listen_sd < 0)
    {
       perror("socket() failed");
@@ -231,13 +237,13 @@ int main (int argc, char *argv[])
                   {
                      if (errno != EWOULDBLOCK)
                      {
-                        perror("  recv() failed");
-                        close_conn = TRUE;
+						perror("  recv() failed : EWOULDBLOCK");
+						close_conn = TRUE;
                      }
                      break;
                   }
 
-                  /**********************************************/
+				  /**********************************************/
                   /* Check to see if the connection has been    */
                   /* closed by the client                       */
                   /**********************************************/
