@@ -8,7 +8,10 @@
   <component name="ChangeListManager">
     <list default="true" id="60706d84-6d15-4c1c-9a42-0123bf97d56e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nonblocking.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/nonblocking.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exec/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exec/listening_socket.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/exec/listening_socket.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exec/listening_socket.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/exec/listening_socket.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exec/listening_socket.hpp.gch" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,40 +44,6 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
-  <component name="RunManager">
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
-      <module name="webserv" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="Tox" factoryName="Tox">
-      <module name="webserv" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <method v="2" />
-    </configuration>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -90,6 +59,11 @@
       <workItem from="1677146685309" duration="82000" />
       <workItem from="1677155440412" duration="301000" />
       <workItem from="1677489213957" duration="1588000" />
+      <workItem from="1677947060692" duration="2909000" />
+      <workItem from="1677965067543" duration="1000" />
+      <workItem from="1678020745214" duration="8013000" />
+      <workItem from="1678095003816" duration="5147000" />
+      <workItem from="1678104557652" duration="754000" />
     </task>
     <servers />
   </component>
