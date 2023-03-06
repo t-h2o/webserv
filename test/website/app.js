@@ -2,7 +2,9 @@ const form = document.getElementById('form');
 const input = document.getElementById('text-input');
 const itemsList = document.getElementById('items-hook');
 
-const url = "http://localhost:8080/testpost";
+let urlbase = "http://localhost:8080/website/";
+let url = ""
+
 
 
 
@@ -11,8 +13,12 @@ const submitHandler = (e) => {
 	if (input.value.length === 0) return;
 	const htmlEl = createHtmlEl(input.value);
 	itemsList.appendChild(htmlEl);
-	sendHttpRequest('POST', url, input.value);
+	url += urlbase;
+	url += `${input.value}.html`
+	console.log(`url : ${url}`);
+	sendHttpRequest('GET', url, input.value);
 	input.value = "";
+	url = "";
 }
 
 const createHtmlEl = (str) => {
@@ -27,8 +33,8 @@ const createHtmlEl = (str) => {
 
 form.addEventListener('click', submitHandler);
 
-const sendHttpRequest = (method, url, data) => {
-	return fetch(url, { method: method, mode: "no-cors", body: data });
+const sendHttpRequest = (method, url) => {
+	return fetch(url, { method: method, mode: "no-cors" });
 }
 
 // Quand on click sur Submit button dans le website il envoit un POST request à http://localhost:8080/testpost
