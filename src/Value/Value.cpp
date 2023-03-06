@@ -57,6 +57,8 @@ Value::operator[](size_t const &index)
 	return get<t_array>()[index];
 }
 
+/* getter */
+
 size_t
 Value::size(void) const
 {
