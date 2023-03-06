@@ -92,6 +92,23 @@ state "Web server repository" as repository {
   test_makefile --> framework_makefile : make
   framework_makefile --> libunit : make
 }
+
+obj : - src
+obj : - inc
+program : - obj
+libwebserv : - obj
+
+index : - README.adoc
+
+test_obj : - test src
+test_obj : - test inc
+test_program : - test obj
+test_program : - libwebserv.a
+test_program : - libunit.a
+
+framework_obj : - framework src
+framework_obj : - framework inc
+libunit : - framework obj
 ....
 
 == Resources
