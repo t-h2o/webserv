@@ -18,5 +18,8 @@ test_value_map_value(void)
 	if (val.get("key1").get<std::string>() != "value1")
 		return 1;
 
+	if (val.get("object").get("key2").get<std::string>() != "value2")
+		return 1;
+
 	return 0;
 }
