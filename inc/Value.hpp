@@ -31,10 +31,10 @@ class Value
 	/* getter */
 	size_t		size(void) const;
 	enum e_type get_type(void) const;
+	Value	   &get(std::string const &) const;
 
 	/* templates functions */
 	template <typename T> T &get(void) const;
-	template <typename T> T &get(std::string const &) const;
 
   private:
 	void	   *_value;

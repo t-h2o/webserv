@@ -15,7 +15,7 @@ test_value_map_value(void)
 
 	Value val(config);
 
-	if (val.get<std::string>("key1") != "value1")
+	if (val.get("key1").get<std::string>() != "value1")
 		return 1;
 
 	return 0;
