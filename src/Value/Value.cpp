@@ -2,17 +2,17 @@
 
 /* constructor */
 
-Value::Value(void) : _value(0), _type(V_UNDEFINED) {}
+Value::Value(void) : _value(0), _type(JSON_UNDEFINED) {}
 
-Value::Value(bool *value) : _value(value), _type(V_BOOLEAN) {}
+Value::Value(bool *value) : _value(value), _type(JSON_BOOLEAN) {}
 
-Value::Value(std::string *value) : _value(value), _type(V_STRING) {}
+Value::Value(std::string *value) : _value(value), _type(JSON_STRING) {}
 
-Value::Value(double *value) : _value(value), _type(V_NUMBER) {}
+Value::Value(double *value) : _value(value), _type(JSON_NUMBER) {}
 
-Value::Value(std::vector<double> *value) : _value(value), _type(V_VEC_NUMBER) {}
+Value::Value(std::vector<double> *value) : _value(value), _type(JSON_VEC_NUMBER) {}
 
-Value::Value(t_object *value) : _value(value), _type(V_OBJECT) {}
+Value::Value(t_object *value) : _value(value), _type(JSON_OBJECT) {}
 
 Value::Value(Value const &other) { *this = other; }
 
@@ -20,15 +20,15 @@ Value::Value(Value const &other) { *this = other; }
 
 Value::~Value(void)
 {
-	if (_type == V_STRING)
+	if (_type == JSON_STRING)
 		delete static_cast<std::string *>(_value);
-	else if (_type == V_NUMBER)
+	else if (_type == JSON_NUMBER)
 		delete static_cast<double *>(_value);
-	else if (_type == V_VEC_NUMBER)
+	else if (_type == JSON_VEC_NUMBER)
 		delete static_cast<std::vector<double> *>(_value);
-	else if (_type == V_BOOLEAN)
+	else if (_type == JSON_BOOLEAN)
 		delete static_cast<bool *>(_value);
-	else if (_type == V_OBJECT)
+	else if (_type == JSON_OBJECT)
 		delete static_cast<t_object *>(_value);
 }
 
@@ -39,13 +39,13 @@ Value::operator=(Value const &other)
 {
 	_type = other._type;
 
-	if (_type == V_STRING)
+	if (_type == JSON_STRING)
 		_value = new std::string(other.get<std::string>());
-	else if (_type == V_NUMBER)
+	else if (_type == JSON_NUMBER)
 		_value = new double(other.get<double>());
-	else if (_type == V_BOOLEAN)
+	else if (_type == JSON_BOOLEAN)
 		_value = new bool(other.get<bool>());
-	else if (_type == V_OBJECT)
+	else if (_type == JSON_OBJECT)
 		_value = new t_object(*static_cast<t_object *>(other._value));
 
 	return *this;
@@ -74,11 +74,11 @@ Value::get_type(void) const
 std::ostream &
 operator<<(std::ostream &output, Value const &value)
 {
-	if (value.get_type() == V_STRING)
+	if (value.get_type() == JSON_STRING)
 		output << value.get<std::string>();
-	else if (value.get_type() == V_NUMBER)
+	else if (value.get_type() == JSON_NUMBER)
 		output << value.get<double>();
-	else if (value.get_type() == V_BOOLEAN)
+	else if (value.get_type() == JSON_BOOLEAN)
 		output << value.get<bool>();
 
 	return output;
