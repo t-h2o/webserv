@@ -46,7 +46,7 @@ Value::operator=(Value const &other)
 	else if (_type == JSON_BOOLEAN)
 		_value = new bool(other.get<bool>());
 	else if (_type == JSON_OBJECT)
-		_value = new t_object(*static_cast<t_object *>(other._value));
+		_value = new t_object(other.get<t_object>());
 
 	return *this;
 }
