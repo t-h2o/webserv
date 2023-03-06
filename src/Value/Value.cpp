@@ -69,6 +69,12 @@ Value::get_type(void) const
 	return _type;
 }
 
+Value &
+Value::get(std::string const &key) const
+{
+	return get<t_object>().find(key)->second;
+}
+
 /* extra */
 
 std::ostream &
