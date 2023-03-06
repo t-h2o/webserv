@@ -11,13 +11,14 @@ class Value
 {
   public:
 	typedef std::map<std::string, Value> t_object;
+	typedef std::vector<Value>			 t_array;
 
 	/* constructor */
 	Value(void);
 	Value(std::string *);
 	Value(bool *);
 	Value(double *);
-	Value(std::vector<double> *);
+	Value(t_array *);
 	Value(t_object *);
 	Value(Value const &);
 
@@ -26,7 +27,7 @@ class Value
 
 	/* operator */
 	Value &operator=(Value const &);
-	double operator[](size_t const &);
+	Value &operator[](size_t const &);
 
 	/* getter */
 	size_t		size(void) const;

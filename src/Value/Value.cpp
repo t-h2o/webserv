@@ -10,7 +10,7 @@ Value::Value(std::string *value) : _value(value), _type(JSON_STRING) {}
 
 Value::Value(double *value) : _value(value), _type(JSON_NUMBER) {}
 
-Value::Value(std::vector<double> *value) : _value(value), _type(JSON_VEC_NUMBER) {}
+Value::Value(t_array *value) : _value(value), _type(JSON_ARRAY) {}
 
 Value::Value(t_object *value) : _value(value), _type(JSON_OBJECT) {}
 
@@ -24,8 +24,8 @@ Value::~Value(void)
 		delete static_cast<std::string *>(_value);
 	else if (_type == JSON_NUMBER)
 		delete static_cast<double *>(_value);
-	else if (_type == JSON_VEC_NUMBER)
-		delete static_cast<std::vector<double> *>(_value);
+	else if (_type == JSON_ARRAY)
+		delete static_cast<t_array *>(_value);
 	else if (_type == JSON_BOOLEAN)
 		delete static_cast<bool *>(_value);
 	else if (_type == JSON_OBJECT)
@@ -51,16 +51,16 @@ Value::operator=(Value const &other)
 	return *this;
 }
 
-double
+Value &
 Value::operator[](size_t const &index)
 {
-	return static_cast<std::vector<double> *>(_value)->at(index);
+	return get<t_array>()[index];
 }
 
 size_t
 Value::size(void) const
 {
-	return static_cast<std::vector<double> *>(_value)->size();
+	return get<t_array>().size();
 }
 
 enum e_type
