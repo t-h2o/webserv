@@ -57,6 +57,11 @@ pjf --> [*] : failed
 
 == The project organisation
 
+This diagram represents:
+
+* the file hierarchy of the web server repository
+* the dependencies stipulated for each file generated in the Makefile
+
 [plantuml, target=project_state, format=svg, width=100%]
 ....
 state "Web server repository" as repository {
