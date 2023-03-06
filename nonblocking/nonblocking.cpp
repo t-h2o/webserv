@@ -12,7 +12,9 @@
 #include <iostream>
 #include "HttpRequest.hpp"
 
-#define SERVER_PORT  12345
+#define SERVER_PORT1  12345
+#define SERVER_PORT2  54321
+#define SERVER_PORT3  45678
 
 #define TRUE             1
 #define FALSE            0
@@ -288,15 +290,15 @@ int main (void)
                /* the master set.                               */
                /*************************************************/
                if (close_conn)
-               {
-                  close(i);
-                  FD_CLR(i, &master_set);
-                  if (i == max_sd)
-                  {
-                     while (FD_ISSET(max_sd, &master_set) == FALSE)
-                        max_sd -= 1;
-                  }
-               }
+				{
+					close(i);
+					FD_CLR(i, &master_set);
+					if (i == max_sd)
+					{
+						while (FD_ISSET(max_sd, &master_set) == FALSE)
+							max_sd -= 1;
+					}
+				}
             } /* End of existing connection is readable */
          } /* End of if (FD_ISSET(i, &working_set)) */
       } /* End of loop through selectable descriptors */
