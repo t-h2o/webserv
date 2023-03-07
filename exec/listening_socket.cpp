@@ -23,11 +23,11 @@ int main(int ac, char **av)
 
 	while (1)
 	{
-		if (sokt.select_it() == -1) {
-			std::cout << "Erreur select pour accept: " << sokt.select_it() << std::endl;
+		if (sokt.select_it_first() == -1) {
+			std::cout << "Erreur select pour accept: " << sokt.select_it_first() << std::endl;
 			break;
 		}
-		else if (sokt.select_it() > 0) {
+		else {
 			// Accepte une connexion entrante.
 			if ((newSocket = sokt.accept_it()) == -1)
 				break;

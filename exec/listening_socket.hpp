@@ -22,6 +22,10 @@ struct Client {
 	sockaddr_in	addr;
 };
 
+namespace sockets {
+	int getError();
+}
+
 class Socket
 {
 private:
@@ -84,7 +88,7 @@ public:
 		return (inet_ntop(_address.sin_family, (void*)&(_address.sin_addr), IP_c, INET6_ADDRSTRLEN));
 	}
 
-	int	select_it(void) {
+	int	select_it_first(void) {
 //		timeval timeout;
 //		fd_set set;
 //		FD_ZERO(&set);
@@ -93,7 +97,7 @@ public:
 		fd_set setWrite;
 		fd_set setErrors;
 		int highestFd = 0;
-		timeval timeout;
+		struct timeval timeout;
 		std::vector<Client>::iterator it = clients.begin();
 		for (; it != clients.end(); it++)
 		{
@@ -114,6 +118,16 @@ public:
 	void	get_s(void) {
 		std::cout << _s << std::endl;
 	}
+
+	void	get_sockerror(void) {
+		socklen_t err;
+		int errsize = sizeof (err);
+		if ((getsockopt(Client::sckt, SOL_SOCKET, SO_ERROR, reinterpret_cast<char *>(&err), &errsize)) != 0) {
+			std::cout << "Erreur lors de la determination de l'erreur : " << sockets::getError() << std::endl;
+		}
+
+	}
+
 	~Socket(void) {}
 
 	struct sockaddr_in get_struct(void) {
