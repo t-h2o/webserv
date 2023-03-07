@@ -17,6 +17,11 @@
 
 typedef int SOCKET;
 
+struct Client {
+	SOCKET 		sckt;
+	sockaddr_in	addr;
+};
+
 class Socket
 {
 private:

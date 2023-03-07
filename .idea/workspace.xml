@@ -8,10 +8,9 @@
   <component name="ChangeListManager">
     <list default="true" id="60706d84-6d15-4c1c-9a42-0123bf97d56e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/exec/a.out" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/exec/listening_socket.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/exec/listening_socket.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/exec/listening_socket.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/exec/listening_socket.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/exec/listening_socket.hpp.gch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/inc/httpRequest.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/inc/httpRequest.hpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +63,7 @@
       <workItem from="1678020745214" duration="8013000" />
       <workItem from="1678095003816" duration="5147000" />
       <workItem from="1678104557652" duration="754000" />
+      <workItem from="1678181739830" duration="849000" />
     </task>
     <servers />
   </component>
