@@ -1,82 +1,104 @@
-:root{
-	--main-color: #BDB76B;
-
+:root {
+  --main-color: #E0D0C1;
+  --secondary-color: #A76D60;
+  --highlight-color: #601700;
 }
 
-
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-	min-height: 100vh;
-    min-width: 100vw;
-    background-color: var(--main-color);
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: var(--main-color);
 }
 a {
-    text-decoration: none;
-    color: var(--main-color);
+  text-decoration: none;
+  color: var(--main-color);
 }
 
 .btn {
-	padding: 0.5rem 1rem;
+  margin: 1rem auto;
+  padding: 0.5rem 1rem;
+  width: 10rem;
+  border-radius: 5px;
+  border: 1px black solid;
+}
+.btn:hover {
+  background-color: var(--highlight-color);
+  color: white;
 }
 
 input {
-	padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  margin: 0 auto;
+  padding-left: 65px;
+}
+
+label {
+  font-size: 25px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .wrapper {
-    width: 100%;
-	height: 100%;
-    padding: 2rem;
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
 }
 
 .nav {
-	
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: black;
-    height: 5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: black;
+  height: 5rem;
 }
 
 .logo {
-    font-size: 2rem;
-    color: var(--main-color);
-    padding: 2rem;
+  font-size: 2rem;
+  color: var(--main-color);
+  padding: 2rem;
 }
 .navigation {
-	min-width: 25rem;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 2rem;
+  min-width: 25rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 2rem;
 }
 
 .centered-box {
-	height: 100%;
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .title {
-    font-size: 5rem;
+  font-size: 5rem;
 }
 
 form {
-	text-align: center;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  max-width: 60%;
+  min-height: 25rem;
+  margin: 2rem auto;
+  border-radius: 5px;
+  background-color: var(--secondary-color);
 }
 
-.item-div {
-	text-align: center;
-	border: 1px solid black;
-	border-radius: 3px;
-	padding: 1rem 2rem;
+ul {
+	list-style-type: none;
+}
+
+li {
 	margin-bottom: 1rem;
-	background-color: floralwhite;
 }

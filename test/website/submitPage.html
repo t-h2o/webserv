@@ -4,15 +4,15 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="icon" href="data:;base64,=">
+    <link rel="icon" href="data:;base64,=" />
     <link rel="stylesheet" href="style.css" />
     <script src="app.js" defer></script>
-    <title>Kill your eyes</title>
+    <title>Website</title>
   </head>
   <body>
     <header>
       <div class="wrapper nav">
-        <div class="logo"><h2>Test Website</h2></div>
+        <div class="logo"><h2>Website</h2></div>
         <div class="navigation">
           <a href="./index.html">Home</a>
           <a href="./submitPage.html">Submit</a>
@@ -22,13 +22,22 @@
     <main class="index-main">
       <div class="wrapper">
         <form id="form" target="_self">
-          <input type="text" name="text" id="text-input" />
-          <button class="btn">Submit</button>
+          <!-- <input type="text" name="text" id="text-input" placeholder="TEXT" /> -->
+          <label for="file">Choose file to upload</label>
+          <input
+            type="file"
+            name="pics"
+            id="pics-input"
+            accept="image/*, .pdf" />
+          <div class="preview">
+            <p>No files currently selected for upload</p>
+          </div>
+          <button class="btn" id="submit-btn">Submit</button>
         </form>
       </div>
       <div class="wrapper">
         <div class="centered-box">
-          <div id="items-hook"></div>
+          <ul id="items-hook"></ul>
         </div>
       </div>
     </main>
