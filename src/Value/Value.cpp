@@ -47,6 +47,8 @@ Value::operator=(Value const &other)
 		_value = new bool(other.get<bool>());
 	else if (_type == JSON_OBJECT)
 		_value = new t_object(other.get<t_object>());
+	else if (_type == JSON_ARRAY)
+		_value = new t_array(other.get<t_array>());
 
 	return *this;
 }
