@@ -55,6 +55,67 @@ pjf --> loop : success
 pjf --> [*] : failed
 ....
 
+== The project organisation
+
+This diagram represents:
+
+* the file hierarchy of the web server repository
+* the dependencies stipulated for each file generated in the Makefile
+
+[plantuml, target=project_state, format=svg, width=100%]
+....
+state "Web server repository" as repository {
+  state "Makefile" as makefile
+  state "docs" as docs {
+  	state "index.html" as index
+  	state "README.adoc" as adoc
+  }
+  state "src" as src
+  state "obj" as obj
+  state "inc" as inc
+  state "libwebserv.a" as libwebserv
+  state "webserv" as program
+  state test {
+	state "Makefile" as test_makefile
+    state "src" as test_src
+    state "obj" as test_obj
+    state "inc" as test_inc
+	state "test" as test_program
+	state "framework" as framework {
+	  state "Makefile" as framework_makefile
+      state "src" as framework_src
+      state "obj" as framework_obj
+      state "inc" as framework_inc
+	  state "libunit.a" as libunit
+	}
+  }
+  makefile --> program : make
+  makefile --> index : make doc
+  makefile --> test_makefile : make test
+  makefile --> libwebserv : make test
+  test_makefile --> test_program : make
+  test_makefile --> framework_makefile : make
+  framework_makefile --> libunit : make
+}
+
+obj : - src
+obj : - inc
+program : - obj
+libwebserv : - obj
+
+index : - README.adoc
+
+test_obj : - test src
+test_obj : - test inc
+test_program : - test obj
+test_program : - libwebserv.a
+test_program : - libunit.a
+
+framework_obj : - framework src
+framework_obj : - framework inc
+libunit : - framework obj
+....
+
 == Resources
 
 === Tools
