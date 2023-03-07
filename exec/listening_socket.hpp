@@ -25,11 +25,13 @@ struct Client {
 class Socket
 {
 private:
+	std::vector<Client> clients;
+	struct sockaddr_in _address;
 	SOCKET 	_s;
 	int		_bind_it;
 	int		_listen_it;
 	int 	_its_close;
-	struct sockaddr_in _address;
+	int 	_SelectReady;
 
 public:
 
@@ -47,6 +49,7 @@ public:
 		bind_it();
 		// Place le socket dans un état lui permettant d'écouter les connexions entrantes.
 		listen_it();
+
 	}
 
 	void	create_socket(void) {
@@ -76,9 +79,31 @@ public:
 		return (accept(_s, (struct sockaddr *)&_address, &len));
 	}
 
-	const char	*IP_recept() {
+	const char	*IP_recept(void) {
 		char IP_c[INET6_ADDRSTRLEN];
 		return (inet_ntop(_address.sin_family, (void*)&(_address.sin_addr), IP_c, INET6_ADDRSTRLEN));
+	}
+
+	int	select_it(void) {
+//		timeval timeout;
+//		fd_set set;
+//		FD_ZERO(&set);
+//		FD_SET(_s, &set);
+		fd_set setReads;
+		fd_set setWrite;
+		fd_set setErrors;
+		int highestFd = 0;
+		timeval timeout;
+		std::vector<Client>::iterator it = clients.begin();
+		for (; it != clients.end(); it++)
+		{
+			FD_SET(it->sckt, &setReads);
+			FD_SET(it->sckt, &setWrite);
+			FD_SET(it->sckt, &setErrors);
+			if (it->sckt > highestFd)
+				highestFd = it->sckt;
+		}
+		return (_SelectReady = select(highestFd + 1, &setReads, &setWrite, &setErrors, &timeout));
 	}
 
 	void	close_skt(void) {

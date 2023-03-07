@@ -10,7 +10,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/exec/listening_socket.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/exec/listening_socket.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/exec/listening_socket.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/exec/listening_socket.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inc/httpRequest.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/inc/httpRequest.hpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +63,7 @@
       <workItem from="1678095003816" duration="5147000" />
       <workItem from="1678104557652" duration="754000" />
       <workItem from="1678181739830" duration="849000" />
+      <workItem from="1678192928886" duration="5000" />
     </task>
     <servers />
   </component>
