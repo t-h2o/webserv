@@ -1,5 +1,7 @@
 #include "Value.hpp"
 
+int test_output(Value const &, std::string const &);
+
 int
 test_value_object_array(void)
 {
@@ -47,7 +49,9 @@ test_value_object_array(void)
 	if (config.get("array")[2].get<std::string>() != "two")
 		return 1;
 
-	std::cout << config << std::endl;
+	if (test_output(config, "{\"array\" : [\"zero\", \"one\", \"two\"], \"object\" : {\"heigth\" : 42, "
+							"\"name\" : \"rectangle\", \"true\" : true, \"width\" : 12}}\n"))
+		return 1;
 
 	return 0;
 }
