@@ -16,5 +16,7 @@ test_value_number(void)
 	if (val3.get<double>() != 1234.5678)
 		return 1;
 
+	std::cout << val1 << std::endl;
+
 	return 0;
 }

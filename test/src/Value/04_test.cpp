@@ -16,5 +16,7 @@ test_value_boolean(void)
 	if (val3.get<bool>() != false)
 		return 1;
 
+	std::cout << val1 << std::endl;
+
 	return 0;
 }

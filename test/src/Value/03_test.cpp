@@ -27,5 +27,7 @@ test_value_array_number(void)
 	if (val1.size() != 3)
 		return 1;
 
+	std::cout << val1 << std::endl;
+
 	return 0;
 }
