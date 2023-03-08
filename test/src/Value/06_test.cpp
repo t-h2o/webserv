@@ -47,5 +47,7 @@ test_value_object_array(void)
 	if (config.get("array")[2].get<std::string>() != "two")
 		return 1;
 
+	std::cout << config << std::endl;
+
 	return 0;
 }

@@ -21,5 +21,7 @@ test_value_map_value(void)
 	if (val.get("object").get("key2").get<std::string>() != "value2")
 		return 1;
 
+	std::cout << val << std::endl;
+
 	return 0;
 }
