@@ -85,11 +85,37 @@ std::ostream &
 operator<<(std::ostream &output, Value const &value)
 {
 	if (value.get_type() == JSON_STRING)
-		output << value.get<std::string>();
+		output << "\"" << value.get<std::string>() << "\"";
 	else if (value.get_type() == JSON_NUMBER)
 		output << value.get<double>();
 	else if (value.get_type() == JSON_BOOLEAN)
-		output << value.get<bool>();
+		output << std::boolalpha << value.get<bool>() << std::noboolalpha;
+	else if (value.get_type() == JSON_OBJECT)
+	{
+		const Value::t_object		   &obj(value.get<Value::t_object>());
+		Value::t_object::const_iterator start(obj.begin());
+		output << "{";
+		for (size_t iteration(obj.size()); iteration; --iteration)
+		{
+			output << "\"" << start->first << "\" : " << start++->second;
+			if (iteration > 1)
+				output << ", ";
+		}
+		output << "}";
+	}
+	else if (value.get_type() == JSON_ARRAY)
+	{
+		const Value::t_array		  &obj(value.get<Value::t_array>());
+		Value::t_array::const_iterator start(obj.begin());
+		output << "[";
+		for (size_t iteration(obj.size()); iteration; --iteration)
+		{
+			output << *start++;
+			if (iteration > 1)
+				output << ", ";
+		}
+		output << "]";
+	}
 
 	return output;
 }
