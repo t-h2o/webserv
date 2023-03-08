@@ -1,5 +1,7 @@
 #include "Value.hpp"
 
+int test_output(Value const &, std::string const &);
+
 int
 test_value_map_value(void)
 {
@@ -21,7 +23,8 @@ test_value_map_value(void)
 	if (val.get("object").get("key2").get<std::string>() != "value2")
 		return 1;
 
-	std::cout << val << std::endl;
+	if (test_output(val, "{\"key1\" : \"value1\", \"object\" : {\"key2\" : \"value2\"}}\n"))
+		return 1;
 
 	return 0;
 }
