@@ -2,7 +2,7 @@
 
 #include "Value.hpp"
 
-static int
+int
 test_output(Value const &value, std::string const &expected_cout)
 {
 	Stream output;
