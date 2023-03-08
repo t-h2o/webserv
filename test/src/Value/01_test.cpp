@@ -16,5 +16,7 @@ test_value_string(void)
 	if (val3.get<std::string>() != "World")
 		return 1;
 
+	std::cout << val1 << std::endl;
+
 	return 0;
 }
