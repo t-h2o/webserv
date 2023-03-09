@@ -1,5 +1,8 @@
 #include "Value.hpp"
 
+namespace Json
+{
+
 /* constructor */
 
 Value::Value(void) : _value(0), _type(JSON_UNDEFINED) {}
@@ -129,3 +132,5 @@ operator<<(std::ostream &output, Value const &value)
 
 	return output;
 }
+
+} /* namespace Json */
