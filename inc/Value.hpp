@@ -7,6 +7,9 @@
 
 #include "Type.hpp"
 
+namespace Json
+{
+
 class Value
 {
   public:
@@ -48,5 +51,7 @@ class Value
 std::ostream &operator<<(std::ostream &, Value::t_array const &);
 std::ostream &operator<<(std::ostream &, Value::t_object const &);
 std::ostream &operator<<(std::ostream &, Value const &);
+
+} /* namespace Json */
 
 #endif /* VALUE_HPP */
