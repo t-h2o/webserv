@@ -75,6 +75,10 @@ format:
 	@printf "$(YELLOW)Formating the sources..$(DEFAULT)\n"
 	@clang-format -i $(shell find . -name "*.hpp" -or -name "*.cpp")
 
+formatdocker:
+	@printf "$(YELLOW)launch \"myimage-clang\" docker image..$(DEFAULT)\n"
+	@docker run --rm -v $(shell pwd):/documents myimage-clang
+
 doc:
 	@printf "$(YELLOW)Generating documentations..$(DEFAULT)\n"
 	@$(ADOC) $(DOCU) -o $(INDEX)
