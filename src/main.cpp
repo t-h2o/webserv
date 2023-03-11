@@ -1,5 +1,5 @@
 #include "arguments.hpp"
-#include <iostream>
+#include "webserver.hpp"
 
 int
 main(int argc, char **argv)
@@ -9,7 +9,7 @@ main(int argc, char **argv)
 	if (check_argc_number(argc))
 		return 1;
 
-	std::cout << "Web server C++98" << std::endl;
+	webserver(argv[1]);
 
 	return 0;
 }
