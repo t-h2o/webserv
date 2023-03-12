@@ -82,6 +82,22 @@ Value::get(std::string const &key) const
 /* extra */
 
 std::ostream &
+operator<<(std::ostream &output, Value::t_array const &value)
+{
+	Value::t_array::const_iterator start(value.begin());
+	output << "[";
+	for (size_t iteration(value.size()); iteration; --iteration)
+	{
+		output << *start++;
+		if (iteration > 1)
+			output << ", ";
+	}
+	output << "]";
+
+	return output;
+}
+
+std::ostream &
 operator<<(std::ostream &output, Value::t_object const &value)
 {
 	Value::t_object::const_iterator start(value.begin());
@@ -109,18 +125,7 @@ operator<<(std::ostream &output, Value const &value)
 	else if (value.get_type() == JSON_OBJECT)
 		output << value.get<Value::t_object>();
 	else if (value.get_type() == JSON_ARRAY)
-	{
-		const Value::t_array		  &obj(value.get<Value::t_array>());
-		Value::t_array::const_iterator start(obj.begin());
-		output << "[";
-		for (size_t iteration(obj.size()); iteration; --iteration)
-		{
-			output << *start++;
-			if (iteration > 1)
-				output << ", ";
-		}
-		output << "]";
-	}
+		output << value.get<Value::t_array>();
 
 	return output;
 }
