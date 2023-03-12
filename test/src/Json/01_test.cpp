@@ -1,15 +1,14 @@
 #include "Stream.hpp"
 
-#include "Config.hpp"
 #include "Json.hpp"
 
 static int
-test_config(Config *config)
+test_config(Value::t_object *config)
 {
 	Stream output;
 
 	output.open();
-	config->print_all();
+	std::cout << *config << std::endl;
 	output.close();
 
 	if (output.check("firstName : John\n", ""))
@@ -21,8 +20,8 @@ test_config(Config *config)
 int
 test_json_normal_file(void)
 {
-	Stream	output;
-	Config *config;
+	Stream			 output;
+	Value::t_object *config;
 
 	output.open();
 	config = read("test/src/Json/config.json");

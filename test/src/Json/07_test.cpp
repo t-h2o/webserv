@@ -1,13 +1,12 @@
 #include "Stream.hpp"
 
-#include "Config.hpp"
 #include "Json.hpp"
 
 int
 test_json_array_number(void)
 {
-	Stream	output;
-	Config *config;
+	Stream			 output;
+	Value::t_object *config;
 
 	output.open();
 	config = read("test/src/Json/config_array_number00.json");

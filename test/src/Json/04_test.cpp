@@ -1,12 +1,11 @@
 #include "Stream.hpp"
 
-#include "Config.hpp"
 #include "Json.hpp"
 
 static int
 test_missing_brace(const char *path)
 {
-	Config *config;
+	Value::t_object *config;
 
 	config = read(path);
 	if (config)

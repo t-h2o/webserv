@@ -1,12 +1,11 @@
 #include "Stream.hpp"
 
-#include "Config.hpp"
 #include "Json.hpp"
 
 static int
 test_empty_string(const char *path)
 {
-	Config *config;
+	Value::t_object *config;
 
 	config = read(path);
 	if (config)

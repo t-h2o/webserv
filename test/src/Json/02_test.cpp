@@ -1,6 +1,5 @@
 #include "Stream.hpp"
 
-#include "Config.hpp"
 #include "Json.hpp"
 
 int
@@ -9,7 +8,7 @@ test_json_bad_path(void)
 	Stream output;
 
 	output.open();
-	Config *config = read("bad_path");
+	Value::t_object *config = read("bad_path");
 	output.close();
 
 	if (config != 0)
