@@ -15,7 +15,7 @@ open_file(std::fstream &file, char const *path)
 }
 
 static int
-read_process_lines(std::fstream &file, Config *config, bool states[NSTATES])
+read_process_lines(std::fstream &file, Value::t_object *config, bool states[NSTATES])
 {
 	std::string line;
 
@@ -52,12 +52,12 @@ check_states_eof(bool states[NSTATES])
 	return 0;
 }
 
-Config *
+Value::t_object *
 read(char const *path)
 {
-	bool		 states[NSTATES];
-	Config		*config;
-	std::fstream file;
+	bool			 states[NSTATES];
+	Value::t_object *config;
+	std::fstream	 file;
 
 	/* set at 0 each values of states */
 	memset(states, 0, sizeof(bool) * NSTATES);
@@ -66,7 +66,7 @@ read(char const *path)
 	if (open_file(file, path))
 		return 0;
 
-	config = new Config;
+	config = new Value::t_object;
 
 	/* read file and fill config */
 	if (read_process_lines(file, config, states))

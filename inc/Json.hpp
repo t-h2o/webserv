@@ -3,8 +3,8 @@
 
 /* Function used by the rest of the program */
 
-#include "Config.hpp"
+#include "Value.hpp"
 
-Config *read(char const *);
+Value::t_object *read(char const *);
 
 #endif /* JSON_HPP */

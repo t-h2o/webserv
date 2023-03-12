@@ -67,7 +67,7 @@ _set_states(char character, bool states[NSTATES])
 
 /* process a line of the json */
 void
-_process_line(Config *config, std::string const &line, bool states[NSTATES])
+_process_line(Value::t_object *config, std::string const &line, bool states[NSTATES])
 {
 	double						  number;
 	char						 *end;
@@ -95,7 +95,7 @@ _process_line(Config *config, std::string const &line, bool states[NSTATES])
 			if (LOG)
 				std::cout << "take the value (string)" << std::endl;
 			value.second = Value(new std::string(_get_string(line, index)));
-			config->insert_pair(value);
+			config->insert(value);
 			states[VALUE_FILLED] = 1;
 		}
 		else if (states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
@@ -105,7 +105,7 @@ _process_line(Config *config, std::string const &line, bool states[NSTATES])
 				std::cout << "take the value (number)" << std::endl;
 			number = strtod(&(line[index]), &end);
 			value.second = Value(new double(number));
-			config->insert_pair(value);
+			config->insert(value);
 			index += end - &(line[index]) - 1;
 			states[VALUE_FILLED] = 1;
 		}

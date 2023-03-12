@@ -1,10 +1,9 @@
-#include "Config.hpp"
 #include "Json.hpp"
 
 int
 webserver(char const *path)
 {
-	Config *config(0);
+	Value::t_object *config(0);
 
 	try
 	{
@@ -22,7 +21,7 @@ webserver(char const *path)
 	if (config == 0)
 		return 1;
 
-	config->print_all();
+	std::cout << *config << std::endl;
 
 	delete config;
 

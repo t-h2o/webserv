@@ -10,7 +10,6 @@
 #include <string.h>
 
 #include "Json.hpp"
-#include "Value.hpp"
 
 #define NSTATES 7
 
@@ -25,7 +24,7 @@
 #define LOG false
 
 void		_ignore_blank(std::string const &, size_t &);
-void		_process_line(Config *, std::string const &line, bool states[NSTATES]);
+void		_process_line(Value::t_object *, std::string const &line, bool states[NSTATES]);
 std::string _get_string(std::string const &line, size_t &index);
 
 #endif /* UTILS_JSON_HPP */
