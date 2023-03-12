@@ -1,6 +1,6 @@
-#include <vector>
-
 #include "Value.hpp"
+
+int test_output(Value const &, std::string const &);
 
 int
 test_value_array_number(void)
@@ -25,6 +25,9 @@ test_value_array_number(void)
 		return 1;
 
 	if (val1.size() != 3)
+		return 1;
+
+	if (test_output(val1, "[1, 2, 3]\n"))
 		return 1;
 
 	return 0;

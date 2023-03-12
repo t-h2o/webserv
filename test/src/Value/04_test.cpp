@@ -1,5 +1,7 @@
 #include "Value.hpp"
 
+int test_output(Value const &, std::string const &);
+
 int
 test_value_boolean(void)
 {
@@ -14,6 +16,15 @@ test_value_boolean(void)
 		return 1;
 
 	if (val3.get<bool>() != false)
+		return 1;
+
+	if (test_output(val1, "true\n"))
+		return 1;
+
+	if (test_output(val2, "false\n"))
+		return 1;
+
+	if (test_output(val3, "false\n"))
 		return 1;
 
 	return 0;
