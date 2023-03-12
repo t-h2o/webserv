@@ -46,5 +46,6 @@ class Value
 
 /* extra */
 std::ostream &operator<<(std::ostream &, Value const &);
+std::ostream &operator<<(std::ostream &, Value::t_object const &);
 
 #endif /* VALUE_HPP */
