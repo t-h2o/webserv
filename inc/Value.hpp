@@ -45,6 +45,7 @@ class Value
 #include "../templates/Value.cpp"
 
 /* extra */
+std::ostream &operator<<(std::ostream &, Value::t_object const &);
 std::ostream &operator<<(std::ostream &, Value const &);
 
 #endif /* VALUE_HPP */
