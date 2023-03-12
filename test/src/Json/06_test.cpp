@@ -11,7 +11,7 @@ test_config(Value::t_object *config)
 	std::cout << *config << std::endl;
 	output.close();
 
-	if (output.check("age : 42\nfirstName : John\n", ""))
+	if (output.check("{\"age\" : 42, \"firstName\" : \"John\"}\n", ""))
 		return 1;
 
 	return 0;
