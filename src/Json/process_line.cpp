@@ -103,7 +103,7 @@ _process_line(Config *config, std::string const &line, bool states[NSTATES])
 		{
 			if (LOG)
 				std::cout << "take the value (number)" << std::endl;
-			number = std::strtod(&(line[index]), &end);
+			number = strtod(&(line[index]), &end);
 			value.second = Value(new double(number));
 			config->insert_pair(value);
 			index += end - &(line[index]) - 1;

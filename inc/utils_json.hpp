@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
+#include <stdlib.h>
 #include <string.h>
 
 #include "Json.hpp"
