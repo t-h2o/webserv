@@ -2,43 +2,45 @@
 // Created by Kevin Di nocera on 3/13/23.
 //
 #include <iostream>
+#include <vector>
+#include <string>
+#include <stdio.h>
 #include <stdlib.h>
-using namespace std;
 
-const string ENV[ 24 ] = {
-	"COMSPEC", "DOCUMENT_ROOT", "GATEWAY_INTERFACE",
-	"HTTP_ACCEPT", "HTTP_ACCEPT_ENCODING",
-	"HTTP_ACCEPT_LANGUAGE", "HTTP_CONNECTION",
-	"HTTP_HOST", "HTTP_USER_AGENT", "PATH",
-	"QUERY_STRING", "REMOTE_ADDR", "REMOTE_PORT",
-	"REQUEST_METHOD", "REQUEST_URI", "SCRIPT_FILENAME",
-	"SCRIPT_NAME", "SERVER_ADDR", "SERVER_ADMIN",
-	"SERVER_NAME","SERVER_PORT","SERVER_PROTOCOL",
-	"SERVER_SIGNATURE","SERVER_SOFTWARE" };
+#include <cgicc/CgiDefs.h>
+#include <cgicc/Cgicc.h>
+#include <cgicc/HTTPHTMLHeader.h>
+#include <cgicc/HTMLClasses.h>
+
+using namespace std;
+using namespace cgicc;
 
 int main () {
+	Cgicc formData;
+
 	cout << "Content-type:text/html\r\n\r\n";
 	cout << "<html>\n";
 	cout << "<head>\n";
-	cout << "<title>CGI Environment Variables</title>\n";
+	cout << "<title>Using GET and POST Methods</title>\n";
 	cout << "</head>\n";
 	cout << "<body>\n";
-	cout << "<table border = \"0\" cellspacing = \"2\">";
 
-	for ( int i = 0; i < 24; i++ ) {
-		cout << "<tr><td>" << ENV[ i ] << "</td><td>";
-
-		// attempt to retrieve value of environment variable
-		char *value = getenv( ENV[ i ].c_str() );
-		if ( value != 0 ) {
-			cout << value;
-		} else {
-			cout << "Environment variable does not exist.";
-		}
-		cout << "</td></tr>\n";
+	form_iterator fi = formData.getElement("first_name");
+	if( !fi->isEmpty() && fi != (*formData).end()) {
+		cout << "First name: " << **fi << endl;
+	} else {
+		cout << "No text entered for first name" << endl;
 	}
 
-	cout << "</table><\n";
+	cout << "<br/>\n";
+	fi = formData.getElement("last_name");
+	if( !fi->isEmpty() &&fi != (*formData).end()) {
+		cout << "Last name: " << **fi << endl;
+	} else {
+		cout << "No text entered for last name" << endl;
+	}
+
+	cout << "<br/>\n";
 	cout << "</body>\n";
 	cout << "</html>\n";
 
