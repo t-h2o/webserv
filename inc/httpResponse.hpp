@@ -6,7 +6,7 @@
 #include <string>
 #include <time.h>
 #include <sstream>
-#include "HttpRequest.hpp"
+#include "httpRequest.hpp"
 
 class HttpResponse
 {
