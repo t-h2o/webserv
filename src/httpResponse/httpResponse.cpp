@@ -10,9 +10,6 @@ HttpResponse::load_http_request(HttpRequest &req)
 	init_response_map();
 	std::string requested_path = req.getPath();
 	_response_map["dir_location"] += requested_path;
-	std::cout << "dir_location at load_HTTP_REQUEST : " << _response_map["dir_location"] << std::endl;
-	std::cout << "METHOD: " << req.getMethod() << "\nAuth: " << req.methodIsAuthorized(req.getMethod())
-			  << std::endl;
 	if (!req.methodIsAuthorized(req.getMethod()))
 	{
 		load_response_map(405);
