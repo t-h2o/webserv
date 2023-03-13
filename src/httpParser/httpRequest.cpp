@@ -124,5 +124,5 @@ HttpRequest::getHost() const
 bool
 HttpRequest::methodIsAuthorized(std::string method) const
 {
-	return (method.compare("GET") || method.compare("POST") || method.compare("DELETE"));
+	return (method.compare("GET") == 0 || method.compare("POST") == 0 || method.compare("DELETE") == 0);
 }

@@ -15,6 +15,7 @@ class HttpRequest
 
 	void parseBuffer(char *buff);
 	void printHttpReq();
+	bool methodIsAuthorized(std::string method) const;
 	// Getters
 	std::string getMethod() const;
 	std::string getPath() const;
@@ -22,7 +23,6 @@ class HttpRequest
 	std::string getHost() const;
 
   private:
-	bool							   methodIsAuthorized(std::string method) const;
 	std::string						   trim(const std::string &s);
 	std::map<std::string, std::string> _request_map;
 	void							   parseFirstLine(std::string firstLine);
