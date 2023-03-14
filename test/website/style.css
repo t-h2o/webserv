@@ -15,6 +15,7 @@ body {
   min-width: 100vw;
   background-color: var(--main-color);
 }
+
 a {
   text-decoration: none;
   color: var(--main-color);
@@ -27,6 +28,7 @@ a {
   border-radius: 5px;
   border: 1px black solid;
 }
+
 .btn:hover {
   background-color: var(--highlight-color);
   color: white;
@@ -96,9 +98,9 @@ form {
 }
 
 ul {
-	list-style-type: none;
+  list-style-type: none;
 }
 
 li {
-	margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
