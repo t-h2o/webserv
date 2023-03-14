@@ -5,9 +5,9 @@ int test_output(Json::Value const &, std::string const &);
 int
 test_value_array_number(void)
 {
-	Json::Value::t_array *vec_double;
+	Json::t_array *vec_double;
 
-	vec_double = new Json::Value::t_array;
+	vec_double = new Json::t_array;
 
 	vec_double->push_back(new double(1));
 	vec_double->push_back(new double(2));

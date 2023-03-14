@@ -5,14 +5,14 @@ int test_output(Json::Value const &, std::string const &);
 int
 test_value_object_array(void)
 {
-	Json::Value::t_object *main_object;
-	Json::Value::t_object *json_object;
-	Json::Value::t_array  *json_array;
+	Json::t_object *main_object;
+	Json::t_object *json_object;
+	Json::t_array  *json_array;
 
-	main_object = new Json::Value::t_object;
-	json_object = new Json::Value::t_object;
+	main_object = new Json::t_object;
+	json_object = new Json::t_object;
 
-	json_array = new Json::Value::t_array;
+	json_array = new Json::t_array;
 
 	json_object->insert(std::make_pair("width", Json::Value(new double(12))));
 	json_object->insert(std::make_pair("heigth", Json::Value(new double(42))));

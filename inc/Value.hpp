@@ -10,12 +10,14 @@
 namespace Json
 {
 
+class Value;
+
+typedef std::map<std::string, Value> t_object;
+typedef std::vector<Value>			 t_array;
+
 class Value
 {
   public:
-	typedef std::map<std::string, Value> t_object;
-	typedef std::vector<Value>			 t_array;
-
 	/* constructor */
 	Value(void);
 	Value(std::string *);
@@ -48,8 +50,8 @@ class Value
 #include "../templates/Value.cpp"
 
 /* extra */
-std::ostream &operator<<(std::ostream &, Value::t_array const &);
-std::ostream &operator<<(std::ostream &, Value::t_object const &);
+std::ostream &operator<<(std::ostream &, Json::t_array const &);
+std::ostream &operator<<(std::ostream &, Json::t_object const &);
 std::ostream &operator<<(std::ostream &, Value const &);
 
 } /* namespace Json */
