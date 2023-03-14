@@ -10,11 +10,6 @@
 namespace Json
 {
 
-class Value;
-
-typedef std::map<std::string, Value> t_object;
-typedef std::vector<Value>			 t_array;
-
 class Value
 {
   public:
