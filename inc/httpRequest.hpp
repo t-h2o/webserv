@@ -11,7 +11,7 @@ class HttpRequest
 {
   public:
 	HttpRequest();
-	virtual ~HttpRequest();
+	~HttpRequest();
 
 	void parseBuffer(char *buff);
 	void printHttpReq();
