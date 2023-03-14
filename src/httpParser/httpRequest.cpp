@@ -25,7 +25,7 @@ HttpRequest::parseBuffer(char *buff)
 	}
 	this->parseFirstLine(tmp_vector[0]);
 	this->parseOtherLines(tmp_vector);
-};
+}
 
 void
 HttpRequest::parseFirstLine(std::string firstLine)
@@ -48,7 +48,7 @@ HttpRequest::parseFirstLine(std::string firstLine)
 	_request_map["Method"] = tmp_vector[0];
 	_request_map["Path"] = tmp_vector[1];
 	_request_map["Protocol"] = tmp_vector[2];
-};
+}
 
 void
 HttpRequest::parseOtherLines(std::vector<std::string> tmp_vector)
@@ -65,7 +65,7 @@ HttpRequest::parseOtherLines(std::vector<std::string> tmp_vector)
 		if (HttpRequest::trim(key).length() != 0 || HttpRequest::trim(value).length() != 0)
 			_request_map[HttpRequest::trim(key)] = HttpRequest::trim(value);
 	}
-};
+}
 
 std::string
 HttpRequest::trim(const std::string &s)
@@ -95,31 +95,31 @@ HttpRequest::printHttpReq()
 	{
 		std::cout << it->first << " : " << it->second << std::endl;
 	}
-};
+}
 
 std::string
 HttpRequest::getMethod() const
 {
 	return _request_map.at("Method");
-};
+}
 
 std::string
 HttpRequest::getPath() const
 {
 	return _request_map.at("Path");
-};
+}
 
 std::string
 HttpRequest::getProtocol() const
 {
 	return _request_map.at("Protocol");
-};
+}
 
 std::string
 HttpRequest::getHost() const
 {
 	return _request_map.at("Host");
-};
+}
 
 bool
 HttpRequest::methodIsAuthorized(std::string method) const
