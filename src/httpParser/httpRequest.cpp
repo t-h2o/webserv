@@ -87,15 +87,6 @@ HttpRequest::trim(const std::string &s)
 	return left_trimed_string.substr(0, end + 1);
 }
 
-void
-HttpRequest::printHttpReq()
-{
-	for (std::map<std::string, std::string>::iterator it = _request_map.begin(); it != _request_map.end(); it++)
-	{
-		std::cout << it->first << " : " << it->second << std::endl;
-	}
-}
-
 std::string
 HttpRequest::getMethod() const
 {

@@ -17,7 +17,6 @@ class HttpRequest
 	~HttpRequest();
 
 	void parseBuffer(char *buff);
-	void printHttpReq();
 	bool methodIsAuthorized(std::string method) const;
 	// Getters
 	std::string getMethod() const;
