@@ -90,8 +90,7 @@ HttpRequest::trim(const std::string &s)
 void
 HttpRequest::printHttpReq()
 {
-	std::map<std::string, std::string>::iterator it;
-	for (it = _request_map.begin(); it != _request_map.end(); it++)
+	for (std::map<std::string, std::string>::iterator it = _request_map.begin(); it != _request_map.end(); it++)
 	{
 		std::cout << it->first << " : " << it->second << std::endl;
 	}
