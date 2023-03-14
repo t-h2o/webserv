@@ -1,32 +1,32 @@
 #include "Value.hpp"
 
-int test_output(Value const &, std::string const &);
+int test_output(Json::Value const &, std::string const &);
 
 int
 test_value_object_array(void)
 {
-	Value::t_object *main_object;
-	Value::t_object *json_object;
-	Value::t_array	*json_array;
+	Json::Value::t_object *main_object;
+	Json::Value::t_object *json_object;
+	Json::Value::t_array  *json_array;
 
-	main_object = new Value::t_object;
-	json_object = new Value::t_object;
+	main_object = new Json::Value::t_object;
+	json_object = new Json::Value::t_object;
 
-	json_array = new Value::t_array;
+	json_array = new Json::Value::t_array;
 
-	json_object->insert(std::make_pair("width", Value(new double(12))));
-	json_object->insert(std::make_pair("heigth", Value(new double(42))));
-	json_object->insert(std::make_pair("name", Value(new std::string("rectangle"))));
-	json_object->insert(std::make_pair("true", Value(new bool(true))));
+	json_object->insert(std::make_pair("width", Json::Value(new double(12))));
+	json_object->insert(std::make_pair("heigth", Json::Value(new double(42))));
+	json_object->insert(std::make_pair("name", Json::Value(new std::string("rectangle"))));
+	json_object->insert(std::make_pair("true", Json::Value(new bool(true))));
 
-	json_array->push_back(Value(new std::string("zero")));
-	json_array->push_back(Value(new std::string("one")));
-	json_array->push_back(Value(new std::string("two")));
+	json_array->push_back(Json::Value(new std::string("zero")));
+	json_array->push_back(Json::Value(new std::string("one")));
+	json_array->push_back(Json::Value(new std::string("two")));
 
-	main_object->insert(std::make_pair("object", Value(json_object)));
-	main_object->insert(std::make_pair("array", Value(json_array)));
+	main_object->insert(std::make_pair("object", Json::Value(json_object)));
+	main_object->insert(std::make_pair("array", Json::Value(json_array)));
 
-	Value config(main_object);
+	Json::Value config(main_object);
 
 	if (config.get("object").get("width").get<double>() != 12)
 		return 1;
