@@ -85,9 +85,9 @@ Value::get(std::string const &key) const
 /* extra */
 
 std::ostream &
-operator<<(std::ostream &output, Value::t_array const &value)
+operator<<(std::ostream &output, Json::t_array const &value)
 {
-	Value::t_array::const_iterator start(value.begin());
+	Json::t_array::const_iterator start(value.begin());
 	output << "[";
 	for (size_t iteration(value.size()); iteration; --iteration)
 	{
@@ -101,9 +101,9 @@ operator<<(std::ostream &output, Value::t_array const &value)
 }
 
 std::ostream &
-operator<<(std::ostream &output, Value::t_object const &value)
+operator<<(std::ostream &output, Json::t_object const &value)
 {
-	Value::t_object::const_iterator start(value.begin());
+	Json::t_object::const_iterator start(value.begin());
 	output << "{";
 	for (size_t iteration(value.size()); iteration; --iteration)
 	{
@@ -126,9 +126,9 @@ operator<<(std::ostream &output, Value const &value)
 	else if (value.get_type() == JSON_BOOLEAN)
 		output << std::boolalpha << value.get<bool>() << std::noboolalpha;
 	else if (value.get_type() == JSON_OBJECT)
-		output << value.get<Value::t_object>();
+		output << value.get<Json::t_object>();
 	else if (value.get_type() == JSON_ARRAY)
-		output << value.get<Value::t_array>();
+		output << value.get<Json::t_array>();
 
 	return output;
 }

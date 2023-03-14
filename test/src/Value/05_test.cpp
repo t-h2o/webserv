@@ -5,11 +5,11 @@ int test_output(Json::Value const &, std::string const &);
 int
 test_value_map_value(void)
 {
-	Json::Value::t_object *config;
-	Json::Value::t_object *object;
+	Json::t_object *config;
+	Json::t_object *object;
 
-	config = new Json::Value::t_object;
-	object = new Json::Value::t_object;
+	config = new Json::t_object;
+	object = new Json::t_object;
 
 	config->insert(std::make_pair("key1", Json::Value(new std::string("value1"))));
 	object->insert(std::make_pair("key2", Json::Value(new std::string("value2"))));
