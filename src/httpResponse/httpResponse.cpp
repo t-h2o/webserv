@@ -1,8 +1,8 @@
 #include "httpResponse.hpp"
 
-HttpResponse::HttpResponse(void){};
+HttpResponse::HttpResponse(void) {}
 
-HttpResponse::~HttpResponse(void){};
+HttpResponse::~HttpResponse(void) {}
 
 void
 HttpResponse::load_http_request(HttpRequest &req)
@@ -10,6 +10,9 @@ HttpResponse::load_http_request(HttpRequest &req)
 	init_response_map();
 	std::string requested_path = req.getPath();
 	_response_map["dir_location"] += requested_path;
+	std::cout << "dir_location at load_HTTP_REQUEST : " << _response_map["dir_location"] << std::endl;
+	std::cout << "METHOD: " << req.getMethod() << "\nAuth: " << req.methodIsAuthorized(req.getMethod())
+			  << std::endl;
 	if (!req.methodIsAuthorized(req.getMethod()))
 	{
 		load_response_map(405);
@@ -38,7 +41,7 @@ HttpResponse::init_response_map(void)
 	_response_map["body-string"] = "";
 	_response_map["full-response-string"] = "";
 	_response_map["dir_location"] = "/Users/rburri/Desktop/network_cpp";
-};
+}
 
 void
 HttpResponse::load_response_map(int status_code)
@@ -56,7 +59,7 @@ HttpResponse::load_response_map(int status_code)
 		set_response_type(_response_map["dir_location"]);
 		construct_body_string(_response_map["dir_location"]);
 	}
-	load_content_length(_response_map["body-string"]);
+	set_content_length(_response_map["body-string"]);
 	construct_header_string();
 	construct_full_response();
 }
@@ -72,7 +75,7 @@ HttpResponse::get_time_stamp(void)
 }
 
 void
-HttpResponse::load_content_length(std::string str)
+HttpResponse::set_content_length(std::string str)
 {
 	_response_map["Content-Length"] = std::to_string(str.length());
 }
@@ -112,16 +115,6 @@ HttpResponse::set_response_type(std::string path)
 		_response_map["Content-Type"] = "image/x-icon";
 	else
 		_response_map["Content-Type"] = "text/plain";
-}
-
-void
-HttpResponse::print_response_map(void)
-{
-	std::map<std::string, std::string>::iterator it;
-	for (it = _response_map.begin(); it != _response_map.end(); it++)
-	{
-		std::cout << it->first << " : " << it->second << std::endl;
-	}
 }
 
 void
@@ -189,4 +182,16 @@ HttpResponse::create_error_html_page(int code)
 	html_page += "</h1></div></div></body></html>";
 	_response_map["body-string"] = html_page;
 	std::cout << "AUTO_HTML PAGE:\n" << html_page << std::endl;
+}
+
+std::ostream &
+operator<<(std::ostream &output, HttpResponse const &res)
+{
+	HttpRequest::t_object::const_iterator start;
+
+	for (start = res._response_map.begin(); start != res._response_map.end(); ++start)
+	{
+		output << start->first << " : " << start->second << "\n";
+	}
+	return output;
 }
