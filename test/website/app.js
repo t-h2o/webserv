@@ -11,30 +11,38 @@ let submitedFiles = [];
 // Handle the front when a file is selected, preview.
 const updateImageDisplay = () => {
 	// remove image from preview div if have any
-	while (preview.firstChild) {
+	while (preview.firstChild)
+	{
 		preview.removeChild(preview.firstChild);
 	}
 	const curFiles = input.files;
 	// display text if there is no files in preview
-	if (curFiles.length === 0) {
+	if (curFiles.length === 0)
+	{
 		const para = document.createElement("p");
 		para.textContent = "No files currently selected for upload";
 		preview.appendChild(para);
-	} else {
+	}
+	else
+	{
 		// display the image preview
 		const list = document.createElement("ul");
 		list.style.listStyleType = "none";
 		preview.appendChild(list);
-		for (const file of curFiles) {
+		for (const file of curFiles)
+		{
 			const listItem = document.createElement("li");
-			if (validFileType(file)) {
+			if (validFileType(file))
+			{
 				const image = document.createElement("img");
 				image.style.width = "250px";
 				image.style.height = "150px";
 				image.src = URL.createObjectURL(file);
 				listItem.appendChild(image);
-			} else {
-				para.textContent = `File name ${ file.name }: Not a valid file type. Update your selection.`;
+			}
+			else
+			{
+				para.textContent = `File name ${file.name}: Not a valid file type. Update your selection.`;
 				listItem.appendChild(para);
 			}
 			list.appendChild(listItem);
@@ -42,37 +50,35 @@ const updateImageDisplay = () => {
 	}
 };
 
-const validFileType = (file) => {
-	return fileTypes.includes(file.type);
-};
+const validFileType = (file) => { return fileTypes.includes(file.type); };
 
 // list of accepted image
-const fileTypes = ["image/gif", "image/jpeg", "image/png"];
+const fileTypes = [ "image/gif", "image/jpeg", "image/png" ];
 
 const renderImages = () => {
-	while (itemsList.firstChild) {
+	while (itemsList.firstChild)
+	{
 		itemsList.removeChild(itemsList.firstChild);
 	}
-	if (submitedFiles.length === 0) return;
-	for (const images of submitedFiles) {
+	if (submitedFiles.length === 0)
+		return;
+	for (const images of submitedFiles)
+	{
 		itemsList.appendChild(images);
 	}
-	while (preview.firstChild) {
+	while (preview.firstChild)
+	{
 		preview.removeChild(preview.firstChild);
 	}
 	input.value = null;
 };
 
-const createIdNumber = () => {
-	return Math.random().toString();
-};
+const createIdNumber = () => { return Math.random().toString(); };
 
 // Function that is called when we click on a existing file to delete it
 const deleteExistingFile = (e) => {
 	e.preventDefault();
-	submitedFiles = submitedFiles.filter(
-		(el) => el.id !== e.target.parentElement.id
-	);
+	submitedFiles = submitedFiles.filter((el) => el.id !== e.target.parentElement.id);
 	/**
 	 * TODO => send http DELETE methode to delete the file.
 	 */
@@ -85,7 +91,8 @@ const submitHandler = (e) => {
 	 * * Frontend part
 	 */
 	const curFiles = input.files;
-	if (curFiles.length === 0) return;
+	if (curFiles.length === 0)
+		return;
 	const li = document.createElement("li");
 	li.setAttribute("id", createIdNumber());
 	const image = document.createElement("img");
@@ -106,8 +113,8 @@ const submitHandler = (e) => {
 	const data = new FormData();
 	data.append("file", files[0]);
 	data.append("id", createIdNumber());
-	// fetch(urlUpload, { method: "POST", mode: "no-cors", body: data }).then((response) => response.json()).then((data) => {
-	// 	console.log(data);
+	// fetch(urlUpload, { method: "POST", mode: "no-cors", body: data }).then((response) =>
+	// response.json()).then((data) => { 	console.log(data);
 	// }).catch((error) => {
 	// 	console.error(error);
 	// });
