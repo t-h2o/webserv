@@ -1,7 +1,7 @@
 #include "httpRequest.hpp"
 
-HttpRequest::HttpRequest(){};
-HttpRequest::~HttpRequest(){};
+HttpRequest::HttpRequest(){}
+HttpRequest::~HttpRequest(){}
 
 void
 HttpRequest::parseBuffer(char *buff)
@@ -124,4 +124,15 @@ bool
 HttpRequest::methodIsAuthorized(std::string method) const
 {
 	return (method.compare("GET") == 0 || method.compare("POST") == 0 || method.compare("DELETE") == 0);
+}
+
+std::ostream &operator<<(std::ostream &output, HttpRequest const &req)
+{
+	HttpRequest::t_object::const_iterator start;
+
+	for (start = req._request_map.begin(); start != req._request_map.end(); ++start)
+	{
+		output << start->first << " : " << start->second << "\n";
+	}
+	return output;
 }

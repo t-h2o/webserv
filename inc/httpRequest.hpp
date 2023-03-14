@@ -10,6 +10,9 @@
 class HttpRequest
 {
   public:
+	typedef std::map<std::string, std::string> t_object;
+	t_object								   _request_map;
+
 	HttpRequest();
 	~HttpRequest();
 
@@ -23,10 +26,11 @@ class HttpRequest
 	std::string getHost() const;
 
   private:
-	std::string						   trim(const std::string &s);
-	std::map<std::string, std::string> _request_map;
-	void							   parseFirstLine(std::string firstLine);
-	void							   parseOtherLines(std::vector<std::string> tmp_vector);
+	std::string trim(const std::string &s);
+	void		parseFirstLine(std::string firstLine);
+	void		parseOtherLines(std::vector<std::string> tmp_vector);
 };
+
+std::ostream &operator<<(std::ostream &, HttpRequest const &);
 
 #endif
