@@ -1,19 +1,19 @@
 #include "Value.hpp"
 
-int test_output(Value const &, std::string const &);
+int test_output(Json::Value const &, std::string const &);
 
 int
 test_value_array_number(void)
 {
-	Value::t_array *vec_double;
+	Json::Value::t_array *vec_double;
 
-	vec_double = new Value::t_array;
+	vec_double = new Json::Value::t_array;
 
 	vec_double->push_back(new double(1));
 	vec_double->push_back(new double(2));
 	vec_double->push_back(new double(3));
 
-	Value val1(vec_double);
+	Json::Value val1(vec_double);
 
 	if (val1[0].get<double>() != 1)
 		return 1;
