@@ -74,7 +74,7 @@ db: $(NAME)
 
 format:
 	@printf "$(YELLOW)Formating the sources..$(DEFAULT)\n"
-	@clang-format -i $(shell find . -name "*.hpp" -or -name "*.cpp")
+	@clang-format -i $(shell find . -name "*.hpp" -or -name "*.cpp" -or -name "*.js")
 
 doc:
 	@printf "$(YELLOW)Generating documentations..$(DEFAULT)\n"
