@@ -117,13 +117,20 @@ HttpRequest::methodIsAuthorized(std::string method) const
 	return (method.compare("GET") == 0 || method.compare("POST") == 0 || method.compare("DELETE") == 0);
 }
 
-std::ostream &operator<<(std::ostream &output, HttpRequest const &req)
+std::ostream &
+operator<<(std::ostream &output, HttpRequest const &req)
 {
 	HttpRequest::t_object::const_iterator start;
 
-	for (start = req._request_map.begin(); start != req._request_map.end(); ++start)
+	for (start = req.get_map().begin(); start != req.get_map().end(); ++start)
 	{
 		output << start->first << " : " << start->second << "\n";
 	}
 	return output;
+}
+
+const HttpRequest::t_object &
+HttpRequest::get_map() const
+{
+	return _request_map;
 }

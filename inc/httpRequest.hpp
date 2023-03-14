@@ -11,7 +11,6 @@ class HttpRequest
 {
   public:
 	typedef std::map<std::string, std::string> t_object;
-	t_object								   _request_map;
 
 	HttpRequest();
 	~HttpRequest();
@@ -23,8 +22,10 @@ class HttpRequest
 	std::string getPath() const;
 	std::string getProtocol() const;
 	std::string getHost() const;
+	const t_object &get_map() const;
 
   private:
+	t_object 	_request_map;
 	std::string trim(const std::string &s);
 	void		parseFirstLine(std::string firstLine);
 	void		parseOtherLines(std::vector<std::string> tmp_vector);
