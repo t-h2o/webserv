@@ -2,7 +2,6 @@
 
 Socket::Socket(int domain, int port, int type, int protocol, u_long interface)
 {
-	// Define address structure
 	_address.sin_family = domain;
 	_address.sin_port = htons(port);
 	_address.sin_addr.s_addr = htonl(interface);
@@ -21,9 +20,6 @@ Socket::createSocket(int domain, int type, int protocol)
 void
 Socket::establishConnection()
 {
-	// a pointer to a struct sockaddr_in can be cast to a pointer to a struct sockaddr and vice-versa.
-	// So even though connect() wants a struct sockaddr*, you can still use a struct sockaddr_in and cast it
-	// at the last minute!
 	_connection = bind(_sock_id, (struct sockaddr *)&_address, sizeof(_address));
 	test_socket(_connection);
 }
