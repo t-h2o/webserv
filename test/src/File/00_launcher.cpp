@@ -7,5 +7,6 @@ launch_file(void)
 	Unit_test list("class http parser");
 
 	list.load_test("simple instanciation", &test_file);
+	list.load_test("read all a file", &test_file_all_file);
 	return (list.launch_tests());
 }
