@@ -48,5 +48,6 @@ int test_value_no_existing_key(void);
 int launch_file(void);
 int test_file(void);
 int test_file_all_file(void);
+int test_file_not_valid_file(void);
 
 #endif /* TESTS_H */
