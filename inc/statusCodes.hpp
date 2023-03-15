@@ -8,7 +8,7 @@
 class StatusCode
 {
   private:
-	static const std::map<std::string, std::string> _status_codes;
+	std::map<std::string, std::string> _status_codes;
 
   public:
 	StatusCode();
