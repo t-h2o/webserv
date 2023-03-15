@@ -12,7 +12,6 @@ class HttpResponse
 {
   public:
 	typedef std::map<std::string, std::string> t_object;
-	t_object								   _response_map;
 
 	HttpResponse();
 	~HttpResponse(void);
@@ -23,6 +22,7 @@ class HttpResponse
 	StatusCode	_status_code;
 	HttpRequest _request;
 
+	t_object	_response_map;
 	void		set_content_length(std::string str);
 	void		init_response_map(void);
 	void		set_response_type(std::string path);
