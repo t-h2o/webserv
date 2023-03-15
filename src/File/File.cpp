@@ -18,9 +18,13 @@ File::getc(void)
 {
 	if (_current_line[_index] == 0)
 	{
+		if (_file.eof())
+			return 0;
+
 		getline(_file, _current_line);
 		_index = 0;
+		return getc();
 	}
 
-	return _current_line[_index];
+	return _current_line[_index++];
 }
