@@ -10,7 +10,7 @@ test_file_all_file(void)
 	for (char c = file.getc(); c; c = file.getc())
 		all_file += c;
 
-	if (all_file != "Hello World !")
+	if (all_file != "Hello World !I very like C++98......IMAO")
 		return 1;
 
 	return 0;
