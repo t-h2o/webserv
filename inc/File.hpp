@@ -18,7 +18,8 @@ class File
 	File(const char *);
 	~File(void);
 
-	char getc(void);
+	char		getc(void);
+	std::string get_string(void);
 
   private:
 	std::string	 _current_line;
