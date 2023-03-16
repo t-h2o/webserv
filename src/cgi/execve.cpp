@@ -8,6 +8,7 @@ int execution_cgi(char **envp)
 	args[1] = NULL;
 
 	execve("/bin/ls", args, envp);
+	std::cout << "error execve" << std::endl;
 
 	return (0);
 }
