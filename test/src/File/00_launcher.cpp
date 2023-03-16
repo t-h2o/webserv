@@ -4,7 +4,7 @@
 int
 launch_file(void)
 {
-	Unit_test list("class http parser");
+	Unit_test list("class File");
 
 	list.load_test("simple instanciation", &test_file);
 	list.load_test("read all a file", &test_file_all_file);
