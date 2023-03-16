@@ -4,10 +4,9 @@ HttpRequest::HttpRequest(){}
 HttpRequest::~HttpRequest(){}
 
 void
-HttpRequest::parseBuffer(char *buff)
+HttpRequest::parseBuffer(std::string str_buff)
 {
 	std::vector<std::string> tmp_vector;
-	std::string				 str_buff = buff;
 	std::string				 delimiter = "\r\n";
 	std::string				 str;
 	int						 delimiter_position = str_buff.find(delimiter);
