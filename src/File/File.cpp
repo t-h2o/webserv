@@ -16,15 +16,32 @@ File::~File(void) { _file.close(); }
 char
 File::getc(void)
 {
-	if (_current_line[_index] == 0)
+	while (!_file.eof()) // && _index < _current_line.size())
 	{
-		if (_file.eof())
-			return 0;
-
-		getline(_file, _current_line);
-		_index = 0;
-		return getc();
+		if (_index == _current_line.size())
+		{
+			_index = 0;
+			getline(_file, _current_line);
+		}
+		else if (isblank(_current_line[_index]))
+			ignore_blank();
+		else
+			return _current_line[_index++];
 	}
+	return 0;
+}
 
-	return _current_line[_index++];
+//
+// Private mumber function
+//
+
+/* move the index up to the next no blank character
+ * "last     next"
+ *      ^ -> ^
+ */
+void
+File::ignore_blank(void)
+{
+	while (_current_line[_index] && isblank(_current_line[_index]))
+		++_index;
 }

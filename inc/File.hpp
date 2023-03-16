@@ -24,6 +24,8 @@ class File
 	std::string	 _current_line;
 	std::fstream _file;
 	size_t		 _index;
+
+	void ignore_blank(void);
 };
 
 #endif /* FILE_HPP */
