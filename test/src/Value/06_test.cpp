@@ -1,32 +1,32 @@
 #include "Value.hpp"
 
-int test_output(Json::Value const &, std::string const &);
+int test_output(json::Value const &, std::string const &);
 
 int
 test_value_object_array(void)
 {
-	Json::t_object *main_object;
-	Json::t_object *json_object;
-	Json::t_array  *json_array;
+	json::t_object *main_object;
+	json::t_object *json_object;
+	json::t_array  *json_array;
 
-	main_object = new Json::t_object;
-	json_object = new Json::t_object;
+	main_object = new json::t_object;
+	json_object = new json::t_object;
 
-	json_array = new Json::t_array;
+	json_array = new json::t_array;
 
-	json_object->insert(std::make_pair("width", Json::Value(new double(12))));
-	json_object->insert(std::make_pair("heigth", Json::Value(new double(42))));
-	json_object->insert(std::make_pair("name", Json::Value(new std::string("rectangle"))));
-	json_object->insert(std::make_pair("true", Json::Value(new bool(true))));
+	json_object->insert(std::make_pair("width", json::Value(new double(12))));
+	json_object->insert(std::make_pair("heigth", json::Value(new double(42))));
+	json_object->insert(std::make_pair("name", json::Value(new std::string("rectangle"))));
+	json_object->insert(std::make_pair("true", json::Value(new bool(true))));
 
-	json_array->push_back(Json::Value(new std::string("zero")));
-	json_array->push_back(Json::Value(new std::string("one")));
-	json_array->push_back(Json::Value(new std::string("two")));
+	json_array->push_back(json::Value(new std::string("zero")));
+	json_array->push_back(json::Value(new std::string("one")));
+	json_array->push_back(json::Value(new std::string("two")));
 
-	main_object->insert(std::make_pair("object", Json::Value(json_object)));
-	main_object->insert(std::make_pair("array", Json::Value(json_array)));
+	main_object->insert(std::make_pair("object", json::Value(json_object)));
+	main_object->insert(std::make_pair("array", json::Value(json_array)));
 
-	Json::Value config(main_object);
+	json::Value config(main_object);
 
 	if (config.get("object").get("width").get<double>() != 12)
 		return 1;

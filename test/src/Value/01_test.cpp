@@ -3,7 +3,7 @@
 #include "Value.hpp"
 
 int
-test_output(Json::Value const &value, std::string const &expected_cout)
+test_output(json::Value const &value, std::string const &expected_cout)
 {
 	Stream output;
 
@@ -24,9 +24,9 @@ test_output(Json::Value const &value, std::string const &expected_cout)
 int
 test_value_string(void)
 {
-	Json::Value val1(new std::string("Hello"));
-	Json::Value val2 = Json::Value(new std::string("World"));
-	Json::Value val3(val2);
+	json::Value val1(new std::string("Hello"));
+	json::Value val2 = json::Value(new std::string("World"));
+	json::Value val3(val2);
 
 	if (val1.get<std::string>() != "Hello")
 		return 1;

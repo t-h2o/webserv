@@ -1,7 +1,7 @@
 #ifndef TYPE_HPP
 #define TYPE_HPP
 
-namespace Json
+namespace json
 {
 
 class Value;
@@ -19,6 +19,6 @@ enum e_type
 	JSON_OBJECT,
 };
 
-} /* namespace Json */
+} /* namespace json */
 
 #endif /* TYPE_HPP */

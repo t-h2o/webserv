@@ -1,13 +1,13 @@
 #include "Value.hpp"
 
-int test_output(Json::Value const &, std::string const &);
+int test_output(json::Value const &, std::string const &);
 
 int
 test_value_number(void)
 {
-	Json::Value val1(new double(42));
-	Json::Value val2 = Json::Value(new double(1234.5678));
-	Json::Value val3(val2);
+	json::Value val1(new double(42));
+	json::Value val2 = json::Value(new double(1234.5678));
+	json::Value val3(val2);
 
 	if (val1.get<double>() != 42)
 		return 1;

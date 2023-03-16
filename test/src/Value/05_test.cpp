@@ -1,21 +1,21 @@
 #include "Value.hpp"
 
-int test_output(Json::Value const &, std::string const &);
+int test_output(json::Value const &, std::string const &);
 
 int
 test_value_map_value(void)
 {
-	Json::t_object *config;
-	Json::t_object *object;
+	json::t_object *config;
+	json::t_object *object;
 
-	config = new Json::t_object;
-	object = new Json::t_object;
+	config = new json::t_object;
+	object = new json::t_object;
 
-	config->insert(std::make_pair("key1", Json::Value(new std::string("value1"))));
-	object->insert(std::make_pair("key2", Json::Value(new std::string("value2"))));
-	config->insert(std::make_pair("object", Json::Value(object)));
+	config->insert(std::make_pair("key1", json::Value(new std::string("value1"))));
+	object->insert(std::make_pair("key2", json::Value(new std::string("value2"))));
+	config->insert(std::make_pair("object", json::Value(object)));
 
-	Json::Value val(config);
+	json::Value val(config);
 
 	if (val.get("key1").get<std::string>() != "value1")
 		return 1;
