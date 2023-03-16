@@ -2,12 +2,12 @@
 #include "serverTest.hpp"
 
 #include <iostream>
+#include "cgi.hpp"
 
 int
 webserver(const char *path_config_file)
 {
 	std::cout << "Web server written in C++98" << std::endl;
-
 	json::t_object *config(0);
 
 	if (json::load_config(path_config_file, &config))
@@ -18,6 +18,5 @@ webserver(const char *path_config_file)
 	serverTest();
 
 	delete config;
-
 	return 0;
 }

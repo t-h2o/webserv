@@ -41,6 +41,7 @@ SRCS	+=	$(SRCD)/http/StatusCodes.cpp
 SRCS	+=	$(SRCD)/std98/std98.cpp
 SRCS	+=	$(SRCD)/serverTest/serverTest.cpp
 SRCS	+=	$(SRCD)/Socket/Socket.cpp
+SRCS	+=	$(SRCD)/cgi/execve.cpp
 
 
 #	Headers
