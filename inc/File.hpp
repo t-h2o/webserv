@@ -12,6 +12,9 @@
  * getc() do not return any blank character.
  */
 
+namespace json
+{
+
 class File
 {
   public:
@@ -28,5 +31,7 @@ class File
 
 	void ignore_blank(void);
 };
+
+} /* namespace json */
 
 #endif /* FILE_HPP */

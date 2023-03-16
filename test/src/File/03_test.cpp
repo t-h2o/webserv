@@ -5,7 +5,7 @@ test_file_not_valid_file(void)
 {
 	try
 	{
-		File file("not_valid.not_valid");
+		json::File file("not_valid.not_valid");
 	}
 	catch (std::exception &e)
 	{

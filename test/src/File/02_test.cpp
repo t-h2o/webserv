@@ -3,7 +3,7 @@
 static int
 test_a_file(const char *path_file, std::string expected_output)
 {
-	File file(path_file);
+	json::File file(path_file);
 
 	std::string all_file;
 

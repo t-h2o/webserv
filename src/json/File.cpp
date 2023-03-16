@@ -1,5 +1,8 @@
 #include "File.hpp"
 
+namespace json
+{
+
 File::File(const char *path_file) : _index(0)
 {
 	_file.open(path_file, std::fstream::in);
@@ -67,3 +70,5 @@ File::ignore_blank(void)
 	while (_current_line[_index] && isblank(_current_line[_index]))
 		++_index;
 }
+
+} /* namespace json */
