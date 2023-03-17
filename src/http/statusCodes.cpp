@@ -1,8 +1,6 @@
 #include "statusCodes.hpp"
 
-/*
-	https://www.rfc-editor.org/rfc/rfc2616#section-9.3
-*/
+namespace http {
 
 StatusCode::StatusCode()
 {
@@ -66,3 +64,5 @@ StatusCode::get_key_value_formated(int code) const
 	code_str = std::to_string(code);
 	return code_str + " " + _status_codes.at(code_str);
 }
+
+} /* namespace http */

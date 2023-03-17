@@ -1,11 +1,13 @@
-#include "httpResponse.hpp"
+#include "response.hpp"
 
-HttpResponse::HttpResponse(void) {}
+namespace http {
 
-HttpResponse::~HttpResponse(void) {}
+Response::Response(void) {}
+
+Response::~Response(void) {}
 
 void
-HttpResponse::load_http_request(HttpRequest &req)
+Response::load_http_request(HttpRequest &req)
 {
 	init_response_map();
 	std::string requested_path = req.getPath();
@@ -28,7 +30,7 @@ HttpResponse::load_http_request(HttpRequest &req)
 }
 
 void
-HttpResponse::init_response_map(void)
+Response::init_response_map(void)
 {
 	_response_map["Status-line"] = "";
 	_response_map["Date"] = "";
@@ -44,7 +46,7 @@ HttpResponse::init_response_map(void)
 }
 
 void
-HttpResponse::load_response_map(int status_code)
+Response::load_response_map(int status_code)
 {
 	_response_map["Date"] += get_time_stamp();
 	_response_map["Status-line"]
@@ -65,7 +67,7 @@ HttpResponse::load_response_map(int status_code)
 }
 
 std::string
-HttpResponse::get_time_stamp(void)
+Response::get_time_stamp(void)
 {
 	std::time_t stamp = std::time(NULL);
 	std::string formated_date = std::asctime(std::gmtime(&stamp));
@@ -75,13 +77,13 @@ HttpResponse::get_time_stamp(void)
 }
 
 void
-HttpResponse::set_content_length(std::string str)
+Response::set_content_length(std::string str)
 {
 	_response_map["Content-Length"] = std::to_string(str.length());
 }
 
 bool
-HttpResponse::file_exists(std::string path)
+Response::file_exists(std::string path)
 {
 	std::ifstream file;
 	bool		  ret = false;
@@ -95,7 +97,7 @@ HttpResponse::file_exists(std::string path)
 }
 
 void
-HttpResponse::set_response_type(std::string path)
+Response::set_response_type(std::string path)
 {
 	std::string type = "";
 	type = path.substr(path.rfind(".") + 1, path.size() - path.rfind("."));
@@ -118,7 +120,7 @@ HttpResponse::set_response_type(std::string path)
 }
 
 void
-HttpResponse::construct_header_string(void)
+Response::construct_header_string(void)
 {
 	std::string CRLF = "\r\n";
 
@@ -138,7 +140,7 @@ HttpResponse::construct_header_string(void)
 }
 
 void
-HttpResponse::construct_body_string(std::string path_to_file)
+Response::construct_body_string(std::string path_to_file)
 {
 	std::ifstream	  file;
 	std::stringstream buffer;
@@ -155,14 +157,14 @@ HttpResponse::construct_body_string(std::string path_to_file)
 }
 
 void
-HttpResponse::construct_full_response(void)
+Response::construct_full_response(void)
 {
 	_response_map["full-response-string"] += _response_map["header-string"];
 	_response_map["full-response-string"] += _response_map["body-string"];
 }
 
 std::string
-HttpResponse::get_http_response(void)
+Response::get_http_response(void)
 {
 	std::string ret;
 	ret = _response_map["full-response-string"];
@@ -170,7 +172,7 @@ HttpResponse::get_http_response(void)
 }
 
 void
-HttpResponse::create_error_html_page(int code)
+Response::create_error_html_page(int code)
 {
 	std::string html_page = "";
 	html_page += "<!DOCTYPE html><html><head><link rel=\"stylesheet\"href=\"style.css\"/><link rel=\"icon\" "
@@ -185,7 +187,7 @@ HttpResponse::create_error_html_page(int code)
 }
 
 std::ostream &
-operator<<(std::ostream &output, HttpResponse const &res)
+operator<<(std::ostream &output, Response const &res)
 {
 	HttpRequest::t_object::const_iterator start;
 
@@ -195,3 +197,5 @@ operator<<(std::ostream &output, HttpResponse const &res)
 	}
 	return output;
 }
+
+} /* namespace http */

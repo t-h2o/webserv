@@ -1,20 +1,22 @@
-#ifndef HTTPRESPONSE_HPP
-#define HTTPRESPONSE_HPP
+#ifndef RESPONSE_HPP
+#define RESPONSE_HPP
 
 #include "statusCodes.hpp"
 #include <fstream>
 #include <string>
 #include <time.h>
 #include <sstream>
-#include "httpRequest.hpp"
+#include "request.hpp"
 
-class HttpResponse
+namespace http {
+
+class Response
 {
   public:
 	typedef std::map<std::string, std::string> t_object;
 
-	HttpResponse();
-	~HttpResponse(void);
+	Response();
+	~Response(void);
 	std::string get_http_response(void);
 	void		load_http_request(HttpRequest &req);
 
@@ -35,6 +37,8 @@ class HttpResponse
 	void		create_error_html_page(int code);
 };
 
-std::ostream &operator<<(std::ostream &, HttpResponse const &);
+std::ostream &operator<<(std::ostream &, Response const &);
+
+} /* namespace http */
 
 #endif

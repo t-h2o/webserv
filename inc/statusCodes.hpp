@@ -5,6 +5,8 @@
 #include <map>
 #include <string>
 
+namespace http {
+
 class StatusCode
 {
   private:
@@ -15,5 +17,7 @@ class StatusCode
 	std::string &operator[](std::string status_code);
 	std::string	 get_key_value_formated(int code) const;
 };
+
+} /* namespace http */
 
 #endif
