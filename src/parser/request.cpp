@@ -6,7 +6,7 @@ Request::Request(){}
 Request::~Request(){}
 
 void
-Request::parseBuffer(std::string str_buff)
+Request::parse_buffer(std::string str_buff)
 {
 	std::vector<std::string> tmp_vector;
 	std::string				 delimiter = "\r\n";
@@ -24,12 +24,12 @@ Request::parseBuffer(std::string str_buff)
 	{
 		_request_map["Body"] = this->trim(str_buff);
 	}
-	this->parseFirstLine(tmp_vector[0]);
-	this->parseOtherLines(tmp_vector);
+	this->parse_first_line(tmp_vector[0]);
+	this->parse_other_lines(tmp_vector);
 }
 
 void
-Request::parseFirstLine(std::string firstLine)
+Request::parse_first_line(std::string firstLine)
 {
 	std::vector<std::string> tmp_vector;
 	std::string				 delimiter = " ";
@@ -52,7 +52,7 @@ Request::parseFirstLine(std::string firstLine)
 }
 
 void
-Request::parseOtherLines(std::vector<std::string> tmp_vector)
+Request::parse_other_lines(std::vector<std::string> tmp_vector)
 {
 	std::string delimiter = ":";
 	std::string key;
@@ -89,31 +89,31 @@ Request::trim(const std::string &s)
 }
 
 std::string
-Request::getMethod() const
+Request::get_method() const
 {
 	return _request_map.at("Method");
 }
 
 std::string
-Request::getPath() const
+Request::get_path() const
 {
 	return _request_map.at("Path");
 }
 
 std::string
-Request::getProtocol() const
+Request::get_protocol() const
 {
 	return _request_map.at("Protocol");
 }
 
 std::string
-Request::getHost() const
+Request::get_host() const
 {
 	return _request_map.at("Host");
 }
 
 bool
-Request::methodIsAuthorized(std::string method) const
+Request::method_is_authorized(std::string method) const
 {
 	return (method.compare("GET") == 0 || method.compare("POST") == 0 || method.compare("DELETE") == 0);
 }

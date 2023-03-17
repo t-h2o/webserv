@@ -25,24 +25,24 @@ test_http_request(void)
 				  "Sec-Fetch-Site: none\r\n"
 				  "Sec-Fetch-User: ?1\r\n";
 
-	request.parseBuffer(buff);
+	request.parse_buffer(buff);
 
-	if (request.getMethod() != "GET")
+	if (request.get_method() != "GET")
 		return 1;
 
-	if (request.getPath() != "/website/favicon.ico")
+	if (request.get_path() != "/website/favicon.ico")
 		return 1;
 
-	if (request.getHost() != "localhost:8080")
+	if (request.get_host() != "localhost:8080")
 		return 1;
 
-	if (request.getProtocol() != "HTTP/1.1")
+	if (request.get_protocol() != "HTTP/1.1")
 		return 1;
 
-	if (request.getProtocol() != "HTTP/1.1")
+	if (request.get_protocol() != "HTTP/1.1")
 		return 1;
 
-	if (request.methodIsAuthorized("GET") != true)
+	if (request.method_is_authorized("GET") != true)
 		return 1;
 
 	return 0;
