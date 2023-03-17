@@ -1,5 +1,5 @@
-#ifndef HTTPREQUEST_HPP
-#define HTTPREQUEST_HPP
+#ifndef REQUEST_HPP
+#define REQUEST_HPP
 
 #include <iostream>
 #include <map>

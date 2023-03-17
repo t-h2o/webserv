@@ -1,11 +1,11 @@
 #include "Stream.hpp"
 
-#include "httpRequest.hpp"
+#include "request.hpp"
 
 int
 test_http_request(void)
 {
-	HttpRequest request;
+	http::Request request;
 
 	char buff[] = "GET /website/favicon.ico HTTP/1.1\r\n"
 				  "Host: localhost:8080\r\n"

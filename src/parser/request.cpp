@@ -1,10 +1,12 @@
-#include "httpRequest.hpp"
+#include "request.hpp"
 
-HttpRequest::HttpRequest(){}
-HttpRequest::~HttpRequest(){}
+namespace http {
+
+Request::Request(){}
+Request::~Request(){}
 
 void
-HttpRequest::parseBuffer(std::string str_buff)
+Request::parseBuffer(std::string str_buff)
 {
 	std::vector<std::string> tmp_vector;
 	std::string				 delimiter = "\r\n";
@@ -27,7 +29,7 @@ HttpRequest::parseBuffer(std::string str_buff)
 }
 
 void
-HttpRequest::parseFirstLine(std::string firstLine)
+Request::parseFirstLine(std::string firstLine)
 {
 	std::vector<std::string> tmp_vector;
 	std::string				 delimiter = " ";
@@ -50,7 +52,7 @@ HttpRequest::parseFirstLine(std::string firstLine)
 }
 
 void
-HttpRequest::parseOtherLines(std::vector<std::string> tmp_vector)
+Request::parseOtherLines(std::vector<std::string> tmp_vector)
 {
 	std::string delimiter = ":";
 	std::string key;
@@ -61,13 +63,13 @@ HttpRequest::parseOtherLines(std::vector<std::string> tmp_vector)
 		delimiter_position = tmp_vector[i].find(delimiter);
 		key = tmp_vector[i].substr(0, delimiter_position);
 		value = tmp_vector[i].substr(delimiter_position + 1);
-		if (HttpRequest::trim(key).length() != 0 || HttpRequest::trim(value).length() != 0)
-			_request_map[HttpRequest::trim(key)] = HttpRequest::trim(value);
+		if (Request::trim(key).length() != 0 || Request::trim(value).length() != 0)
+			_request_map[Request::trim(key)] = Request::trim(value);
 	}
 }
 
 std::string
-HttpRequest::trim(const std::string &s)
+Request::trim(const std::string &s)
 {
 	const std::string _WHITESPACE = " \n\r\t\f\v";
 	std::string		  left_trimed_string = "";
@@ -87,39 +89,39 @@ HttpRequest::trim(const std::string &s)
 }
 
 std::string
-HttpRequest::getMethod() const
+Request::getMethod() const
 {
 	return _request_map.at("Method");
 }
 
 std::string
-HttpRequest::getPath() const
+Request::getPath() const
 {
 	return _request_map.at("Path");
 }
 
 std::string
-HttpRequest::getProtocol() const
+Request::getProtocol() const
 {
 	return _request_map.at("Protocol");
 }
 
 std::string
-HttpRequest::getHost() const
+Request::getHost() const
 {
 	return _request_map.at("Host");
 }
 
 bool
-HttpRequest::methodIsAuthorized(std::string method) const
+Request::methodIsAuthorized(std::string method) const
 {
 	return (method.compare("GET") == 0 || method.compare("POST") == 0 || method.compare("DELETE") == 0);
 }
 
 std::ostream &
-operator<<(std::ostream &output, HttpRequest const &req)
+operator<<(std::ostream &output, Request const &req)
 {
-	HttpRequest::t_object::const_iterator start;
+	Request::t_object::const_iterator start;
 
 	for (start = req.get_map().begin(); start != req.get_map().end(); ++start)
 	{
@@ -128,8 +130,10 @@ operator<<(std::ostream &output, HttpRequest const &req)
 	return output;
 }
 
-const HttpRequest::t_object &
-HttpRequest::get_map() const
+const Request::t_object &
+Request::get_map() const
 {
 	return _request_map;
 }
+
+} /* namespace http */
