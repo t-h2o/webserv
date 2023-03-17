@@ -7,13 +7,15 @@
 #include <string>
 #include <vector>
 
-class HttpRequest
+namespace http {
+
+class Request
 {
   public:
 	typedef std::map<std::string, std::string> t_object;
 
-	HttpRequest();
-	~HttpRequest();
+	Request();
+	~Request();
 
 	void parseBuffer(std::string);
 	bool methodIsAuthorized(std::string method) const;
@@ -31,6 +33,8 @@ class HttpRequest
 	void		parseOtherLines(std::vector<std::string> tmp_vector);
 };
 
-std::ostream &operator<<(std::ostream &, HttpRequest const &);
+std::ostream &operator<<(std::ostream &, Request const &);
+
+}; /* namespace http */
 
 #endif
