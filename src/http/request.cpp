@@ -1,9 +1,10 @@
 #include "request.hpp"
 
-namespace http {
+namespace http
+{
 
-Request::Request(){}
-Request::~Request(){}
+Request::Request() {}
+Request::~Request() {}
 
 void
 Request::parse_buffer(std::string str_buff)
