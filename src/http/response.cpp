@@ -1,6 +1,7 @@
 #include "response.hpp"
 
-namespace http {
+namespace http
+{
 
 Response::Response(void) {}
 

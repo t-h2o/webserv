@@ -1,14 +1,15 @@
 #ifndef RESPONSE_HPP
 #define RESPONSE_HPP
 
+#include "request.hpp"
 #include "statusCodes.hpp"
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <time.h>
-#include <sstream>
-#include "request.hpp"
 
-namespace http {
+namespace http
+{
 
 class Response
 {
@@ -17,9 +18,9 @@ class Response
 
 	Response();
 	~Response(void);
-	std::string get_http_response(void);
-	void		load_http_request(HttpRequest &req);
-	const		t_object &get_map() const;
+	std::string		get_http_response(void);
+	void			load_http_request(HttpRequest &req);
+	const t_object &get_map() const;
 
   private:
 	StatusCode	_status_code;

@@ -5,7 +5,8 @@
 #include <map>
 #include <string>
 
-namespace http {
+namespace http
+{
 
 class StatusCode
 {

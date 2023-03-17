@@ -1,6 +1,7 @@
 #include "statusCodes.hpp"
 
-namespace http {
+namespace http
+{
 
 StatusCode::StatusCode()
 {
