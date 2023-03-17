@@ -51,12 +51,14 @@ Socket::get_sock_id() const
 	return _sock_id;
 }
 
-unsigned short int Socket::get_port() const
+unsigned short int
+Socket::get_port() const
 {
 	return ntohs(_address.sin_port);
 }
 
-void Socket::set_socket_non_blocking()
+void
+Socket::set_socket_non_blocking()
 {
 	int ret;
 	int val = 1;
@@ -68,7 +70,8 @@ void Socket::set_socket_non_blocking()
 	// test_socket(ret, "fcnt() Fail!");
 }
 
-const char *Socket::SocketException::what() const throw()
+const char *
+Socket::SocketException::what() const throw()
 {
 	return "Exception: Socket set up failed.";
 }

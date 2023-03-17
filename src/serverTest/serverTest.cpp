@@ -1,10 +1,11 @@
-#include "socket.hpp"
-#include <vector>
-#include <string>
 #include "request.hpp"
 #include "response.hpp"
+#include "socket.hpp"
+#include <string>
+#include <vector>
 
-void serverTest()
+void
+serverTest()
 {
 	/*
 	 *  sock @params:
@@ -15,14 +16,14 @@ void serverTest()
 	 *	address for this socket, let the OS choose = INADDR_ANY
 	 */
 	const int				 MAXLINE = 1000;
-	Socket sock(AF_INET, 8080, SOCK_STREAM, 0, INADDR_ANY);
-	int connection_fd;
-	char buffer[MAXLINE] = {0};
-	int recv_return;
-	http::Request req;
-	http::Response res;
+	Socket					 sock(AF_INET, 8080, SOCK_STREAM, 0, INADDR_ANY);
+	int						 connection_fd;
+	char					 buffer[MAXLINE] = { 0 };
+	int						 recv_return;
+	http::Request			 req;
+	http::Response			 res;
 	std::vector<std::string> header;
-	int send_ret = 0;
+	int						 send_ret = 0;
 
 	while (1)
 	{
@@ -54,12 +55,12 @@ void serverTest()
 		std::cout << "***************** HTTP REQUEST START****************" << std::endl;
 		std::cout << req << std::endl;
 		std::cout << "***************** HTTP REQUEST END ****************\n";
-	
+
 		res.load_http_request(req);
 		// std::cout << "***************** HTTP REPONSE START****************" << std::endl;
 		// std::cout << res << std::endl;
 		// std::cout << "***************** HTTP REPONSE END ****************\n" << std::endl;
-	
+
 		std::string response = res.get_http_response();
 		send_ret = send(connection_fd, response.c_str(), response.length(), 0);
 		if (send_ret < static_cast<int>(response.length()))
