@@ -198,4 +198,10 @@ operator<<(std::ostream &output, Response const &res)
 	return output;
 }
 
+const Response::t_object &
+Response::get_map() const
+{
+	return _response_map;
+}
+
 } /* namespace http */

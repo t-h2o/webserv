@@ -19,6 +19,7 @@ class Response
 	~Response(void);
 	std::string get_http_response(void);
 	void		load_http_request(HttpRequest &req);
+	const		t_object &get_map() const;
 
   private:
 	StatusCode	_status_code;
