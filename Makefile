@@ -76,6 +76,10 @@ format:
 	@printf "$(YELLOW)Formating the sources..$(DEFAULT)\n"
 	@clang-format -i $(shell find . -name "*.hpp" -or -name "*.cpp" -or -name "*.js")
 
+formatdocker:
+	@printf "$(YELLOW)launch tgrivel/clang-format docker image..$(DEFAULT)\n"
+	@docker run --rm -v $(shell pwd):/documents tgrivel/clang-format -i $(shell find . -name "*.hpp" -or -name "*.cpp" -or -name "*.js")
+
 doc:
 	@printf "$(YELLOW)Generating documentations..$(DEFAULT)\n"
 	@$(ADOC) $(DOCU) -o $(INDEX)
