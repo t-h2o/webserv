@@ -5,7 +5,7 @@
 #include <map>
 #include <vector>
 
-#include "Type.hpp"
+#include "type.hpp"
 
 namespace json
 {
