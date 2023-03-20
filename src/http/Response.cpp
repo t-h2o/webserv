@@ -177,10 +177,12 @@ Response::get_http_response(void)
 void
 Response::create_error_html_page(int code)
 {
+	std::stringstream ss;
+	ss << code;
 	std::string html_page = "";
 	html_page += "<!DOCTYPE html><html><head><link rel=\"stylesheet\"href=\"style.css\"/><link rel=\"icon\" "
 				 "href=\"favicon.ico\"><title>";
-	html_page += std::to_string(code);
+	html_page += ss.str();
 	html_page
 		+= "</title></head><body><div class=\" wrapper\"><div class=\"centered-box\"><h1 class=\"title\">";
 	html_page += _status_code.get_key_value_formated(code);
@@ -192,9 +194,9 @@ Response::create_error_html_page(int code)
 std::ostream &
 operator<<(std::ostream &output, Response const &res)
 {
-	HttpRequest::t_object::const_iterator start;
+	Response::t_object::const_iterator start;
 
-	for (start = res._response_map.begin(); start != res._response_map.end(); ++start)
+	for (start = res.get_map().begin(); start != res.get_map().end(); ++start)
 	{
 		output << start->first << " : " << start->second << "\n";
 	}
