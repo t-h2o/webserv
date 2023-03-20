@@ -53,7 +53,7 @@ StatusCode::StatusCode()
 }
 
 std::string &
-StatusCode::operator[](std::string status_code)
+StatusCode::operator[](int status_code)
 {
 	return _status_codes[status_code];
 }
