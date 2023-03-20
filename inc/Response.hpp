@@ -1,8 +1,8 @@
 #ifndef RESPONSE_HPP
 #define RESPONSE_HPP
 
-#include "request.hpp"
-#include "statusCodes.hpp"
+#include "Request.hpp"
+#include "StatusCodes.hpp"
 #include <fstream>
 #include <sstream>
 #include <string>
