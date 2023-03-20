@@ -5,10 +5,10 @@ namespace http
 
 StatusCode::StatusCode()
 {
-	// 1xx Infomationalgs
+	// 1xx Infomational
 	_status_codes["100"] = "Continue";
 	_status_codes["101"] = "Switching Protocols";
-	// 2xx Success"ful"
+	// 2xx Successful
 	_status_codes["200"] = "OK";
 	_status_codes["201"] = "Created";
 	_status_codes["202"] = "Accepted";
@@ -16,7 +16,7 @@ StatusCode::StatusCode()
 	_status_codes["204"] = "No Content";
 	_status_codes["205"] = "Rest Content";
 	_status_codes["206"] = "Partial Content";
-	// 3xx Redirec"tio"n
+	// 3xx Redirection
 	_status_codes["300"] = "Multiple Choices";
 	_status_codes["301"] = "Moved Permanently";
 	_status_codes["302"] = "Found";
@@ -24,7 +24,7 @@ StatusCode::StatusCode()
 	_status_codes["304"] = "Not Modified";
 	_status_codes["305"] = "Use Proxy";
 	_status_codes["307"] = "Temporary Reirect";
-	// 4xx Client "Err"or
+	// 4xx Client Error
 	_status_codes["400"] = "Bad Request";
 	_status_codes["401"] = "Unauthorized";
 	_status_codes["402"] = "Payment Required";
@@ -43,7 +43,7 @@ StatusCode::StatusCode()
 	_status_codes["415"] = "Unsupported Media Type";
 	_status_codes["416"] = "Requested Range Not Satisfiable";
 	_status_codes["417"] = "Expectation Failed";
-	// 5xx Error"
+	// 5xx Error
 	_status_codes["500"] = "Internal Server Error";
 	_status_codes["501"] = "Not Implemented";
 	_status_codes["502"] = "Bad Gateway";
