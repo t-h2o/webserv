@@ -1,5 +1,5 @@
-#include "request.hpp"
-#include "response.hpp"
+#include "Request.hpp"
+#include "Response.hpp"
 #include "socket.hpp"
 #include <string>
 #include <vector>
