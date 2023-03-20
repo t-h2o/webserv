@@ -21,5 +21,9 @@ int test_value_array_number(void);
 int test_value_boolean(void);
 int test_value_map_value(void);
 int test_value_object_array(void);
+/* class http response */
+
+int http_response_launcher(void);
+int test_http_response(void);
 
 #endif /* TESTS_H */
