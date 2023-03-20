@@ -7,7 +7,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <time.h>
+#include <ctime>
 
 namespace http
 {
