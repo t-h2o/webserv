@@ -3,10 +3,8 @@
 namespace json
 {
 
-File::File(const char *path_file) : _index(0)
+File::File(const char *path_file) : _file(path_file, std::fstream::in), _index(0)
 {
-	_file.open(path_file, std::fstream::in);
-
 	/* Check if the file is valid */
 	if (_file.is_open() == 0)
 		throw std::runtime_error("Error: read(): file is not valid");
