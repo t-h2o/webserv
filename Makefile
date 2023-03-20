@@ -30,6 +30,7 @@ SRCD	=	src
 SRCS	=	$(SRCD)/main.cpp
 SRCS	+=	$(SRCD)/webserver.cpp
 SRCS	+=	$(SRCD)/arguments/check_argc_number.cpp
+SRCS	+=	$(SRCD)/http/Request.cpp
 
 
 #	Headers
