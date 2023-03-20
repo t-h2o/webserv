@@ -35,6 +35,8 @@ SRCS	+=	$(SRCD)/json/Value.cpp
 SRCS	+=	$(SRCD)/http/Response.cpp
 SRCS	+=	$(SRCD)/http/StatusCodes.cpp
 SRCS	+=	$(SRCD)/std98/std98.cpp
+SRCS	+=	$(SRCD)/serverTest/serverTest.cpp
+SRCS	+=	$(SRCD)/Socket/Socket.cpp
 
 
 #	Headers
