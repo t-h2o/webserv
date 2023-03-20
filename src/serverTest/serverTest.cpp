@@ -1,6 +1,6 @@
 #include "Request.hpp"
 #include "Response.hpp"
-#include "socket.hpp"
+#include "Socket.hpp"
 #include <string>
 #include <vector>
 
