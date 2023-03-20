@@ -11,12 +11,12 @@ void
 Response::load_http_request(Request &req)
 {
 	init_response_map();
-	std::string requested_path = req.getPath();
+	std::string requested_path = req.get_path();
 	_response_map["dir_location"] += requested_path;
 	std::cout << "dir_location at load_HTTP_REQUEST : " << _response_map["dir_location"] << std::endl;
-	std::cout << "METHOD: " << req.getMethod() << "\nAuth: " << req.methodIsAuthorized(req.getMethod())
+	std::cout << "METHOD: " << req.get_method() << "\nAuth: " << req.method_is_authorized(req.get_method())
 			  << std::endl;
-	if (!req.methodIsAuthorized(req.getMethod()))
+	if (!req.method_is_authorized(req.get_method()))
 	{
 		load_response_map(405);
 	}
@@ -80,16 +80,14 @@ Response::get_time_stamp(void)
 void
 Response::set_content_length(std::string str)
 {
-	std::stringstream ss;
-	ss << str.length();
-	_response_map["Content-Length"] = ss.str();
+	_response_map["Content-Length"] = std98::to_string(str.length());
 }
 
 bool
 Response::file_exists(std::string path)
 {
 	std::ifstream file;
-	bool		  ret = false;
+ 	bool		  ret = false;
 	file.open(path.c_str());
 	if (file)
 	{
@@ -177,12 +175,10 @@ Response::get_http_response(void)
 void
 Response::create_error_html_page(int code)
 {
-	std::stringstream ss;
-	ss << code;
 	std::string html_page = "";
 	html_page += "<!DOCTYPE html><html><head><link rel=\"stylesheet\"href=\"style.css\"/><link rel=\"icon\" "
 				 "href=\"favicon.ico\"><title>";
-	html_page += ss.str();
+	html_page += std98::to_string(code);
 	html_page
 		+= "</title></head><body><div class=\" wrapper\"><div class=\"centered-box\"><h1 class=\"title\">";
 	html_page += _status_code.get_key_value_formated(code);

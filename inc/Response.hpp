@@ -3,6 +3,7 @@
 
 #include "Request.hpp"
 #include "StatusCodes.hpp"
+#include "std98.hpp"
 #include <fstream>
 #include <sstream>
 #include <string>

@@ -62,9 +62,7 @@ std::string
 StatusCode::get_key_value_formated(int code) const
 {
 	std::string code_str;
-	std::stringstream ss;
-	ss << code;
-	code_str = ss.str();
+	code_str = std98::to_string(code);
 	return code_str + " " + _status_codes.at(code);
 }
 

@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include <sstream>
+#include "std98.hpp"
 
 namespace http
 {
