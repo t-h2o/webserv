@@ -9,6 +9,7 @@ main(void)
 	result |= http_request_launcher();
 	result |= value_launcher();
 	result |= http_response_launcher();
+	result |= status_code_launcher();
 
 	return result;
 }

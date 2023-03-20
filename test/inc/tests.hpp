@@ -25,5 +25,9 @@ int test_value_object_array(void);
 
 int http_response_launcher(void);
 int test_http_response(void);
+/* class http status code */
+
+int status_code_launcher(void);
+int test_status_code(void);
 
 #endif /* TESTS_H */
