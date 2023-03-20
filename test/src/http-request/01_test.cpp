@@ -1,6 +1,6 @@
 #include "Stream.hpp"
 
-#include "request.hpp"
+#include "Request.hpp"
 
 int
 test_http_request(void)
