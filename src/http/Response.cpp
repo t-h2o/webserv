@@ -11,8 +11,8 @@ namespace http
 	Response::load_http_request(Request &request)
 	{
 		init_response_map();
-		_response_map["dir_location"] += req.get_path();
-		if (!req.method_is_authorized(req.get_method()))
+		_response_map["dir_location"] += request.get_path();
+		if (!request.method_is_authorized(request.get_method()))
 		{
 			load_response_map(405);
 		}
@@ -185,7 +185,7 @@ namespace http
 	std::ostream &
 	operator<<(std::ostream &output, Response const &response)
 	{
-		for (Response::t_object::const_iterator start(res.get_map().begin()); start != res.get_map().end(); ++start)
+		for (Response::t_object::const_iterator start(response.get_map().begin()); start != response.get_map().end(); ++start)
 		{
 			output << start->first << " : " << start->second << "\n";
 		}
