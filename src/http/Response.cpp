@@ -84,7 +84,7 @@ namespace http
 		std::ifstream file;
 		bool ret = false;
 		file.open(path.c_str());
-		if (file)
+		if (file.is_open())
 		{
 			ret = true;
 			file.close();
