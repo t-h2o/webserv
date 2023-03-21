@@ -32,6 +32,8 @@ SRCS	+=	$(SRCD)/webserver.cpp
 SRCS	+=	$(SRCD)/arguments/check_argc_number.cpp
 SRCS	+=	$(SRCD)/http/Request.cpp
 SRCS	+=	$(SRCD)/json/Value.cpp
+SRCS	+=	$(SRCD)/http/Response.cpp
+SRCS	+=	$(SRCD)/http/StatusCodes.cpp
 SRCS	+=	$(SRCD)/std98/std98.cpp
 
 
