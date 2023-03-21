@@ -183,7 +183,7 @@ Response::create_error_html_page(int code)
 }
 
 std::ostream &
-operator<<(std::ostream &output, Response const &res)
+operator<<(std::ostream &output, Response const &response)
 {
 	Response::t_object::const_iterator start;
 
