@@ -66,8 +66,7 @@ Response::load_response_map(int status_code)
 std::string
 Response::get_time_stamp(void)
 {
-	std::time_t stamp = std::time(NULL);
-	std::string formated_date = std::asctime(std::gmtime(&stamp));
+	std::string formated_date = std::asctime(std::gmtime(std::time(NULL)));
 	formated_date = formated_date.substr(0, formated_date.length() - 1);
 	formated_date += " GMT";
 	return formated_date;
