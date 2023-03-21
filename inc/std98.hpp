@@ -7,7 +7,7 @@
 namespace std98
 {
 
-std::string to_string(double);
+std::string to_string(double const & number);
 
 } /* namespace std98 */
 
