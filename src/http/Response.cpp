@@ -185,9 +185,7 @@ Response::create_error_html_page(int code)
 std::ostream &
 operator<<(std::ostream &output, Response const &response)
 {
-	Response::t_object::const_iterator start;
-
-	for (start = res.get_map().begin(); start != res.get_map().end(); ++start)
+	for (Response::t_object::const_iterator start(res.get_map().begin()); start != res.get_map().end(); ++start)
 	{
 		output << start->first << " : " << start->second << "\n";
 	}
