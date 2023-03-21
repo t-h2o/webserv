@@ -149,7 +149,7 @@ Response::construct_body_string(std::string path_to_file)
 	file.open(path_to_file.c_str());
 	if (file.fail())
 	{
-		std::cout << "Open file error" << std::endl;
+		std::cerr << "Open file error" << std::endl;
 		return;
 	}
 	buffer << file.rdbuf();
