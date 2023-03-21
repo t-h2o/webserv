@@ -8,7 +8,7 @@ Response::Response(void) {}
 Response::~Response(void) {}
 
 void
-Response::load_http_request(Request &req)
+Response::load_http_request(Request &request)
 {
 	init_response_map();
 	std::string requested_path = req.get_path();
