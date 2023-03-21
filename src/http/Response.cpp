@@ -11,8 +11,7 @@ void
 Response::load_http_request(Request &request)
 {
 	init_response_map();
-	std::string requested_path = req.get_path();
-	_response_map["dir_location"] += requested_path;
+	_response_map["dir_location"] += req.get_path();
 	if (!req.method_is_authorized(req.get_method()))
 	{
 		load_response_map(405);
