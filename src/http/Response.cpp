@@ -79,7 +79,6 @@ Response::set_content_length(std::string str)
 	_response_map["Content-Length"] = std98::to_string(str.length());
 }
 
-
 void
 Response::set_response_type(std::string path)
 {
@@ -156,16 +155,12 @@ Response::get_http_response(void)
 void
 Response::create_error_html_page(int code)
 {
-	std::string html_page = "";
-	html_page += "<!DOCTYPE html><html><head><link rel=\"stylesheet\"href=\"style.css\"/><link rel=\"icon\" "
-				 "href=\"favicon.ico\"><title>";
-	html_page += std98::to_string(code);
-	html_page
-		+= "</title></head><body><div class=\" wrapper\"><div class=\"centered-box\"><h1 class=\"title\">";
-	html_page += _status_code.get_key_value_formated(code);
-	html_page += "</h1></div></div></body></html>";
-	_response_map["body-string"] = html_page;
-	std::cout << "AUTO_HTML PAGE:\n" << html_page << std::endl;
+	_response_map["body-string"]
+		= "<!DOCTYPE html><html><head><link rel=\"stylesheet\"href=\"style.css\"/><link rel=\"icon\" "
+		  "href=\"favicon.ico\"><title>"
+		  + std98::to_string(code)
+		  + "</title></head><body><div class=\" wrapper\"><div class=\"centered-box\"><h1 class=\"title\">"
+		  + _status_code.get_key_value_formated(code) + "</h1></div></div></body></html>";
 }
 
 std::ostream &
