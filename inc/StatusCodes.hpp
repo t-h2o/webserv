@@ -1,11 +1,11 @@
 #ifndef STATUSCODE_HPP
 #define STATUSCODE_HPP
 
+#include "std98.hpp"
 #include <iostream>
 #include <map>
-#include <string>
 #include <sstream>
-#include "std98.hpp"
+#include <string>
 
 namespace http
 {

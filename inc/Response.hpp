@@ -4,10 +4,10 @@
 #include "Request.hpp"
 #include "StatusCodes.hpp"
 #include "std98.hpp"
+#include <ctime>
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <ctime>
 
 namespace http
 {
@@ -24,8 +24,8 @@ class Response
 	const t_object &get_map() const;
 
   private:
-	StatusCode	_status_code;
-	Request _request;
+	StatusCode _status_code;
+	Request	   _request;
 
 	t_object	_response_map;
 	void		set_content_length(std::string str);
