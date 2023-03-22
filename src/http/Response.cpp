@@ -16,7 +16,7 @@ Response::load_http_request(Request &request)
 	{
 		load_response_map(405);
 	}
-	else if (!file_exists(_response_map["dir_location"]))
+	else if (access(_response_map["dir_location"].c_str(), F_OK))
 	{
 		load_response_map(404);
 	}
@@ -79,19 +79,6 @@ Response::set_content_length(std::string str)
 	_response_map["Content-Length"] = std98::to_string(str.length());
 }
 
-bool
-Response::file_exists(std::string path)
-{
-	std::ifstream file;
-	bool		  ret = false;
-	file.open(path.c_str());
-	if (file.is_open())
-	{
-		ret = true;
-		file.close();
-	}
-	return ret;
-}
 
 void
 Response::set_response_type(std::string path)
