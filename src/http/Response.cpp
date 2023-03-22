@@ -107,19 +107,11 @@ Response::construct_header_string(void)
 {
 	std::string CRLF = "\r\n";
 
-	_response_map["header-string"] += _response_map["Status-line"];
-	_response_map["header-string"] += CRLF;
-	_response_map["header-string"] += "Date: " + _response_map["Date"];
-	_response_map["header-string"] += CRLF;
-	_response_map["header-string"] += "Server: " + _response_map["Server"];
-	_response_map["header-string"] += CRLF;
-	_response_map["header-string"] += "Content-Length: " + _response_map["Content-Length"];
-	_response_map["header-string"] += CRLF;
-	_response_map["header-string"] += "Content-Type: " + _response_map["Content-Type"];
-	_response_map["header-string"] += CRLF;
-	_response_map["header-string"] += "Connection: " + _response_map["Connection"];
-	_response_map["header-string"] += CRLF;
-	_response_map["header-string"] += CRLF;
+	_response_map["header-string"] = _response_map["Status-line"] + CRLF + "Date: " + _response_map["Date"]
+									 + CRLF + "Server: " + _response_map["Server"] + CRLF
+									 + "Content-Length: " + _response_map["Content-Length"] + CRLF
+									 + "Content-Type: " + _response_map["Content-Type"] + CRLF
+									 + "Connection: " + _response_map["Connection"] + CRLF + CRLF;
 }
 
 void
