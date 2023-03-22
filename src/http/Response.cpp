@@ -3,6 +3,8 @@
 namespace http
 {
 
+StatusCode Response::_status_code;
+
 Response::Response(void) {}
 
 Response::~Response(void) {}
