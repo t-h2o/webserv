@@ -150,9 +150,7 @@ Response::construct_full_response(void)
 std::string
 Response::get_http_response(void)
 {
-	std::string ret;
-	ret = _response_map["full-response-string"];
-	return ret;
+	return _response_map["full-response-string"];
 }
 
 void
