@@ -13,32 +13,36 @@
  * - whats are the arguments to put into execve()
  */
 
-int execution_cgi(char **envp)
+int
+execution_cgi(char **envp)
 {
 	char *args[5];
-	int	pipefd[2];
+	int	  pipefd[2];
 
-	if (pipe(pipefd) == -1) {
+	if (pipe(pipefd) == -1)
+	{
 		std::cerr << "error pipe" << std::endl;
 		return (1);
 	}
 	pid_t pid = fork();
 
-	if (pid == -1) {
+	if (pid == -1)
+	{
 		std::cerr << "error fork" << std::endl;
 		return (1);
 	}
-	else if (pid == 0) {
+	else if (pid == 0)
+	{
 		// child process
-		close (pipefd[0])
+		close(pipefd[0])
 	}
 
-	else {
+	else
+	{
 		// parent process
-
-		}
 	}
-	return (0);
+}
+return (0);
 }
 
 //		args[2] = (char *) (">");

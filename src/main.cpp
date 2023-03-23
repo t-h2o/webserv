@@ -1,14 +1,15 @@
 #include "arguments.hpp"
 #include "webserver.hpp"
 
-#include <unistd.h>
-#include <stdio.h>
 #include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
 
-void pipe_two_proccess(void)
+void
+pipe_two_proccess(void)
 {
-	int pipefd[2];
-	char array[6];
+	int	  pipefd[2];
+	char  array[6];
 	pid_t pid;
 
 	pipe(pipefd);
@@ -25,8 +26,8 @@ void pipe_two_proccess(void)
 		printf("parent fd[0] = %d\n", pipefd[0]);
 		printf("parent fd[1] = %d\n", pipefd[1]);
 	}
-	
-	return ;
+
+	return;
 
 	write(pipefd[1], "hello", 5);
 	write(pipefd[1], "world", 5);
@@ -38,11 +39,12 @@ void pipe_two_proccess(void)
 	printf("%d %d array = %s\n", pipefd[0], pipefd[1], array);
 }
 
-void pipe_one(void)
+void
+pipe_one(void)
 {
-	int pipefd[2];
+	int	 pipefd[2];
 	char array[6];
-	
+
 	pipe(pipefd);
 
 	write(pipefd[1], "hello", 5);
@@ -55,19 +57,20 @@ void pipe_one(void)
 	printf("%d %d array = %s\n", pipefd[0], pipefd[1], array);
 }
 
-void one_fd(void)
+void
+one_fd(void)
 {
-	int	fd;
+	int	 fd;
 	char array[6];
-    
+
 	/* write into fd */
-    
-	fd = open ("./newfile", O_WRONLY | O_CREAT | O_TRUNC);
+
+	fd = open("./newfile", O_WRONLY | O_CREAT | O_TRUNC);
 
 	if (fd == -1)
 	{
 		printf("error: open()\n");
-		return ;
+		return;
 	}
 
 	printf("fd is %d\n", fd);
@@ -75,10 +78,10 @@ void one_fd(void)
 	write(fd, "hello", 5);
 
 	close(fd);
-    
+
 	/* read from fd */
 
-	fd = open ("./newfile", O_RDONLY);
+	fd = open("./newfile", O_RDONLY);
 
 	read(fd, array, 5);
 
