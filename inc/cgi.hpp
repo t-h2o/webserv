@@ -5,6 +5,7 @@
 #ifndef WEBSERV_CGI_HPP
 #define WEBSERV_CGI_HPP
 #include <unistd.h>
+#include <iostream>
 
 int execution_cgi(char **);
 #endif // WEBSERV_CGI_HPP

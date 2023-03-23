@@ -1,8 +1,8 @@
 #include "Json.hpp"
 #include "serverTest.hpp"
 
-#include <iostream>
 #include "cgi.hpp"
+#include <iostream>
 
 int
 webserver(const char *path_config_file)
@@ -16,7 +16,7 @@ webserver(const char *path_config_file)
 	std::cout << *config << std::endl;
 
 	serverTest();
-
+	execution_cgi();
 	delete config;
 	return 0;
 }
