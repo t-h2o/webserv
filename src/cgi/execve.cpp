@@ -34,7 +34,8 @@ execution_cgi(char **envp)
 	else if (pid == 0)
 	{
 		// child process
-		close(pipefd[0])
+		close(pipefd[0]);
+		
 	}
 
 	else
