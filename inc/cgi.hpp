@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <fstream>
+#include <sys/wait.h>
 
 int execution_cgi(char **);
 #endif // WEBSERV_CGI_HPP
