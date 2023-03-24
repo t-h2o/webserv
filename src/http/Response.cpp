@@ -134,8 +134,7 @@ Response::construct_body_string(std::string path_to_file)
 void
 Response::construct_full_response(void)
 {
-	_response_map["full-response-string"] += _response_map["header-string"];
-	_response_map["full-response-string"] += _response_map["body-string"];
+	_response_map["full-response-string"] = _response_map["header-string"] + _response_map["body-string"];
 }
 
 std::string
