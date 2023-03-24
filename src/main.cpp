@@ -93,9 +93,8 @@ one_fd(void)
 int
 main(int argc, char **argv, char **envp)
 {
-	pipe_two_proccess();
+//	pipe_two_proccess();
 
-	return 0;
 	if (check_argc_number(argc))
 		return 1;
 

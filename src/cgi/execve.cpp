@@ -16,8 +16,9 @@
 int
 execution_cgi(char **envp)
 {
-	char *args[5];
-	int	  pipefd[2];
+	char	args[6];
+	int	 	pipefd[2];
+	(void) envp;
 
 	if (pipe(pipefd) == -1)
 	{
@@ -35,16 +36,20 @@ execution_cgi(char **envp)
 	{
 		// child process
 		close(pipefd[0]);
-		
+		dup2(pipefd[1], STDOUT_FILENO);
+		write(pipefd[1], "hello", 5);
+		close(pipefd[1]);
 	}
 
 	else
 	{
 		// parent process
+		close(pipefd[1]);
+		dup2(pipefd[0], STDIN_FILENO);
+		read(pipefd[0], args, 5);
+		printf("array = %s\n", args);
+		close(pipefd[0]);
 	}
-}
+
 return (0);
 }
-
-//		args[2] = (char *) (">");
-//		args[3] = (char *) ("info.html"); // stocker memoire.
