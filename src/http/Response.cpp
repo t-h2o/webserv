@@ -47,7 +47,7 @@ Response::init_response_map(void)
 void
 Response::load_response_map(int status_code)
 {
-	_response_map["Date"] += get_time_stamp();
+	_response_map["Date"] = get_time_stamp();
 	_response_map["Status-line"]
 		= _response_map["Protocol"] + _status_code.get_key_value_formated(status_code);
 	if (status_code != 200)
