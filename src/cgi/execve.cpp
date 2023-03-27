@@ -17,10 +17,10 @@
 int
 execution_cgi(char **envp)
 {
-	int	 	pipefd[2];
-	char	*arguments[3];
-	std::string	output_cgi;
-	char	read_buffer[BUFFER_SIZE];
+	int			pipefd[2];
+	char	   *arguments[3];
+	std::string output_cgi;
+	char		read_buffer[BUFFER_SIZE];
 
 	if (pipe(pipefd) == -1)
 	{
@@ -38,8 +38,8 @@ execution_cgi(char **envp)
 	else if (pid == 0)
 	{
 		// child process
-		arguments[0] = (char *) "/Users/kdi-noce/goinfre/bin/php-cgi";
-		arguments[1] = (char *) "test.php";
+		arguments[0] = (char *)"/Users/kdi-noce/goinfre/bin/php-cgi";
+		arguments[1] = (char *)"test.php";
 		arguments[2] = NULL;
 
 		close(pipefd[0]);
@@ -62,14 +62,15 @@ execution_cgi(char **envp)
 			{
 				if (errno == EINTR)
 					continue;
-				else {
+				else
+				{
 					perror("read");
 					close(pipefd[0]);
 					return (1);
 				}
 			}
 			else if (!bytes_read)
-				break ;
+				break;
 			else
 				output_cgi.append(read_buffer, bytes_read);
 			std::memset(read_buffer, 0, BUFFER_SIZE);
