@@ -31,6 +31,10 @@ SRCS	+=	$(SRCD)/Value/03_test.cpp
 SRCS	+=	$(SRCD)/Value/04_test.cpp
 SRCS	+=	$(SRCD)/Value/05_test.cpp
 SRCS	+=	$(SRCD)/Value/06_test.cpp
+SRCS	+=	$(SRCD)/http-response/00_launcher.cpp
+SRCS	+=	$(SRCD)/http-response/01_test.cpp
+SRCS	+=	$(SRCD)/http-status-code/00_launcher.cpp
+SRCS	+=	$(SRCD)/http-status-code/01_test.cpp
 
 
 #	Headers
