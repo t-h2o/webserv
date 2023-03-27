@@ -17,6 +17,18 @@ package "Web server" as wbs {
 client --> ws
 ....
 
+=== Class diagram
+
+[plantuml, target=class, format=svg, width=60%]
+....
+set separator ::
+
+class http::Request
+class http::Response
+class http::StatusCodes
+class json::Value
+....
+
 === Sequence diagram
 
 [plantuml, target=sequence, format=svg, width=60%]
