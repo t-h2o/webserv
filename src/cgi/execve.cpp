@@ -22,6 +22,7 @@ execution_cgi(char **envp)
 	std::string output_cgi;
 	char		read_buffer[BUFFER_SIZE];
 
+	// Verify if pipe failed.
 	if (pipe(pipefd) == -1)
 	{
 		std::cerr << "error pipe" << std::endl;
@@ -30,6 +31,7 @@ execution_cgi(char **envp)
 
 	pid_t pid = fork();
 
+	// Verify if fork failed
 	if (pid == -1)
 	{
 		std::cerr << "error fork" << std::endl;
@@ -37,15 +39,19 @@ execution_cgi(char **envp)
 	}
 	else if (pid == 0)
 	{
-		// child process
+		// Child process
+		// Path to the cgi
 		arguments[0] = (char *)"/Users/kdi-noce/goinfre/bin/php-cgi";
+		// The php file who contain phpinfo(), a big configuration function.
 		arguments[1] = (char *)"test.php";
 		arguments[2] = NULL;
 
 		close(pipefd[0]);
+		// Replace the old FD
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
 
+		// Execute new process
 		execve(arguments[0], arguments, envp);
 		perror("execve");
 	}
@@ -57,9 +63,16 @@ execution_cgi(char **envp)
 
 		while (true)
 		{
+			// Initialize bytes_read with the return value from read, for error checking.
 			ssize_t bytes_read = read(pipefd[0], read_buffer, BUFFER_SIZE);
+			// Condition if read fail
 			if (bytes_read == -1)
 			{
+				/* EINTR error code if a signal occurred while the system call was in progress. No error
+				 * actually occurred, it's just reported that way because the system isn't able to resume the
+				 * system call automatically. This coding pattern simply retries the system call when this
+				 * happens, to ignore the interrupt.
+				 * */
 				if (errno == EINTR)
 					continue;
 				else
@@ -69,14 +82,17 @@ execution_cgi(char **envp)
 					return (1);
 				}
 			}
+			// End of file
 			else if (!bytes_read)
 				break;
+			// std::string output_cgi concatenation with append
 			else
 				output_cgi.append(read_buffer, bytes_read);
+			// Fill read_buffer with 0
 			std::memset(read_buffer, 0, BUFFER_SIZE);
 		}
-		output_cgi += read_buffer;
 		std::cout << "read: " << output_cgi << std::endl;
+		// Close the process.
 		close(pipefd[0]);
 	}
 	return (0);
