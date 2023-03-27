@@ -1,4 +1,5 @@
 #include "../../inc/cgi.hpp"
+#define BUFFER_SIZE 4092
 
 /* pseudo code CGI
  * variables list:
@@ -18,7 +19,8 @@ execution_cgi(char **envp)
 {
 	int	 	pipefd[2];
 	char	*arguments[3];
-	(void)	envp;
+	std::string	output_cgi;
+	char	read_buffer[BUFFER_SIZE];
 
 	if (pipe(pipefd) == -1)
 	{
@@ -44,7 +46,7 @@ execution_cgi(char **envp)
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
 
-		execvp(arguments[0], arguments);
+		execve(arguments[0], arguments, envp);
 		perror("execve");
 	}
 
@@ -53,57 +55,28 @@ execution_cgi(char **envp)
 		// parent process
 		close(pipefd[1]);
 
-		int fd = open("test.html", O_WRONLY | O_CREAT | O_TRUNC, 0666);
-		if (fd == -1)
+		while (true)
 		{
-			perror("open");
-			return (1);
-		}
-		char	buffer[4096];
-		ssize_t	nbytes;
-		while ((nbytes = read(pipefd[0], buffer, sizeof(buffer))) > 0)
-		{
-			if (write(fd, buffer, nbytes) != nbytes)
+			ssize_t bytes_read = read(pipefd[0], read_buffer, BUFFER_SIZE);
+			if (bytes_read == -1)
 			{
-				perror("write");
-				return (1);
+				if (errno == EINTR)
+					continue;
+				else {
+					perror("read");
+					close(pipefd[0]);
+					return (1);
+				}
 			}
+			else if (!bytes_read)
+				break ;
+			else
+				output_cgi.append(read_buffer, bytes_read);
+			std::memset(read_buffer, 0, BUFFER_SIZE);
 		}
+		output_cgi += read_buffer;
+		std::cout << "read: " << output_cgi << std::endl;
 		close(pipefd[0]);
-		if (close(fd) == -1)
-		{
-			perror("close");
-			return (1);
-		}
-		int status;
-		if (waitpid(pid, &status, 0) == -1)
-		{
-			perror("close");
-			return (1);
-		}
-		if (WIFEXITED(status)) {
-			int exit_status = WEXITSTATUS(status);
-			if (exit_status != 0) {
-				std::cerr << "Command exited with status " << exit_status << std::endl;
-				return 1;
-			}
-		}
-		else
-		{
-			std::cerr << "Command exited abnormally" << std::endl;
-			return 1;
-		}
-//		int nbytes = read(pipefd[0], array, sizeof(array));
-//		array[nbytes] = '\0';
-//		std::cout << array;
-
-
-//		std::ifstream outfile("test.txt");
-//		std::string line;
-//		while (std::getline(outfile, line))
-//			std::cout << "parent process readL: " << line << std::endl;
-//		outfile.close();
 	}
-
-return (0);
+	return (0);
 }
