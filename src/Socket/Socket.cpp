@@ -69,9 +69,3 @@ Socket::set_socket_non_blocking()
 	// ret = fcntl(_sock_id, F_SETFL, O_NONBLOCK);
 	// test_socket(ret, "fcnt() Fail!");
 }
-
-const char *
-Socket::SocketException::what() const throw()
-{
-	return "Exception: Socket set up failed.";
-}

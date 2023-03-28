@@ -27,11 +27,6 @@ class Socket
 	int				   get_sock_id() const;
 	unsigned short get_port() const;
 
-	class SocketException : public std::exception
-	{
-	  public:
-		const char *what() const throw();
-	};
 };
 
 #endif
