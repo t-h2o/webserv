@@ -48,7 +48,7 @@ serverTest()
 				{
 					break;
 				}
-				memset(buffer, 0, MAXLINE);
+				std::memset(buffer, 0, MAXLINE);
 				recv_return = recv(connection_fd, buffer, MAXLINE - 1, 0);
 			}
 		}
