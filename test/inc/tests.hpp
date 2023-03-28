@@ -28,7 +28,7 @@ int test_json_missing_brace(void);
 int test_json_number(void);
 int test_json_string_number(void);
 
-/* Value class */
+/* class Value */
 
 int launcher_value(void);
 int test_value_string(void);
