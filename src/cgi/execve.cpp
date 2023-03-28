@@ -1,4 +1,5 @@
-#include "../../inc/cgi.hpp"
+#include "cgi.hpp"
+
 #define BUFFER_SIZE 4092
 
 /* pseudo code CGI
@@ -54,6 +55,7 @@ execution_cgi(char **envp)
 		// Execute new process
 		execve(arguments[0], arguments, envp);
 		perror("execve");
+		exit(1);
 	}
 
 	else
