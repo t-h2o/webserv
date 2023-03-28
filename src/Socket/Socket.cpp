@@ -22,7 +22,7 @@ Socket::create_socket(int domain, int type, int protocol)
 void
 Socket::binding_socket()
 {
-	_connection = bind(_sock_id, (struct sockaddr *)&_address, sizeof(_address));
+	_connection = bind(_sock_id, reinterpret_cast<struct sockaddr *>(&_address), sizeof(_address));
 	test_socket(_connection, "binding_socket() Fail!");
 }
 
@@ -41,7 +41,7 @@ Socket::test_socket(int item_to_test, const char *msg)
 	{
 		std::cerr << msg << std::endl;
 		close(_sock_id);
-		throw Socket::SocketException();
+		throw std::runtime_error("Exception: Socket set up failed.");
 	}
 }
 

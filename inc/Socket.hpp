@@ -24,9 +24,8 @@ class Socket
 
   public:
 	Socket(int domain, unsigned short port, int type, int protocol, u_long interface);
-	int				   get_sock_id() const;
+	int			   get_sock_id() const;
 	unsigned short get_port() const;
-
 };
 
 #endif
