@@ -1,5 +1,8 @@
 #include <iostream>
 
+namespace arguments
+{
+
 static void
 print_help(void)
 {
@@ -15,3 +18,5 @@ check_argc_number(int argc)
 	print_help();
 	return 1;
 }
+
+} /* namespace arguments */
