@@ -1,5 +1,6 @@
 #ifndef SOCKET_HPP
 #define SOCKET_HPP
+
 #include <errno.h>
 #include <fcntl.h>
 #include <iostream>
