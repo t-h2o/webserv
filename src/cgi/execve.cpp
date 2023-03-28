@@ -19,6 +19,7 @@ int
 execution_cgi(char **envp)
 {
 	int			pipefd[2];
+	int			stat_loc;
 	char	   *arguments[3];
 	std::string output_cgi;
 	char		read_buffer[BUFFER_SIZE];
@@ -62,6 +63,10 @@ execution_cgi(char **envp)
 	{
 		// parent process
 		close(pipefd[1]);
+
+		waitpid(pid, &stat_loc, 0);
+		if (WEXITSTATUS(stat_loc) != 0)
+			return 0;
 
 		while (true)
 		{
