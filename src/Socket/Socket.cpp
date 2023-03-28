@@ -39,9 +39,8 @@ Socket::test_socket(int item_to_test, const char *msg)
 {
 	if (item_to_test < 0)
 	{
-		std::cerr << msg << std::endl;
 		close(_sock_id);
-		throw std::runtime_error("Exception: Socket set up failed.");
+		throw std::runtime_error(msg);
 	}
 }
 
