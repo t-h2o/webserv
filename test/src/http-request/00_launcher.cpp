@@ -2,7 +2,7 @@
 #include "tests.hpp"
 
 int
-http_request_launcher(void)
+launcher_http_request(void)
 {
 	Unit_test list("class http parser");
 

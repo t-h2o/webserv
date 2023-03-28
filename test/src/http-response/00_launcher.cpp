@@ -2,7 +2,7 @@
 #include "tests.hpp"
 
 int
-http_response_launcher(void)
+launcher_http_response(void)
 {
 	Unit_test list("class http response");
 

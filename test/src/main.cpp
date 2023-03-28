@@ -5,12 +5,12 @@ main(void)
 {
 	int result;
 
-	result = arguments_launcher();
-	result |= http_request_launcher();
-	result |= value_launcher();
-	result |= http_response_launcher();
-	result |= status_code_launcher();
-	result |= json_launcher();
+	result = launcher_arguments();
+	result |= launcher_http_request();
+	result |= launcher_value();
+	result |= launcher_http_response();
+	result |= launcher_status_code();
+	result |= launcher_json();
 
 	return result;
 }

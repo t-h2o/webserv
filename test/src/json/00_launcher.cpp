@@ -2,7 +2,7 @@
 #include "tests.hpp"
 
 int
-json_launcher(void)
+launcher_json(void)
 {
 	Unit_test list("json::t_object *json::read(char const *path)");
 

@@ -2,7 +2,7 @@
 #include "tests.hpp"
 
 int
-status_code_launcher(void)
+launcher_status_code(void)
 {
 	Unit_test list("class status code");
 
