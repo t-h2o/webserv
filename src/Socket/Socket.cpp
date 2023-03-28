@@ -1,6 +1,6 @@
 #include "Socket.hpp"
 
-Socket::Socket(int domain, int port, int type, int protocol, u_long interface)
+Socket::Socket(int domain, unsigned short port, int type, int protocol, u_long interface)
 {
 	_address.sin_family = domain;
 	_address.sin_port = htons(port);
@@ -51,7 +51,7 @@ Socket::get_sock_id() const
 	return _sock_id;
 }
 
-unsigned short int
+unsigned short
 Socket::get_port() const
 {
 	return ntohs(_address.sin_port);
