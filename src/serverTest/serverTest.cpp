@@ -61,7 +61,7 @@ serverTest()
 		// std::cout << res << std::endl;
 		// std::cout << "***************** HTTP REPONSE END ****************\n" << std::endl;
 
-		std::string response = res.get_http_response();
+		std::string response(res.get_http_response());
 		send_ret = send(connection_fd, response.c_str(), response.length(), 0);
 		if (send_ret < static_cast<int>(response.length()))
 		{
