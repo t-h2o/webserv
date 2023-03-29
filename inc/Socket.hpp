@@ -10,6 +10,8 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+#define LISTEN_BACKLOG 10
+
 class Socket
 {
   private:

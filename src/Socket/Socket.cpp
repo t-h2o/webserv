@@ -30,7 +30,7 @@ void
 Socket::start_listening()
 {
 	int res;
-	res = listen(_sock_id, 10);
+	res = listen(_sock_id, LISTEN_BACKLOG);
 	test_socket(res, "start_listening() Fail!");
 }
 
