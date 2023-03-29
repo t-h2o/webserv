@@ -30,6 +30,8 @@ SRCD	=	src
 SRCS	=	$(SRCD)/main.cpp
 SRCS	+=	$(SRCD)/webserver.cpp
 SRCS	+=	$(SRCD)/arguments/check_argc_number.cpp
+SRCS	+=	$(SRCD)/serverTest/serverTest.cpp
+SRCS	+=	$(SRCD)/Socket/Socket.cpp
 
 # namespace http
 
@@ -48,9 +50,7 @@ SRCS	+=	$(SRCD)/json/Value.cpp
 
 # namespace std98
 
-SRCS	+=	$(SRCD)/std98/std98.cpp
-SRCS	+=	$(SRCD)/serverTest/serverTest.cpp
-SRCS	+=	$(SRCD)/Socket/Socket.cpp
+SRCS	+=	$(SRCD)/std98/to_string.cpp
 
 
 #	Headers
