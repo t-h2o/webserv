@@ -70,19 +70,10 @@ execution_cgi(char **envp)
 			// Condition if read fail
 			if (bytes_read == -1)
 			{
-				/* EINTR error code if a signal occurred while the system call was in progress. No error
-				 * actually occurred, it's just reported that way because the system isn't able to resume the
-				 * system call automatically. This coding pattern simply retries the system call when this
-				 * happens, to ignore the interrupt.
-				 * */
-				if (errno == EINTR)
-					continue;
-				else
-				{
-					perror("read");
-					close(pipefd[0]);
-					return (1);
-				}
+				// if it doesn't work, look for tgrivel.
+				perror("read");
+				close(pipefd[0]);
+				return (1);
 			}
 			// End of file
 			else if (!bytes_read)
