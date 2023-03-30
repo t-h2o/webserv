@@ -1,7 +1,7 @@
 #include "Request.hpp"
 #include "Response.hpp"
 #include "Socket.hpp"
-#include <string>
+#include <cstring>
 #include <vector>
 
 void
