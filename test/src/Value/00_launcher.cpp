@@ -2,7 +2,7 @@
 #include "tests.hpp"
 
 int
-launcher_value(void)
+launch_value(void)
 {
 	Unit_test list("Value class");
 

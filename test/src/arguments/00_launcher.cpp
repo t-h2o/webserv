@@ -2,7 +2,7 @@
 #include "tests.hpp"
 
 int
-launcher_arguments(void)
+launch_arguments(void)
 {
 	Unit_test list("int check_argc_number(int)");
 
