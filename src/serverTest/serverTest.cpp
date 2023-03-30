@@ -16,7 +16,7 @@ serverTest()
 	 *	address for this socket, let the OS choose = INADDR_ANY
 	 */
 	const int				 MAXLINE = 1000;
-	Socket					 sock(AF_INET, 8080, SOCK_STREAM, 0, INADDR_ANY);
+	Socket					 sock(AF_INET, 8080, SOCK_STREAM, 0);
 	int						 connection_fd;
 	char					 buffer[MAXLINE] = { 0 };
 	int						 recv_return;

@@ -1,10 +1,10 @@
 #include "Socket.hpp"
 
-Socket::Socket(int domain, unsigned short port, int type, int protocol, unsigned int interface)
+Socket::Socket(int domain, unsigned short port, int type, int protocol)
 {
 	_address.sin_family = domain;
 	_address.sin_port = htons(port);
-	_address.sin_addr.s_addr = htonl(interface);
+	_address.sin_addr.s_addr = htonl(INADDR_ANY);
 
 	create_socket(domain, type, protocol);
 	set_socket_non_blocking();

@@ -25,7 +25,7 @@ class Socket
 	void			   set_socket_non_blocking();
 
   public:
-	Socket(int domain, unsigned short port, int type, int protocol, unsigned int interface);
+	Socket(int domain, unsigned short port, int type, int protocol);
 	int			   get_sock_id() const;
 	unsigned short get_port() const;
 };
