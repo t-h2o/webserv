@@ -17,7 +17,7 @@ File::~File(void) { _file.close(); }
 char
 File::getc(void)
 {
-	while (!_file.eof()) // && _index < _current_line.size())
+	while (!_file.eof())
 	{
 		if (_index == _current_line.size())
 		{
@@ -31,10 +31,6 @@ File::getc(void)
 	}
 	return 0;
 }
-
-//
-// Private mumber function
-//
 
 /* move the index up to the next no blank character
  * "last     next"
