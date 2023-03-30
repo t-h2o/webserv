@@ -32,28 +32,6 @@ File::getc(void)
 	return 0;
 }
 
-/* get the string value up to the next '"'
- * "the value"
- * ^      -> ^
- */
-std::string
-File::get_string(void)
-{
-	std::string value;
-
-	if (_current_line[_index] == '"')
-		++_index;
-	while (_current_line[_index] && _current_line[_index] != '"')
-		value += _current_line[_index++];
-
-	--_index;
-
-	if (value == "")
-		throw std::runtime_error("Json: _get_string():\n" + _current_line + "\nempty string");
-
-	return value;
-}
-
 //
 // Private mumber function
 //
