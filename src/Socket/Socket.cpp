@@ -1,6 +1,6 @@
 #include "Socket.hpp"
 
-Socket::Socket(int domain, unsigned short port, int type, int protocol, u_long interface)
+Socket::Socket(int domain, unsigned short port, int type, int protocol, unsigned int interface)
 {
 	_address.sin_family = domain;
 	_address.sin_port = htons(port);
