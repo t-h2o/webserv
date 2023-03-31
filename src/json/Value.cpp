@@ -79,7 +79,7 @@ Value::get_type(void) const
 Value &
 Value::get(std::string const &key) const
 {
-	return get<t_object>().find(key)->second;
+	return get<t_object>().at(key);
 }
 
 /* extra */
