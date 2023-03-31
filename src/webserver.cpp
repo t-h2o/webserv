@@ -15,7 +15,7 @@ webserver(const char *path_config_file)
 
 	std::cout << *config << std::endl;
 
-	serverTest();
+	serverTest(config);
 
 	delete config;
 

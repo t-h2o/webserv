@@ -1,6 +1,8 @@
 #ifndef SERVERTEST_HPP
 #define SERVERTEST_HPP
 
-void serverTest();
+#include "Json.hpp"
+
+void serverTest(json::t_object *config);
 
 #endif

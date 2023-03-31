@@ -1,11 +1,13 @@
 #include "Request.hpp"
 #include "Response.hpp"
 #include "Socket.hpp"
+#include "serverTest.hpp"
+#include "Value.hpp"
 #include <cstring>
 #include <vector>
 
 void
-serverTest()
+serverTest(json::t_object *config)
 {
 	/*
 	 *  sock @params:
@@ -15,8 +17,12 @@ serverTest()
 	 *	AF_INET + SOCK_STREAM always protocol = 0,
 	 *	address for this socket, let the OS choose = INADDR_ANY
 	 */
+
+	json::Value				 val(config);
 	const int				 MAXLINE = 1000;
-	Socket					 sock(AF_INET, 8080, SOCK_STREAM, 0);
+	std::cout << "HERE " << std::endl;
+	double 					 port = val.get("path").get<double>();
+	Socket					 sock(AF_INET, port, SOCK_STREAM, 0);
 	int						 connection_fd;
 	char					 buffer[MAXLINE] = { 0 };
 	int						 recv_return;
@@ -24,6 +30,8 @@ serverTest()
 	http::Response			 res;
 	std::vector<std::string> header;
 	int						 send_ret = 0;
+
+	std::cout << "port : " << port << std::endl;
 
 	while (1)
 	{
