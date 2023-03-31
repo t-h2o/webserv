@@ -14,7 +14,14 @@ test_value_no_existing_key(void)
 	if (config.get("key").get<double>() != 12)
 		return 1;
 
-	config.get("no-existing-key").get<std::string>();
+	try
+	{
+		config.get("no-existing-key").get<double>();
+	}
+	catch (std::exception &e)
+	{
+		return 0;
+	}
 
-	return 0;
+	return 1;
 }
