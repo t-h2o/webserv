@@ -42,6 +42,7 @@ SRCS	+=	$(SRCD)/Value/03_test.cpp
 SRCS	+=	$(SRCD)/Value/04_test.cpp
 SRCS	+=	$(SRCD)/Value/05_test.cpp
 SRCS	+=	$(SRCD)/Value/06_test.cpp
+SRCS	+=	$(SRCD)/Value/07_test.cpp
 
 
 #	Headers
