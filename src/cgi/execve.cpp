@@ -21,7 +21,7 @@ execution_cgi(char **envp)
 	std::string output_cgi;
 	int			pipefd[2];
 	int			stat_loc;
-	char		*arguments[3];
+	char	   *arguments[3];
 	char		read_buffer[BUFFER_SIZE];
 
 	// Verify if pipe failed.

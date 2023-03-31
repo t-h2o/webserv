@@ -4,5 +4,8 @@
 int
 cgi_launcher(void)
 {
-	return (0);
+	Unit_test list("execve cgi");
+
+	list.load_test("simple test", &test_cgi);
+	return (list.launch_tests());
 }
