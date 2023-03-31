@@ -46,7 +46,6 @@ SRCS	+=	$(SRCD)/json/load_config.cpp
 SRCS	+=	$(SRCD)/json/process_line.cpp
 SRCS	+=	$(SRCD)/json/utils.cpp
 SRCS	+=	$(SRCD)/json/Value.cpp
-SRCS	+=	$(SRCD)/json/Value.cpp
 
 # namespace std98
 
