@@ -10,6 +10,7 @@ main(void)
 	result |= value_launcher();
 	result |= http_response_launcher();
 	result |= status_code_launcher();
+	result |= json_launcher();
 
 	return result;
 }
