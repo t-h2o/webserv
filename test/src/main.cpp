@@ -11,6 +11,7 @@ main(void)
 	result |= http_response_launcher();
 	result |= status_code_launcher();
 	result |= json_launcher();
+	result |= cgi_launcher();
 
 	return result;
 }

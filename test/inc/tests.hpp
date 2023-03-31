@@ -46,4 +46,8 @@ int test_http_response(void);
 int status_code_launcher(void);
 int test_status_code(void);
 
+/* class cgi */
+
+int cgi_launcher(void);
+int test_cgi(void);
 #endif /* TESTS_H */
