@@ -21,6 +21,7 @@ class File
 	File(const char *);
 	~File(void);
 
+	char get_char(void) const;
 	char get_next_char(void);
 
   private:
