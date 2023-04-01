@@ -23,6 +23,28 @@ File::get_char(void) const
 char
 File::get_next_char(void)
 {
+	iter_to_next_char();
+	return get_char();
+}
+
+/* "value to return"
+ * ^            -> ^
+ * move the index up to the next double quote
+ */
+std::string
+File::get_string(void)
+{
+	size_t position_quote_start(_current_line.find_first_of('"', _index) + 1);
+	size_t length(_current_line.find_first_of('"', _index + 1) - position_quote_start);
+	_index += length + 1;
+
+	return _current_line.substr(position_quote_start, length);
+}
+
+void
+File::iter_to_next_char(void)
+{
+	++_index;
 	while (!_file.eof())
 	{
 		if (_index == _current_line.size())
@@ -33,9 +55,8 @@ File::get_next_char(void)
 		else if (isblank(_current_line[_index]))
 			ignore_blank();
 		else
-			return _current_line[_index++];
+			break;
 	}
-	return 0;
 }
 
 /* move the index up to the next no blank character

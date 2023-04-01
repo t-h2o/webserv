@@ -24,11 +24,14 @@ class File
 	char get_char(void) const;
 	char get_next_char(void);
 
+	std::string get_string(void);
+
   private:
 	std::string	 _current_line;
 	std::fstream _file;
 	size_t		 _index;
 
+	void iter_to_next_char(void);
 	void ignore_blank(void);
 };
 
