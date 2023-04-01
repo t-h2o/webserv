@@ -9,5 +9,6 @@ launch_file(void)
 	list.load_test("simple instanciation", &test_file);
 	list.load_test("read all a file", &test_file_all_file);
 	list.load_test("not valid file", &test_file_not_valid_file);
+	list.load_test("get string", &test_file_get_string);
 	return (list.launch_tests());
 }

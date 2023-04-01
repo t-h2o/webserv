@@ -49,5 +49,6 @@ int launch_file(void);
 int test_file(void);
 int test_file_all_file(void);
 int test_file_not_valid_file(void);
+int test_file_get_string(void);
 
 #endif /* TESTS_H */
