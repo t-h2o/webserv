@@ -15,7 +15,7 @@ File::File(const char *path_file) : _file(path_file, std::fstream::in), _index(0
 File::~File(void) { _file.close(); }
 
 char
-File::getc(void)
+File::get_next_char(void)
 {
 	while (!_file.eof())
 	{

@@ -7,7 +7,7 @@ test_a_file(const char *path_file, std::string expected_output)
 
 	std::string all_file;
 
-	for (char c = file.getc(); c; c = file.getc())
+	for (char c = file.get_next_char(); c; c = file.get_next_char())
 		all_file += c;
 
 	if (all_file != expected_output)

@@ -8,8 +8,8 @@
 /* This class open a file at the construction of an instance
  * and close it at the desctruction.
  *
- * The getc() member function return a character.
- * getc() do not return any blank character.
+ * The get_next_char() member function return a character.
+ * get_next_char() do not return any blank character.
  */
 
 namespace json
@@ -21,7 +21,7 @@ class File
 	File(const char *);
 	~File(void);
 
-	char getc(void);
+	char get_next_char(void);
 
   private:
 	std::string	 _current_line;
