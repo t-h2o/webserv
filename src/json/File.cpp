@@ -41,6 +41,20 @@ File::get_string(void)
 	return _current_line.substr(position_quote_start, length);
 }
 
+/* 1234
+ * ^->^
+ * move the index up to the last digit
+ */
+double
+File::get_number(void)
+{
+	char  *end;
+	double number(std::strtod(&(_current_line[_index]), &end));
+	_index += end - &(_current_line[_index]) - 1;
+
+	return number;
+}
+
 void
 File::iter_to_next_char(void)
 {

@@ -48,6 +48,7 @@ SRCS	+=	$(SRCD)/File/01_test.cpp
 SRCS	+=	$(SRCD)/File/02_test.cpp
 SRCS	+=	$(SRCD)/File/03_test.cpp
 SRCS	+=	$(SRCD)/File/04_test.cpp
+SRCS	+=	$(SRCD)/File/05_test.cpp
 
 
 #	Headers

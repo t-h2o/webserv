@@ -50,5 +50,6 @@ int test_file(void);
 int test_file_all_file(void);
 int test_file_not_valid_file(void);
 int test_file_get_string(void);
+int test_file_get_number(void);
 
 #endif /* TESTS_H */

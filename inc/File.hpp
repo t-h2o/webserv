@@ -1,6 +1,7 @@
 #ifndef FILE_HPP
 #define FILE_HPP
 
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
@@ -25,6 +26,7 @@ class File
 	char get_next_char(void);
 
 	std::string get_string(void);
+	double		get_number(void);
 
   private:
 	std::string	 _current_line;
