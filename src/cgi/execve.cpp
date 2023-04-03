@@ -15,20 +15,19 @@
  * - whats are the arguments to put into execve()
  */
 
-int
-execution_cgi(char **envp)
+std::string
+execution_cgi(char **arguments)
 {
 	std::string output_cgi;
 	int			pipefd[2];
 	int			stat_loc;
-	char	   *arguments[3];
 	char		read_buffer[BUFFER_SIZE];
 
 	// Verify if pipe failed.
 	if (pipe(pipefd) == -1)
 	{
 		std::cerr << "error pipe" << std::endl;
-		return (1);
+		return ("");
 	}
 
 	pid_t pid = fork();
@@ -37,16 +36,16 @@ execution_cgi(char **envp)
 	if (pid == -1)
 	{
 		std::cerr << "error fork" << std::endl;
-		return (1);
+		return ("");
 	}
 	else if (pid == 0)
 	{
 		// Child process
 		// Path to the cgi
-		arguments[0] = (char *)"/Users/kdi-noce/goinfre/bin/php-cgi";
-		// The php file who contain phpinfo(), a big configuration function.
-		arguments[1] = (char *)"test.php";
-		arguments[2] = NULL;
+//		arguments[0] = (char *)"/Users/kdi-noce/goinfre/bin/php-cgi";
+//		// The php file who contain phpinfo(), a big configuration function.
+//		arguments[1] = (char *)"test.php";
+//		arguments[2] = NULL;
 
 		close(pipefd[0]);
 		// Replace the old FD
@@ -54,7 +53,7 @@ execution_cgi(char **envp)
 		close(pipefd[1]);
 
 		// Execute new process
-		execve(arguments[0], arguments, envp);
+		execve(arguments[0], arguments, 0);
 		perror("execve");
 		exit(1);
 	}
@@ -66,7 +65,7 @@ execution_cgi(char **envp)
 
 		waitpid(pid, &stat_loc, 0);
 		if (WEXITSTATUS(stat_loc) != 0)
-			return 0;
+			return "";
 
 		while (true)
 		{
@@ -78,7 +77,7 @@ execution_cgi(char **envp)
 				// if it doesn't work, look for tgrivel.
 				perror("read");
 				close(pipefd[0]);
-				return (1);
+				return ("");
 			}
 			// End of file
 			else if (!bytes_read)
@@ -93,5 +92,5 @@ execution_cgi(char **envp)
 		// Close the process.
 		close(pipefd[0]);
 	}
-	return (0);
+	return (output_cgi);
 }

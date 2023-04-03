@@ -47,7 +47,7 @@ int status_code_launcher(void);
 int test_status_code(void);
 /* class cgi */
 
-int cgi_launcher(void);
-int test_cgi(void);
+int execve_cgi_launcher(void);
+int test_execve_cgi(void);
 
 #endif /* TESTS_H */

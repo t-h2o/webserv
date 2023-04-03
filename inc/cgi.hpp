@@ -7,6 +7,6 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-int execution_cgi(char **);
+std::string execution_cgi(char **);
 
 #endif // WEBSERV_CGI_HPP
