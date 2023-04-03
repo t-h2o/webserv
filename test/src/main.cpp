@@ -5,12 +5,12 @@ main(void)
 {
 	int result;
 
-	result = arguments_launcher();
-	result |= http_request_launcher();
-	result |= value_launcher();
-	result |= http_response_launcher();
-	result |= status_code_launcher();
-	result |= json_launcher();
+	result = launch_arguments();
+	result |= launch_http_request();
+	result |= launch_value();
+	result |= launch_http_response();
+	result |= launch_status_code();
+	result |= launch_json();
 
 	return result;
 }

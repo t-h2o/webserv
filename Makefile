@@ -30,17 +30,26 @@ SRCD	=	src
 SRCS	=	$(SRCD)/main.cpp
 SRCS	+=	$(SRCD)/webserver.cpp
 SRCS	+=	$(SRCD)/arguments/check_argc_number.cpp
+SRCS	+=	$(SRCD)/serverTest/serverTest.cpp
+SRCS	+=	$(SRCD)/Socket/Socket.cpp
+
+# http
+
 SRCS	+=	$(SRCD)/http/Request.cpp
+SRCS	+=	$(SRCD)/http/Response.cpp
+SRCS	+=	$(SRCD)/http/StatusCodes.cpp
+
+# json
+
 SRCS	+=	$(SRCD)/json/read.cpp
 SRCS	+=	$(SRCD)/json/load_config.cpp
 SRCS	+=	$(SRCD)/json/process_line.cpp
 SRCS	+=	$(SRCD)/json/utils.cpp
 SRCS	+=	$(SRCD)/json/Value.cpp
-SRCS	+=	$(SRCD)/http/Response.cpp
-SRCS	+=	$(SRCD)/http/StatusCodes.cpp
-SRCS	+=	$(SRCD)/std98/std98.cpp
-SRCS	+=	$(SRCD)/serverTest/serverTest.cpp
-SRCS	+=	$(SRCD)/Socket/Socket.cpp
+
+# std98
+
+SRCS	+=	$(SRCD)/std98/to_string.cpp
 
 
 #	Headers
