@@ -12,7 +12,6 @@ Response::~Response(void) {}
 void
 Response::load_http_request(Request &request)
 {
-	init_response_map();
 	_response_map["dir_location"] += request.get_path();
 	if (!request.method_is_authorized(request.get_method()))
 	{
@@ -29,7 +28,7 @@ Response::load_http_request(Request &request)
 }
 
 void
-Response::init_response_map(void)
+Response::init_response_map(const json::Value &config)
 {
 	_response_map["Status-line"] = "";
 	_response_map["Date"] = "";
@@ -41,7 +40,7 @@ Response::init_response_map(void)
 	_response_map["header-string"] = "";
 	_response_map["body-string"] = "";
 	_response_map["full-response-string"] = "";
-	_response_map["dir_location"] = "/Users/rburri/Desktop/network_cpp";
+	_response_map["dir_location"] = config.get("path").get<std::string>();
 }
 
 void
