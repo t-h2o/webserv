@@ -43,4 +43,13 @@ int test_value_map_value(void);
 int test_value_object_array(void);
 int test_value_no_existing_key(void);
 
+/* json::File */
+
+int launch_file(void);
+int test_file(void);
+int test_file_all_file(void);
+int test_file_not_valid_file(void);
+int test_file_get_string(void);
+int test_file_get_number(void);
+
 #endif /* TESTS_H */
