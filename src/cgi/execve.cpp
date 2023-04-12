@@ -1,96 +1,128 @@
+#include "../../inc/cgi.hpp"
+#include "../../inc/utility.hpp"
 #include "cgi.hpp"
 
 #define BUFFER_SIZE 4092
 
-/* pseudo code CGI
- * variables list:
- * - path of the cgi binary file
- * - path of the php file
- * execution
- * see: https://t-h2o.github.io/microshell/#_execution
- * 1. execve(path, arguments, envp)
- * 2. GOAL: put the output into a std::string
- * difficulty:
- * - redirection pipe -> std::string
- * - whats are the arguments to put into execve()
- */
+CGI::CGI() {}
+
+CGI::CGI(const CGI &src) { *this = src; }
+
+CGI::CGI(std::string bin, std::string file, std::string query)
+{
+	_args.push_back((char *)bin.c_str());
+	_args.push_back((char *)file.c_str());
+	if (!query.empty())
+		_args.push_back((char *)query.c_str());
+	_args.push_back(NULL);
+}
+// CGI CGI::operator=(const CGI &src) {
+//	*this = src;
+//	return (*this);
+// }
+void
+CGI::set_env()
+{
+	_env["AUTH_TYPE"] = "null";
+	_env["CONTENT_LENGTH"] = utils::convert_digit_into_string(19);
+	_env["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
+	_env["GATEWAY_INTERFACE"] = "CGI/1.1";
+	_env["PATH_INFO"] = "/foo/bar";
+	_env["PATH_TRANSLATED"] = "/Users/kdi-noce/Documents/cursus42/webserv/test.php";
+	_env["QUERY_STRING"] = "foo=bar&baz=qux";
+}
+
+// void
+// CGI::s_env(void)
+//{
+//	_auth = std::getenv("AUTH_TYPE");
+//	_content_L = std::getenv("CONTENT_LENGTH");
+//	_content_T = std::getenv("CONTENT_TYPE");
+//	_gateway = std::getenv("GATEWAY_INTERFACE");
+//	_path_I = std::getenv("PATH_INFO");
+//	_path_T = std::getenv("PATH_TRANSLATED");
+//	_query = std::getenv("QUERY_STRING");
+//	_remote_A = std::getenv("REMOTE_ADDR");
+//	_remote_I = std::getenv("REMOTE_IDENT");
+//	_remote_H = std::getenv("REMOTE_HOST");
+//	_remote_U = std::getenv("REMOTE_USER");
+//	_request = std::getenv("REQUEST_METHOD");
+//	_script = std::getenv("SCRIPT_NAME");
+//	_server_N = std::getenv("SERVER_NAME");
+//	_server_Port = std::getenv("SERVER_NAME");
+//	_server_Protocol = std::getenv("SERVER_PROTOCOL");
+//	_server_S = std::getenv("SERVER_SOFTWARE");
+// }
 
 std::string
-execution_cgi(char **arguments)
+CGI::parent_process(pid_t pid)
 {
-	std::string output_cgi;
-	int			pipefd[2];
-	int			stat_loc;
-	char		read_buffer[BUFFER_SIZE];
+	close(_pipefd[1]);
+	waitpid(pid, 0, 0);
+	while (true)
+	{
+		// Initialize bytes_read with the return value from read, for error checking.
+		ssize_t bytes_read = read(_pipefd[0], _read_buffer, BUFFER_SIZE);
+		// Condition if read fail
+		if (bytes_read == -1)
+		{
+			perror("read");
+			close(_pipefd[0]);
+			exit(1);
+		}
+		// End of file
+		else if (!bytes_read)
+			break;
+		// std::string output_cgi concatenation with append
+		else
+			_output_cgi.append(_read_buffer, bytes_read);
+		// Fill _read_buffer with 0
+		std::memset(_read_buffer, 0, BUFFER_SIZE);
+	}
+	// Close the process.
+	close(_pipefd[0]);
+	return (_output_cgi);
+}
 
+void
+CGI::child_process(char **env)
+{
+	close(_pipefd[0]);
+	// Replace the old FD
+	dup2(_pipefd[1], STDOUT_FILENO);
+	close(_pipefd[1]);
+
+	// Execute new process
+	execve(_args[0], &_args[0], env);
+	perror("execve");
+	exit(1);
+}
+
+std::string
+CGI::execution_cgi(void)
+{
+	char	  **env;
+	std::string output;
 	// Verify if pipe failed.
-	if (pipe(pipefd) == -1)
+	if (pipe(_pipefd) == -1)
 	{
 		std::cerr << "error pipe" << std::endl;
-		return ("");
+		exit(1);
 	}
-
+	set_env();
+	env = utils::cMap_to_cChar(_env);
 	pid_t pid = fork();
-
 	// Verify if fork failed
 	if (pid == -1)
 	{
 		std::cerr << "error fork" << std::endl;
-		return ("");
-	}
-	else if (pid == 0)
-	{
-		// Child process
-		// Path to the cgi
-		//		arguments[0] = (char *)"/Users/kdi-noce/goinfre/bin/php-cgi";
-		//		// The php file who contain phpinfo(), a big configuration function.
-		//		arguments[1] = (char *)"test.php";
-		//		arguments[2] = NULL;
-
-		close(pipefd[0]);
-		// Replace the old FD
-		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[1]);
-
-		// Execute new process
-		execve(arguments[0], arguments, 0);
-		perror("execve");
 		exit(1);
 	}
-
+	else if (pid == 0)
+		child_process(env);
 	else
-	{
-		// parent process
-		close(pipefd[1]);
-
-		waitpid(pid, &stat_loc, 0);
-		if (WEXITSTATUS(stat_loc) != 0)
-			return "";
-
-		while (true)
-		{
-			// Initialize bytes_read with the return value from read, for error checking.
-			ssize_t bytes_read = read(pipefd[0], read_buffer, BUFFER_SIZE);
-			// Condition if read fail
-			if (bytes_read == -1)
-			{
-				// if it doesn't work, look for tgrivel.
-				perror("read");
-				close(pipefd[0]);
-				return ("");
-			}
-			// End of file
-			else if (!bytes_read)
-				break;
-			// std::string output_cgi concatenation with append
-			else
-				output_cgi.append(read_buffer, bytes_read);
-			// Fill read_buffer with 0
-			std::memset(read_buffer, 0, BUFFER_SIZE);
-		}
-		std::cout << "read: " << output_cgi << std::endl;
-		// Close the process.
-		close(pipefd[0]);
-	}
-	return (output_cgi);
+		output = parent_process(pid);
+	return (output);
 }
+
+CGI::~CGI(void) {}
