@@ -47,6 +47,19 @@ int test_value_boolean(void);
 int test_value_map_value(void);
 int test_value_object_array(void);
 int test_value_no_existing_key(void);
+/* class http response */
+
+int http_response_launcher(void);
+int test_http_response(void);
+/* class http status code */
+
+int status_code_launcher(void);
+int test_status_code(void);
+/* class cgi */
+
+int execve_cgi_launcher(void);
+int test_execve_cgi(void);
+int test_cgi_exec(void);
 
 /* json::File */
 

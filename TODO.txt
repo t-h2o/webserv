@@ -1,0 +1,16 @@
+diff --git a/src/main.cpp b/src/main.cpp
+index 698d457..52bf8cf 100644
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -9,3 +9,11 @@ main(int argc, char **argv)
+ 
+ 	return webserver(argv[1]);
+ }
++git rebase --onto sm-execve_cgi 8c1ef4e cgi_env
++- modifs
++gb -D execve_cgi
++gco sm-execve_cgi
++renommer branch gb -m "execve_cgi"
++gp -f origin execve_cgi
++
++

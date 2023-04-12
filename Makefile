@@ -36,6 +36,7 @@ SRCS	+=	$(SRCD)/Socket/Socket.cpp
 # cgi
 
 SRCS	+=	$(SRCD)/cgi/execve.cpp
+SRCS	+=	$(SRCD)/cgi/utils.cpp
 
 # http
 
@@ -55,6 +56,7 @@ SRCS	+=	$(SRCD)/json/Value.cpp
 # std98
 
 SRCS	+=	$(SRCD)/std98/to_string.cpp
+
 
 
 #	Headers

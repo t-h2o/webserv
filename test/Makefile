@@ -22,14 +22,14 @@ SRCS	=	$(SRCD)/main.cpp
 SRCS	+=	$(SRCD)/arguments/00_launcher.cpp
 SRCS	+=	$(SRCD)/arguments/01_test.cpp
 SRCS	+=	$(SRCD)/arguments/02_test.cpp
-SRCS	+=	$(SRCD)/cgi/00_launcher.cpp
-SRCS	+=	$(SRCD)/cgi/01_test.cpp
+
 SRCS	+=	$(SRCD)/http-request/00_launcher.cpp
 SRCS	+=	$(SRCD)/http-request/01_test.cpp
 SRCS	+=	$(SRCD)/http-response/00_launcher.cpp
 SRCS	+=	$(SRCD)/http-response/01_test.cpp
 SRCS	+=	$(SRCD)/http-status-code/00_launcher.cpp
 SRCS	+=	$(SRCD)/http-status-code/01_test.cpp
+
 SRCS	+=	$(SRCD)/json/00_launcher.cpp
 SRCS	+=	$(SRCD)/json/01_test.cpp
 SRCS	+=	$(SRCD)/json/02_test.cpp
@@ -37,6 +37,11 @@ SRCS	+=	$(SRCD)/json/03_test.cpp
 SRCS	+=	$(SRCD)/json/04_test.cpp
 SRCS	+=	$(SRCD)/json/05_test.cpp
 SRCS	+=	$(SRCD)/json/06_test.cpp
+
+SRCS	+=	$(SRCD)/cgi/00_launcher.cpp
+SRCS	+=	$(SRCD)/cgi/01_test.cpp
+SRCS	+=	$(SRCD)/cgi/02_test.cpp
+
 SRCS	+=	$(SRCD)/Value/00_launcher.cpp
 SRCS	+=	$(SRCD)/Value/01_test.cpp
 SRCS	+=	$(SRCD)/Value/02_test.cpp
@@ -45,6 +50,7 @@ SRCS	+=	$(SRCD)/Value/04_test.cpp
 SRCS	+=	$(SRCD)/Value/05_test.cpp
 SRCS	+=	$(SRCD)/Value/06_test.cpp
 SRCS	+=	$(SRCD)/Value/07_test.cpp
+
 SRCS	+=	$(SRCD)/File/00_launcher.cpp
 SRCS	+=	$(SRCD)/File/01_test.cpp
 SRCS	+=	$(SRCD)/File/02_test.cpp
