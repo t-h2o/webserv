@@ -7,6 +7,11 @@ int launch_arguments(void);
 int test_check_argc_number_1(void);
 int test_check_argc_number_2(void);
 
+/* cgi:: */
+
+int execve_cgi_launcher(void);
+int test_execve_cgi(void);
+
 /* http::Request */
 
 int launch_http_request(void);
