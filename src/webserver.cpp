@@ -19,7 +19,6 @@ webserver(const char *path_config_file)
 
 	delete config;
 	return 0;
-	//=======
 	//	(void)path;
 	//	char	   *argument[4];
 	//	std::string output;
@@ -35,5 +34,4 @@ webserver(const char *path_config_file)
 	//	output = exec.execution_cgi();
 	//
 	//	return (0);
-	//>>>>>>> cgi-env
 }
