@@ -1,6 +1,3 @@
-//
-// Created by Kevin Di nocera on 3/31/23.
-//
 #include <iostream>
 #include <stdexcept>
 #include <string>
