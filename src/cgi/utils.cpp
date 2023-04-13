@@ -1,6 +1,3 @@
-//
-// Created by Kevin Di nocera on 4/6/23.
-//
 #include "../../inc/cgi.hpp"
 #include <iostream>
 #include <map>
