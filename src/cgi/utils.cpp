@@ -61,16 +61,4 @@ cMap_to_cChar(std::map<std::string, std::string> myMap)
 	//		delete[] array[j];
 	return (array);
 }
-
-std::string
-convert_digit_into_string(int digit)
-{
-	std::stringstream ss;
-	std::string		  ret;
-
-	ss << digit;
-	ss >> ret;
-
-	return (ret);
-}
 }

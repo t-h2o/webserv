@@ -23,29 +23,29 @@ CGI::CGI(std::string bin, std::string file, std::string query)
 void
 CGI::set_env()
 {
+	// Définit la route par laquelle tous les utilisateurs seront authentifiés (dans les applications prises en charge).
 	_env["AUTH_TYPE"] = "null";
-	_env["CONTENT_LENGTH"] = utils::convert_digit_into_string(19);
+	// Donne le nombre de bytes transmis par le client.
+	_env["CONTENT_LENGTH"] = std::to_string(19);
+	// Donne le type de donnée transmise par le client si l'attribut METHOD a pour valeur POST.
 	_env["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
+	// Donne la version du CGI utilisé.
 	_env["GATEWAY_INTERFACE"] = "CGI/1.1";
+	// Donne l'extra path information utilisée.
 	_env["PATH_INFO"] = "/foo/bar";
+	// Donne une traduction d'un chemin virtuel passé dans l'extra path information.
 	_env["PATH_TRANSLATED"] = "/Users/kdi-noce/Documents/cursus42/webserv/test.php";
+	// Donne les informations passées par un marqueur <FORM METHOD=GET>
 	_env["QUERY_STRING"] = "foo=bar&baz=qux";
+	// Donne la valeur de l'attribut METHOD du marqueur FORM utilisé lors de la requête CGI. En gros le type de requete http
+	_env["REQUEST_METHOD"] = "POST";
+
+
 }
 
 // void
 // CGI::s_env(void)
 //{
-//	_auth = std::getenv("AUTH_TYPE");
-//	_content_L = std::getenv("CONTENT_LENGTH");
-//	_content_T = std::getenv("CONTENT_TYPE");
-//	_gateway = std::getenv("GATEWAY_INTERFACE");
-//	_path_I = std::getenv("PATH_INFO");
-//	_path_T = std::getenv("PATH_TRANSLATED");
-//	_query = std::getenv("QUERY_STRING");
-//	_remote_A = std::getenv("REMOTE_ADDR");
-//	_remote_I = std::getenv("REMOTE_IDENT");
-//	_remote_H = std::getenv("REMOTE_HOST");
-//	_remote_U = std::getenv("REMOTE_USER");
 //	_request = std::getenv("REQUEST_METHOD");
 //	_script = std::getenv("SCRIPT_NAME");
 //	_server_N = std::getenv("SERVER_NAME");

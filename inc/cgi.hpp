@@ -1,10 +1,8 @@
-//
-// Created by Kevin Di nocera on 3/16/23.
-//
-
 #ifndef WEBSERV_CGI_HPP
 #define WEBSERV_CGI_HPP
 #include <fcntl.h>
+#include <stdlib.h>
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <map>
