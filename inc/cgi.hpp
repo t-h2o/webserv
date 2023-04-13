@@ -1,11 +1,11 @@
 #ifndef WEBSERV_CGI_HPP
 #define WEBSERV_CGI_HPP
-#include <fcntl.h>
-#include <stdlib.h>
 #include <cstring>
+#include <fcntl.h>
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <vector>

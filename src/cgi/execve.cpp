@@ -23,7 +23,8 @@ CGI::CGI(std::string bin, std::string file, std::string query)
 void
 CGI::set_env()
 {
-	// Définit la route par laquelle tous les utilisateurs seront authentifiés (dans les applications prises en charge).
+	// Définit la route par laquelle tous les utilisateurs seront authentifiés (dans les applications prises
+	// en charge).
 	_env["AUTH_TYPE"] = "null";
 	// Donne le nombre de bytes transmis par le client.
 	_env["CONTENT_LENGTH"] = std::to_string(19);
@@ -37,10 +38,9 @@ CGI::set_env()
 	_env["PATH_TRANSLATED"] = "/Users/kdi-noce/Documents/cursus42/webserv/test.php";
 	// Donne les informations passées par un marqueur <FORM METHOD=GET>
 	_env["QUERY_STRING"] = "foo=bar&baz=qux";
-	// Donne la valeur de l'attribut METHOD du marqueur FORM utilisé lors de la requête CGI. En gros le type de requete http
+	// Donne la valeur de l'attribut METHOD du marqueur FORM utilisé lors de la requête CGI. En gros le type
+	// de requete http
 	_env["REQUEST_METHOD"] = "POST";
-
-
 }
 
 // void
