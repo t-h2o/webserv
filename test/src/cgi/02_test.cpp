@@ -42,5 +42,16 @@ test_execve_cgi(void)
 		if (!output.find("My username is kdi-noce!"))
 			return (1);
 	}
+	{
+		arguments[0] = (char *)"bin/php-cgi";
+		arguments[1] = (char *)"test4.php";
+		arguments[2] = (char *)"";
+		arguments[3] = NULL;
+
+		CGI exec(arguments[0], arguments[1], arguments[2]);
+		output = exec.execution_cgi();
+		if (!output.find("My username is kdi-noce!"))
+			return (1);
+	}
 	return (0);
 }

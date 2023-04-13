@@ -13,7 +13,7 @@ main(void)
 	result |= launch_status_code();
 	result |= launch_json();
 	result |= launch_file();
-	result |= execve_cgi_launcher();
+	result |= launch_execve_cgi();
 
 	return result;
 }

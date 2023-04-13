@@ -46,6 +46,7 @@ SRCS	+=	$(SRCD)/json/08_test.cpp
 SRCS	+=	$(SRCD)/cgi/00_launcher.cpp
 SRCS	+=	$(SRCD)/cgi/01_test.cpp
 SRCS	+=	$(SRCD)/cgi/02_test.cpp
+SRCS	+=	$(SRCD)/cgi/03_test.cpp
 
 SRCS	+=	$(SRCD)/Value/00_launcher.cpp
 SRCS	+=	$(SRCD)/Value/01_test.cpp

@@ -41,18 +41,17 @@ CGI::set_env()
 	// Donne la valeur de l'attribut METHOD du marqueur FORM utilisé lors de la requête CGI. En gros le type
 	// de requete http
 	_env["REQUEST_METHOD"] = "POST";
+	// Donne le chemin virtuel du script utilisé. Le nom du script.
+	_env["SCRIPT_NAME"] = "/test.php";
+	// Donne l'IP ou la DNS du serveur.
+	_env["SERVER_NAME"] = "null";
+	// Donne le nom et la version du protocole utilisé par le serveur et le client.
+	// Cette variable contient généralement une chaîne de texte telle que "HTTP/1.1" ou "HTTP/2.0",
+	// qui indique la version du protocole utilisée.
+	_env["SERVER_PROTOCOL"] = "null";
+	// Donne le nom et la version du serveur Web utilisé.
+	_env["SERVER_SOFTWARE"] = "null";
 }
-
-// void
-// CGI::s_env(void)
-//{
-//	_request = std::getenv("REQUEST_METHOD");
-//	_script = std::getenv("SCRIPT_NAME");
-//	_server_N = std::getenv("SERVER_NAME");
-//	_server_Port = std::getenv("SERVER_NAME");
-//	_server_Protocol = std::getenv("SERVER_PROTOCOL");
-//	_server_S = std::getenv("SERVER_SOFTWARE");
-// }
 
 std::string
 CGI::parent_process(pid_t pid)
