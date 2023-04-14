@@ -10,6 +10,7 @@ Socket::Socket(int domain, unsigned short port, int type, int protocol)
 	set_socket_non_blocking();
 	binding_socket();
 	start_listening();
+	_request_str = "";
 }
 
 void
