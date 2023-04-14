@@ -10,7 +10,7 @@ Socket::Socket(int domain, unsigned short port, int type, int protocol)
 	set_socket_non_blocking();
 	binding_socket();
 	start_listening();
-	_request_str = "";
+	request_str = "";
 }
 
 void
@@ -68,4 +68,26 @@ Socket::set_socket_non_blocking()
 	// Following code only working after select() is implemented
 	// ret = fcntl(_sock_id, F_SETFL, O_NONBLOCK);
 	// test_socket(ret, "fcnt() Fail!");
+}
+
+void
+Socket::socket_recv(int connection_fd)
+{
+	const int				 MAXLINE = 4096;
+	char					 buffer[MAXLINE] = { 0 };
+	int byte_read;
+
+	byte_read = recv(connection_fd, buffer, MAXLINE - 1, 0);
+		while (byte_read > 0 )
+		{
+			std::cout << "RECV SIZE: " << byte_read << std::endl;
+			request_str += buffer;
+			std::memset(buffer, 0, MAXLINE);
+			if (byte_read == MAXLINE -1)
+				byte_read = recv(connection_fd, buffer, MAXLINE - 1, 0);
+			else
+				byte_read = 0;
+		}
+	request.parse_buffer(request_str);
+	request_str = "";
 }

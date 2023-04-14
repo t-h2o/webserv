@@ -24,8 +24,8 @@ serverTest(json::t_object *config)
 	unsigned short			 port = val.get("port").get<double>();
 	Socket					 sock(AF_INET, port, SOCK_STREAM, 0);
 	int						 connection_fd;
-	char					 buffer[MAXLINE] = { 0 };
-	int						 recv_return;
+	// char					 buffer[MAXLINE] = { 0 };
+	// int						 recv_return;
 	http::Request			 req;
 	http::Response			 res;
 	std::vector<std::string> header;
@@ -45,23 +45,24 @@ serverTest(json::t_object *config)
 			perror("Accept connection error");
 			exit(EXIT_FAILURE);
 		}
-		recv_return = recv(connection_fd, buffer, MAXLINE - 1, 0);
-		while (recv_return > 0 )
-		{
-			std::cout << "RECV SIZE: " << recv_return << std::endl;
-			sock._request_str += buffer;
-			std::memset(buffer, 0, MAXLINE);
-			if (recv_return == MAXLINE -1)
-				recv_return = recv(connection_fd, buffer, MAXLINE - 1, 0);
-			else
-				recv_return = 0;
+		sock.socket_recv(connection_fd);
+		// recv_return = recv(connection_fd, buffer, MAXLINE - 1, 0);
+		// while (recv_return > 0 )
+		// {
+		// 	std::cout << "RECV SIZE: " << recv_return << std::endl;
+		// 	sock._request_str += buffer;
+		// 	std::memset(buffer, 0, MAXLINE);
+		// 	if (recv_return == MAXLINE -1)
+		// 		recv_return = recv(connection_fd, buffer, MAXLINE - 1, 0);
+		// 	else
+		// 		recv_return = 0;
 
 
 
-		}
-		std::cout << "out of the loop recv..." << std::endl;
-		req.parse_buffer(sock._request_str);
-		sock._request_str = "";
+		// }
+		// std::cout << "out of the loop recv..." << std::endl;
+		// req.parse_buffer(sock._request_str);
+		// sock._request_str = "";
 		// if (req.get_method() == "POST")
 		// {
 		// 	while (recv_return > 0)
@@ -75,11 +76,10 @@ serverTest(json::t_object *config)
 		// 	}
 		// }
 		std::cout << "***************** HTTP REQUEST START****************" << std::endl;
-		std::cout << req << std::endl;
+		// std::cout << req << std::endl;
 		std::cout << "***************** HTTP REQUEST END ****************\n";
 
-		res.init_response_map(val);
-		res.load_http_request(req);
+		res.load_http_request(sock.request);
 		// std::cout << "***************** HTTP REPONSE START****************" << std::endl;
 		// std::cout << res << std::endl;
 		// std::cout << "***************** HTTP REPONSE END ****************\n" << std::endl;

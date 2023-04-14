@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include "Request.hpp"
 
 #define LISTEN_BACKLOG 10
 
@@ -25,8 +26,10 @@ class Socket
 	void			   set_socket_non_blocking();
 
   public:
-	std::string 		_request_str;
+	http::Request		request;
+	std::string 		request_str;
 	Socket(int domain, unsigned short port, int type, int protocol);
+	void			   socket_recv(int connection_fd);
 	int			   get_sock_id() const;
 	unsigned short get_port() const;
 };
