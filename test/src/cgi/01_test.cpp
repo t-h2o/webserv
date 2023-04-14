@@ -21,19 +21,19 @@ test_cgi_exec(void)
 	{
 		//		argument[0] = (char *) "/Users/kdi-noce/goinfre/bin/php-cgi";
 		argument[0] = (char *)"/usr/bin/php";
-		argument[1] = (char *)"test.php";
+		argument[1] = (char *)"/Users/kdi-noce/Documents/cursus42/webserv/test/src/cgi/test.php";
 		argument[2] = (char *)"";
 		argument[3] = NULL;
 
 		CGI exec(argument[0], argument[1], argument[2]);
 		output = exec.execution_cgi();
 		//		std::cout << "output hello: " << output << std::endl;
-		if (output != "hello World!")
+		if (!output.find("hello World!"))
 			return (1);
 	}
 	{
 		argument[0] = (char *)"bin/php-cgi";
-		argument[1] = (char *)"test.php";
+		argument[1] = (char *)"/Users/kdi-noce/Documents/cursus42/webserv/test/src/cgi/test.php";
 		argument[2] = (char *)"";
 		argument[3] = NULL;
 

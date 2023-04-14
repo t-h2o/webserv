@@ -15,6 +15,7 @@ int test_check_argv_access_unvalid(void);
 /* cgi:: */
 
 int launch_execve_cgi(void);
+int test_cgi_exec(void);
 int test_execve_cgi(void);
 int test_execve_cgi_env(void);
 

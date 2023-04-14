@@ -9,7 +9,7 @@ test_execve_cgi(void)
 	char	   *arguments[4];
 	{
 		arguments[0] = (char *)"bin/php-cgi";
-		arguments[1] = (char *)"test.php";
+		arguments[1] = (char *)"/Users/kdi-noce/Documents/cursus42/webserv/test/src/cgi/test.php";
 		arguments[2] = (char *)"?q=abstract%20api";
 		arguments[3] = NULL;
 
@@ -21,7 +21,7 @@ test_execve_cgi(void)
 	}
 	{
 		arguments[0] = (char *)"bin/php-cgi";
-		arguments[1] = (char *)"test.php";
+		arguments[1] = (char *)"/Users/kdi-noce/Documents/cursus42/webserv/test/src/cgi/test.php";
 		arguments[2] = (char *)"?q=abstract%20api";
 		arguments[3] = NULL;
 
@@ -33,7 +33,7 @@ test_execve_cgi(void)
 	}
 	{
 		arguments[0] = (char *)"bin/php-cgi";
-		arguments[1] = (char *)"test3.php";
+		arguments[1] = (char *)"/Users/kdi-noce/Documents/cursus42/webserv/test/src/cgi/test3.php";
 		arguments[2] = (char *)"?q=abstract%20api";
 		arguments[3] = NULL;
 
@@ -44,7 +44,7 @@ test_execve_cgi(void)
 	}
 	{
 		arguments[0] = (char *)"bin/php-cgi";
-		arguments[1] = (char *)"test4.php";
+		arguments[1] = (char *)"/Users/kdi-noce/Documents/cursus42/webserv/test/src/cgi/test4.php";
 		arguments[2] = (char *)"";
 		arguments[3] = NULL;
 
