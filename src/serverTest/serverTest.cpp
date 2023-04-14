@@ -46,20 +46,34 @@ serverTest(json::t_object *config)
 			exit(EXIT_FAILURE);
 		}
 		recv_return = recv(connection_fd, buffer, MAXLINE - 1, 0);
-		std::cout << "RECV SIZE: " << recv_return << std::endl;
-		req.parse_buffer(buffer);
-		if (req.get_method() == "POST")
+		while (recv_return > 0 )
 		{
-			while (recv_return > 0)
-			{
-				if (buffer[recv_return - 1] == '\n' || recv_return < MAXLINE)
-				{
-					break;
-				}
-				std::memset(buffer, 0, MAXLINE);
+			std::cout << "RECV SIZE: " << recv_return << std::endl;
+			sock._request_str += buffer;
+			std::memset(buffer, 0, MAXLINE);
+			if (recv_return == MAXLINE -1)
 				recv_return = recv(connection_fd, buffer, MAXLINE - 1, 0);
-			}
+			else
+				recv_return = 0;
+
+
+
 		}
+		std::cout << "out of the loop recv..." << std::endl;
+		req.parse_buffer(sock._request_str);
+		sock._request_str = "";
+		// if (req.get_method() == "POST")
+		// {
+		// 	while (recv_return > 0)
+		// 	{
+		// 		if (buffer[recv_return - 1] == '\n' || recv_return < MAXLINE)
+		// 		{
+		// 			break;
+		// 		}
+		// 		std::memset(buffer, 0, MAXLINE);
+		// 		recv_return = recv(connection_fd, buffer, MAXLINE - 1, 0);
+		// 	}
+		// }
 		std::cout << "***************** HTTP REQUEST START****************" << std::endl;
 		std::cout << req << std::endl;
 		std::cout << "***************** HTTP REQUEST END ****************\n";

@@ -25,6 +25,7 @@ class Socket
 	void			   set_socket_non_blocking();
 
   public:
+	std::string 		_request_str;
 	Socket(int domain, unsigned short port, int type, int protocol);
 	int			   get_sock_id() const;
 	unsigned short get_port() const;
