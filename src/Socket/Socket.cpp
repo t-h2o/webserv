@@ -71,23 +71,34 @@ Socket::set_socket_non_blocking()
 }
 
 void
-Socket::socket_recv(int connection_fd)
+Socket::socket_recv()
 {
-	const int				 MAXLINE = 4096;
-	char					 buffer[MAXLINE] = { 0 };
-	int byte_read;
+	const int MAXLINE = 4096;
+	char	  buffer[MAXLINE] = { 0 };
+	int		  byte_read;
 
-	byte_read = recv(connection_fd, buffer, MAXLINE - 1, 0);
-		while (byte_read > 0 )
-		{
-			std::cout << "RECV SIZE: " << byte_read << std::endl;
-			request_str += buffer;
-			std::memset(buffer, 0, MAXLINE);
-			if (byte_read == MAXLINE -1)
-				byte_read = recv(connection_fd, buffer, MAXLINE - 1, 0);
-			else
-				byte_read = 0;
-		}
+	byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
+	while (byte_read > 0)
+	{
+		std::cout << "RECV SIZE: " << byte_read << std::endl;
+		request_str += buffer;
+		std::memset(buffer, 0, MAXLINE);
+		if (byte_read == MAXLINE - 1)
+			byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
+		else
+			byte_read = 0;
+	}
 	request.parse_buffer(request_str);
 	request_str = "";
+}
+
+void
+Socket::socket_accept()
+{
+	_connection_fd = accept(get_sock_id(), NULL, NULL);
+	if (_connection_fd < 0)
+	{
+		std::cout << "connection_fd: " << _connection_fd << " Failed!" << std::endl;
+		exit(EXIT_FAILURE);
+	}
 }

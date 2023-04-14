@@ -38,45 +38,10 @@ serverTest(json::t_object *config)
 		std::cout << "++++++ Waiting for new connection ++++++" << std::endl;
 		std::cout << "SOCK Port: " << sock.get_port() << std::endl;
 
-		connection_fd = accept(sock.get_sock_id(), NULL, NULL);
-		if (connection_fd < 0)
-		{
-			std::cout << "connection_fd: " << connection_fd << std::endl;
-			perror("Accept connection error");
-			exit(EXIT_FAILURE);
-		}
-		sock.socket_recv(connection_fd);
-		// recv_return = recv(connection_fd, buffer, MAXLINE - 1, 0);
-		// while (recv_return > 0 )
-		// {
-		// 	std::cout << "RECV SIZE: " << recv_return << std::endl;
-		// 	sock._request_str += buffer;
-		// 	std::memset(buffer, 0, MAXLINE);
-		// 	if (recv_return == MAXLINE -1)
-		// 		recv_return = recv(connection_fd, buffer, MAXLINE - 1, 0);
-		// 	else
-		// 		recv_return = 0;
-
-
-
-		// }
-		// std::cout << "out of the loop recv..." << std::endl;
-		// req.parse_buffer(sock._request_str);
-		// sock._request_str = "";
-		// if (req.get_method() == "POST")
-		// {
-		// 	while (recv_return > 0)
-		// 	{
-		// 		if (buffer[recv_return - 1] == '\n' || recv_return < MAXLINE)
-		// 		{
-		// 			break;
-		// 		}
-		// 		std::memset(buffer, 0, MAXLINE);
-		// 		recv_return = recv(connection_fd, buffer, MAXLINE - 1, 0);
-		// 	}
-		// }
+		sock.socket_accept();
+		sock.socket_recv();
 		std::cout << "***************** HTTP REQUEST START****************" << std::endl;
-		// std::cout << req << std::endl;
+		std::cout << sock.request << std::endl;
 		std::cout << "***************** HTTP REQUEST END ****************\n";
 
 		res.load_http_request(sock.request);
@@ -85,13 +50,13 @@ serverTest(json::t_object *config)
 		// std::cout << "***************** HTTP REPONSE END ****************\n" << std::endl;
 
 		std::string response(res.get_http_response());
-		send_ret = send(connection_fd, response.c_str(), response.length(), 0);
+		send_ret = send(sock._connection_fd, response.c_str(), response.length(), 0);
 		if (send_ret < static_cast<int>(response.length()))
 		{
 			std::cout << "send_ret : " << send_ret << std::endl;
-			send_ret = send(connection_fd, response.c_str(), response.length(), 0);
+			send_ret = send(sock._connection_fd, response.c_str(), response.length(), 0);
 		}
-		close(connection_fd);
+		close(sock._connection_fd);
 		std::cout << "CONNECTION CLOSED" << std::endl;
 	}
 }
