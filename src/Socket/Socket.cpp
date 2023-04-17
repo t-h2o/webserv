@@ -70,36 +70,59 @@ Socket::set_socket_non_blocking()
 	// test_socket(ret, "fcnt() Fail!");
 }
 
-void
+// return -1 =>
+// FD_CLR(socket, &_fd_set);
+// FD_CLR(socket, &reading_set);
+// _sockets.erase(socket);
+// it = _sockets.begin();
+// return 0 =>
+// push socket_fd to readytowrite
+
+int
 Socket::socket_recv()
 {
 	const int MAXLINE = 4096;
 	char	  buffer[MAXLINE] = { 0 };
 	int		  byte_read;
-	int		send_ret = 0;
+	int		  send_ret = 0;
 
 	byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
-	while (byte_read > 0)
+	if (byte_read == 0 || byte_read == -1)
 	{
-		std::cout << "RECV SIZE: " << byte_read << std::endl;
-		request_str += buffer;
-		std::memset(buffer, 0, MAXLINE);
-		if (byte_read == MAXLINE - 1)
-			byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
+		close(_connection_fd);
+		if (byte_read == 0)
+			std::cout << "\rConnection was closed by client.\n" << std::endl;
 		else
-			byte_read = 0;
+			std::cout << "\rRead error, closing connection.\n" << std::endl;
+		return (-1);
 	}
+	request_str += buffer;
+
+	if (request_str.find("Transfer-Encoding:chunked") != std::string::npos)
+	{
+		// process chunk
+		while (byte_read > 0)
+		{
+			std::cout << "RECV SIZE: " << byte_read << std::endl;
+			std::memset(buffer, 0, MAXLINE);
+			byte_read = 0;
+			byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
+		}
+	}
+	// return 1;
+
 	request.parse_buffer(request_str);
 	request_str = "";
 	response.load_http_request(request);
 	std::string response(this->response.get_http_response());
+	send_ret = send(_connection_fd, response.c_str(), response.length(), 0);
+	if (send_ret < static_cast<int>(response.length()))
+	{
+		std::cout << "send_ret : " << send_ret << std::endl;
 		send_ret = send(_connection_fd, response.c_str(), response.length(), 0);
-		if (send_ret < static_cast<int>(response.length()))
-		{
-			std::cout << "send_ret : " << send_ret << std::endl;
-			send_ret = send(_connection_fd, response.c_str(), response.length(), 0);
-		}
-		close(_connection_fd);
+	}
+	close(_connection_fd);
+	return 0;
 }
 
 void
