@@ -52,6 +52,10 @@ CGI::set_env(void)
 	_env["SERVER_PROTOCOL"] = "null";
 	// Donne le nom et la version du serveur Web utilisé.
 	_env["SERVER_SOFTWARE"] = "null";
+
+	std::map<std::string, std::string>::iterator it;
+	for (it = _env.begin(); it != _env.end(); ++it)
+		std::cout << it->first << " " << it->second << std::endl;
 }
 
 std::string
