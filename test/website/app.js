@@ -113,11 +113,10 @@ const submitHandler = (e) => {
 	const data = new FormData();
 	data.append("file", files[0]);
 	data.append("id", createIdNumber());
-	// fetch(urlUpload, { method: "POST", mode: "no-cors", body: data }).then((response) =>
-	// response.json()).then((data) => { 	console.log(data);
-	// }).catch((error) => {
-	// 	console.error(error);
-	// });
+	fetch(urlUpload, { method : "POST", mode : "no-cors", body : data })
+		.then((response) => response.json())
+		.then((data) => { console.log(data); })
+		.catch((error) => { console.error(error); });
 	console.log(data);
 };
 

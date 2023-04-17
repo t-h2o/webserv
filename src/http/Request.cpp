@@ -13,7 +13,7 @@ Request::parse_buffer(std::string str_buff)
 	std::string				 delimiter = "\r\n";
 	std::string				 str;
 	int						 delimiter_position = str_buff.find(delimiter);
-
+	std::cout << "BUFFER: " << str_buff << std::endl;
 	while (delimiter_position != -1)
 	{
 		str = str_buff.substr(0, delimiter_position);
@@ -27,6 +27,7 @@ Request::parse_buffer(std::string str_buff)
 	}
 	this->parse_first_line(tmp_vector[0]);
 	this->parse_other_lines(tmp_vector);
+	this->clean_content_type();
 }
 
 void
@@ -135,6 +136,13 @@ const Request::t_object &
 Request::get_map() const
 {
 	return _request_map;
+}
+
+void
+Request::clean_content_type()
+{
+	size_t end_of_first_part = _request_map["Content-Type"].find_first_of(";");
+	_request_map["Content-Type"] = _request_map["Content-Type"].substr(0, end_of_first_part);
 }
 
 } /* namespace http */

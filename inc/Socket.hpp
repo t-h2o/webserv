@@ -3,6 +3,7 @@
 
 #include "Request.hpp"
 #include "Response.hpp"
+#include <cstring>
 #include <errno.h>
 #include <fcntl.h>
 #include <iostream>
