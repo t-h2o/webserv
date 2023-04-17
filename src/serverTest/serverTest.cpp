@@ -49,7 +49,6 @@ serverTest(json::t_object *config)
 		std::cout << sock.response << std::endl;
 		std::cout << "***************** HTTP REPONSE END ****************\n" << std::endl;
 
-		
 		std::cout << "CONNECTION CLOSED" << std::endl;
 	}
 }

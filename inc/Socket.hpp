@@ -27,12 +27,12 @@ class Socket
 	void			   set_socket_non_blocking();
 
   public:
-	int			  _connection_fd;
-	http::Request request;
+	int			   _connection_fd;
+	http::Request  request;
 	http::Response response;
-	std::string	  request_str;
+	std::string	   request_str;
 	Socket(int domain, unsigned short port, int type, int protocol);
-	void		   socket_recv();
+	int			   socket_recv();
 	void		   socket_accept();
 	int			   get_sock_id() const;
 	unsigned short get_port() const;
