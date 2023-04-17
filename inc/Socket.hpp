@@ -2,6 +2,7 @@
 #define SOCKET_HPP
 
 #include "Request.hpp"
+#include "Response.hpp"
 #include <errno.h>
 #include <fcntl.h>
 #include <iostream>
@@ -28,6 +29,7 @@ class Socket
   public:
 	int			  _connection_fd;
 	http::Request request;
+	http::Response response;
 	std::string	  request_str;
 	Socket(int domain, unsigned short port, int type, int protocol);
 	void		   socket_recv();

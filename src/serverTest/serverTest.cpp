@@ -44,19 +44,12 @@ serverTest(json::t_object *config)
 		std::cout << sock.request << std::endl;
 		std::cout << "***************** HTTP REQUEST END ****************\n";
 
-		res.load_http_request(sock.request);
-		// std::cout << "***************** HTTP REPONSE START****************" << std::endl;
-		// std::cout << res << std::endl;
-		// std::cout << "***************** HTTP REPONSE END ****************\n" << std::endl;
+		// res.load_http_request(sock.request);
+		std::cout << "***************** HTTP REPONSE START****************" << std::endl;
+		std::cout << sock.response << std::endl;
+		std::cout << "***************** HTTP REPONSE END ****************\n" << std::endl;
 
-		std::string response(res.get_http_response());
-		send_ret = send(sock._connection_fd, response.c_str(), response.length(), 0);
-		if (send_ret < static_cast<int>(response.length()))
-		{
-			std::cout << "send_ret : " << send_ret << std::endl;
-			send_ret = send(sock._connection_fd, response.c_str(), response.length(), 0);
-		}
-		close(sock._connection_fd);
+		
 		std::cout << "CONNECTION CLOSED" << std::endl;
 	}
 }
