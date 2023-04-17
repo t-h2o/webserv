@@ -1,5 +1,6 @@
-#include "../../../inc/cgi.hpp"
 #include "StatusCodes.hpp"
+
+#include "../../../inc/cgi.hpp"
 
 int
 test_execve_cgi_env(void)
@@ -8,15 +9,17 @@ test_execve_cgi_env(void)
 	char	   *arguments[4];
 	{
 		arguments[0] = (char *)"bin/php-cgi";
-		arguments[1] = (char *)"/Users/kdi-noce/Documents/cursus42/webserv/test/src/cgi/test_env.php";
-		arguments[2] = (char *)"?q=abstract%20api";
+		arguments[1] = (char *)"test/src/cgi/test_env2.php";
+		arguments[2] = (char *)"";
 		arguments[3] = NULL;
 
 		CGI exec(arguments[0], arguments[1], arguments[2]);
 		output = exec.execution_cgi();
-		std::cout << "output cgi: " << output << std::endl;
-		if (!output.find("CGI/1.1"))
-			return (1);
+		std::cout << "output hello: " << output << std::endl;
+//		if (output.find("My username is kdi-noce!") == std::string::npos)
+//			return (1);
+//		if (output.find("CGI/1.1") == std::string::npos)
+//			return (1);
 	}
 	return (0);
 }

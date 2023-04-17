@@ -43,7 +43,7 @@ CGI::set_env(void)
 	// de requete http
 	_env["REQUEST_METHOD"] = "POST";
 	// Donne le chemin virtuel du script utilisé. Le nom du script.
-	_env["SCRIPT_NAME"] = "/test.php";
+	_env["SCRIPT_NAME"] = "test/src/cgi/test.php";
 	// Donne l'IP ou la DNS du serveur.
 	_env["SERVER_NAME"] = "null";
 	// Donne le nom et la version du protocole utilisé par le serveur et le client.
@@ -52,10 +52,6 @@ CGI::set_env(void)
 	_env["SERVER_PROTOCOL"] = "null";
 	// Donne le nom et la version du serveur Web utilisé.
 	_env["SERVER_SOFTWARE"] = "null";
-
-	std::map<std::string, std::string>::iterator it;
-	for (it = _env.begin(); it != _env.end(); ++it)
-		std::cout << it->first << " " << it->second << std::endl;
 }
 
 std::string
@@ -115,6 +111,7 @@ CGI::execution_cgi(void)
 	}
 	set_env();
 	env = utils::cMap_to_cChar(_env);
+
 	pid_t pid = fork();
 	// Verify if fork failed
 	if (pid == -1)
