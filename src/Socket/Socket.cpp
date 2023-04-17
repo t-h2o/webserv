@@ -97,7 +97,8 @@ Socket::socket_recv()
 		return (-1);
 	}
 	request_str += buffer;
-
+	request.parse_buffer(request_str);
+	std::cout << request << std::endl;
 	if (request_str.find("Transfer-Encoding:chunked") != std::string::npos)
 	{
 		// process chunk
