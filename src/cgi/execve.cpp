@@ -11,10 +11,10 @@ CGI::CGI(const CGI &src) { *this = src; }
 
 CGI::CGI(std::string bin, std::string file, std::string query)
 {
-	_args.push_back((char *)bin.c_str());
-	_args.push_back((char *)file.c_str());
+	_args.push_back(const_cast<char *>(bin.c_str()));
+	_args.push_back(const_cast<char *>(file.c_str()));
 	if (!query.empty())
-		_args.push_back((char *)query.c_str());
+		_args.push_back(const_cast<char *>(query.c_str()));
 	_args.push_back(NULL);
 }
 // CGI CGI::operator=(const CGI &src) {

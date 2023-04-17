@@ -18,7 +18,7 @@ class CGI
 {
   private:
 	std::map<std::string, std::string> _env;
-	std::vector<char *>				   _args;
+	std::vector<char *>					_args;
 	std::string						   _output_cgi;
 	int								   _pipefd[2];
 	char							   _read_buffer[BUFFER_SIZE];
