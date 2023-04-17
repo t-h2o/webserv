@@ -76,6 +76,7 @@ Socket::socket_recv()
 	const int MAXLINE = 4096;
 	char	  buffer[MAXLINE] = { 0 };
 	int		  byte_read;
+	int		send_ret = 0;
 
 	byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
 	while (byte_read > 0)
@@ -90,6 +91,15 @@ Socket::socket_recv()
 	}
 	request.parse_buffer(request_str);
 	request_str = "";
+	response.load_http_request(request);
+	std::string response(this->response.get_http_response());
+		send_ret = send(_connection_fd, response.c_str(), response.length(), 0);
+		if (send_ret < static_cast<int>(response.length()))
+		{
+			std::cout << "send_ret : " << send_ret << std::endl;
+			send_ret = send(_connection_fd, response.c_str(), response.length(), 0);
+		}
+		close(_connection_fd);
 }
 
 void
