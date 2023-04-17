@@ -13,30 +13,26 @@ Socket::Socket(int domain, unsigned short port, int type, int protocol)
 	request_str = "";
 }
 
-void
-Socket::create_socket(int domain, int type, int protocol)
+void Socket::create_socket(int domain, int type, int protocol)
 {
 	_sock_id = socket(domain, type, protocol);
 	test_socket(_sock_id, "create_socket() Fail!");
 }
 
-void
-Socket::binding_socket()
+void Socket::binding_socket()
 {
 	_connection = bind(_sock_id, reinterpret_cast<struct sockaddr *>(&_address), sizeof(_address));
 	test_socket(_connection, "binding_socket() Fail!");
 }
 
-void
-Socket::start_listening()
+void Socket::start_listening()
 {
 	int res;
 	res = listen(_sock_id, LISTEN_BACKLOG);
 	test_socket(res, "start_listening() Fail!");
 }
 
-void
-Socket::test_socket(int item_to_test, const char *msg)
+void Socket::test_socket(int item_to_test, const char *msg)
 {
 	if (item_to_test < 0)
 	{
@@ -45,8 +41,7 @@ Socket::test_socket(int item_to_test, const char *msg)
 	}
 }
 
-int
-Socket::get_sock_id() const
+int Socket::get_sock_id() const
 {
 	return _sock_id;
 }
@@ -57,8 +52,7 @@ Socket::get_port() const
 	return ntohs(_address.sin_port);
 }
 
-void
-Socket::set_socket_non_blocking()
+void Socket::set_socket_non_blocking()
 {
 	int ret;
 	int val = 1;
@@ -78,41 +72,53 @@ Socket::set_socket_non_blocking()
 // return 0 =>
 // push socket_fd to readytowrite
 
-int
-Socket::socket_recv()
+int Socket::socket_recv()
 {
 	const int MAXLINE = 4096;
-	char	  buffer[MAXLINE] = { 0 };
-	int		  byte_read;
-	int		  send_ret = 0;
+	char buffer[MAXLINE] = {0};
+	int byte_read;
+	int send_ret = 0;
 
 	byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
 	if (byte_read == 0 || byte_read == -1)
 	{
 		close(_connection_fd);
 		if (byte_read == 0)
-			std::cout << "\rConnection was closed by client.\n" << std::endl;
+			std::cout << "\rConnection was closed by client.\n"
+					  << std::endl;
 		else
-			std::cout << "\rRead error, closing connection.\n" << std::endl;
+			std::cout << "\rRead error, closing connection.\n"
+					  << std::endl;
 		return (-1);
 	}
 	request_str += buffer;
 	request.parse_buffer(request_str);
-	std::cout << request << std::endl;
-	if (request_str.find("Transfer-Encoding:chunked") != std::string::npos)
+	if (request._request_map["Content-Type"] == "multipart/form-data")
 	{
-		// process chunk
-		while (byte_read > 0)
-		{
-			std::cout << "RECV SIZE: " << byte_read << std::endl;
-			std::memset(buffer, 0, MAXLINE);
-			byte_read = 0;
-			byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
-		}
-	}
-	// return 1;
+		std::cout << "Buffer: " << request_str.substr(request_str.find("name")) << std::endl;
 
-	request.parse_buffer(request_str);
+		std::string head = request_str.substr(0, request_str.find("\r\n\r\n"));
+		std::string chunks = request_str.substr(request_str.find("\r\n\r\n") + 4,
+												request_str.size() - 1);
+		std::string subchunk = chunks.substr(0, 100);
+		std::string body = "";
+		int chunksize = strtol(subchunk.c_str(), NULL, 16);
+		size_t i = 0;
+
+		while (chunksize)
+		{
+			i = chunks.find("\r\n", i) + 2;
+			body += chunks.substr(i, chunksize);
+			i += chunksize + 2;
+			subchunk = chunks.substr(i, 100);
+			chunksize = strtol(subchunk.c_str(), NULL, 16);
+		}
+
+		request_str = head + "\r\n\r\n" + body + "\r\n\r\n";
+
+		std::cout << "chunk finished" << std::endl;
+	}
+	std::cout << request << std::endl;
 	request_str = "";
 	response.load_http_request(request);
 	std::string response(this->response.get_http_response());
@@ -126,8 +132,7 @@ Socket::socket_recv()
 	return 0;
 }
 
-void
-Socket::socket_accept()
+void Socket::socket_accept()
 {
 	_connection_fd = accept(get_sock_id(), NULL, NULL);
 	if (_connection_fd < 0)
