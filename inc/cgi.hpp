@@ -26,14 +26,13 @@ class CGI
   public:
 	CGI(void);
 	CGI(CGI const &src);
-	CGI(std::string bin, std::string file, std::string query);
+	CGI(const std::string& bin, const std::string& file, const std::string& query);
 	//	CGI		operator=(CGI const& src);
 
 	std::string execution_cgi(void);
 	std::string parent_process(pid_t pid);
 	void		child_process(char **);
 	void		set_env(void);
-	void		check_env(void);
 
 	~CGI(void);
 };

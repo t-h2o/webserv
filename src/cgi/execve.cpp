@@ -9,13 +9,13 @@ CGI::CGI(void) {}
 
 CGI::CGI(const CGI &src) { *this = src; }
 
-CGI::CGI(std::string bin, std::string file, std::string query)
+CGI::CGI(const std::string& bin, const std::string& file, const std::string& query)
 {
 	_args.push_back(const_cast<char *>(bin.c_str()));
 	_args.push_back(const_cast<char *>(file.c_str()));
 	if (!query.empty())
 		_args.push_back(const_cast<char *>(query.c_str()));
-	_args.push_back(NULL);
+	_args.push_back(nullptr);
 }
 // CGI CGI::operator=(const CGI &src) {
 //	*this = src;
