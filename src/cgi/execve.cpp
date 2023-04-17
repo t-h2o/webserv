@@ -1,10 +1,11 @@
 #include "../../inc/cgi.hpp"
+#include "../../inc/std98.hpp"
 #include "../../inc/utility.hpp"
 #include "cgi.hpp"
 
 #define BUFFER_SIZE 4092
 
-CGI::CGI() {}
+CGI::CGI(void) {}
 
 CGI::CGI(const CGI &src) { *this = src; }
 
@@ -21,13 +22,13 @@ CGI::CGI(std::string bin, std::string file, std::string query)
 //	return (*this);
 // }
 void
-CGI::set_env()
+CGI::set_env(void)
 {
 	// Définit la route par laquelle tous les utilisateurs seront authentifiés (dans les applications prises
 	// en charge).
 	_env["AUTH_TYPE"] = "null";
 	// Donne le nombre de bytes transmis par le client.
-	_env["CONTENT_LENGTH"] = std::to_string(19);
+	_env["CONTENT_LENGTH"] = std98::to_string(19);
 	// Donne le type de donnée transmise par le client si l'attribut METHOD a pour valeur POST.
 	_env["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
 	// Donne la version du CGI utilisé.
