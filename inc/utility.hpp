@@ -1,7 +1,3 @@
-//
-// Created by Kevin Di nocera on 4/6/23.
-//
-
 #ifndef WEBSERV_UTILITY_HPP
 #define WEBSERV_UTILITY_HPP
 

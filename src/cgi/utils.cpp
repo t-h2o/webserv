@@ -1,7 +1,6 @@
 #include "../../inc/cgi.hpp"
 #include <iostream>
 #include <map>
-#include <sstream>
 #include <string>
 
 namespace utils

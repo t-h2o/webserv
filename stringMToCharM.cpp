@@ -1,6 +1,4 @@
-//
-// Created by Kevin Di nocera on 4/5/23.
-//
+
 #include <cstdio>
 #include <iostream>
 #include <map>
