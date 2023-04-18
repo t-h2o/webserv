@@ -3,6 +3,7 @@
 
 #include "Request.hpp"
 #include "StatusCodes.hpp"
+#include "Value.hpp"
 #include "std98.hpp"
 #include <ctime>
 #include <fstream>
@@ -21,6 +22,7 @@ class Response
 	Response();
 	~Response(void);
 	std::string		get_http_response(void);
+	void			init_response_map(const json::Value &config);
 	void			load_http_request(Request &req);
 	const t_object &get_map() const;
 
@@ -30,7 +32,6 @@ class Response
 
 	t_object	_response_map;
 	void		set_content_length(std::string str);
-	void		init_response_map(void);
 	void		set_response_type(std::string path);
 	void		load_response_map(int status_code);
 	std::string get_time_stamp(void);
