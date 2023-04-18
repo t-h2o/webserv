@@ -91,36 +91,17 @@ int Socket::socket_recv()
 					  << std::endl;
 		return (-1);
 	}
-	request_str += buffer;
+	request_str += std::string(buffer);
 	request.parse_buffer(request_str);
 	if (request._request_map["Content-Type"] == "multipart/form-data")
 	{
-		std::cout << "Buffer: " << request_str.substr(request_str.find("name")) << std::endl;
-
-		std::string head = request_str.substr(0, request_str.find("\r\n\r\n"));
-		std::string chunks = request_str.substr(request_str.find("\r\n\r\n") + 4,
-												request_str.size() - 1);
-		std::string subchunk = chunks.substr(0, 100);
-		std::string body = "";
-		int chunksize = strtol(subchunk.c_str(), NULL, 16);
-		size_t i = 0;
-
-		while (chunksize)
-		{
-			i = chunks.find("\r\n", i) + 2;
-			body += chunks.substr(i, chunksize);
-			i += chunksize + 2;
-			subchunk = chunks.substr(i, 100);
-			chunksize = strtol(subchunk.c_str(), NULL, 16);
-		}
-
-		request_str = head + "\r\n\r\n" + body + "\r\n\r\n";
-
-		std::cout << "chunk finished" << std::endl;
+		std::string file_name;
+		file_name = get_file_name();
+		std::cout << "FileName: " << file_name << std::endl;
 	}
-	std::cout << request << std::endl;
-	request_str = "";
+	// std::cout << request << std::endl;
 	response.load_http_request(request);
+	request_str = "";
 	std::string response(this->response.get_http_response());
 	send_ret = send(_connection_fd, response.c_str(), response.length(), 0);
 	if (send_ret < static_cast<int>(response.length()))
@@ -140,4 +121,14 @@ void Socket::socket_accept()
 		std::cout << "connection_fd: " << _connection_fd << " Failed!" << std::endl;
 		exit(EXIT_FAILURE);
 	}
+}
+
+std::string		Socket::get_file_name()
+{
+	std::string start_looking = request_str.substr(request_str.find("name"));
+	start_looking = start_looking.substr(start_looking.find_first_of('"'), start_looking.find("\n"));
+	size_t position_quote_start(start_looking.find_first_of('"') + 1);
+	size_t length(start_looking.find_first_of('"', + 1) - position_quote_start);
+	return start_looking.substr(position_quote_start, length);
+	
 }
