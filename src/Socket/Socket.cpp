@@ -97,9 +97,7 @@ Socket::socket_recv()
 			std::cout << "\rRead error, closing connection.\n" << std::endl;
 		return (-1);
 	}
-	std::cout << "BYTES READ: " << byte_read << std::endl;
 	std::string buffer_str = std::string(buffer);
-
 	header_str += buffer_str.substr(0, buffer_str.find("\r\n\r\n"));
 	if (buffer_str.find("\r\n\r\n") + 4 != buffer_str.size())
 		body_str += buffer_str.substr(buffer_str.find("\r\n\r\n"));
@@ -142,11 +140,16 @@ Socket::socket_accept()
 }
 
 std::string
-Socket::get_file_name()
+Socket::get_file_name(std::string raw_body)
 {
 	std::string start_looking = header_str.substr(header_str.find("name"));
 	start_looking = start_looking.substr(start_looking.find_first_of('"'), start_looking.find("\n"));
 	size_t position_quote_start(start_looking.find_first_of('"') + 1);
 	size_t length(start_looking.find_first_of('"', +1) - position_quote_start);
 	return start_looking.substr(position_quote_start, length);
+}
+
+void	Socket::create_new_file(std::string raw_body)
+{
+	
 }
