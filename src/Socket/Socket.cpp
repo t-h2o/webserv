@@ -95,10 +95,24 @@ int Socket::socket_recv()
 	request.parse_buffer(request_str);
 	if (request._request_map["Content-Type"] == "multipart/form-data")
 	{
-		std::string file_name;
-		file_name = get_file_name();
-		std::cout << "FileName: " << file_name << std::endl;
+		std::string file_name = get_file_name();
+		std::cout << "file name: " << file_name << std::endl;
+		std::string chunks = "";
+		int ret = 0;
+		std::cout << "ret: " << ret << std::endl;
+		ret = recv(_connection_fd, buffer, MAXLINE - 1, 0);
+		chunks += buffer;
+		while (ret == MAXLINE -1)
+		{	
+			std::memset(buffer, 0, MAXLINE -1);
+			ret = recv(_connection_fd, buffer, MAXLINE - 1, 0);
+			std::cout << "bytes received: " << ret << std::endl;
+			chunks += buffer;
+
+		}
+		std::cout << chunks << std::endl;
 	}
+
 	// std::cout << request << std::endl;
 	response.load_http_request(request);
 	request_str = "";
