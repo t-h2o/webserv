@@ -32,13 +32,13 @@ class Socket
 	http::Request  request;
 	http::Response response;
 	std::string	   header_str;
-	std::string		body_str;
+	std::string	   body_str;
 	Socket(int domain, unsigned short port, int type, int protocol);
 	int			   socket_recv();
 	void		   socket_accept();
 	int			   get_sock_id() const;
 	unsigned short get_port() const;
-	std::string		get_file_name();
+	std::string	   get_file_name();
 };
 
 #endif

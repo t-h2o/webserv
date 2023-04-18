@@ -14,26 +14,30 @@ Socket::Socket(int domain, unsigned short port, int type, int protocol)
 	body_str = "";
 }
 
-void Socket::create_socket(int domain, int type, int protocol)
+void
+Socket::create_socket(int domain, int type, int protocol)
 {
 	_sock_id = socket(domain, type, protocol);
 	test_socket(_sock_id, "create_socket() Fail!");
 }
 
-void Socket::binding_socket()
+void
+Socket::binding_socket()
 {
 	_connection = bind(_sock_id, reinterpret_cast<struct sockaddr *>(&_address), sizeof(_address));
 	test_socket(_connection, "binding_socket() Fail!");
 }
 
-void Socket::start_listening()
+void
+Socket::start_listening()
 {
 	int res;
 	res = listen(_sock_id, LISTEN_BACKLOG);
 	test_socket(res, "start_listening() Fail!");
 }
 
-void Socket::test_socket(int item_to_test, const char *msg)
+void
+Socket::test_socket(int item_to_test, const char *msg)
 {
 	if (item_to_test < 0)
 	{
@@ -42,7 +46,8 @@ void Socket::test_socket(int item_to_test, const char *msg)
 	}
 }
 
-int Socket::get_sock_id() const
+int
+Socket::get_sock_id() const
 {
 	return _sock_id;
 }
@@ -53,7 +58,8 @@ Socket::get_port() const
 	return ntohs(_address.sin_port);
 }
 
-void Socket::set_socket_non_blocking()
+void
+Socket::set_socket_non_blocking()
 {
 	int ret;
 	int val = 1;
@@ -73,51 +79,41 @@ void Socket::set_socket_non_blocking()
 // return 0 =>
 // push socket_fd to readytowrite
 
-int Socket::socket_recv()
+int
+Socket::socket_recv()
 {
 	const int MAXLINE = 4096;
-	char buffer[MAXLINE] = {0};
-	int byte_read;
-	int send_ret = 0;
+	char	  buffer[MAXLINE] = { 0 };
+	int		  byte_read;
+	int		  send_ret = 0;
 
 	byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
 	if (byte_read == 0 || byte_read == -1)
 	{
 		close(_connection_fd);
 		if (byte_read == 0)
-			std::cout << "\rConnection was closed by client.\n"
-					  << std::endl;
+			std::cout << "\rConnection was closed by client.\n" << std::endl;
 		else
-			std::cout << "\rRead error, closing connection.\n"
-					  << std::endl;
+			std::cout << "\rRead error, closing connection.\n" << std::endl;
 		return (-1);
 	}
 	std::cout << "BYTES READ: " << byte_read << std::endl;
 	std::string buffer_str = std::string(buffer);
-	std::cout << "BUFFER: \n" << buffer_str << std::endl;
+
 	header_str += buffer_str.substr(0, buffer_str.find("\r\n\r\n"));
 	if (buffer_str.find("\r\n\r\n") + 4 != buffer_str.size())
 		body_str += buffer_str.substr(buffer_str.find("\r\n\r\n"));
 	request.parse_buffer(header_str);
 	if (request._request_map["Content-Type"] == "multipart/form-data")
 	{
-		// std::string file_name = get_file_name();
-	// 	std::cout << "file name: " << file_name << std::endl;
+		while (byte_read == MAXLINE - 1)
+		{
+			std::memset(buffer, 0, MAXLINE);
+			byte_read = read(_connection_fd, buffer, MAXLINE - 1);
+			std::cout << "bytes received: " << byte_read << std::endl;
+			body_str += buffer;
+		}
 		std::cout << body_str << std::endl;
-	// 	std::string chunks = "";
-	// 	size_t ret = 0;
-	// 	ret = recv(_connection_fd, buffer, MAXLINE - 1, 0);
-	// 	std::cout << "ret: " << ret << std::endl;
-	// 	chunks += buffer;
-	// 	while (ret == MAXLINE -1)
-	// 	{	
-	// 		std::memset(buffer, 0, MAXLINE -1);
-	// 		ret = read(_connection_fd, buffer, MAXLINE - 1);
-	// 		std::cout << "bytes received: " << ret << std::endl;
-	// 		chunks += buffer;
-
-	// 	}
-	// 	std::cout << chunks << std::endl;
 	}
 
 	// std::cout << request << std::endl;
@@ -134,7 +130,8 @@ int Socket::socket_recv()
 	return 0;
 }
 
-void Socket::socket_accept()
+void
+Socket::socket_accept()
 {
 	_connection_fd = accept(get_sock_id(), NULL, NULL);
 	if (_connection_fd < 0)
@@ -144,12 +141,12 @@ void Socket::socket_accept()
 	}
 }
 
-std::string		Socket::get_file_name()
+std::string
+Socket::get_file_name()
 {
 	std::string start_looking = header_str.substr(header_str.find("name"));
 	start_looking = start_looking.substr(start_looking.find_first_of('"'), start_looking.find("\n"));
 	size_t position_quote_start(start_looking.find_first_of('"') + 1);
-	size_t length(start_looking.find_first_of('"', + 1) - position_quote_start);
+	size_t length(start_looking.find_first_of('"', +1) - position_quote_start);
 	return start_looking.substr(position_quote_start, length);
-	
 }
