@@ -37,6 +37,7 @@ class Socket
 	void		   socket_accept();
 	int			   get_sock_id() const;
 	unsigned short get_port() const;
+	std::string		get_file_name();
 };
 
 #endif
