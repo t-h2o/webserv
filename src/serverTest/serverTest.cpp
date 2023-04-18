@@ -21,7 +21,7 @@ serverTest(json::t_object *config)
 	json::Value val(config);
 	const int	MAXLINE = 1000;
 	std::cout << "HERE " << std::endl;
-	double					 port = val.get("port").get<double>();
+	unsigned short			 port = val.get("port").get<double>();
 	Socket					 sock(AF_INET, port, SOCK_STREAM, 0);
 	int						 connection_fd;
 	char					 buffer[MAXLINE] = { 0 };
