@@ -10,7 +10,8 @@ Socket::Socket(int domain, unsigned short port, int type, int protocol)
 	set_socket_non_blocking();
 	binding_socket();
 	start_listening();
-	request_str = "";
+	header_str = "";
+	body_str = "";
 }
 
 void Socket::create_socket(int domain, int type, int protocol)
@@ -91,31 +92,37 @@ int Socket::socket_recv()
 					  << std::endl;
 		return (-1);
 	}
-	request_str += std::string(buffer);
-	request.parse_buffer(request_str);
+	std::cout << "BYTES READ: " << byte_read << std::endl;
+	std::string buffer_str = std::string(buffer);
+	std::cout << "BUFFER: \n" << buffer_str << std::endl;
+	header_str += buffer_str.substr(0, buffer_str.find("\r\n\r\n"));
+	if (buffer_str.find("\r\n\r\n") + 4 != buffer_str.size())
+		body_str += buffer_str.substr(buffer_str.find("\r\n\r\n"));
+	request.parse_buffer(header_str);
 	if (request._request_map["Content-Type"] == "multipart/form-data")
 	{
-		std::string file_name = get_file_name();
-		std::cout << "file name: " << file_name << std::endl;
-		std::string chunks = "";
-		int ret = 0;
-		std::cout << "ret: " << ret << std::endl;
-		ret = recv(_connection_fd, buffer, MAXLINE - 1, 0);
-		chunks += buffer;
-		while (ret == MAXLINE -1)
-		{	
-			std::memset(buffer, 0, MAXLINE -1);
-			ret = recv(_connection_fd, buffer, MAXLINE - 1, 0);
-			std::cout << "bytes received: " << ret << std::endl;
-			chunks += buffer;
+		// std::string file_name = get_file_name();
+	// 	std::cout << "file name: " << file_name << std::endl;
+		std::cout << body_str << std::endl;
+	// 	std::string chunks = "";
+	// 	size_t ret = 0;
+	// 	ret = recv(_connection_fd, buffer, MAXLINE - 1, 0);
+	// 	std::cout << "ret: " << ret << std::endl;
+	// 	chunks += buffer;
+	// 	while (ret == MAXLINE -1)
+	// 	{	
+	// 		std::memset(buffer, 0, MAXLINE -1);
+	// 		ret = read(_connection_fd, buffer, MAXLINE - 1);
+	// 		std::cout << "bytes received: " << ret << std::endl;
+	// 		chunks += buffer;
 
-		}
-		std::cout << chunks << std::endl;
+	// 	}
+	// 	std::cout << chunks << std::endl;
 	}
 
 	// std::cout << request << std::endl;
 	response.load_http_request(request);
-	request_str = "";
+	header_str = "";
 	std::string response(this->response.get_http_response());
 	send_ret = send(_connection_fd, response.c_str(), response.length(), 0);
 	if (send_ret < static_cast<int>(response.length()))
@@ -139,7 +146,7 @@ void Socket::socket_accept()
 
 std::string		Socket::get_file_name()
 {
-	std::string start_looking = request_str.substr(request_str.find("name"));
+	std::string start_looking = header_str.substr(header_str.find("name"));
 	start_looking = start_looking.substr(start_looking.find_first_of('"'), start_looking.find("\n"));
 	size_t position_quote_start(start_looking.find_first_of('"') + 1);
 	size_t length(start_looking.find_first_of('"', + 1) - position_quote_start);

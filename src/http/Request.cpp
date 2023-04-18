@@ -20,13 +20,17 @@ namespace http
 			str_buff.erase(str_buff.begin(), str_buff.begin() + delimiter_position + 1);
 			delimiter_position = str_buff.find(delimiter);
 		}
-		if (str_buff.length() != 0)
-		{
-			_request_map["Body"] = this->trim(str_buff);
-		}
+		// if (str_buff.length() != 0)
+		// {
+		// 	_request_map["Body"] = str_buff;
+		// }
 		this->parse_first_line(tmp_vector[0]);
 		this->parse_other_lines(tmp_vector);
-		this->clean_content_type();
+		try {
+			_request_map.at("Content-Type");
+			this->clean_content_type();
+		} catch (std::exception)
+		{}
 	}
 
 	void
@@ -142,6 +146,8 @@ namespace http
 	{
 		size_t end_of_first_part = _request_map["Content-Type"].find_first_of(";");
 		_request_map["Content-Type"] = _request_map["Content-Type"].substr(0, end_of_first_part);
+		if (_request_map["Content-Type"].find("boundary=") != std::string::npos)
+			_request_map["boundary"] = _request_map["Content-Type"].substr(_request_map["Content-Type"].find("boundary=") + 10);
 	}
 
 } /* namespace http */
