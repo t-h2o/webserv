@@ -31,7 +31,8 @@ class Socket
 	int			   _connection_fd;
 	http::Request  request;
 	http::Response response;
-	std::string	   request_str;
+	std::string	   header_str;
+	std::string		body_str;
 	Socket(int domain, unsigned short port, int type, int protocol);
 	int			   socket_recv();
 	void		   socket_accept();
