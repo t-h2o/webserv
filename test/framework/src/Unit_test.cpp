@@ -25,11 +25,10 @@ Unit_test::_last_line(void)
 	size_t index = _test.size();
 	while (index-- && (_test[index]._result.failed() || ++success))
 		;
-	std::cout << "\n";
 	std::cout << success;
 	std::cout << "/";
 	std::cout << _test.size();
-	std::cout << " tests checked\n";
+	std::cout << " tests checked\n\n";
 
 	return static_cast<bool>(success - _test.size());
 }
