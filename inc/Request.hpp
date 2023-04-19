@@ -27,12 +27,12 @@ class Request
 	std::string		get_host() const;
 	const t_object &get_map() const;
 	t_object		_request_map;
+	std::string		trim(const std::string &s);
 
   private:
-	std::string trim(const std::string &s);
-	void		parse_first_line(std::string firstLine);
-	void		parse_other_lines(std::vector<std::string> tmp_vector);
-	void		clean_content_type();
+	void parse_first_line(std::string firstLine);
+	void parse_other_lines(std::vector<std::string> tmp_vector);
+	void clean_content_type();
 };
 
 std::ostream &operator<<(std::ostream &, Request const &);
