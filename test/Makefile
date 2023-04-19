@@ -19,9 +19,12 @@ OFLAGS	=	-fsanitize=address
 SRCD	=	src
 
 SRCS	=	$(SRCD)/main.cpp
-SRCS	+=	$(SRCD)/arguments/00_launcher.cpp
-SRCS	+=	$(SRCD)/arguments/01_test.cpp
-SRCS	+=	$(SRCD)/arguments/02_test.cpp
+SRCS	+=	$(SRCD)/arguments-argc/00_launcher.cpp
+SRCS	+=	$(SRCD)/arguments-argc/01_test.cpp
+SRCS	+=	$(SRCD)/arguments-argc/02_test.cpp
+SRCS	+=	$(SRCD)/arguments-argv/00_launcher.cpp
+SRCS	+=	$(SRCD)/arguments-argv/01_test.cpp
+SRCS	+=	$(SRCD)/arguments-argv/02_test.cpp
 SRCS	+=	$(SRCD)/http-request/00_launcher.cpp
 SRCS	+=	$(SRCD)/http-request/01_test.cpp
 SRCS	+=	$(SRCD)/http-response/00_launcher.cpp

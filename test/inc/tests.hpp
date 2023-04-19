@@ -7,6 +7,12 @@ int launch_arguments(void);
 int test_check_argc_number_1(void);
 int test_check_argc_number_2(void);
 
+/* arguments::check_argv_access */
+
+int launch_arguments_argv(void);
+int test_check_argv_access_valid(void);
+int test_check_argv_access_unvalid(void);
+
 /* http::Request */
 
 int launch_http_request(void);

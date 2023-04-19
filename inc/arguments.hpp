@@ -5,6 +5,7 @@ namespace arguments
 {
 
 int check_argc_number(int argc);
+int check_argv_access(const char *);
 
 } /* namespace arguments */
 
