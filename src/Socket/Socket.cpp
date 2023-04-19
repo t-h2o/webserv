@@ -111,12 +111,15 @@ Socket::socket_recv()
 			std::cout << "bytes received: " << byte_read << std::endl;
 			body_str += buffer;
 		}
-		std::cout << body_str << std::endl;
+		std::memset(buffer, 0, MAXLINE);
+		create_new_file(body_str);
+		// std::cout << body_str << std::endl;
 	}
 
 	// std::cout << request << std::endl;
 	response.load_http_request(request);
 	header_str = "";
+	body_str = "";
 	std::string response(this->response.get_http_response());
 	send_ret = send(_connection_fd, response.c_str(), response.length(), 0);
 	if (send_ret < static_cast<int>(response.length()))
@@ -142,14 +145,23 @@ Socket::socket_accept()
 std::string
 Socket::get_file_name(std::string raw_body)
 {
-	std::string start_looking = header_str.substr(header_str.find("name"));
+	std::string start_looking = raw_body.substr(raw_body.find("filename="));
 	start_looking = start_looking.substr(start_looking.find_first_of('"'), start_looking.find("\n"));
 	size_t position_quote_start(start_looking.find_first_of('"') + 1);
 	size_t length(start_looking.find_first_of('"', +1) - position_quote_start);
 	return start_looking.substr(position_quote_start, length);
 }
 
-void	Socket::create_new_file(std::string raw_body)
+void
+Socket::create_new_file(std::string raw_body)
 {
-	
+	size_t		delimiter = raw_body.find("Content-Type");
+	std::string file_name = get_file_name(raw_body.substr(0, delimiter));
+	std::string file_part = request.trim(raw_body.substr(raw_body.find_first_of("\r\n\r\n", +delimiter)));
+	size_t		end = file_part.find('\n');
+	std::string clean_file = file_part.substr(0, end);
+	std::string fullpath = "test/website/uploads/" + file_name;
+	std::ofstream ofs(fullpath, std::ios_base::out |std::ios_base::binary);
+	 ofs << clean_file;
+	ofs.close();
 }

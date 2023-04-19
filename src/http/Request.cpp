@@ -144,10 +144,12 @@ void
 Request::clean_content_type()
 {
 	size_t end_of_first_part = _request_map["Content-Type"].find_first_of(";");
-	_request_map["Content-Type"] = _request_map["Content-Type"].substr(0, end_of_first_part);
 	if (_request_map["Content-Type"].find("boundary=") != std::string::npos)
+	{
 		_request_map["boundary"]
 			= _request_map["Content-Type"].substr(_request_map["Content-Type"].find("boundary=") + 10);
+	}
+	_request_map["Content-Type"] = _request_map["Content-Type"].substr(0, end_of_first_part);
 }
 
 } /* namespace http */

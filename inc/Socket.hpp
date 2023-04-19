@@ -39,7 +39,7 @@ class Socket
 	int			   get_sock_id() const;
 	unsigned short get_port() const;
 	std::string	   get_file_name(std::string);
-	void			create_new_file(std::string);
+	void		   create_new_file(std::string);
 };
 
 #endif
