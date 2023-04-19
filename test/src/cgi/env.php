@@ -1,19 +1,18 @@
 <?php
-$variableName = 'CONTENT_LENGTH';
-$value = getenv($variableName);
-echo "Environment variable using getenv(): {$value}\n";
-?>
-$value = getenv($variableName);
-if ($value !== false) {
-    echo "Environment variable using getenv(): {$value}\n";
-}
-else {
-    echo "Environment variable not set using getenv().\n";
-}
+$test_cases = [
+    ["key" => "AUTH_TYPE", "expected_value" => "Basic"],
+    ["key" => "NON_EXISTENT_KEY", "expected_value" => ""]
+];
 
-if (isset($_ENV[$variableName])) {
-    echo "Environment variable using _ENV: {$_ENV[$variableName]}\n";
+foreach ($test_cases as $test_case) {
+    $env_key = $test_case["key"];
+    $expected_value = $test_case["expected_value"];
+    $actual_value = exec('./webserv ' . escapeshellarg($env_key));
+
+    if ($actual_value === $expected_value) {
+        echo "Test case for key '$env_key' passed." . PHP_EOL;
+    } else {
+        echo "Test case for key '$env_key' failed. Expected: '$expected_value', Actual: '$actual_value'." . PHP_EOL;
+    }
 }
-else {
-    echo "Environment variable not set using _ENV.\n";
-}
+?>

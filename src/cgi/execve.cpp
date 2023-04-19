@@ -5,11 +5,11 @@
 
 #define BUFFER_SIZE 4092
 
-CGI::CGI(void) {}
+CGI::CGI(void) : _pipefd(), _read_buffer() {}
 
-CGI::CGI(const CGI &src) { *this = src; }
+CGI::CGI(const CGI &src) : _pipefd(), _read_buffer() { *this = src; }
 
-CGI::CGI(const std::string& bin, const std::string& file, const std::string& query)
+CGI::CGI(const std::string& bin, const std::string& file, const std::string& query) : _pipefd(), _read_buffer()
 {
 	_args.push_back(const_cast<char *>(bin.c_str()));
 	_args.push_back(const_cast<char *>(file.c_str()));
@@ -58,7 +58,7 @@ std::string
 CGI::parent_process(pid_t pid)
 {
 	close(_pipefd[1]);
-	waitpid(pid, 0, 0);
+	waitpid(pid, nullptr, 0);
 	while (true)
 	{
 		// Initialize bytes_read with the return value from read, for error checking.
@@ -126,4 +126,4 @@ CGI::execution_cgi(void)
 	return (output);
 }
 
-CGI::~CGI(void) {}
+CGI::~CGI(void) {};

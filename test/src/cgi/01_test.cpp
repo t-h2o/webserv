@@ -1,5 +1,6 @@
-#include "../../../inc/cgi.hpp"
 #include "StatusCodes.hpp"
+
+#include "../../../inc/cgi.hpp"
 
 int
 test_cgi_exec(void)

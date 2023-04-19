@@ -9,7 +9,7 @@ test_execve_cgi_env(void)
 	char	   *arguments[4];
 	{
 		arguments[0] = (char *)"bin/php-cgi";
-		arguments[1] = (char *)"test/src/cgi/test_env.php";
+		arguments[1] = (char *)"test/src/cgi/env.php";
 		arguments[2] = (char *)"";
 		arguments[3] = NULL;
 
