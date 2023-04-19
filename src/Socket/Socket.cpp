@@ -108,7 +108,6 @@ Socket::socket_recv()
 		{
 			std::memset(buffer, 0, MAXLINE);
 			byte_read = read(_connection_fd, buffer, MAXLINE - 1);
-			std::cout << "bytes received: " << byte_read << std::endl;
 			body_str += buffer;
 		}
 		std::memset(buffer, 0, MAXLINE);
@@ -158,10 +157,21 @@ Socket::create_new_file(std::string raw_body)
 	size_t		delimiter = raw_body.find("Content-Type");
 	std::string file_name = get_file_name(raw_body.substr(0, delimiter));
 	std::string file_part = request.trim(raw_body.substr(raw_body.find_first_of("\r\n\r\n", +delimiter)));
-	size_t		end = file_part.find('\n');
-	std::string clean_file = file_part.substr(0, end);
+	size_t		end = file_part.find(request._request_map["boundary"]);
+	std::string half_clean_file = file_part.substr(0, end);
 	std::string fullpath = "test/website/uploads/" + file_name;
-	std::ofstream ofs(fullpath, std::ios_base::out |std::ios_base::binary);
-	 ofs << clean_file;
+	std::string clean_file = clean_end_of_file(half_clean_file);
+	// std::cout << raw_body.substr(0, 1000) << std::endl;
+	std::ofstream ofs(fullpath, std::ios_base::out | std::ios_base::binary);
+	ofs << clean_file;
 	ofs.close();
+}
+
+std::string
+Socket::clean_end_of_file(std::string str_to_clean)
+{
+	int index = str_to_clean.size() - 1;
+	while (str_to_clean[index] == '-' || str_to_clean[index] == '\n')
+		--index;
+	return str_to_clean.substr(0, index);
 }
