@@ -40,6 +40,7 @@ class Socket
 	unsigned short get_port() const;
 	std::string	   get_file_name(std::string);
 	void		   create_new_file(std::string);
+	std::string	   clean_end_of_file(std::string str_to_clean);
 };
 
 #endif
