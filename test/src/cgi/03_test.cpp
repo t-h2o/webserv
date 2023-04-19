@@ -16,8 +16,8 @@ test_execve_cgi_env(void)
 		CGI exec(arguments[0], arguments[1], arguments[2]);
 		output = exec.execution_cgi();
 		std::cout << "output hello: " << output << std::endl;
-//		if (output.find("CGI/1.1") == std::string::npos)
-//			return (1);
+		//		if (output.find("CGI/1.1") == std::string::npos)
+		//			return (1);
 	}
 	return (0);
 }

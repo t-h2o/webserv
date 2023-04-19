@@ -9,7 +9,8 @@ CGI::CGI(void) : _pipefd(), _read_buffer() {}
 
 CGI::CGI(const CGI &src) : _pipefd(), _read_buffer() { *this = src; }
 
-CGI::CGI(const std::string& bin, const std::string& file, const std::string& query) : _pipefd(), _read_buffer()
+CGI::CGI(const std::string &bin, const std::string &file, const std::string &query)
+	: _pipefd(), _read_buffer()
 {
 	_args.push_back(const_cast<char *>(bin.c_str()));
 	_args.push_back(const_cast<char *>(file.c_str()));
@@ -126,4 +127,4 @@ CGI::execution_cgi(void)
 	return (output);
 }
 
-CGI::~CGI(void) {};
+CGI::~CGI(void){};
