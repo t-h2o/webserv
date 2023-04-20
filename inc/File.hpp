@@ -28,6 +28,11 @@ class File
 	std::string get_string(void);
 	double		get_number(void);
 
+	const std::string &get_current_string(void) const;
+	size_t			   get_index(void) const;
+
+	bool eof(void) const;
+
   private:
 	std::string	 _current_line;
 	std::fstream _file;

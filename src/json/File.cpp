@@ -55,6 +55,24 @@ File::get_number(void)
 	return number;
 }
 
+const std::string &
+File::get_current_string(void) const
+{
+	return _current_line;
+}
+
+size_t
+File::get_index(void) const
+{
+	return _index;
+}
+
+bool
+File::eof(void) const
+{
+	return _file.eof();
+}
+
 void
 File::iter_to_next_char(void)
 {
