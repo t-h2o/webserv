@@ -18,8 +18,7 @@ _print_case(File &file, bool states[NSTATES], bool show_states)
 	std::string line(file.get_current_string());
 
 	(void)show_states;
-	std::cout << "Undefined case\n"
-			  << states[OBJECT] << " OBJECT\n"
+	std::cout << states[OBJECT] << " OBJECT\n"
 			  << states[STRING] << " STRING\n"
 			  << states[KEY_FILLED] << " KEY_FILLED\n"
 			  << states[MIDDLE] << " MIDDLE\n"
