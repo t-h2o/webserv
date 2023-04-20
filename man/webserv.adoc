@@ -1,0 +1,39 @@
+= webserv(8)
+Team Web server 42
+v1.0.0
+:doctype: manpage
+:manmanual: WEBSERV
+:mansource: WEBSERV
+:man-linkstyle: pass:[blue R < >]
+
+== Name
+
+webserv - a basic HTTP web server
+
+== Synopsis
+
+*webserv* FILE
+
+== Configuration file
+
+The configuration file is in JSON format. You have to define the port and the path on your website
+
+* Simple example
+[source, json]
+----
+{
+  "port" : 6060,
+  "path" : "/path/of/test/website"
+}
+----
+
+== Exit status
+
+*0*:: Success.
+
+*1*:: Failure.
+
+== Resources
+
+*GitHub repository:* https://github.com/t-h2o/webserv +
+*Project web site:* https://t-h2o.github.io/webserv
