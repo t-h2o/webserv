@@ -13,11 +13,10 @@ print_line(std::string const &line, size_t index)
 }
 
 static void
-_print_case(File &file, bool states[NSTATES], bool show_states)
+_print_case(File &file, bool states[NSTATES])
 {
-	std::string line(file.get_current_string());
+	print_line(file.get_current_string(), file.get_index());
 
-	(void)show_states;
 	std::cout << states[OBJECT] << " OBJECT\n"
 			  << states[STRING] << " STRING\n"
 			  << states[KEY_FILLED] << " KEY_FILLED\n"
@@ -77,10 +76,9 @@ _process_line(t_object *config, File &file, bool states[NSTATES])
 	actual_char = file.get_char();
 	while (!file.eof())
 	{
-		print_line(file.get_current_string(), file.get_index());
 		_set_states(actual_char, states);
 		if (LOG)
-			_print_case(file, states, true);
+			_print_case(file, states);
 
 		if (states[OBJECT] && states[STRING] && !states[KEY_FILLED] && !states[MIDDLE] && !states[RIGHT]
 			&& !states[VALUE_FILLED] && !states[END])
@@ -147,7 +145,7 @@ _process_line(t_object *config, File &file, bool states[NSTATES])
 		else
 		{
 			if (LOG)
-				_print_case(file, states, true);
+				_print_case(file, states);
 			throw std::runtime_error("Json: undefined state");
 		}
 		actual_char = file.get_next_char();
