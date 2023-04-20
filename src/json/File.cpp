@@ -28,15 +28,18 @@ File::get_next_char(void)
 }
 
 /* "value to return"
- * ^            -> ^
+ * ^           -> ^
  * move the index up to the next double quote
+ * ""
+ * ^
+ * for an empty string, the index stay in the same place
  */
 std::string
 File::get_string(void)
 {
 	size_t position_quote_start(_current_line.find_first_of('"', _index) + 1);
 	size_t length(_current_line.find_first_of('"', _index + 1) - position_quote_start);
-	_index += length + 1;
+	_index += length;
 
 	return _current_line.substr(position_quote_start, length);
 }
