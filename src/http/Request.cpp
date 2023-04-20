@@ -116,6 +116,21 @@ Request::get_host() const
 	return _request_map.at("Host");
 }
 
+int
+Request::get_file_exist() const
+{
+	try 
+	{
+		_request_map.at("FileName");
+		return 1;
+	}
+	catch (std::out_of_range )
+	{
+		return 0;
+	}
+	
+}
+
 bool
 Request::method_is_authorized(std::string method) const
 {

@@ -82,6 +82,15 @@ const deleteExistingFile = (e) => {
 	/**
 	 * TODO => send http DELETE methode to delete the file.
 	 */
+	fetch(`${urlUpload}${id}`, { method : 'DELETE' })
+		.then(response => {
+			if (!response.ok)
+			{
+				throw new Error('Network response was not ok');
+			}
+			console.log('Item deleted successfully');
+		})
+		.catch(error => { console.error('There was a problem deleting the item:', error); });
 	renderImages();
 };
 
@@ -90,14 +99,14 @@ const submitHandler = (e) => {
 	/**
 	 * * Backend part
 	 * * send http POST methode to send the file to the server.
-	 * ! IT works but the server doesn't handle multipart/form-data for now.
 	 */
 	const curFiles = input.files;
 	const data = new FormData();
+
 	const files = curFiles[0].name;
 	data.append(files, curFiles[0]);
 	fetch(urlUpload, { method : 'POST', mode : 'no-cors', body : data })
-		.then((response) => response.json())
+		.then((response) => response)
 		.then((data) => { console.log(data); })
 		.catch((error) => { console.error(error); });
 	console.log(data);
@@ -109,7 +118,7 @@ const submitHandler = (e) => {
 	if (curFiles.length === 0)
 		return;
 	const li = document.createElement('li');
-	li.setAttribute('id', createIdNumber());
+	li.setAttribute('id', files);
 	const image = document.createElement('img');
 	image.style.width = '250px';
 	image.style.height = '150px';
