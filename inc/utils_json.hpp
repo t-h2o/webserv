@@ -23,7 +23,7 @@
 #define VALUE_FILLED 5
 #define END 6 /* ',' character */
 
-#define LOG true
+#define LOG false
 
 namespace json
 {
