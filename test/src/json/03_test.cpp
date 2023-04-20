@@ -8,7 +8,8 @@ test_empty_string(const char *path)
 	json::t_object *config;
 
 	config = json::read(path);
-	if (config)
+
+	if (!config)
 		return 1;
 	return 0;
 }
