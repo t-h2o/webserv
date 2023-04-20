@@ -156,6 +156,8 @@ Socket::create_new_file(std::string raw_body)
 {
 	size_t		delimiter = raw_body.find("Content-Type");
 	std::string file_name = get_file_name(raw_body.substr(0, delimiter));
+	if (access(file_name.c_str(), F_OK))
+	{
 	std::string file_part = request.trim(raw_body.substr(raw_body.find_first_of("\r\n\r\n", +delimiter)));
 	size_t		end = file_part.find(request._request_map["boundary"]);
 	std::string half_clean_file = file_part.substr(0, end);
@@ -165,6 +167,11 @@ Socket::create_new_file(std::string raw_body)
 	std::ofstream ofs(fullpath, std::ios_base::out | std::ios_base::binary);
 	ofs << clean_file;
 	ofs.close();
+	}
+	else
+	{
+		request._request_map["FileName"] = "exist";
+	}
 }
 
 std::string
