@@ -5,10 +5,11 @@
 #include <fstream>
 #include <iostream>
 #include <map>
-#include <stdlib.h>
+#include <cstdlib>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <vector>
+#include <cassert>
 
 #define BUFFER_SIZE 4092
 
@@ -25,15 +26,17 @@ class CGI
 
   public:
 	CGI(void);
-	CGI(CGI const &src);
 	CGI(const std::string &bin, const std::string &file, const std::string &query);
+	CGI(CGI const &src);
 	//	CGI		operator=(CGI const& src);
 
+	std::string get_env(const std::string& key) const;
 	std::string execution_cgi(void);
 	std::string parent_process(pid_t pid);
 	void		child_process(char **);
 	void		set_env(void);
-
+//	void		prepare_env(const std::string &bin, const std::string &file, const std::string &query);
 	~CGI(void);
 };
+
 #endif // WEBSERV_CGI_HPP

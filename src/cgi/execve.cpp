@@ -1,6 +1,7 @@
 #include "../../inc/cgi.hpp"
 #include "../../inc/std98.hpp"
 #include "../../inc/utility.hpp"
+#include "stdio.h"
 #include "cgi.hpp"
 
 #define BUFFER_SIZE 4092
@@ -9,8 +10,7 @@ CGI::CGI(void) : _pipefd(), _read_buffer() {}
 
 CGI::CGI(const CGI &src) : _pipefd(), _read_buffer() { *this = src; }
 
-CGI::CGI(const std::string &bin, const std::string &file, const std::string &query)
-	: _pipefd(), _read_buffer()
+CGI::CGI(const std::string &bin, const std::string &file, const std::string &query) : _pipefd(), _read_buffer()
 {
 	_args.push_back(const_cast<char *>(bin.c_str()));
 	_args.push_back(const_cast<char *>(file.c_str()));
@@ -18,10 +18,30 @@ CGI::CGI(const std::string &bin, const std::string &file, const std::string &que
 		_args.push_back(const_cast<char *>(query.c_str()));
 	_args.push_back(nullptr);
 }
+//void	CGI::prepare_env(const std::string &bin, const std::string &file, const std::string &query)
+//{
+//	_args.push_back(const_cast<char *>(bin.c_str()));
+//	_args.push_back(const_cast<char *>(file.c_str()));
+//	if (!query.empty())
+//		_args.push_back(const_cast<char *>(query.c_str()));
+//	_args.push_back(nullptr);
+//}
 // CGI CGI::operator=(const CGI &src) {
 //	*this = src;
 //	return (*this);
 // }
+std::string CGI::get_env(const std::string& key) const
+{
+	std::map<std::string, std::string>::const_iterator it = _env.find(key);
+	if (it != _env.end())
+		return (it->second);
+	return ("");
+}
+
+/*	Environment variables in PHP-CGI serve as a way to provide configuration values, system
+	information, and sensitive data to PHP scripts during their execution, allowing for better separation of
+	concerns, improved security, and easier management of dependencies and configurations.
+*/
 void
 CGI::set_env(void)
 {
@@ -53,6 +73,8 @@ CGI::set_env(void)
 	_env["SERVER_PROTOCOL"] = "null";
 	// Donne le nom et la version du serveur Web utilisé.
 	_env["SERVER_SOFTWARE"] = "null";
+	// Indique qu'une requête été redirigée en interne, elle est définie pour la gestion des erreurs.
+	_env["REDIRECT_STATUS"] = "200";
 }
 
 std::string
@@ -88,33 +110,45 @@ CGI::parent_process(pid_t pid)
 void
 CGI::child_process(char **env)
 {
+	printf("6.1\n");
 	close(_pipefd[0]);
 	// Replace the old FD
-	dup2(_pipefd[1], STDOUT_FILENO);
+	printf("6.2\n");
+	if (dup2(_pipefd[1], STDOUT_FILENO) == -1)
+		perror("dup2");
+	printf("6.3\n");
 	close(_pipefd[1]);
 
+	printf("6.4\n");
 	// Execute new process
-	execve(_args[0], &_args[0], env);
-	perror("execve");
+	if (execve(_args[0], &_args[0], env) == -1)
+		perror("execve");
+	printf("6.5\n");
 	exit(1);
 }
 
 std::string
 CGI::execution_cgi(void)
 {
+	printf("1\n");
 	char	  **env;
 	std::string output;
 	// Verify if pipe failed.
+	printf("2\n");
 	if (pipe(_pipefd) == -1)
 	{
 		std::cerr << "error pipe" << std::endl;
 		exit(1);
 	}
+	printf("3\n");
 	set_env();
+	printf("4\n");
 	env = utils::cMap_to_cChar(_env);
+	printf("5\n");
 
 	pid_t pid = fork();
 	// Verify if fork failed
+	printf("6\n");
 	if (pid == -1)
 	{
 		std::cerr << "error fork" << std::endl;
@@ -124,6 +158,7 @@ CGI::execution_cgi(void)
 		child_process(env);
 	else
 		output = parent_process(pid);
+	printf("7\n");
 	return (output);
 }
 

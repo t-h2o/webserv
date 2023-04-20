@@ -46,11 +46,11 @@ cMap_to_cChar(std::map<std::string, std::string> myMap)
 	for (it = myMap.begin(); it != myMap.end(); ++it)
 	{
 		array[i] = new char[it->first.size() + it->second.size() + 4];
-		std::string tmps = it->first + " = " + it->second;
+		std::string tmps = it->first + "=" + it->second;
 		strcpy(array[i], tmps.c_str());
 		i++;
 	}
-	array[i] = NULL;
+	array[i] = nullptr;
 
 	//	// Libération de la mémoire
 	//	for (int j = 0; array[j]; j++)

@@ -6,26 +6,30 @@ int
 test_execve_cgi(void)
 {
 	std::string output;
-	char	   *arguments[4];
+	char	   *argument[4];
 	{
-		arguments[0] = (char *)"bin/php-cgi";
-		arguments[1] = (char *)"test/src/cgi/test.php";
-		arguments[2] = (char *)"";
-		arguments[3] = NULL;
+		argument[0] = (char *)"bin/php-cgi";
+		argument[1] = (char *)"test/src/cgi/test.php";
+		argument[2] = (char *)"";
+		argument[3] = NULL;
 
-		CGI exec(arguments[0], arguments[1], arguments[2]);
+		CGI exec(argument[0], argument[1], argument[2]);
+//		CGI exec;
+//		exec.prepare_env(argument[0], argument[1], argument[2]);
 		output = exec.execution_cgi();
 		std::cout << "output hello: " << output << std::endl;
 		if (output.find("hello World!") == std::string::npos)
 			return (1);
 	}
 	{
-		arguments[0] = (char *)"bin/php-cgi";
-		arguments[1] = (char *)"test/src/cgi/test3.php";
-		arguments[2] = (char *)"";
-		arguments[3] = NULL;
+		argument[0] = (char *)"bin/php-cgi";
+		argument[1] = (char *)"test/src/cgi/test3.php";
+		argument[2] = (char *)"";
+		argument[3] = NULL;
 
-		CGI exec(arguments[0], arguments[1], arguments[2]);
+		CGI exec(argument[0], argument[1], argument[2]);
+//		CGI exec;
+//		exec.prepare_env(argument[0], argument[1], argument[2]);
 		output = exec.execution_cgi();
 		std::cout << "output hello: " << output << std::endl;
 		if (output.find("My username is kdi-noce!") == std::string::npos)
