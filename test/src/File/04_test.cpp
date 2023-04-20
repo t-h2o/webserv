@@ -15,7 +15,7 @@ test_file_get_string(void)
 	if (file.get_string() != "firstName")
 		return 1;
 
-	if (file.get_char() != '"')
+	if (file.get_next_char() != '"')
 		return 1;
 
 	return 0;
