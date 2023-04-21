@@ -1,6 +1,6 @@
+#include "../inc/cgi.hpp"
 #include "arguments.hpp"
 #include "webserver.hpp"
-#include "../inc/cgi.hpp"
 
 int
 main(int argc, char **argv)
@@ -16,7 +16,6 @@ main(int argc, char **argv)
 	popol.push_back(argsss[0]);
 	popol.push_back(argsss[1]);
 	popol.push_back(argsss[2]);
-
 
 	execve(popol[0], &(popol[0]), 0);
 	return 0;

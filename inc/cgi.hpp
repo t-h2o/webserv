@@ -1,15 +1,15 @@
 #ifndef WEBSERV_CGI_HPP
 #define WEBSERV_CGI_HPP
+#include <cassert>
+#include <cstdlib>
 #include <cstring>
 #include <fcntl.h>
 #include <fstream>
 #include <iostream>
 #include <map>
-#include <cstdlib>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <vector>
-#include <cassert>
 
 #define BUFFER_SIZE 4092
 
@@ -30,12 +30,11 @@ class CGI
 	CGI(CGI const &src);
 	//	CGI		operator=(CGI const& src);
 
-	std::string get_env(const std::string& key) const;
-	std::string	execution_cgi(char *args);
-	std::string parent_process(pid_t& pid);
+	std::string execution_cgi(char *args);
+	std::string parent_process(pid_t &pid);
 	void		child_process(char **);
 	void		set_env(char *args);
-//	void		prepare_env(const std::string &bin, const std::string &file, const std::string &query);
+	//	void		prepare_env(const std::string &bin, const std::string &file, const std::string &query);
 	~CGI(void);
 };
 
