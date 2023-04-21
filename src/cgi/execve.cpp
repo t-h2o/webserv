@@ -29,7 +29,7 @@ void
 CGI::set_env(char *args)
 {
 	//	// Définit la route par laquelle tous les utilisateurs seront authentifiés (dans les applications
-	//prises
+	// prises
 	//	// en charge).
 	//	_env["AUTH_TYPE"] = "null";
 	//	// Donne le nombre de bytes transmis par le client.
@@ -45,7 +45,7 @@ CGI::set_env(char *args)
 	//	// Donne les informations passées par un marqueur <FORM METHOD=GET>
 	//	_env["QUERY_STRING"] = "foo=bar&baz=qux";
 	//	// Donne la valeur de l'attribut METHOD du marqueur FORM utilisé lors de la requête CGI. En gros le
-	//type
+	// type
 	//	// de requete http
 	//	_env["REQUEST_METHOD"] = "GET";
 	//	// Donne le chemin virtuel du script utilisé. Le nom du script.

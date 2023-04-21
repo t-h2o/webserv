@@ -8,6 +8,7 @@ test_execve_cgi(void)
 	std::string output;
 	char	   *argument[4];
 	{
+		std::cout << "test4" << std::endl;
 		argument[0] = (char *)"bin/php-cgi";
 		argument[1] = (char *)"test/src/cgi/test.php";
 		argument[2] = (char *)"";
@@ -22,6 +23,7 @@ test_execve_cgi(void)
 			return (1);
 	}
 	{
+		std::cout << "test5" << std::endl;
 		argument[0] = (char *)"bin/php-cgi";
 		argument[1] = (char *)"test/src/cgi/test3.php";
 		argument[2] = (char *)"";
