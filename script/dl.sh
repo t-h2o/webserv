@@ -1,21 +1,21 @@
 #!/bin/sh
 
-PATH_PHP="$HOME"/goinfre/php
+PATH_PHP="${HOME}"/goinfre/php
 
 # $1 : link
 # $2 : extension
 download_handle () {
 	FILE_DOWNLOADED=$(basename "$1")
-	FOLDER_CREATED=$(basename -s "$2" "$FILE_DOWNLOADED")
-	if [ -d "$FOLDER_CREATED" ] ; then
-		printf "folder \"%s\" already exist\n" "$FOLDER_CREATED"
+	FOLDER_CREATED=$(basename -s "$2" "${FILE_DOWNLOADED}")
+	if [ -d "${FOLDER_CREATED}" ] ; then
+		printf "folder \"%s\" already exist\n" "${FOLDER_CREATED}"
 		return 0
 	fi
 
 	curl -LO "$1"
-	printf "Download %s\n" "$FILE_DOWNLOADED"
+	printf "Download %s\n" "${FILE_DOWNLOADED}"
 	if ! tar xvzf "${FILE_DOWNLOADED}" 2>/dev/null ; then
-		printf "do not find \"%s\"\n" "$FILE_DOWNLOADED"
+		printf "do not find \"%s\"\n" "${FILE_DOWNLOADED}"
 		return 0
 	fi
 	rm "${FILE_DOWNLOADED}"
@@ -34,7 +34,7 @@ compilate_libxml2 () {
 	./configure
 	make
 
-	export PKG_CONFIG_PATH="$PWD":"$PKG_CONFIG_PATH"
+	export PKG_CONFIG_PATH="${PWD}":"${PKG_CONFIG_PATH}"
 	cd .. || exit
 }
 
@@ -48,13 +48,13 @@ compilate_sqlite3 () {
 	./configure
 	make
 
-	export PKG_CONFIG_PATH="$PWD":"$PKG_CONFIG_PATH"
+	export PKG_CONFIG_PATH="${PWD}":"${PKG_CONFIG_PATH}"
 	cd .. || exit
 }
 
 main () {
-	mkdir -p "$PATH_PHP"
-	cd "$PATH_PHP" || exit
+	mkdir -p "${PATH_PHP}"
+	cd "${PATH_PHP}" || exit
 
 	download_sources
 	compilate_libxml2
