@@ -60,7 +60,6 @@ SRCS	+=	$(SRCD)/json/Value.cpp
 SRCS	+=	$(SRCD)/std98/to_string.cpp
 
 
-
 #	Headers
 
 INCD	=	inc
