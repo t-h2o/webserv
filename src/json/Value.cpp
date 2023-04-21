@@ -5,24 +5,54 @@ namespace json
 
 /* constructor */
 
-Value::Value(void) : _value(0), _type(JSON_UNDEFINED) {}
+Value::Value(void) : _value(0), _type(JSON_UNDEFINED)
+{
+	if (LOG_JSON_VALUE)
+		std::cout << "json::Value: constructor " << _value << " JSON_UNDEFINED" << std::endl;
+}
 
-Value::Value(bool *value) : _value(value), _type(JSON_BOOLEAN) {}
+Value::Value(bool *value) : _value(value), _type(JSON_BOOLEAN)
+{
+	if (LOG_JSON_VALUE)
+		std::cout << "json::Value: constructor " << _value << " JSON_BOOLEAN" << std::endl;
+}
 
-Value::Value(std::string *value) : _value(value), _type(JSON_STRING) {}
+Value::Value(std::string *value) : _value(value), _type(JSON_STRING)
+{
+	if (LOG_JSON_VALUE)
+		std::cout << "json::Value: constructor " << _value << "  JSON_STRING" << std::endl;
+}
 
-Value::Value(double *value) : _value(value), _type(JSON_NUMBER) {}
+Value::Value(double *value) : _value(value), _type(JSON_NUMBER)
+{
+	if (LOG_JSON_VALUE)
+		std::cout << "json::Value: constructor " << _value << "  JSON_NUMBER" << std::endl;
+}
 
-Value::Value(t_array *value) : _value(value), _type(JSON_ARRAY) {}
+Value::Value(t_array *value) : _value(value), _type(JSON_ARRAY)
+{
+	if (LOG_JSON_VALUE)
+		std::cout << "json::Value: constructor " << _value << "  JSON_ARRAY" << std::endl;
+}
 
-Value::Value(t_object *value) : _value(value), _type(JSON_OBJECT) {}
+Value::Value(t_object *value) : _value(value), _type(JSON_OBJECT)
+{
+	if (LOG_JSON_VALUE)
+		std::cout << "json::Value: constructor " << _value << "  JSON_OBJECT" << std::endl;
+}
 
-Value::Value(Value const &other) { *this = other; }
+Value::Value(Value const &other) : _value(0), _type(JSON_UNDEFINED) { *this = other; }
 
 /* destructor */
 
-Value::~Value(void)
+Value::~Value(void) { delete_value(); }
+
+void
+Value::delete_value(void)
 {
+	if (LOG_JSON_VALUE)
+		std::cout << "json::Value: delete value and set to NULL : " << _value << std::endl;
+
 	if (_type == JSON_STRING)
 		delete static_cast<std::string *>(_value);
 	else if (_type == JSON_NUMBER)
@@ -33,6 +63,8 @@ Value::~Value(void)
 		delete static_cast<bool *>(_value);
 	else if (_type == JSON_OBJECT)
 		delete static_cast<t_object *>(_value);
+
+	_value = 0;
 }
 
 /* operator */
@@ -40,8 +72,11 @@ Value::~Value(void)
 Value &
 Value::operator=(Value const &other)
 {
-	_type = other._type;
+	if (LOG_JSON_VALUE)
+		std::cout << "json::Value: operator =" << std::endl;
 
+	delete_value();
+	_type = other._type;
 	if (_type == JSON_STRING)
 		_value = new std::string(other.get<std::string>());
 	else if (_type == JSON_NUMBER)
