@@ -30,31 +30,31 @@ download_sources () {
 }
 
 compilate_libxml2 () {
-	cd libxml2-2.9.9
+	cd libxml2-2.9.9 || exit
 	./configure
 	make
 
 	export PKG_CONFIG_PATH=$PWD:$PKG_CONFIG_PATH
-	cd ..
+	cd .. || exit
 }
 
 compilate_php () {
-	cd php-8.2.5
+	cd php-8.2.5 || exit
 	./configure --without-iconv
 }
 
 compilate_sqlite3 () {
-	cd sqlite
+	cd sqlite || exit
 	./configure
 	make
 
 	export PKG_CONFIG_PATH=$PWD:$PKG_CONFIG_PATH
-	cd ..
+	cd .. || exit
 }
 
 main () {
 	mkdir -p $PATH_PHP
-	cd $PATH_PHP
+	cd $PATH_PHP || exit
 
 	download_sources
 	compilate_libxml2
