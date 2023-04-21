@@ -82,6 +82,7 @@ CGI::parent_process(pid_t &pid)
 	do
 	{
 		// Initialize bytes_read with the return value from read, for error checking.
+		std::memset(_read_buffer, 0, BUFFER_SIZE);
 		bytes_read = read(_pipefd[0], _read_buffer, BUFFER_SIZE);
 		// Condition if read fail
 		if (bytes_read == -1)
@@ -97,7 +98,6 @@ CGI::parent_process(pid_t &pid)
 		else
 			_output_cgi.append(_read_buffer, bytes_read);
 		// Fill _read_buffer with 0
-		std::memset(_read_buffer, 0, BUFFER_SIZE);
 	} while (bytes_read == BUFFER_SIZE);
 	// Close the process.
 	close(_pipefd[0]);
