@@ -25,7 +25,6 @@ download_sources () {
 
 	download_handle "https://www.php.net/distributions/php-8.2.5.tar.gz" ".tar.gz"
 	download_handle "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.9.tar.xz" ".tar.xz"
-	download_handle "https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.17.tar.gz" ".tar.xz"
 	download_handle	"https://www.sqlite.org/src/tarball/sqlite.tar.gz" ".tar.gz"
 
 }
@@ -50,16 +49,6 @@ compilate_sqlite3 () {
 	make
 
 	export PKG_CONFIG_PATH=$PWD:$PKG_CONFIG_PATH
-	cd ..
-}
-
-compilate_libiconv () {
-	cd libiconv-1.17
-	./configure --prefix=$PWD
-	make
-
-	export PKG_CONFIG_PATH=$PWD:$PKG_CONFIG_PATH
-	export ICONV_DIR=$PWD
 	cd ..
 }
 
