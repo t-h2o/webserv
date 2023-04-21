@@ -16,7 +16,7 @@ CGI::CGI(const std::string &bin, const std::string &file, const std::string &que
 	_args.push_back(const_cast<char *>(file.c_str()));
 	if (!query.empty())
 		_args.push_back(const_cast<char *>(query.c_str()));
-	_args.push_back(nullptr);
+	_args.push_back(NULL);
 }
 //void	CGI::prepare_env(const std::string &bin, const std::string &file, const std::string &query)
 //{
@@ -43,49 +43,62 @@ std::string CGI::get_env(const std::string& key) const
 	concerns, improved security, and easier management of dependencies and configurations.
 */
 void
-CGI::set_env(void)
+CGI::set_env(char *args)
 {
-	// Définit la route par laquelle tous les utilisateurs seront authentifiés (dans les applications prises
-	// en charge).
-	_env["AUTH_TYPE"] = "null";
-	// Donne le nombre de bytes transmis par le client.
-	_env["CONTENT_LENGTH"] = std98::to_string(19);
-	// Donne le type de donnée transmise par le client si l'attribut METHOD a pour valeur POST.
-	_env["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
-	// Donne la version du CGI utilisé.
-	_env["GATEWAY_INTERFACE"] = "CGI/1.1";
-	// Donne l'extra path information utilisée.
-	_env["PATH_INFO"] = "/foo/bar";
-	// Donne une traduction d'un chemin virtuel passé dans l'extra path information.
-	_env["PATH_TRANSLATED"] = "/Users/kdi-noce/Documents/cursus42/webserv/test.php";
-	// Donne les informations passées par un marqueur <FORM METHOD=GET>
-	_env["QUERY_STRING"] = "foo=bar&baz=qux";
-	// Donne la valeur de l'attribut METHOD du marqueur FORM utilisé lors de la requête CGI. En gros le type
-	// de requete http
-	_env["REQUEST_METHOD"] = "POST";
-	// Donne le chemin virtuel du script utilisé. Le nom du script.
-	_env["SCRIPT_NAME"] = "test/src/cgi/test.php";
-	// Donne l'IP ou la DNS du serveur.
-	_env["SERVER_NAME"] = "null";
-	// Donne le nom et la version du protocole utilisé par le serveur et le client.
-	// Cette variable contient généralement une chaîne de texte telle que "HTTP/1.1" ou "HTTP/2.0",
-	// qui indique la version du protocole utilisée.
-	_env["SERVER_PROTOCOL"] = "null";
-	// Donne le nom et la version du serveur Web utilisé.
-	_env["SERVER_SOFTWARE"] = "null";
-	// Indique qu'une requête été redirigée en interne, elle est définie pour la gestion des erreurs.
+//	// Définit la route par laquelle tous les utilisateurs seront authentifiés (dans les applications prises
+//	// en charge).
+//	_env["AUTH_TYPE"] = "null";
+//	// Donne le nombre de bytes transmis par le client.
+//	_env["CONTENT_LENGTH"] = std98::to_string(1000);
+//	// Donne le type de donnée transmise par le client si l'attribut METHOD a pour valeur POST.
+//	_env["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
+//	// Donne la version du CGI utilisé.
+//	_env["GATEWAY_INTERFACE"] = "CGI/1.1";
+//	// Donne l'extra path information utilisée.
+//	_env["PATH_INFO"] = "/foo/bar";
+//	// Donne une traduction d'un chemin virtuel passé dans l'extra path information.
+//	_env["PATH_TRANSLATED"] = args;
+//	// Donne les informations passées par un marqueur <FORM METHOD=GET>
+//	_env["QUERY_STRING"] = "foo=bar&baz=qux";
+//	// Donne la valeur de l'attribut METHOD du marqueur FORM utilisé lors de la requête CGI. En gros le type
+//	// de requete http
+//	_env["REQUEST_METHOD"] = "GET";
+//	// Donne le chemin virtuel du script utilisé. Le nom du script.
+//	_env["SCRIPT_NAME"] = args;
+//	// Donne l'IP ou la DNS du serveur.
+//	_env["SERVER_NAME"] = "null";
+//	// Donne le nom et la version du protocole utilisé par le serveur et le client.
+//	// Cette variable contient généralement une chaîne de texte telle que "HTTP/1.1" ou "HTTP/2.0",
+//	// qui indique la version du protocole utilisée.
+//	_env["SERVER_PROTOCOL"] = "null";
+//	// Donne le nom et la version du serveur Web utilisé.
+//	_env["SERVER_SOFTWARE"] = "null";
+//	// Indique qu'une requête été redirigée en interne, elle est définie pour la gestion des erreurs.
+//	_env["REDIRECT_STATUS"] = "CGI";
+	_env["SCRIPT_FILENAME"] = args;
+	_env["REQUEST_METHOD"] = "GET";
+	_env["QUERY_STRING"] = ""; // Set this to the query string if there is one
+	_env["CONTENT_TYPE"] = ""; // Set this to the content type if needed
+	_env["CONTENT_LENGTH"] = ""; // Set this to the content length if needed
 	_env["REDIRECT_STATUS"] = "200";
 }
 
 std::string
-CGI::parent_process(pid_t pid)
+CGI::parent_process(pid_t& pid)
 {
+	int ret;
 	close(_pipefd[1]);
-	waitpid(pid, nullptr, 0);
-	while (true)
+	fprintf(stderr, "6.1.1\n");
+	if (waitpid(pid, &ret, 0) == -1) {
+		std::cout << ret << std::endl;
+		throw(std::exception());
+	}
+	fprintf(stderr, "6.1.2\n");
+	ssize_t bytes_read;
+	do
 	{
 		// Initialize bytes_read with the return value from read, for error checking.
-		ssize_t bytes_read = read(_pipefd[0], _read_buffer, BUFFER_SIZE);
+		bytes_read = read(_pipefd[0], _read_buffer, BUFFER_SIZE);
 		// Condition if read fail
 		if (bytes_read == -1)
 		{
@@ -101,7 +114,7 @@ CGI::parent_process(pid_t pid)
 			_output_cgi.append(_read_buffer, bytes_read);
 		// Fill _read_buffer with 0
 		std::memset(_read_buffer, 0, BUFFER_SIZE);
-	}
+	} while (bytes_read == BUFFER_SIZE);
 	// Close the process.
 	close(_pipefd[0]);
 	return (_output_cgi);
@@ -110,45 +123,41 @@ CGI::parent_process(pid_t pid)
 void
 CGI::child_process(char **env)
 {
-	printf("6.1\n");
+	fprintf(stderr, "6.1\n");
 	close(_pipefd[0]);
 	// Replace the old FD
-	printf("6.2\n");
-	if (dup2(_pipefd[1], STDOUT_FILENO) == -1)
+	fprintf(stderr, "6.2\n");
+	if (dup2(_pipefd[1], 1) == -1)
+	{
 		perror("dup2");
-	printf("6.3\n");
+		close(_pipefd[1]);
+	}
+	fprintf(stderr, "6.3\n");
 	close(_pipefd[1]);
-
-	printf("6.4\n");
+	fprintf(stderr, "6.4\n");
 	// Execute new process
 	if (execve(_args[0], &_args[0], env) == -1)
 		perror("execve");
-	printf("6.5\n");
+	fprintf(stderr, "6.5\n");
 	exit(1);
 }
 
 std::string
-CGI::execution_cgi(void)
+CGI::execution_cgi(char *args)
 {
-	printf("1\n");
 	char	  **env;
 	std::string output;
 	// Verify if pipe failed.
-	printf("2\n");
 	if (pipe(_pipefd) == -1)
 	{
 		std::cerr << "error pipe" << std::endl;
 		exit(1);
 	}
-	printf("3\n");
-	set_env();
-	printf("4\n");
+	set_env(args);
 	env = utils::cMap_to_cChar(_env);
-	printf("5\n");
 
 	pid_t pid = fork();
 	// Verify if fork failed
-	printf("6\n");
 	if (pid == -1)
 	{
 		std::cerr << "error fork" << std::endl;
@@ -158,7 +167,6 @@ CGI::execution_cgi(void)
 		child_process(env);
 	else
 		output = parent_process(pid);
-	printf("7\n");
 	return (output);
 }
 

@@ -16,7 +16,7 @@ test_execve_cgi(void)
 		CGI exec(argument[0], argument[1], argument[2]);
 //		CGI exec;
 //		exec.prepare_env(argument[0], argument[1], argument[2]);
-		output = exec.execution_cgi();
+		output = exec.execution_cgi(argument[1]);
 		std::cout << "output hello: " << output << std::endl;
 		if (output.find("hello World!") == std::string::npos)
 			return (1);
@@ -30,7 +30,7 @@ test_execve_cgi(void)
 		CGI exec(argument[0], argument[1], argument[2]);
 //		CGI exec;
 //		exec.prepare_env(argument[0], argument[1], argument[2]);
-		output = exec.execution_cgi();
+		output = exec.execution_cgi(argument[1]);
 		std::cout << "output hello: " << output << std::endl;
 		if (output.find("My username is kdi-noce!") == std::string::npos)
 			return (1);

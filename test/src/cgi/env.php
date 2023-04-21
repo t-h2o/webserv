@@ -1,7 +1,7 @@
 <?php
 $test_cases = [
-    ["key" => "CONTENT_LENGTH", "expected_value" => "19"],
-    ["key" => "AUTH", "expected_value" => "null"],
+    ["key" => "SCRIPT_FILENAME", "expected_value" => "test/src/cgi/env.php"],
+    ["key" => "REDIRECT_STATUS", "expected_value" => "200"],
 ];
 
 foreach ($test_cases as $test_case) {
