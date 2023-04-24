@@ -33,8 +33,8 @@ class Socket
 	http::Response response;
 	std::string	   header_str;
 	std::string	   body_str;
-	std::string dir_path;
-	Socket(int domain, unsigned short port, int type, int protocol);
+	std::string	   dir_path;
+	Socket(int domain, unsigned short port, int type, int protocol, std::string path);
 	int			   socket_recv();
 	void		   socket_accept();
 	int			   get_sock_id() const;
@@ -42,7 +42,7 @@ class Socket
 	std::string	   get_file_name(std::string);
 	void		   create_new_file(std::string);
 	std::string	   clean_end_of_file(std::string str_to_clean);
-	std::string  	get_dir_path() const;
+	std::string	   get_dir_path() const;
 };
 
 #endif

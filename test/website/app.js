@@ -84,7 +84,7 @@ const deleteExistingFile = (e) => {
 	/**
 	 * TODO => send http DELETE methode to delete the file.
 	 */
-	fetch(`${ urlDelete }${id}`, { method : 'DELETE' })
+	fetch(`${urlDelete}${id}`, { method : 'DELETE' })
 		.then(response => {
 			if (!response.ok)
 			{

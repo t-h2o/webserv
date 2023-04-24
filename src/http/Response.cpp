@@ -17,7 +17,7 @@ Response::load_http_request(Request &request)
 	path += request.get_path();
 	if (request.get_method().compare("GET") == 0)
 	{
-		std::cout << "it's GET\n" << path <<  std::endl;
+		std::cout << "it's GET\n" << path << std::endl;
 		if (access(path.c_str(), F_OK))
 		{
 			load_response_get(404, path);
@@ -212,7 +212,8 @@ Response::get_map() const
 	return _response_map;
 }
 
-void Response::set_dir_path(std::string path)
+void
+Response::set_dir_path(std::string path)
 {
 	_dir_path = path;
 }

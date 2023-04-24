@@ -17,21 +17,8 @@ serverTest(json::t_object *config)
 	 *	AF_INET + SOCK_STREAM always protocol = 0,
 	 *	address for this socket, let the OS choose = INADDR_ANY
 	 */
-
-	json::Value val(config);
-	const int	MAXLINE = 1000;
-	std::cout << "HERE " << std::endl;
-	unsigned short			 port = val.get("port").get<double>();
-	Socket					 sock(AF_INET, port, SOCK_STREAM, 0);
-	int						 connection_fd;
-	// char					 buffer[MAXLINE] = { 0 };
-	// int						 recv_return;
-	http::Request			 req;
-	http::Response			 res;
-	std::vector<std::string> header;
-	int						 send_ret = 0;
-
-	std::cout << "port : " << port << std::endl;
+	std::string path = "/Users/rburri/Desktop/webserv/test/website";
+	Socket		sock(AF_INET, 8080, SOCK_STREAM, 0, path);
 
 	while (1)
 	{

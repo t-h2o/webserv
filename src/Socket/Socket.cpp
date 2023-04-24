@@ -1,6 +1,6 @@
 #include "Socket.hpp"
 
-Socket::Socket(int domain, unsigned short port, int type, int protocol)
+Socket::Socket(int domain, unsigned short port, int type, int protocol, std::string path)
 {
 	_address.sin_family = domain;
 	_address.sin_port = htons(port);
@@ -12,7 +12,7 @@ Socket::Socket(int domain, unsigned short port, int type, int protocol)
 	start_listening();
 	header_str = "";
 	body_str = "";
-	dir_path = "/Users/rburri/Desktop/webserv/test/website";
+	dir_path = path;
 	response.set_dir_path(dir_path);
 }
 
@@ -117,9 +117,9 @@ Socket::socket_recv()
 	}
 	if (request.get_method().compare("DELETE") == 0)
 	{
-		std::string file_name =  request.get_path();
+		std::string file_name = request.get_path();
 
-		std::string fullpath = "/Users/rburri/Desktop/webserv/test/website/uploads" + file_name;
+		std::string fullpath = dir_path + "/uploads" + file_name;
 		if (access(fullpath.c_str(), F_OK) != -1)
 		{
 			std::cout << "FILE EXITS" << std::endl;
@@ -128,7 +128,8 @@ Socket::socket_recv()
 			if (ret != 0)
 				request._request_map["FileName"] = "r_fail";
 		}
-		else {
+		else
+		{
 			std::cout << "FILE NO EXITS" << std::endl;
 		}
 	}
@@ -201,7 +202,8 @@ Socket::clean_end_of_file(std::string str_to_clean)
 	return str_to_clean.substr(0, index);
 }
 
-std::string Socket::get_dir_path() const
+std::string
+Socket::get_dir_path() const
 {
 	return dir_path;
 }
