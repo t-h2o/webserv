@@ -46,6 +46,7 @@ class Socket
 	std::string	   get_dir_path() const;
 	void		   multipart_handler(int);
 	void		   delete_handler();
+	void		   clean_request();
 };
 
 #endif
