@@ -112,17 +112,7 @@ Socket::socket_recv()
 	}
 	if (request.get_method().compare("DELETE") == 0)
 	{
-		std::string file_name = request.get_path();
-
-		std::string fullpath = dir_path + "/uploads" + file_name;
-		if (access(fullpath.c_str(), F_OK) != -1)
-		{
-			std::cout << "FILE EXITS" << std::endl;
-			request._request_map["FileName"] = "exist";
-			int ret = remove(fullpath.c_str());
-			if (ret != 0)
-				request._request_map["FileName"] = "r_fail";
-		}
+		delete_handler();
 	}
 	response.load_http_request(request);
 	header_str = "";
@@ -144,7 +134,7 @@ void
 Socket::multipart_handler(int read_prev)
 {
 	int	 byte_read = read_prev;
-	char		buffer[MAXLINE] = { 0 };
+	char buffer[MAXLINE] = { 0 };
 
 	while (byte_read == MAXLINE - 1)
 	{
@@ -153,6 +143,22 @@ Socket::multipart_handler(int read_prev)
 		std::memset(buffer, 0, MAXLINE);
 	}
 	create_new_file(body_str);
+}
+
+void
+Socket::delete_handler()
+{
+	std::string file_name = request.get_path();
+
+	std::string fullpath = dir_path + "/uploads" + file_name;
+	if (access(fullpath.c_str(), F_OK) != -1)
+	{
+		std::cout << "FILE EXITS" << std::endl;
+		request._request_map["FileName"] = "exist";
+		int ret = remove(fullpath.c_str());
+		if (ret != 0)
+			request._request_map["FileName"] = "r_fail";
+	}
 }
 
 void
