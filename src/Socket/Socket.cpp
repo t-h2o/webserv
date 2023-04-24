@@ -173,10 +173,21 @@ Socket::create_new_file(std::string raw_body)
 	std::string fullpath = "test/website/uploads/" + file_name;
 	if (access(fullpath.c_str(), F_OK))
 	{
-		std::string file_part = request.trim(raw_body.substr(raw_body.find_first_of("\r\n\r\n", +delimiter)));
-		size_t		end = file_part.find(request._request_map["boundary"]);
-		std::string half_clean_file = file_part.substr(0, end);
-		std::string clean_file = clean_end_of_file(half_clean_file);
+		std::string file_part = request.trim(raw_body.substr(delimiter));
+		int			i = 0;
+		while (file_part[i] != '\r' && file_part[i] != '\n')
+		{
+			i++;
+		}
+		while (file_part[i] == '\r' || file_part[i] == '\n')
+		{
+			i++;
+		}
+		file_part = file_part.substr(i);
+		std::cout << file_part << std::endl;
+		size_t		  end = file_part.find(request._request_map["boundary"]);
+		std::string	  half_clean_file = file_part.substr(0, end);
+		std::string	  clean_file = clean_end_of_file(half_clean_file);
 		std::ofstream ofs(fullpath, std::ios_base::out | std::ios_base::binary);
 		ofs << clean_file;
 		ofs.close();
