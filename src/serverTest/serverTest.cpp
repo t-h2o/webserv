@@ -25,9 +25,9 @@ serverTest(json::t_object *config)
 	while (1)
 	{
 		std::cout << "++++++ Waiting for new connection ++++++" << std::endl;
-		std::cout << "SOCK Port: " << sock.get_port() << std::endl;
 
 		sock.socket_accept();
+		std::cout << "HERE after accept" << std::endl;
 		sock.socket_recv();
 
 		std::cout << "CONNECTION CLOSED" << std::endl;

@@ -29,6 +29,7 @@ Response::load_http_request(Request &request)
 	}
 	else if (request.get_method().compare("POST") == 0)
 	{
+		std::cout << "it's a POST\n";
 		if (request._request_map["FileName"].compare("exist") == 0)
 			load_response_post_delete(409);
 		else
