@@ -11,6 +11,7 @@ ADOC	=	asciidoctor --require=asciidoctor-diagram
 
 DOCU	=	docs/README.adoc
 INDEX	=	docs/index.html
+MANUAL	=	man/webserv.adoc
 
 
 CFLAGS	=	-Wall
@@ -110,6 +111,14 @@ docdocker:
 	@printf "$(YELLOW)launch the asciidoctor/docker-asciidoctor docker image..$(DEFAULT)\n"
 	@docker run --rm -v $(shell pwd):/documents/ asciidoctor/docker-asciidoctor make doc
 
+man:
+	@printf "$(YELLOW)Generating manual..$(DEFAULT)\n"
+	@$(ADOC) -b manpage $(MANUAL)
+
+mandocker:
+	@printf "$(YELLOW)launch the asciidoctor/docker-asciidoctor docker image..$(DEFAULT)\n"
+	@docker run --rm -v $(shell pwd):/documents/ asciidoctor/docker-asciidoctor make man
+
 clean:
 	@$(RM) $(OBJD)
 	@printf "$(RED)Removed $(CYAN)$(OBJD)$(DEFAULT)\n"
@@ -126,7 +135,7 @@ fullclean: fclean
 re:	fclean all
 
 
-.PHONY: all clean fclean libclean fullclean test doc
+.PHONY: all clean fclean libclean fullclean test doc man
 
 
 #COLORS
