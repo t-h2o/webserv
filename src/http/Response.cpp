@@ -50,7 +50,7 @@ Response::load_http_request(Request &request)
 }
 
 void
-Response::init_response_map(const json::Value &config)
+Response::init_response_map()
 {
 	_response_map["Status-line"] = "";
 	_response_map["Date"] = "";
@@ -62,10 +62,6 @@ Response::init_response_map(const json::Value &config)
 	_response_map["header-string"] = "";
 	_response_map["body-string"] = "";
 	_response_map["full-response-string"] = "";
-<<<<<<< HEAD
-	_response_map["dir_location"] = config.get("path").get<std::string>();
-=======
->>>>>>> delete and post ok
 }
 
 void

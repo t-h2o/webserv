@@ -22,7 +22,6 @@ class Response
 	Response();
 	~Response(void);
 	std::string		get_http_response(void);
-	void			init_response_map(const json::Value &config);
 	void			load_http_request(Request &req);
 	const t_object &get_map() const;
 	void			set_dir_path(std::string);

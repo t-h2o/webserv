@@ -1,4 +1,4 @@
 {
   "port" : 6060,
-  "path" : "/path/of/test/website"
+  "path" : "./test/website"
 }
