@@ -84,10 +84,10 @@ Socket::set_socket_non_blocking()
 int
 Socket::socket_recv()
 {
-	const int MAXLINE = 4096;
-	char	  buffer[MAXLINE] = { 0 };
-	int		  byte_read;
-	int		  send_ret = 0;
+	char		buffer[MAXLINE] = { 0 };
+	int			byte_read;
+	int			send_ret = 0;
+	std::string tmp_buffer;
 
 	byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
 	if (byte_read == 0 || byte_read == -1)
@@ -99,21 +99,16 @@ Socket::socket_recv()
 			std::cout << "\rRead error, closing connection.\n" << std::endl;
 		return (-1);
 	}
-	std::string buffer_str = std::string(buffer);
-	header_str += buffer_str.substr(0, buffer_str.find("\r\n\r\n"));
-	if (buffer_str.find("\r\n\r\n") + 4 != buffer_str.size())
-		body_str += buffer_str.substr(buffer_str.find("\r\n\r\n"));
+	tmp_buffer = std::string(buffer);
+	header_str += tmp_buffer.substr(0, tmp_buffer.find("\r\n\r\n"));
+
+	if (tmp_buffer.find("\r\n\r\n") + 4 != tmp_buffer.size())
+		body_str += tmp_buffer.substr(tmp_buffer.find("\r\n\r\n") + 4);
 	request.parse_buffer(header_str);
 	if (request._request_map["Content-Type"] == "multipart/form-data")
 	{
-		while (byte_read == MAXLINE - 1)
-		{
-			std::memset(buffer, 0, MAXLINE);
-			byte_read = read(_connection_fd, buffer, MAXLINE - 1);
-			body_str += buffer;
-		}
+		multipart_handler(byte_read);
 		std::memset(buffer, 0, MAXLINE);
-		create_new_file(body_str);
 	}
 	if (request.get_method().compare("DELETE") == 0)
 	{
@@ -129,7 +124,6 @@ Socket::socket_recv()
 				request._request_map["FileName"] = "r_fail";
 		}
 	}
-	std::cout << "HERE!!!!!!!!!" << std::endl;
 	response.load_http_request(request);
 	header_str = "";
 	body_str = "";
@@ -144,6 +138,21 @@ Socket::socket_recv()
 	}
 	close(_connection_fd);
 	return 0;
+}
+
+void
+Socket::multipart_handler(int read_prev)
+{
+	int	 byte_read = read_prev;
+	char		buffer[MAXLINE] = { 0 };
+
+	while (byte_read == MAXLINE - 1)
+	{
+		byte_read = read(_connection_fd, buffer, MAXLINE - 1);
+		body_str += buffer;
+		std::memset(buffer, 0, MAXLINE);
+	}
+	create_new_file(body_str);
 }
 
 void
