@@ -12,8 +12,8 @@ Socket::Socket(int domain, unsigned short port, int type, int protocol, std::str
 	start_listening();
 	header_str = "";
 	body_str = "";
-	dir_path = path;
-	response.set_dir_path(dir_path);
+	_dir_path = path;
+	response.set_dir_path(_dir_path);
 }
 
 void
@@ -52,12 +52,6 @@ int
 Socket::get_sock_id() const
 {
 	return _sock_id;
-}
-
-unsigned short
-Socket::get_port() const
-{
-	return ntohs(_address.sin_port);
 }
 
 void
@@ -140,7 +134,7 @@ Socket::delete_handler()
 {
 	std::string file_name = request.get_path();
 
-	std::string fullpath = dir_path + "/uploads" + file_name;
+	std::string fullpath = _dir_path + "/uploads" + file_name;
 	if (access(fullpath.c_str(), F_OK) != -1)
 	{
 		std::cout << "FILE EXITS" << std::endl;
@@ -205,7 +199,7 @@ Socket::clean_end_of_file(std::string str_to_clean)
 std::string
 Socket::get_dir_path() const
 {
-	return dir_path;
+	return _dir_path;
 }
 
 void
