@@ -6,6 +6,8 @@ namespace json
 static int
 read_process_lines(File &file, t_object *config, bool states[NSTATES])
 {
+	if (file.get_char() != '{')
+		return 1;
 	try
 	{
 		_process_line(config, file, states);
@@ -18,18 +20,6 @@ read_process_lines(File &file, t_object *config, bool states[NSTATES])
 	catch (const std::exception &e)
 	{
 		std::cerr << e.what() << std::endl;
-		return 1;
-	}
-	return 0;
-}
-
-static int
-check_states_eof(bool states[NSTATES])
-{
-	if (states[OBJECT] || states[STRING] || !states[KEY_FILLED] || states[MIDDLE] || !states[RIGHT]
-		|| states[END])
-	{
-		std::cerr << "Json: object not finished by a '}'" << std::endl;
 		return 1;
 	}
 	return 0;
@@ -49,13 +39,6 @@ read(char const *path)
 
 	/* read file and fill config */
 	if (read_process_lines(file, config, states))
-	{
-		delete config;
-		return 0;
-	}
-
-	/* check states at the end of file */
-	if (check_states_eof(states))
 	{
 		delete config;
 		return 0;
