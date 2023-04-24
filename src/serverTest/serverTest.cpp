@@ -20,14 +20,13 @@ serverTest(json::t_object *config)
 	json::Value	   val(config);
 	unsigned short port = val.get("port").get<double>();
 	std::string	   path = val.get("path").get<std::string>();
-	Socket sock(AF_INET, port, SOCK_STREAM, 0, path);
+	Socket		   sock(AF_INET, port, SOCK_STREAM, 0, path);
 
 	while (1)
 	{
 		std::cout << "++++++ Waiting for new connection ++++++" << std::endl;
 
 		sock.socket_accept();
-		std::cout << "HERE after accept" << std::endl;
 		sock.socket_recv();
 
 		std::cout << "CONNECTION CLOSED" << std::endl;

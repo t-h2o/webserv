@@ -14,6 +14,7 @@
 #include <unistd.h>
 
 #define LISTEN_BACKLOG 10
+#define MAXLINE 4096
 
 class Socket
 {
@@ -43,6 +44,7 @@ class Socket
 	void		   create_new_file(std::string);
 	std::string	   clean_end_of_file(std::string str_to_clean);
 	std::string	   get_dir_path() const;
+	void		   multipart_handler(int);
 };
 
 #endif
