@@ -112,14 +112,32 @@ Socket::socket_recv()
 		}
 		std::memset(buffer, 0, MAXLINE);
 		create_new_file(body_str);
-		// std::cout << body_str << std::endl;
+	}
+	if (request.get_method().compare("DELETE") == 0)
+	{
+		std::cout << "WE'RE DELETING BITCHES" << std::endl;
+		std::string file_name =  request.get_path();
+
+		std::string fullpath = "/Users/rburri/Desktop/webserv/test/website/uploads" + file_name;
+		std::cout << "FULL PATH: " << fullpath << std::endl;
+		if (access(fullpath.c_str(), F_OK) != -1)
+		{
+			std::cout << "FILE EXITS" << std::endl;
+			request._request_map["FileName"] = "exist";
+			int ret = remove(fullpath.c_str());
+			if (ret != 0)
+				request._request_map["FileName"] = "r_fail";
+		}
+		else {
+			std::cout << "FILE NO EXITS" << std::endl;
+		}
 	}
 
-	// std::cout << request << std::endl;
 	response.load_http_request(request);
 	header_str = "";
 	body_str = "";
 	std::string response(this->response.get_http_response());
+	request._request_map.clear();
 	send_ret = send(_connection_fd, response.c_str(), response.length(), 0);
 	if (send_ret < static_cast<int>(response.length()))
 	{
@@ -156,17 +174,16 @@ Socket::create_new_file(std::string raw_body)
 {
 	size_t		delimiter = raw_body.find("Content-Type");
 	std::string file_name = get_file_name(raw_body.substr(0, delimiter));
-	if (access(file_name.c_str(), F_OK))
-	{
-	std::string file_part = request.trim(raw_body.substr(raw_body.find_first_of("\r\n\r\n", +delimiter)));
-	size_t		end = file_part.find(request._request_map["boundary"]);
-	std::string half_clean_file = file_part.substr(0, end);
 	std::string fullpath = "test/website/uploads/" + file_name;
-	std::string clean_file = clean_end_of_file(half_clean_file);
-	// std::cout << raw_body.substr(0, 1000) << std::endl;
-	std::ofstream ofs(fullpath, std::ios_base::out | std::ios_base::binary);
-	ofs << clean_file;
-	ofs.close();
+	if (access(fullpath.c_str(), F_OK))
+	{
+		std::string file_part = request.trim(raw_body.substr(raw_body.find_first_of("\r\n\r\n", +delimiter)));
+		size_t		end = file_part.find(request._request_map["boundary"]);
+		std::string half_clean_file = file_part.substr(0, end);
+		std::string clean_file = clean_end_of_file(half_clean_file);
+		std::ofstream ofs(fullpath, std::ios_base::out | std::ios_base::binary);
+		ofs << clean_file;
+		ofs.close();
 	}
 	else
 	{

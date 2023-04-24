@@ -119,16 +119,15 @@ Request::get_host() const
 int
 Request::get_file_exist() const
 {
-	try 
+	try
 	{
 		_request_map.at("FileName");
 		return 1;
 	}
-	catch (std::out_of_range )
+	catch (std::out_of_range)
 	{
 		return 0;
 	}
-	
 }
 
 bool

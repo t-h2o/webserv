@@ -43,8 +43,7 @@ serverTest(json::t_object *config)
 		std::cout << "***************** HTTP REQUEST START****************" << std::endl;
 		std::cout << sock.request << std::endl;
 		std::cout << "***************** HTTP REQUEST END ****************\n";
-
-		// res.load_http_request(sock.request);
+		
 		std::cout << "***************** HTTP REPONSE START****************" << std::endl;
 		std::cout << sock.response << std::endl;
 		std::cout << "***************** HTTP REPONSE END ****************\n" << std::endl;

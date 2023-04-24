@@ -4,6 +4,7 @@ const itemsList = document.getElementById('items-hook');
 const submitBtn = document.querySelector('#submit-btn');
 
 let urlUpload = 'http://localhost:8080/website/upload-file';
+let urlDelete = 'http://localhost:8080/'
 let url = '';
 
 let submitedFiles = [];
@@ -78,11 +79,12 @@ const createIdNumber = () => { return Math.random().toString(); };
 // Function that is called when we click on a existing file to delete it
 const deleteExistingFile = (e) => {
 	e.preventDefault();
+	const id = e.target.parentElement.id
 	submitedFiles = submitedFiles.filter((el) => el.id !== e.target.parentElement.id);
 	/**
 	 * TODO => send http DELETE methode to delete the file.
 	 */
-	fetch(`${urlUpload}${id}`, { method : 'DELETE' })
+	fetch(`${ urlDelete }${id}`, { method : 'DELETE' })
 		.then(response => {
 			if (!response.ok)
 			{
