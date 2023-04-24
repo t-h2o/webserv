@@ -11,6 +11,8 @@ CFLAGS	+=	-g
 CFLAGS	+=	-Wfatal-errors
 CFLAGS	+=	-std=c++98
 
+OFLAGS	=	-fsanitize=address
+
 
 #	Sources
 
