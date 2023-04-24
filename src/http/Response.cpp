@@ -12,17 +12,19 @@ Response::~Response(void) {}
 void
 Response::load_http_request(Request &request)
 {
-	_response_map["dir_location"] += request.get_path();
+	init_response_map();
+	std::string path = _dir_path;
+	path += request.get_path();
 	if (request.get_method().compare("GET") == 0)
 	{
-		std::cout << "it's GET" << std::endl;
-		if (access(_response_map["dir_location"].c_str(), F_OK))
+		std::cout << "it's GET\n" << path <<  std::endl;
+		if (access(path.c_str(), F_OK))
 		{
-			load_response_get(404);
+			load_response_get(404, path);
 		}
 		else
 		{
-			load_response_get(200);
+			load_response_get(200, path);
 		}
 	}
 	else if (request.get_method().compare("POST") == 0)
@@ -43,7 +45,7 @@ Response::load_http_request(Request &request)
 	}
 	else
 	{
-		load_response_get(405);
+		load_response_get(405, path);
 	}
 }
 
@@ -60,11 +62,14 @@ Response::init_response_map(const json::Value &config)
 	_response_map["header-string"] = "";
 	_response_map["body-string"] = "";
 	_response_map["full-response-string"] = "";
+<<<<<<< HEAD
 	_response_map["dir_location"] = config.get("path").get<std::string>();
+=======
+>>>>>>> delete and post ok
 }
 
 void
-Response::load_response_get(int status_code)
+Response::load_response_get(int status_code, std::string path)
 {
 	_response_map["Date"] = get_time_stamp();
 	_response_map["Status-line"]
@@ -76,8 +81,8 @@ Response::load_response_get(int status_code)
 	}
 	else
 	{
-		set_response_type(_response_map["dir_location"]);
-		construct_body_string(_response_map["dir_location"]);
+		set_response_type(path);
+		construct_body_string(path);
 	}
 	set_content_length(_response_map["body-string"]);
 	construct_header_string();
@@ -154,6 +159,7 @@ Response::construct_body_string(std::string path_to_file)
 	std::ifstream	  file;
 	std::stringstream buffer;
 
+	std::cout << "PATH TO FILE: " << path_to_file.c_str() << std::endl;
 	file.open(path_to_file.c_str());
 	if (file.fail())
 	{
@@ -162,6 +168,7 @@ Response::construct_body_string(std::string path_to_file)
 	}
 	buffer << file.rdbuf();
 	_response_map["body-string"] = buffer.str();
+	std::cout << "BODY STRING: " << _response_map["body-string"] << std::endl;
 	file.close();
 }
 
@@ -203,6 +210,11 @@ const Response::t_object &
 Response::get_map() const
 {
 	return _response_map;
+}
+
+void Response::set_dir_path(std::string path)
+{
+	_dir_path = path;
 }
 
 } /* namespace http */

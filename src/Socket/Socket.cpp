@@ -12,6 +12,8 @@ Socket::Socket(int domain, unsigned short port, int type, int protocol)
 	start_listening();
 	header_str = "";
 	body_str = "";
+	dir_path = "/Users/rburri/Desktop/webserv/test/website";
+	response.set_dir_path(dir_path);
 }
 
 void
@@ -115,11 +117,9 @@ Socket::socket_recv()
 	}
 	if (request.get_method().compare("DELETE") == 0)
 	{
-		std::cout << "WE'RE DELETING BITCHES" << std::endl;
 		std::string file_name =  request.get_path();
 
 		std::string fullpath = "/Users/rburri/Desktop/webserv/test/website/uploads" + file_name;
-		std::cout << "FULL PATH: " << fullpath << std::endl;
 		if (access(fullpath.c_str(), F_OK) != -1)
 		{
 			std::cout << "FILE EXITS" << std::endl;
@@ -137,6 +137,7 @@ Socket::socket_recv()
 	header_str = "";
 	body_str = "";
 	std::string response(this->response.get_http_response());
+	std::cout << request << std::endl;
 	request._request_map.clear();
 	send_ret = send(_connection_fd, response.c_str(), response.length(), 0);
 	if (send_ret < static_cast<int>(response.length()))
@@ -198,4 +199,9 @@ Socket::clean_end_of_file(std::string str_to_clean)
 	while (str_to_clean[index] == '-' || str_to_clean[index] == '\n')
 		--index;
 	return str_to_clean.substr(0, index);
+}
+
+std::string Socket::get_dir_path() const
+{
+	return dir_path;
 }
