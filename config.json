@@ -1,15 +1,15 @@
 {
 
-  "google.com": {
+  "foo.com": {
     "port" : 6060,
-    "path" : "/path/of/google.com"
+    "path" : "/path/of/foo.com"
   },
 
-  "example.com": {
+  "bar.org": {
     "port" : 8080,
-    "path" : "/path/of/example.com"
+    "path" : "/path/of/bar.org"
   },
 
-  "cgi-php" : "/path/of/cgi-php"
+  "php-cgi" : "/path/of/php-cgi"
 
 }
