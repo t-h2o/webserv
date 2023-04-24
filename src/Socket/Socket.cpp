@@ -115,11 +115,8 @@ Socket::socket_recv()
 		delete_handler();
 	}
 	response.load_http_request(request);
-	header_str = "";
-	body_str = "";
 	std::string response(this->response.get_http_response());
-	std::cout << request << std::endl;
-	request._request_map.clear();
+	clean_request();
 	send_ret = send(_connection_fd, response.c_str(), response.length(), 0);
 	if (send_ret < static_cast<int>(response.length()))
 	{
@@ -216,4 +213,12 @@ std::string
 Socket::get_dir_path() const
 {
 	return dir_path;
+}
+
+void
+Socket::clean_request()
+{
+	header_str = "";
+	body_str = "";
+	request._request_map.clear();
 }
