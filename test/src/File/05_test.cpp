@@ -15,7 +15,7 @@ test_file_get_number(void)
 	if (file.get_string() != "my number")
 		return 1;
 
-	if (file.get_char() != '"')
+	if (file.get_next_char() != '"')
 		return 1;
 
 	if (file.get_next_char() != ':')

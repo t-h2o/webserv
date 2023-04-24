@@ -25,15 +25,4 @@ _get_string(std::string const &line, size_t &index)
 	return value;
 }
 
-/* move the index up to the next no blank character
- * "last     next"
- *      ^ -> ^
- */
-void
-_ignore_blank(std::string const &line, size_t &index)
-{
-	while (line[index] && isblank(line[index]))
-		++index;
-}
-
 } /* namespace json */

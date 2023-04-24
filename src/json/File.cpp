@@ -28,15 +28,18 @@ File::get_next_char(void)
 }
 
 /* "value to return"
- * ^            -> ^
+ * ^           -> ^
  * move the index up to the next double quote
+ * ""
+ * ^
+ * for an empty string, the index stay in the same place
  */
 std::string
 File::get_string(void)
 {
 	size_t position_quote_start(_current_line.find_first_of('"', _index) + 1);
 	size_t length(_current_line.find_first_of('"', _index + 1) - position_quote_start);
-	_index += length + 1;
+	_index += length;
 
 	return _current_line.substr(position_quote_start, length);
 }
@@ -53,6 +56,24 @@ File::get_number(void)
 	_index += end - &(_current_line[_index]) - 1;
 
 	return number;
+}
+
+const std::string &
+File::get_current_string(void) const
+{
+	return _current_line;
+}
+
+size_t
+File::get_index(void) const
+{
+	return _index;
+}
+
+bool
+File::eof(void) const
+{
+	return _file.eof();
 }
 
 void

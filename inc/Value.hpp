@@ -7,6 +7,8 @@
 
 #include "type.hpp"
 
+#define LOG_JSON_VALUE false
+
 namespace json
 {
 
@@ -24,6 +26,7 @@ class Value
 
 	/* destructor */
 	~Value();
+	void delete_value();
 
 	/* operator */
 	Value &operator=(Value const &);
