@@ -27,7 +27,7 @@ Request::parse_buffer(std::string str_buff)
 		_request_map.at("Content-Type");
 		this->clean_content_type();
 	}
-	catch (std::exception)
+	catch (std::exception &e)
 	{
 	}
 }
@@ -124,7 +124,7 @@ Request::get_file_exist() const
 		_request_map.at("FileName");
 		return 1;
 	}
-	catch (std::out_of_range)
+	catch (std::out_of_range &e)
 	{
 		return 0;
 	}
