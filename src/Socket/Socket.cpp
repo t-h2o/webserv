@@ -128,12 +128,8 @@ Socket::socket_recv()
 			if (ret != 0)
 				request._request_map["FileName"] = "r_fail";
 		}
-		else
-		{
-			std::cout << "FILE NO EXITS" << std::endl;
-		}
 	}
-
+	std::cout << "HERE!!!!!!!!!" << std::endl;
 	response.load_http_request(request);
 	header_str = "";
 	body_str = "";
@@ -157,7 +153,6 @@ Socket::socket_accept()
 	if (_connection_fd < 0)
 	{
 		std::cout << "connection_fd: " << _connection_fd << " Failed!" << std::endl;
-		exit(EXIT_FAILURE);
 	}
 }
 
