@@ -17,8 +17,10 @@ serverTest(json::t_object *config)
 	 *	AF_INET + SOCK_STREAM always protocol = 0,
 	 *	address for this socket, let the OS choose = INADDR_ANY
 	 */
-	std::string path = "/Users/rburri/Desktop/webserv/test/website";
-	Socket		sock(AF_INET, 8080, SOCK_STREAM, 0, path);
+	json::Value	   val(config);
+	unsigned short port = val.get("port").get<double>();
+	std::string	   path = val.get("path").get<std::string>();
+	Socket sock(AF_INET, port, SOCK_STREAM, 0, path);
 
 	while (1)
 	{
