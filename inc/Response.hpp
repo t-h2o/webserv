@@ -41,7 +41,6 @@ class Response
 	void		construct_body_string(std::string path_to_file);
 	void		construct_full_response(void);
 	void		create_error_html_page(int code);
-	void		create_text_response();
 };
 
 std::ostream &operator<<(std::ostream &, Response const &);

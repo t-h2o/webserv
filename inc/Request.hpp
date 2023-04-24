@@ -25,7 +25,7 @@ class Request
 	std::string		get_path() const;
 	std::string		get_protocol() const;
 	std::string		get_host() const;
-	int		get_file_exist() const;
+	int				get_file_exist() const;
 	const t_object &get_map() const;
 	t_object		_request_map;
 	std::string		trim(const std::string &s);

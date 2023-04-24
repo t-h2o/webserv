@@ -27,41 +27,24 @@ Response::load_http_request(Request &request)
 	}
 	else if (request.get_method().compare("POST") == 0)
 	{
-		std::cout << "it's POST\n" << "File name: " << request._request_map["FileName"].c_str()<< std::endl;
 		if (request._request_map["FileName"].compare("exist") == 0)
-		// this request is not the same as request of Socket!!!
 			load_response_post_delete(409);
 		else
 			load_response_post_delete(201);
-			// 409 Conflict
-			// 201 Created
 	}
 	else if (request.get_method().compare("DELETE") == 0)
 	{
-		std::cout << "it's DELETE" << std::endl;
-		if (access(request._request_map["FileName"].c_str(), F_OK))
+		if (request._request_map["FileName"].compare("exist") == 0)
 			load_response_post_delete(204);
+		else if (request._request_map["FileName"].compare("r_fail") == 0)
+			load_response_post_delete(500);
 		else
 			load_response_post_delete(404);
-		// 204 No Content
-		// 404 Not Found
 	}
 	else
 	{
 		load_response_get(405);
 	}
-	// if (!request.method_is_authorized(request.get_method()))
-	// {
-	// 	load_response_map(405);
-	// }
-	// else if (access(_response_map["dir_location"].c_str(), F_OK))
-	// {
-	// 	load_response_map(404);
-	// }
-	// else
-	// {
-	// 	load_response_map(200);
-	// }
 }
 
 void
@@ -203,11 +186,6 @@ Response::create_error_html_page(int code)
 		  + std98::to_string(code)
 		  + "</title></head><body><div class=\" wrapper\"><div class=\"centered-box\"><h1 class=\"title\">"
 		  + _status_code.get_key_value_formated(code) + "</h1></div></div></body></html>";
-}
-void
-Response::create_text_response()
-{
-	_response_map["body-string"] = std::string("The file: ") + std::string(" was successfully created");
 }
 
 std::ostream &
