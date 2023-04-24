@@ -47,6 +47,7 @@ class Socket
 	void		   multipart_handler(int);
 	void		   delete_handler();
 	void		   clean_request();
+	void		   send_response();
 };
 
 #endif

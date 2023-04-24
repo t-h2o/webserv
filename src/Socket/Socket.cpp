@@ -86,7 +86,6 @@ Socket::socket_recv()
 {
 	char		buffer[MAXLINE] = { 0 };
 	int			byte_read;
-	int			send_ret = 0;
 	std::string tmp_buffer;
 
 	byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
@@ -101,9 +100,10 @@ Socket::socket_recv()
 	}
 	tmp_buffer = std::string(buffer);
 	header_str += tmp_buffer.substr(0, tmp_buffer.find("\r\n\r\n"));
-
 	if (tmp_buffer.find("\r\n\r\n") + 4 != tmp_buffer.size())
+	{
 		body_str += tmp_buffer.substr(tmp_buffer.find("\r\n\r\n") + 4);
+	}
 	request.parse_buffer(header_str);
 	if (request._request_map["Content-Type"] == "multipart/form-data")
 	{
@@ -115,15 +115,8 @@ Socket::socket_recv()
 		delete_handler();
 	}
 	response.load_http_request(request);
-	std::string response(this->response.get_http_response());
 	clean_request();
-	send_ret = send(_connection_fd, response.c_str(), response.length(), 0);
-	if (send_ret < static_cast<int>(response.length()))
-	{
-		std::cout << "send_ret : " << send_ret << std::endl;
-		send_ret = send(_connection_fd, response.c_str(), response.length(), 0);
-	}
-	close(_connection_fd);
+	send_response();
 	return 0;
 }
 
@@ -221,4 +214,17 @@ Socket::clean_request()
 	header_str = "";
 	body_str = "";
 	request._request_map.clear();
+}
+
+void
+Socket::send_response()
+{
+	int			send_ret = 0;
+	std::string full_response_str(this->response.get_http_response());
+	send_ret = send(_connection_fd, full_response_str.c_str(), full_response_str.length(), 0);
+	if (send_ret < static_cast<int>(full_response_str.length()))
+	{
+		send_ret = send(_connection_fd, full_response_str.c_str(), full_response_str.length(), 0);
+	}
+	close(_connection_fd);
 }
