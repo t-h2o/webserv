@@ -21,6 +21,16 @@ print_big_message () {
 	printf "%b" "\033[0m"
 }
 
+# $1 exit code
+success_failure () {
+if [ "${1}" -eq 0 ] ; then
+	print_big_message "SUCCESS" "green"
+else
+	print_big_message "FAILURE" "red"
+	exit 1
+fi
+}
+
 # $1 : link
 # $2 : extension
 download_handle () {
@@ -52,8 +62,13 @@ download_sources () {
 
 compilate_libxml2 () {
 	cd libxml2-2.9.9 || exit
+	print_big_message "./configure"
 	./configure
+	success_failure $?
+
+	print_big_message "make"
 	make
+	success_failure $?
 
 	export PKG_CONFIG_PATH="${PWD}":"${PKG_CONFIG_PATH}"
 	print_big_message "PKG_CONFIG_PATH = ${PKG_CONFIG_PATH}"
@@ -62,14 +77,24 @@ compilate_libxml2 () {
 
 compilate_php () {
 	cd php-8.2.5 || exit
+	print_big_message "./configure --without-iconv"
 	./configure --without-iconv
+	success_failure $?
+
+	print_big_message "make"
 	make
+	success_failure $?
 }
 
 compilate_sqlite3 () {
 	cd sqlite || exit
+	print_big_message "./configure"
 	./configure
+	success_failure $?
+
+	print_big_message "make"
 	make
+	success_failure $?
 
 	export PKG_CONFIG_PATH="${PWD}":"${PKG_CONFIG_PATH}"
 	print_big_message "PKG_CONFIG_PATH = ${PKG_CONFIG_PATH}"
@@ -91,7 +116,14 @@ main () {
 
 	print_big_message "Compilate php8" "green"
 	compilate_php
+
+	if ls "${PATH_PHP}/php-8.2.5/sapi/cgi/php-cgi" ; then
+		print_big_message "SUCCESS: cgi in ${PATH_PHP}/php-8.2.5/sapi/cgi/php-cgi" "green"
+	else
+		print_big_message "FAILURE: cgi in ${PATH_PHP}/php-8.2.5/sapi/cgi/php-cgi" "red"
+	fi
 }
+
 
 print_big_message "launch the main()" "green"
 main
