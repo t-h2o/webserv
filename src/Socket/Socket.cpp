@@ -92,10 +92,14 @@ Socket::socket_recv()
 	{
 		for (size_t i = header_body_delimiter + 4; i < static_cast<unsigned long>(byte_read); i++)
 			_body_str.push_back(buffer[i]);
+		if (LOG_SOCKET)
+			std::cout << "body str:" << body_str << std::endl;
 	}
 	_request.parse_buffer(_header_str);
 	if (_request._request_map["Content-Type"].compare("multipart/form-data") == 0)
 	{
+		if (LOG_SOCKET)
+			std::cout << "Content-type = multipart/form-data" << std::endl;
 		multipart_handler(byte_read);
 		std::memset(buffer, 0, MAXLINE);
 	}
@@ -167,15 +171,21 @@ void
 Socket::create_new_file()
 {
 	std::string fullpath = get_file_full_name();
+	if (LOG_SOCKET)
+		std::cout << "new file: \"" << fullpath << "\"" << std::endl;
 	if (access(fullpath.c_str(), F_OK))
 	{
 		size_t		delimiter = _body_str.find("Content-Type");
 		std::string file_part
 			= _request.trim(_body_str.substr(_body_str.find_first_of("\r\n\r\n", delimiter)));
+		if (LOG_SOCKET)
+			std::cout << "file_part: " << file_part << std::endl;
 		size_t		  end = file_part.find(_request._request_map["boundary"]);
 		std::string half_clean_file = file_part.substr(0, end);
 		std::string clean_file = clean_end_of_file(half_clean_file);
-		std::ofstream ofs(fullpath, std::ios_base::out | std::ios_base::binary);
+		if (LOG_SOCKET)
+			std::cout << "### clean file ###\n" << clean_file << "\n###/clean file ###\n" << std::endl;
+		std::ofstream ofs(fullpath.c_str(), std::ios_base::out | std::ios_base::binary);
 		ofs.write(clean_file.c_str(), clean_file.size() - 1);
 		ofs.close();
 	}
