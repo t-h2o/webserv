@@ -177,7 +177,7 @@ Socket::create_new_file(std::string raw_body)
 		std::string half_clean_file = file_part.substr(0, end);
 		std::string clean_file = clean_end_of_file(half_clean_file);
 		std::ofstream ofs(fullpath, std::ios_base::out | std::ios_base::binary);
-		ofs << clean_file;
+		ofs.write(clean_file.c_str(), clean_file.size() -1);
 		ofs.close();
 	}
 	else
