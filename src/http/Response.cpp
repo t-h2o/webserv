@@ -17,7 +17,6 @@ Response::load_http_request(Request &request)
 	path += request.get_path();
 	if (request.get_method().compare("GET") == 0)
 	{
-		std::cout << "it's GET\n" << path << std::endl;
 		if (access(path.c_str(), F_OK))
 		{
 			load_response_get(404, path);
@@ -29,7 +28,6 @@ Response::load_http_request(Request &request)
 	}
 	else if (request.get_method().compare("POST") == 0)
 	{
-		std::cout << "it's a POST\n";
 		if (request._request_map["FileName"].compare("exist") == 0)
 			load_response_post_delete(409);
 		else
@@ -156,7 +154,6 @@ Response::construct_body_string(std::string path_to_file)
 	std::ifstream	  file;
 	std::stringstream buffer;
 
-	std::cout << "PATH TO FILE: " << path_to_file.c_str() << std::endl;
 	file.open(path_to_file.c_str());
 	if (file.fail())
 	{
@@ -165,7 +162,6 @@ Response::construct_body_string(std::string path_to_file)
 	}
 	buffer << file.rdbuf();
 	_response_map["body-string"] = buffer.str();
-	std::cout << "BODY STRING: " << _response_map["body-string"] << std::endl;
 	file.close();
 }
 
