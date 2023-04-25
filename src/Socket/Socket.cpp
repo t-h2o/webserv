@@ -94,6 +94,7 @@ Socket::socket_recv()
 	}
 	tmp_buffer = std::string(buffer);
 	header_str += tmp_buffer.substr(0, tmp_buffer.find("\r\n\r\n"));
+	// body_str in vector<unsigned char>
 	if (tmp_buffer.find("\r\n\r\n") + 4 != tmp_buffer.size())
 	{
 		body_str += tmp_buffer.substr(tmp_buffer.find("\r\n\r\n") + 4);
