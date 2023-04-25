@@ -6,6 +6,16 @@
 #include <cstring>
 #include <vector>
 
+#include <sys/stat.h>
+
+static void
+create_upload_folder(json::Value &config)
+{
+	std::string website_path(config.get("path").get<std::string>() + "/uploads");
+
+	mkdir(website_path.c_str(), S_IRWXU);
+}
+
 void
 serverTest(json::t_object *config)
 {
@@ -22,6 +32,7 @@ serverTest(json::t_object *config)
 	std::string	   path = val.get("path").get<std::string>();
 	Socket		   sock(AF_INET, port, SOCK_STREAM, 0, path);
 
+	create_upload_folder(val);
 	while (1)
 	{
 		std::cout << "++++++ Waiting for new connection ++++++" << std::endl;
