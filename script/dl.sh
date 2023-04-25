@@ -63,6 +63,7 @@ compilate_libxml2 () {
 compilate_php () {
 	cd php-8.2.5 || exit
 	./configure --without-iconv
+	make
 }
 
 compilate_sqlite3 () {
