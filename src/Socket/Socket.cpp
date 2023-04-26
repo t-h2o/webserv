@@ -95,13 +95,17 @@ Socket::socket_recv()
 	tmp_buffer = std::string(buffer);
 	header_str += tmp_buffer.substr(0, tmp_buffer.find("\r\n\r\n"));
 	// body_str in vector<unsigned char>
-	if (tmp_buffer.find("\r\n\r\n") + 4 != tmp_buffer.size())
+	size_t body_start = tmp_buffer.find("\r\n\r\n") + 4;
+	if (body_start < tmp_buffer.size())
 	{
-		body_str += tmp_buffer.substr(tmp_buffer.find("\r\n\r\n") + 4);
+		for (size_t i = body_start; i < tmp_buffer.size(); i++)
+			body_str.push_back(buffer[i]);
 	}
+	// std::cout << "Body_str before loop:\n" << body_str << std::endl;
 	request.parse_buffer(header_str);
-	if (request._request_map["Content-Type"] == "multipart/form-data")
+	if (request._request_map["Content-Type"].compare("multipart/form-data") == 0)
 	{
+		std::cout << "IN DA LOOP" << std::endl;
 		multipart_handler(byte_read);
 		std::memset(buffer, 0, MAXLINE);
 	}
@@ -120,13 +124,27 @@ Socket::multipart_handler(int read_prev)
 {
 	int	 byte_read = read_prev;
 	char buffer[MAXLINE] = { 0 };
-
+	int moins = body_str.size();
+	int total = byte_read;
+	std::cout << "body_str at start: " << moins << std::endl;
 	while (byte_read == MAXLINE - 1)
 	{
-		byte_read = read(_connection_fd, buffer, MAXLINE - 1);
-		body_str += buffer;
+		std::cout << "stop here?: " << byte_read << std::endl;
+		byte_read = recv(_connection_fd, buffer, MAXLINE -1, 0);
+		std::cout << "BYTE_READ: "<< byte_read << std::endl;
+		if (byte_read == 0)
+		{
+			std::cout << "DONE" << std::endl;
+			break;
+		}
+		total += byte_read;
+		for (int i =0; i < byte_read; i++)
+			body_str.push_back(buffer[i]);
 		std::memset(buffer, 0, MAXLINE);
 	}
+
+	std::cout << "BODY_STR.size(): " << body_str.size() << std::endl;
+	std::cout << "total: " << total - moins << std::endl;
 	create_new_file(body_str);
 }
 
@@ -177,6 +195,8 @@ Socket::create_new_file(std::string raw_body)
 		size_t		end = file_part.find(request._request_map["boundary"]);
 		std::string half_clean_file = file_part.substr(0, end);
 		std::string clean_file = clean_end_of_file(half_clean_file);
+		std::cout << clean_file.substr(0, 100) << std::endl;
+		std::cout << clean_file.substr(clean_file.size() - 100) << std::endl;
 		std::ofstream ofs(fullpath, std::ios_base::out | std::ios_base::binary);
 		ofs.write(clean_file.c_str(), clean_file.size() -1);
 		ofs.close();
