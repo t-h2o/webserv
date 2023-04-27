@@ -19,10 +19,14 @@
 class Socket
 {
   private:
+	http::Request  _request;
+	http::Response _response;
+	std::string	   _header_str;
+	std::string	   _body_str;
+	std::string		   _dir_path;
 	int				   _connection_fd;
 	int				   _sock_id;
 	int				   _connection;
-	std::string		   _dir_path;
 	struct sockaddr_in _address;
 	void			   create_socket(int domain, int type, int protocol);
 	void			   binding_socket();
@@ -37,13 +41,8 @@ class Socket
 	void			   create_new_file(std::string);
 	std::string		   clean_end_of_file(std::string str_to_clean);
 	std::string		   get_dir_path() const;
-	
 
   public:
-	http::Request  request;
-	http::Response response;
-	std::string	   header_str;
-	std::string	   body_str;
 	Socket(int domain, unsigned short port, int type, int protocol, std::string path);
 	int	 socket_recv();
 	void socket_accept();
