@@ -28,13 +28,11 @@ class CGI
 	CGI(void);
 	CGI(const std::string &bin, const std::string &file, const std::string &query);
 	CGI(CGI const &src);
-	//	CGI		operator=(CGI const& src);
 
 	std::string execution_cgi(char *args);
 	std::string parent_process(pid_t &pid);
 	void		child_process(char **);
 	void		set_env(char *args);
-	//	void		prepare_env(const std::string &bin, const std::string &file, const std::string &query);
 	~CGI(void);
 };
 
