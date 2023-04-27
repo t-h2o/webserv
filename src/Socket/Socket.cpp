@@ -126,9 +126,8 @@ Socket::multipart_handler(int read_prev)
 		byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
 		total += byte_read;
 		std::cout << "TOTAL: " << total << std::endl;
-		for (int i = 0; i < byte_read; i++)
-			_body_str.push_back(buffer[i]);
 		std::memset(buffer, 0, MAXLINE);
+		_body_str.append(buffer, byte_read);
 	}
 	if (LOG_SOCKET)
 		std::cout << "_body_str.size(): " << _body_str.size() << std::endl;
