@@ -39,6 +39,9 @@ CGI::set_env(char *args)
 	//	// Donne la version du CGI utilisé.
 	//	_env["GATEWAY_INTERFACE"] = "CGI/1.1";
 	//	// Donne l'extra path information utilisée.
+	//	// identifies the resource or sub-resource to be returned by the script, and is derived from the
+	//	// portion of the URI path hierarchy following the part that identifies the script itself
+	// 	// http://some.machine/cgi-bin/display.pl/cgi/cgi_doc.txt => /cgi/cgi_doc.txt
 	//	_env["PATH_INFO"] = "/foo/bar";
 	//	// Donne une traduction d'un chemin virtuel passé dans l'extra path information.
 	//	_env["PATH_TRANSLATED"] = args;
@@ -81,8 +84,9 @@ CGI::parent_process(pid_t &pid)
 	ssize_t bytes_read;
 	do
 	{
-		// Initialize bytes_read with the return value from read, for error checking.
+		// Fill _read_buffer with 0
 		std::memset(_read_buffer, 0, BUFFER_SIZE);
+		// Initialize bytes_read with the return value from read, for error checking.
 		bytes_read = read(_pipefd[0], _read_buffer, BUFFER_SIZE);
 		// Condition if read fail
 		if (bytes_read == -1)
@@ -97,7 +101,6 @@ CGI::parent_process(pid_t &pid)
 		// std::string output_cgi concatenation with append
 		else
 			_output_cgi.append(_read_buffer, bytes_read);
-		// Fill _read_buffer with 0
 	} while (bytes_read == BUFFER_SIZE);
 	// Close the process.
 	close(_pipefd[0]);
