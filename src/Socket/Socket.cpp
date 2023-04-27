@@ -118,14 +118,11 @@ Socket::multipart_handler(int read_prev)
 {
 	int			  byte_read = read_prev;
 	char		  buffer[MAXLINE] = { 0 };
-	int			  total = byte_read - (_header_str.size() + 4);
 	unsigned long content_length = stoul(_request._request_map["Content-Length"]);
 
 	while (_body_str.size() < content_length)
 	{
 		byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
-		total += byte_read;
-		std::cout << "TOTAL: " << total << std::endl;
 		for (int i = 0; i < byte_read; i++)
 			_body_str.push_back(buffer[i]);
 		std::memset(buffer, 0, MAXLINE);
