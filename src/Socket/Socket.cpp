@@ -93,7 +93,7 @@ Socket::socket_recv()
 		for (size_t i = header_body_delimiter + 4; i < static_cast<unsigned long>(byte_read); i++)
 			_body_str.push_back(buffer[i]);
 		if (LOG_SOCKET)
-			std::cout << "body str:" << body_str << std::endl;
+			std::cout << "body str:" << _body_str << std::endl;
 	}
 	_request.parse_buffer(_header_str);
 	if (_request._request_map["Content-Type"].compare("multipart/form-data") == 0)
