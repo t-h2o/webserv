@@ -116,17 +116,22 @@ Socket::socket_recv()
 void
 Socket::multipart_handler(int read_prev)
 {
-	int	 byte_read = read_prev;
-	char buffer[MAXLINE] = { 0 };
+	int			  byte_read = read_prev;
+	char		  buffer[MAXLINE] = { 0 };
+	int			  total = byte_read - (_header_str.size() + 4);
+	unsigned long content_length = stoul(_request._request_map["Content-Length"]);
 
-	while (byte_read == MAXLINE - 1)
+	while (_body_str.size() < content_length)
 	{
 		byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
+		total += byte_read;
+		std::cout << "TOTAL: " << total << std::endl;
 		for (int i = 0; i < byte_read; i++)
 			_body_str.push_back(buffer[i]);
 		std::memset(buffer, 0, MAXLINE);
 	}
-	std::cout << "_body_str.size(): " << _body_str.size() << std::endl;
+	if (LOG_SOCKET)
+		std::cout << "_body_str.size(): " << _body_str.size() << std::endl;
 	create_new_file();
 }
 
@@ -180,7 +185,7 @@ Socket::create_new_file()
 			= _request.trim(_body_str.substr(_body_str.find_first_of("\r\n\r\n", delimiter)));
 		if (LOG_SOCKET)
 			std::cout << "file_part: " << file_part << std::endl;
-		size_t		  end = file_part.find(_request._request_map["boundary"]);
+		size_t		end = file_part.find(_request._request_map["boundary"]);
 		std::string half_clean_file = file_part.substr(0, end);
 		std::string clean_file = clean_end_of_file(half_clean_file);
 		if (LOG_SOCKET)
