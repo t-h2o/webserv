@@ -124,6 +124,7 @@ Socket::multipart_handler(int read_prev)
 			_body_str.push_back(buffer[i]);
 		std::memset(buffer, 0, MAXLINE);
 	}
+	std::cout << "_body_str.size(): " << _body_str.size() << std::endl;
 	create_new_file();
 }
 
@@ -172,10 +173,10 @@ Socket::create_new_file()
 	{
 		size_t		delimiter = _body_str.find("Content-Type");
 		std::string file_part
-			= _request.trim(_body_str.substr(_body_str.find_first_of("\r\n\r\n", +delimiter)));
+			= _request.trim(_body_str.substr(_body_str.find_first_of("\r\n\r\n", delimiter)));
 		size_t		  end = file_part.find(_request._request_map["boundary"]);
 		std::string	  half_clean_file = file_part.substr(0, end);
-		std::string	  clean_file = clean_end_of_file(half_clean_file);
+		std::cout <<  half_clean_file << std:: endl;
 		std::ofstream ofs(fullpath, std::ios_base::out | std::ios_base::binary);
 		ofs.write(clean_file.c_str(), clean_file.size() - 1);
 		ofs.close();
