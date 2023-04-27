@@ -124,7 +124,7 @@ Socket::multipart_handler(int read_prev)
 			_body_str.push_back(buffer[i]);
 		std::memset(buffer, 0, MAXLINE);
 	}
-	create_new_file(_body_str);
+	create_new_file();
 }
 
 void
@@ -153,27 +153,29 @@ Socket::socket_accept()
 }
 
 std::string
-Socket::get_file_name(std::string raw_body)
+Socket::get_file_full_name()
 {
-	std::string start_looking = raw_body.substr(raw_body.find("filename="));
+	std::string start_looking = _body_str.substr(_body_str.find("filename="));
 	start_looking = start_looking.substr(start_looking.find_first_of('"'), start_looking.find("\n"));
-	size_t position_quote_start(start_looking.find_first_of('"') + 1);
-	size_t length(start_looking.find_first_of('"', +1) - position_quote_start);
-	return start_looking.substr(position_quote_start, length);
+	size_t		position_quote_start(start_looking.find_first_of('"') + 1);
+	size_t		length(start_looking.find_first_of('"', +1) - position_quote_start);
+	std::string file_name = start_looking.substr(position_quote_start, length);
+	std::string fullpath = "test/website/uploads/" + file_name;
+	return fullpath;
 }
 
 void
-Socket::create_new_file(std::string raw_body)
+Socket::create_new_file()
 {
-	size_t		delimiter = raw_body.find("Content-Type");
-	std::string file_name = get_file_name(raw_body.substr(0, delimiter));
-	std::string fullpath = "test/website/uploads/" + file_name;
+	std::string fullpath = get_file_full_name();
 	if (access(fullpath.c_str(), F_OK))
 	{
-		std::string file_part = _request.trim(raw_body.substr(raw_body.find_first_of("\r\n\r\n", +delimiter)));
-		size_t		end = file_part.find(_request._request_map["boundary"]);
-		std::string half_clean_file = file_part.substr(0, end);
-		std::string clean_file = clean_end_of_file(half_clean_file);
+		size_t		delimiter = _body_str.find("Content-Type");
+		std::string file_part
+			= _request.trim(_body_str.substr(_body_str.find_first_of("\r\n\r\n", +delimiter)));
+		size_t		  end = file_part.find(_request._request_map["boundary"]);
+		std::string	  half_clean_file = file_part.substr(0, end);
+		std::string	  clean_file = clean_end_of_file(half_clean_file);
 		std::ofstream ofs(fullpath, std::ios_base::out | std::ios_base::binary);
 		ofs.write(clean_file.c_str(), clean_file.size() - 1);
 		ofs.close();
