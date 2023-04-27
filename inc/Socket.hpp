@@ -16,7 +16,7 @@
 #define LISTEN_BACKLOG 10
 #define MAXLINE 4096
 
-#define LOG_SOCKET true
+#define LOG_SOCKET false
 
 class Socket
 {
