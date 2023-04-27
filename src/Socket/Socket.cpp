@@ -10,10 +10,10 @@ Socket::Socket(int domain, unsigned short port, int type, int protocol, std::str
 	set_socket_non_blocking();
 	binding_socket();
 	start_listening();
-	header_str = "";
-	body_str = "";
+	_header_str = "";
+	_body_str = "";
 	_dir_path = path;
-	response.set_dir_path(_dir_path);
+	_response.set_dir_path(_dir_path);
 }
 
 void
@@ -67,14 +67,6 @@ Socket::set_socket_non_blocking()
 	// test_socket(ret, "fcnt() Fail!");
 }
 
-// return -1 =>
-// FD_CLR(socket, &_fd_set);
-// FD_CLR(socket, &reading_set);
-// _sockets.erase(socket);
-// it = _sockets.begin();
-// return 0 =>
-// push socket_fd to readytowrite
-
 int
 Socket::socket_recv()
 {
@@ -93,27 +85,25 @@ Socket::socket_recv()
 		return (-1);
 	}
 	tmp_buffer = std::string(buffer);
-	header_str += tmp_buffer.substr(0, tmp_buffer.find("\r\n\r\n"));
-	// body_str in vector<unsigned char>
-	size_t body_start = tmp_buffer.find("\r\n\r\n") + 4;
-	if (body_start < tmp_buffer.size())
+	size_t header_body_delimiter = tmp_buffer.find("\r\n\r\n");
+	_header_str += tmp_buffer.substr(0, header_body_delimiter);
+
+	if (header_body_delimiter + 4 < tmp_buffer.size())
 	{
-		for (size_t i = body_start; i < tmp_buffer.size(); i++)
-			body_str.push_back(buffer[i]);
+		for (size_t i = header_body_delimiter + 4; i < static_cast<unsigned long>(byte_read); i++)
+			_body_str.push_back(buffer[i]);
 	}
-	// std::cout << "Body_str before loop:\n" << body_str << std::endl;
-	request.parse_buffer(header_str);
-	if (request._request_map["Content-Type"].compare("multipart/form-data") == 0)
+	_request.parse_buffer(_header_str);
+	if (_request._request_map["Content-Type"].compare("multipart/form-data") == 0)
 	{
-		std::cout << "IN DA LOOP" << std::endl;
 		multipart_handler(byte_read);
 		std::memset(buffer, 0, MAXLINE);
 	}
-	if (request.get_method().compare("DELETE") == 0)
+	if (_request.get_method().compare("DELETE") == 0)
 	{
 		delete_handler();
 	}
-	response.load_http_request(request);
+	_response.load_http_request(_request);
 	clean_request();
 	send_response();
 	return 0;
@@ -124,42 +114,31 @@ Socket::multipart_handler(int read_prev)
 {
 	int	 byte_read = read_prev;
 	char buffer[MAXLINE] = { 0 };
-	int moins = body_str.size();
-	int total = byte_read;
-	std::cout << "body_str at start: " << moins << std::endl;
+	int	 total = byte_read - (_header_str.size() + 4);
+
 	while (byte_read == MAXLINE - 1)
 	{
-		std::cout << "stop here?: " << byte_read << std::endl;
-		byte_read = recv(_connection_fd, buffer, MAXLINE -1, 0);
-		std::cout << "BYTE_READ: "<< byte_read << std::endl;
-		if (byte_read == 0)
-		{
-			std::cout << "DONE" << std::endl;
-			break;
-		}
+		byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
 		total += byte_read;
-		for (int i =0; i < byte_read; i++)
-			body_str.push_back(buffer[i]);
+		for (int i = 0; i < byte_read; i++)
+			_body_str.push_back(buffer[i]);
 		std::memset(buffer, 0, MAXLINE);
 	}
-
-	std::cout << "BODY_STR.size(): " << body_str.size() << std::endl;
-	std::cout << "total: " << total - moins << std::endl;
-	create_new_file(body_str);
+	create_new_file(_body_str);
 }
 
 void
 Socket::delete_handler()
 {
-	std::string file_name = request.get_path();
+	std::string file_name = _request.get_path();
 
 	std::string fullpath = _dir_path + "/uploads" + file_name;
 	if (access(fullpath.c_str(), F_OK) != -1)
 	{
-		request._request_map["FileName"] = "exist";
+		_request._request_map["FileName"] = "exist";
 		int ret = remove(fullpath.c_str());
 		if (ret != 0)
-			request._request_map["FileName"] = "r_fail";
+			_request._request_map["FileName"] = "r_fail";
 	}
 }
 
@@ -191,19 +170,17 @@ Socket::create_new_file(std::string raw_body)
 	std::string fullpath = "test/website/uploads/" + file_name;
 	if (access(fullpath.c_str(), F_OK))
 	{
-		std::string file_part = request.trim(raw_body.substr(raw_body.find_first_of("\r\n\r\n", +delimiter)));
-		size_t		end = file_part.find(request._request_map["boundary"]);
+		std::string file_part = _request.trim(raw_body.substr(raw_body.find_first_of("\r\n\r\n", +delimiter)));
+		size_t		end = file_part.find(_request._request_map["boundary"]);
 		std::string half_clean_file = file_part.substr(0, end);
 		std::string clean_file = clean_end_of_file(half_clean_file);
-		std::cout << clean_file.substr(0, 100) << std::endl;
-		std::cout << clean_file.substr(clean_file.size() - 100) << std::endl;
 		std::ofstream ofs(fullpath, std::ios_base::out | std::ios_base::binary);
-		ofs.write(clean_file.c_str(), clean_file.size() -1);
+		ofs.write(clean_file.c_str(), clean_file.size() - 1);
 		ofs.close();
 	}
 	else
 	{
-		request._request_map["FileName"] = "exist";
+		_request._request_map["FileName"] = "exist";
 	}
 }
 
@@ -225,16 +202,16 @@ Socket::get_dir_path() const
 void
 Socket::clean_request()
 {
-	header_str = "";
-	body_str = "";
-	request._request_map.clear();
+	_header_str = "";
+	_body_str = "";
+	_request._request_map.clear();
 }
 
 void
 Socket::send_response()
 {
 	int			send_ret = 0;
-	std::string full_response_str(this->response.get_http_response());
+	std::string full_response_str(this->_response.get_http_response());
 	send_ret = send(_connection_fd, full_response_str.c_str(), full_response_str.length(), 0);
 	if (send_ret < static_cast<int>(full_response_str.length()))
 	{
