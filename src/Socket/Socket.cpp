@@ -123,10 +123,10 @@ Socket::multipart_handler(int read_prev)
 
 	while (_body_str.size() < content_length)
 	{
+		std::memset(buffer, 0, MAXLINE);
 		byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
 		total += byte_read;
 		std::cout << "TOTAL: " << total << std::endl;
-		std::memset(buffer, 0, MAXLINE);
 		_body_str.append(buffer, byte_read);
 	}
 	if (LOG_SOCKET)
