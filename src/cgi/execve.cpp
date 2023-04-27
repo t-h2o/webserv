@@ -53,7 +53,7 @@ CGI::set_env(char *args)
 	//	_env["REQUEST_METHOD"] = "GET";
 	//	// Donne le chemin virtuel du script utilisé. Le nom du script.
 	//	_env["SCRIPT_NAME"] = args;
-	//	// Donne l'IP ou la DNS du serveur.
+	//	// Donne l'IP ou le DNS du serveur.
 	//	_env["SERVER_NAME"] = "null";
 	//	// Donne le nom et la version du protocole utilisé par le serveur et le client.
 	//	// Cette variable contient généralement une chaîne de texte telle que "HTTP/1.1" ou "HTTP/2.0",
