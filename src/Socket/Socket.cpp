@@ -146,14 +146,11 @@ Socket::delete_handler()
 	}
 }
 
-void
+int
 Socket::socket_accept()
 {
 	_connection_fd = accept(get_sock_id(), NULL, NULL);
-	if (_connection_fd < 0)
-	{
-		std::cout << "connection_fd: " << _connection_fd << " Failed!" << std::endl;
-	}
+	return _connection_fd;
 }
 
 std::string

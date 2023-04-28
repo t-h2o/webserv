@@ -64,19 +64,33 @@ Cluster::run()
 		if (select_return > 0)
 		{
 			// one or more socket_fd is ready to be read.
-			for (std::map<int, Socket>::iterator it(_sockets.begin()); select_return && it != _sockets.end();
-				 it++)
+			int desc_ready = select_return;
+			for (int i = 0; i <= _max_fd && desc_ready > 0; ++i)
 			{
-				if (FD_ISSET(it->first, &reading_set))
+				if (FD_ISSET(i, &reading_set))
 				{
-					it->second.socket_accept();
+					desc_ready--;
+					std::map<int, Socket>::iterator sock = _sockets.find(i);
+					if (sock != _sockets.end())
+					{
 
-					std::cout << "accepted" << std::endl;
-					it->second.socket_recv();
-					std::cout << "recv ended" << std::endl;
-					FD_CLR(it->first, &reading_set);
-					it = _sockets.begin();
-					break;
+						int new_sd = sock->second.socket_accept();
+						if (new_sd < 0)
+						{
+							if (errno != EWOULDBLOCK)
+							{
+								perror("  accept() failed");
+							}
+							break;
+						}
+					}
+
+					// std::cout << "accepted" << std::endl;
+					// it->second.socket_recv();
+					// std::cout << "recv ended" << std::endl;
+					// FD_CLR(it->first, &reading_set);
+					// it = _sockets.begin();
+					// break;
 				}
 			}
 		}

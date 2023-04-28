@@ -50,7 +50,7 @@ class Socket
 	Socket(int domain, unsigned short port, int type, int protocol, const json::Value &,
 		   unsigned long max_length = ULONG_MAX);
 	int	 socket_recv();
-	void socket_accept();
+	int socket_accept();
 	int	 get_sock_id() const;
 };
 
