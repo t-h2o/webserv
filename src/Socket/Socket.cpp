@@ -76,10 +76,20 @@ Socket::socket_recv()
 	{
 		close(_connection_fd);
 		if (byte_read == 0)
+		{
+
 			std::cout << "\rConnection was closed by client.\n" << std::endl;
+			return 0;
+		}
 		else
+		{
 			std::cout << "\rRead error, closing connection.\n" << std::endl;
-		return (-1);
+			if (errno != EWOULDBLOCK)
+			{
+				std::cout << "\rRead error, closing connection.\n" << std::endl;
+				return (-1);
+			}
+		}
 	}
 	tmp_buffer = std::string(buffer);
 	size_t header_body_delimiter = tmp_buffer.find("\r\n\r\n");

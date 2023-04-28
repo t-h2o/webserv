@@ -70,19 +70,40 @@ Cluster::run()
 				if (FD_ISSET(i, &reading_set))
 				{
 					desc_ready--;
+					int new_sd;
 					std::map<int, Socket>::iterator sock = _sockets.find(i);
 					if (sock != _sockets.end())
 					{
 
-						int new_sd = sock->second.socket_accept();
-						if (new_sd < 0)
-						{
-							if (errno != EWOULDBLOCK)
+							new_sd = sock->second.socket_accept();
+							if (new_sd < 0)
 							{
-								perror("  accept() failed");
+								if (errno != EWOULDBLOCK)
+								{
+									std::cerr << "Error with accept()" << std::endl;
+									end_server = 1;
+								}
+								break;
 							}
-							break;
-						}
+							std::cout << "accepted" << std::endl;
+							FD_SET(new_sd, &_master_fd_set);
+							if (new_sd > _max_fd)
+								_max_fd = new_sd;
+					}
+					else
+					{
+						std::cout << "Descriptor " << i << " is readable" << std::endl;
+						std::cout << "connection_id: " << sock->second._connection_fd<< std::endl;
+						do
+						{
+							int ret = sock->second.socket_recv();
+							if (ret < 0)
+							{
+								close(i);
+								FD_CLR(i, &_master_fd_set);
+								break;
+							}
+						} while (true);
 					}
 
 					// std::cout << "accepted" << std::endl;
