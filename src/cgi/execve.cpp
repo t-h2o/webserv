@@ -28,43 +28,43 @@ CGI::CGI(const std::string &bin, const std::string &file, const std::string &que
 void
 CGI::set_env(char *args)
 {
-	//	// Définit la route par laquelle tous les utilisateurs seront authentifiés (dans les applications
-	// prises
-	//	// en charge).
-	//	_env["AUTH_TYPE"] = "null";
-	//	// Donne le nombre d'octets transmis par le client.
-	//	_env["CONTENT_LENGTH"] = std98::to_string(1000);
-	//	// Donne le type de donnée transmise par le client si l'attribut METHOD a pour valeur POST.
-	//	_env["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
-	//	// Donne la version du CGI utilisé.
-	//	_env["GATEWAY_INTERFACE"] = "CGI/1.1";
-	//	// Donne l'extra path information utilisée.
-	//	// identifies the resource or sub-resource to be returned by the script, and is derived from the
-	//	// portion of the URI path hierarchy following the part that identifies the script itself
-	// 	// http://some.machine/cgi-bin/display.pl/cgi/cgi_doc.txt => /cgi/cgi_doc.txt
-	//	_env["PATH_INFO"] = "/foo/bar";
-	//	// Donne une traduction d'un chemin virtuel passé dans l'extra path information.
-	//	_env["PATH_TRANSLATED"] = args;
-	//	// Donne les informations passées par un marqueur <FORM METHOD=GET>
-	//	_env["QUERY_STRING"] = "foo=bar&baz=qux";
-	//	// Donne la valeur de l'attribut METHOD du marqueur FORM utilisé lors de la requête CGI. En gros le
-	// type
-	//	// de requete http
-	//	_env["REQUEST_METHOD"] = "GET";
-	//	// Donne le chemin virtuel du script utilisé. Le nom du script.
-	//	_env["SCRIPT_NAME"] = args;
-	//	// Donne l'IP ou le DNS du serveur.
-	//	_env["SERVER_NAME"] = "null";
-	//	// Donne le nom et la version du protocole utilisé par le serveur et le client.
-	//	// Cette variable contient généralement une chaîne de texte telle que "HTTP/1.1" ou "HTTP/2.0",
-	//	// qui indique la version du protocole utilisée.
-	//	_env["SERVER_PROTOCOL"] = "null";
-	//	// Donne le nom et la version du serveur Web utilisé.
-	//	_env["SERVER_SOFTWARE"] = "null";
-	//	// Indique qu'une requête été redirigée en interne, elle est définie pour la gestion des erreurs.
-	//	_env["REDIRECT_STATUS"] = "CGI";
+//		// Définit la route par laquelle tous les utilisateurs seront authentifiés (dans les applications
+//	 // prises
+//		// en charge).
+//		_env["AUTH_TYPE"] = "null";
+//		// Donne le nombre d'octets transmis par le client.
+//		_env["CONTENT_LENGTH"] = std98::to_string(1000);
+//		// Donne le type de donnée transmise par le client si l'attribut METHOD a pour valeur POST.
+//		_env["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
+//		// Donne la version du CGI utilisé.
+//		_env["GATEWAY_INTERFACE"] = "CGI/1.1";
+//		// Donne l'extra path information utilisée.
+//		// identifies the resource or sub-resource to be returned by the script, and is derived from the
+//		// portion of the URI path hierarchy following the part that identifies the script itself
+//	 	// http://some.machine/cgi-bin/display.pl/cgi/cgi_doc.txt => /cgi/cgi_doc.txt
+//		_env["PATH_INFO"] = "/foo/bar";
+//		// Donne une traduction d'un chemin virtuel passé dans l'extra path information.
+//		_env["PATH_TRANSLATED"] = args;
+//		// Donne les informations passées par un marqueur <FORM METHOD=GET>
+//		_env["QUERY_STRING"] = "foo=bar&baz=qux";
+//		// Donne la valeur de l'attribut METHOD du marqueur FORM utilisé lors de la requête CGI. En gros le
+//	 // type
+//		// de requete http
+//		_env["REQUEST_METHOD"] = "GET";
+//		// Donne le chemin virtuel du script utilisé. Le nom du script.
+//		_env["SCRIPT_NAME"] = args;
+//		// Donne l'IP ou le DNS du serveur.
+//		_env["SERVER_NAME"] = "null";
+//		// Donne le nom et la version du protocole utilisé par le serveur et le client.
+//		// Cette variable contient généralement une chaîne de texte telle que "HTTP/1.1" ou "HTTP/2.0",
+//		// qui indique la version du protocole utilisée.
+//		_env["SERVER_PROTOCOL"] = "null";
+//		// Donne le nom et la version du serveur Web utilisé.
+//		_env["SERVER_SOFTWARE"] = "null";
+//		// Indique qu'une requête été redirigée en interne, elle est définie pour la gestion des erreurs.
+//		_env["REDIRECT_STATUS"] = "CGI";
 	_env["SCRIPT_FILENAME"] = args;
-	_env["REQUEST_METHOD"] = "GET";
+	_env["REQUEST_METHOD"] = "POST";
 	_env["QUERY_STRING"] = "";	 // Set this to the query string if there is one
 	_env["CONTENT_TYPE"] = "";	 // Set this to the content type if needed
 	_env["CONTENT_LENGTH"] = ""; // Set this to the content length if needed
