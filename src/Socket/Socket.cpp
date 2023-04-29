@@ -60,8 +60,8 @@ Socket::set_socket_non_blocking()
 	test_socket(ret, "setsockopt() Fail!");
 
 	// Following code only working after select() is implemented
-	// ret = fcntl(_sock_id, F_SETFL, O_NONBLOCK);
-	// test_socket(ret, "fcnt() Fail!");
+	ret = fcntl(_sock_id, F_SETFL, O_NONBLOCK);
+	test_socket(ret, "fcnt() Fail!");
 }
 
 int
@@ -70,29 +70,16 @@ Socket::socket_recv()
 	char		buffer[MAXLINE] = { 0 };
 	ssize_t		byte_read;
 	std::string tmp_buffer;
+	std::cout << "CONNECTION ID IN SOCKET: " << this->_connection_fd << std::endl;
 	byte_read = recv(this->_connection_fd, buffer, MAXLINE - 1, 0);
 	if (byte_read == 0 || byte_read == -1)
 	{
-		close(_connection_fd);
-		if (byte_read == 0)
-		{
-
-			std::cout << "\rConnection was closed by client.\n" << std::endl;
-			return 0;
-		}
-		else
-		{
-			std::cout << "\rRead error, closing connection.\n" << std::endl;
-			if (errno != EWOULDBLOCK)
-			{
-				std::cout << "\rRead error, closing connection.\n" << std::endl;
-				return (-1);
-			}
-		}
+		return (-1);
 	}
 	tmp_buffer = std::string(buffer);
 	size_t header_body_delimiter = tmp_buffer.find("\r\n\r\n");
 	_header_str += tmp_buffer.substr(0, header_body_delimiter);
+	std::cout << "HEADER STR:\n" << _header_str << std::endl;
 
 	if (header_body_delimiter + 4 < tmp_buffer.size())
 	{

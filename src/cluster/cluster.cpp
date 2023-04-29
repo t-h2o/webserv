@@ -56,6 +56,7 @@ Cluster::run()
 
 		while (select_return == 0)
 		{
+			std::cout << "select while loop" << std::endl;
 			FD_ZERO(&reading_set);
 			std::memcpy(&reading_set, &_master_fd_set, sizeof(_master_fd_set));
 			std::cout << "waiting for select" << std::endl;
@@ -66,6 +67,8 @@ Cluster::run()
 			// one or more socket_fd is ready to be read.
 			for (std::map<int, Socket>::iterator it = _sockets.begin(); it != _sockets.end(); it++)
 			{
+				std::cout << "trying to accept" << std::endl;
+
 				if (FD_ISSET(it->first, &reading_set))
 				{
 					int new_sd;
@@ -91,15 +94,20 @@ Cluster::run()
 			for (std::map<int, Socket>::iterator it = _sockets_accepted.begin();
 				 it != _sockets_accepted.end(); it++)
 			{
+				std::cout << "trying to read" << std::endl;
 				if (FD_ISSET(it->first, &reading_set))
 				{
-					int ret = it->second.socket_recv();
-					std::cout << "retour of recv: " << ret << std::endl;
-					if (ret < 0)
+					std::cout << "is set" << std::endl;
+					std::cout << "CONNECTION ID OUTSIDE SOCKET: " << it->first << std::endl;
+					int ret;
+
+					ret = it->second.socket_recv();
+					std::cout << "ret: " << ret << std::endl;
+					if (errno == EWOULDBLOCK)
+						std::cout << "ret: EWOULDBLOCK" << std::endl;
+					if (ret == 0)
 					{
-						close(it->first);
 						FD_CLR(it->first, &reading_set);
-						_sockets_accepted.erase(it->first);
 						it = _sockets_accepted.begin();
 					}
 				}
@@ -115,3 +123,7 @@ Cluster::run()
 		}
 	}
 }
+
+// EWOULDBLOCK cannot check it?
+//  how to check it again?
+// maybe arr or ready to read  and pop it if finished?
