@@ -33,7 +33,7 @@ CGI::set_env(char *args)
 //		// en charge).
 //		_env["AUTH_TYPE"] = "null";
 //		// Donne le nombre d'octets transmis par le client.
-//		_env["CONTENT_LENGTH"] = std98::to_string(1000);
+//		_env["CONTENT_LENGTH"] = "1000";
 //		// Donne le type de donnée transmise par le client si l'attribut METHOD a pour valeur POST.
 //		_env["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
 //		// Donne la version du CGI utilisé.
