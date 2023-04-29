@@ -29,6 +29,7 @@ class Cluster
 	std::vector<t_host_port> _servers_vector;
 	// map of socket_fd and the socket itself
 	std::map<int, Socket> _sockets;
+	std::map<int, Socket> _sockets_accepted;
 	fd_set				  _master_fd_set;
 	int					  _max_fd;
 };

@@ -64,54 +64,44 @@ Cluster::run()
 		if (select_return > 0)
 		{
 			// one or more socket_fd is ready to be read.
-			int desc_ready = select_return;
-			for (int i = 0; i <= _max_fd && desc_ready > 0; ++i)
+			for (std::map<int, Socket>::iterator it = _sockets.begin(); it != _sockets.end(); it++)
 			{
-				if (FD_ISSET(i, &reading_set))
+				if (FD_ISSET(it->first, &reading_set))
 				{
-					desc_ready--;
 					int new_sd;
-					std::map<int, Socket>::iterator sock = _sockets.find(i);
-					if (sock != _sockets.end())
-					{
 
-							new_sd = sock->second.socket_accept();
-							if (new_sd < 0)
-							{
-								if (errno != EWOULDBLOCK)
-								{
-									std::cerr << "Error with accept()" << std::endl;
-									end_server = 1;
-								}
-								break;
-							}
-							std::cout << "accepted" << std::endl;
-							FD_SET(new_sd, &_master_fd_set);
-							if (new_sd > _max_fd)
-								_max_fd = new_sd;
-					}
-					else
+					new_sd = it->second.socket_accept();
+					std::cout << "Accepted" << std::endl;
+					if (new_sd < 0)
 					{
-						std::cout << "Descriptor " << i << " is readable" << std::endl;
-						std::cout << "connection_id: " << sock->second._connection_fd<< std::endl;
-						do
+						if (errno != EWOULDBLOCK)
 						{
-							int ret = sock->second.socket_recv();
-							if (ret < 0)
-							{
-								close(i);
-								FD_CLR(i, &_master_fd_set);
-								break;
-							}
-						} while (true);
+							std::cerr << "Error with accept() " << std::endl;
+							end_server = 1;
+						}
+						break;
 					}
+					_sockets_accepted.insert(std::make_pair(new_sd, it->second));
+					FD_SET(new_sd, &reading_set);
+					if (new_sd > _max_fd)
+						_max_fd = new_sd;
+				}
+			}
 
-					// std::cout << "accepted" << std::endl;
-					// it->second.socket_recv();
-					// std::cout << "recv ended" << std::endl;
-					// FD_CLR(it->first, &reading_set);
-					// it = _sockets.begin();
-					// break;
+			for (std::map<int, Socket>::iterator it = _sockets_accepted.begin();
+				 it != _sockets_accepted.end(); it++)
+			{
+				if (FD_ISSET(it->first, &reading_set))
+				{
+					int ret = it->second.socket_recv();
+					std::cout << "retour of recv: " << ret << std::endl;
+					if (ret < 0)
+					{
+						close(it->first);
+						FD_CLR(it->first, &reading_set);
+						_sockets_accepted.erase(it->first);
+						it = _sockets_accepted.begin();
+					}
 				}
 			}
 		}

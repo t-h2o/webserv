@@ -70,8 +70,7 @@ Socket::socket_recv()
 	char		buffer[MAXLINE] = { 0 };
 	ssize_t		byte_read;
 	std::string tmp_buffer;
-
-	byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
+	byte_read = recv(this->_connection_fd, buffer, MAXLINE - 1, 0);
 	if (byte_read == 0 || byte_read == -1)
 	{
 		close(_connection_fd);
@@ -131,7 +130,7 @@ Socket::multipart_handler()
 	while (_body_str.size() < content_length)
 	{
 		std::memset(buffer, 0, MAXLINE);
-		byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
+		byte_read = recv(this->_connection_fd, buffer, MAXLINE - 1, 0);
 		_body_str.append(buffer, byte_read);
 	}
 	if (LOG_SOCKET)
@@ -159,9 +158,8 @@ Socket::delete_handler()
 int
 Socket::socket_accept()
 {
-	_connection_fd = accept(get_sock_id(), NULL, NULL);
-	std::cout << "connection_fd after accept()" << _connection_fd << std::endl;
-	return _connection_fd;
+	this->_connection_fd = accept(get_sock_id(), NULL, NULL);
+	return this->_connection_fd;
 }
 
 std::string
