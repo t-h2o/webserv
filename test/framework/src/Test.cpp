@@ -25,6 +25,4 @@ Test::do_test(void)
 			return;
 		_result.set_result(sig);
 	}
-	res = _function_ptr();
-	_result.set_result(res);
 }
