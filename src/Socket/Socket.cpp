@@ -197,7 +197,7 @@ Socket::create_new_file()
 }
 
 std::string
-Socket::clean_end_of_file(std::string str_to_clean)
+Socket::clean_end_of_file(std::string const &str_to_clean)
 {
 	int index = str_to_clean.size() - 1;
 	while (str_to_clean[index] == '-' || str_to_clean[index] == '\n')
