@@ -35,7 +35,7 @@ class Socket
 	void			   start_listening();
 	void			   test_socket(int item_to_test, const char *);
 	void			   set_socket_non_blocking();
-	void			   multipart_handler(ssize_t);
+	void			   multipart_handler();
 	void			   delete_handler();
 	void			   clean_request();
 	void			   send_response();

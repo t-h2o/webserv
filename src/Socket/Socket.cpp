@@ -100,7 +100,7 @@ Socket::socket_recv()
 	{
 		if (LOG_SOCKET)
 			std::cout << "Content-type = multipart/form-data" << std::endl;
-		multipart_handler(byte_read);
+		multipart_handler();
 		std::memset(buffer, 0, MAXLINE);
 	}
 	if (_request.get_method().compare("DELETE") == 0)
@@ -114,9 +114,9 @@ Socket::socket_recv()
 }
 
 void
-Socket::multipart_handler(ssize_t read_prev)
+Socket::multipart_handler()
 {
-	ssize_t		  byte_read = read_prev;
+	ssize_t		  byte_read;
 	char		  buffer[MAXLINE] = { 0 };
 	unsigned long content_length = std::stoul(_request._request_map["Content-Length"]);
 
