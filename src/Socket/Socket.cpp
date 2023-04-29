@@ -160,6 +160,7 @@ int
 Socket::socket_accept()
 {
 	_connection_fd = accept(get_sock_id(), NULL, NULL);
+	std::cout << "connection_fd after accept()" << _connection_fd << std::endl;
 	return _connection_fd;
 }
 
