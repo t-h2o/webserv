@@ -78,20 +78,18 @@ const createIdNumber = () => { return Math.random().toString(); };
 // Function that is called when we click on a existing file to delete it
 const deleteExistingFile = (e) => {
 	e.preventDefault();
-	const id = e.target.parentElement.id
+	const id = e.target.parentElement.id;
 	submitedFiles = submitedFiles.filter((el) => el.id !== e.target.parentElement.id);
-	/**
-	 * TODO => send http DELETE methode to delete the file.
-	 */
+
 	fetch(`${urlUpload}${id}`, { method : 'DELETE' })
-		.then(response => {
+		.then((response) => {
 			if (!response.ok)
 			{
 				throw new Error('Network response was not ok');
 			}
 			console.log('Item deleted successfully');
 		})
-		.catch(error => { console.error('There was a problem deleting the item:', error); });
+		.catch((error) => { console.error('There was a problem deleting the item:', error); });
 	renderImages();
 };
 
@@ -99,7 +97,6 @@ const submitHandler = (e) => {
 	e.preventDefault();
 	/**
 	 * * Backend part
-	 * * send http POST methode to send the file to the server.
 	 */
 	const curFiles = input.files;
 	const data = new FormData();
