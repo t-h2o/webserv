@@ -11,6 +11,9 @@ test_empty_string(const char *path)
 
 	if (!config)
 		return 1;
+
+	delete config;
+
 	return 0;
 }
 
