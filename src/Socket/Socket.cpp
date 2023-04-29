@@ -71,7 +71,7 @@ int
 Socket::socket_recv()
 {
 	char		buffer[MAXLINE] = { 0 };
-	int			byte_read;
+	ssize_t		byte_read;
 	std::string tmp_buffer;
 
 	byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
@@ -114,9 +114,9 @@ Socket::socket_recv()
 }
 
 void
-Socket::multipart_handler(int read_prev)
+Socket::multipart_handler(ssize_t read_prev)
 {
-	int			  byte_read = read_prev;
+	ssize_t		  byte_read = read_prev;
 	char		  buffer[MAXLINE] = { 0 };
 	unsigned long content_length = std::stoul(_request._request_map["Content-Length"]);
 
