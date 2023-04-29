@@ -9,7 +9,6 @@ Test::do_test(void)
 	pid_t pid;
 	int	  sig;
 	int	  res;
-	int res;
 
 	pid = fork();
 	if (!pid)
