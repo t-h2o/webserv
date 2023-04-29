@@ -31,7 +31,7 @@ CGI::set_env(char *args)
 //		// Définit la route par laquelle tous les utilisateurs seront authentifiés (dans les applications
 //	 // prises
 //		// en charge).
-//		_env["AUTH_TYPE"] = "null";
+//		_env["AUTH_TYPE"] = "";
 //		// Donne le nombre d'octets transmis par le client.
 //		_env["CONTENT_LENGTH"] = "1000";
 //		// Donne le type de donnée transmise par le client si l'attribut METHOD a pour valeur POST.
@@ -54,13 +54,13 @@ CGI::set_env(char *args)
 //		// Donne le chemin virtuel du script utilisé. Le nom du script.
 //		_env["SCRIPT_NAME"] = args;
 //		// Donne l'IP ou le DNS du serveur.
-//		_env["SERVER_NAME"] = "null";
+//		_env["SERVER_NAME"] = "";
 //		// Donne le nom et la version du protocole utilisé par le serveur et le client.
 //		// Cette variable contient généralement une chaîne de texte telle que "HTTP/1.1" ou "HTTP/2.0",
 //		// qui indique la version du protocole utilisée.
-//		_env["SERVER_PROTOCOL"] = "null";
+//		_env["SERVER_PROTOCOL"] = "";
 //		// Donne le nom et la version du serveur Web utilisé.
-//		_env["SERVER_SOFTWARE"] = "null";
+//		_env["SERVER_SOFTWARE"] = "";
 //		// Indique qu'une requête été redirigée en interne, elle est définie pour la gestion des erreurs.
 //		_env["REDIRECT_STATUS"] = "CGI";
 	_env["SCRIPT_FILENAME"] = args;
