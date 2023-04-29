@@ -8,8 +8,7 @@ namespace utils
 void
 print_container_map(std::map<std::string, std::string> myMap)
 {
-	std::map<std::string, std::string>::iterator it;
-	for (it = myMap.begin(); it != myMap.end(); ++it)
+	for (std::map<std::string, std::string>::iterator it = myMap.begin(); it != myMap.end(); ++it)
 	{
 		std::cout << "first: " << it->first << " second: " << it->second << std::endl;
 	}
