@@ -22,7 +22,7 @@ Request::parse_buffer(std::string str_buff)
 	}
 	this->parse_first_line(tmp_vector[0]);
 	this->parse_other_lines(tmp_vector);
-	if (_request_map.find("Content-Type") != = _request_map.end())
+	if (_request_map.find("Content-Type") != _request_map.end())
 		this->clean_content_type();
 }
 
