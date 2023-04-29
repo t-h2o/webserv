@@ -134,6 +134,16 @@ CGI::child_process(char **env)
 	exit(1);
 }
 
+static void
+free_env(char **env)
+{
+	for (unsigned int index = 0; env[index]; ++index)
+	{
+		delete[] env[index];
+	}
+	delete[] env;
+}
+
 std::string
 CGI::execution_cgi(char *args)
 {
@@ -163,6 +173,7 @@ CGI::execution_cgi(char *args)
 		delete[] _args.back();
 		_args.pop_back();
 	}
+	free_env(env);
 	return (_output_cgi);
 }
 
