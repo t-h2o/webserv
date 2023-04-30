@@ -126,7 +126,7 @@ std::string
 CGI::execution_cgi(char *args)
 {
 	char	  **env;
-	std::string output;
+	std::string output_cgi;
 	// Verify if pipe failed.
 	if (pipe(_pipefd) == -1)
 	{
@@ -146,8 +146,8 @@ CGI::execution_cgi(char *args)
 	else if (pid == 0)
 		child_process(env);
 	else
-		output = parent_process(pid);
-	return (output);
+		output_cgi = parent_process(pid);
+	return (output_cgi);
 }
 
 CGI::~CGI(void){};
