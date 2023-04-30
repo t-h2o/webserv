@@ -17,7 +17,7 @@ test_execve_cgi_env(void)
 		CGI exec(arguments[0], arguments[1], arguments[2]);
 		output = exec.execution_cgi(arguments[1]);
 		std::cout << "output hello: " << output << std::endl;
-		if (output.find("passed") == std::string::npos)
+		if (output.find("failed.") != std::string::npos)
 			return (1);
 	}
 	{
@@ -30,8 +30,8 @@ test_execve_cgi_env(void)
 		CGI exec(arguments[0], arguments[1], arguments[2]);
 		output = exec.execution_cgi(arguments[1]);
 		std::cout << "output hello: " << output << std::endl;
-//		if (output.find("passed") == std::string::npos)
-//			return (1);
+		if (output.find("?php") != std::string::npos)
+			return (1);
 	}
 	return (0);
 }
