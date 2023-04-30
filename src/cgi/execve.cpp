@@ -8,8 +8,6 @@
 
 CGI::CGI(void) : _pipefd(), _read_buffer() {}
 
-CGI::CGI(const CGI &src) : _pipefd(), _read_buffer() { *this = src; }
-
 CGI::CGI(const std::string &bin, const std::string &file, const std::string &query)
 	: _pipefd(), _read_buffer()
 {
