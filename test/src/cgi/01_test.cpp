@@ -35,7 +35,7 @@ test_cgi_exec(void)
 		}
 	{
 		std::cout << "test3" << std::endl;
-		argument[0] = (char *)"./bin/php-cgi";
+		argument[0] = (char *)"bin/php-cgi";
 		argument[1] = (char *)"test/src/cgi/test.php";
 		argument[2] = (char *)"";
 		argument[3] = NULL;
