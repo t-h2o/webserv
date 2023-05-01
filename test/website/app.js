@@ -35,7 +35,6 @@ const updateImageDisplay = () => {
 
 const validFileType = (file) => { return fileTypes.includes(file.type); };
 
-// list of accepted image
 const fileTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/x-icon', 'application/pdf'];
 
 const renderImages = () => {
@@ -53,13 +52,17 @@ const renderImages = () => {
 	input.value = null;
 };
 
-const createIdNumber = () => { return Math.random().toString(); };
-
 // Function that is called when we click on a existing file to delete it
 const deleteExistingFile = (e) => {
 	e.preventDefault();
 	const id = e.target.parentElement.id;
-	submitedFiles = submitedFiles.filter((el) => el.id !== e.target.parentElement.id);
+	// submitedFiles = submitedFiles.filter((el) => el.id !== e.target.parentElement.id);
+	submitedFiles.forEach((el, idx) => {
+		if (el.id === e.target.parentElement.id) {
+			submitedFiles.splice(idx, 1);
+			return;
+		}
+	})
 
 	fetch(`${ urlUpload }${ id }`, { method: 'DELETE' })
 		.then((response) => {
