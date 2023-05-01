@@ -10,50 +10,35 @@ let submitedFiles = [];
 
 // Handle the front when a file is selected, preview.
 const updateImageDisplay = () => {
-	// remove image from preview div if have any
-	while (preview.firstChild)
+	const curFiles = input.files[0];
+
+	// display the image preview
+	const list = document.createElement('ul');
+	list.style.listStyleType = 'none';
+	preview.appendChild(list);
+	const listItem = document.createElement('li');
+	if (validFileType(curFiles))
 	{
-		preview.removeChild(preview.firstChild);
-	}
-	const curFiles = input.files;
-	// display text if there is no files in preview
-	const para = document.createElement('p');
-	if (curFiles.length === 0)
-	{
-		para.textContent = 'No files currently selected for upload';
-		preview.appendChild(para);
+		const image = document.createElement('img');
+		image.style.width = '250px';
+		image.style.height = '150px';
+		image.src = URL.createObjectURL(curFiles);
+		if (curFiles.type === 'application/pdf')
+			image.src = './PDF_file_icon.svg.png'
+			listItem.appendChild(image);
 	}
 	else
 	{
-		// display the image preview
-		const list = document.createElement('ul');
-		list.style.listStyleType = 'none';
-		preview.appendChild(list);
-		for (const file of curFiles)
-		{
-			const listItem = document.createElement('li');
-			if (validFileType(file))
-			{
-				const image = document.createElement('img');
-				image.style.width = '250px';
-				image.style.height = '150px';
-				image.src = URL.createObjectURL(file);
-				listItem.appendChild(image);
-			}
-			else
-			{
-				para.textContent = `File name ${file.name}: Not a valid file type. Update your selection.`;
-				listItem.appendChild(para);
-			}
-			list.appendChild(listItem);
-		}
+		para.textContent = `File name ${curFiles.name}: Not a valid file type. Update your selection.`;
+		listItem.appendChild(para);
 	}
+	list.appendChild(listItem);
 };
 
 const validFileType = (file) => { return fileTypes.includes(file.type); };
 
-// list of accepted image
-const fileTypes = [ 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml' ];
+const fileTypes =
+	[ 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/x-icon', 'application/pdf' ];
 
 const renderImages = () => {
 	while (itemsList.firstChild)
@@ -73,13 +58,18 @@ const renderImages = () => {
 	input.value = null;
 };
 
-const createIdNumber = () => { return Math.random().toString(); };
-
 // Function that is called when we click on a existing file to delete it
 const deleteExistingFile = (e) => {
 	e.preventDefault();
 	const id = e.target.parentElement.id;
-	submitedFiles = submitedFiles.filter((el) => el.id !== e.target.parentElement.id);
+	// submitedFiles = submitedFiles.filter((el) => el.id !== e.target.parentElement.id);
+	submitedFiles.forEach((el, idx) => {
+		if (el.id === e.target.parentElement.id)
+		{
+			submitedFiles.splice(idx, 1);
+			return;
+		}
+	})
 
 	fetch(`${urlUpload}${id}`, { method : 'DELETE' })
 		.then((response) => {
@@ -95,24 +85,16 @@ const deleteExistingFile = (e) => {
 
 const submitHandler = (e) => {
 	e.preventDefault();
-	/**
-	 * * Backend part
-	 */
+	// Backend
 	const curFiles = input.files;
 	const data = new FormData();
-
 	const files = curFiles[0].name;
 	data.append(files, curFiles[0]);
 	fetch(urlUpload, { method : 'POST', mode : 'no-cors', body : data })
 		.then((response) => response)
 		.then((data) => { console.log(data); })
 		.catch((error) => { console.error(error); });
-	console.log(data);
-
-	/**
-	 * * Frontend part
-	 */
-	console.log(files);
+	// Frontend
 	if (curFiles.length === 0)
 		return;
 	const li = document.createElement('li');
@@ -121,7 +103,9 @@ const submitHandler = (e) => {
 	image.style.width = '250px';
 	image.style.height = '150px';
 	image.src = URL.createObjectURL(curFiles[0]);
-	li.appendChild(image);
+	if (curFiles[0].type === 'application/pdf')
+		image.src = './PDF_file_icon.svg.png'
+		li.appendChild(image);
 	li.addEventListener('click', deleteExistingFile);
 	submitedFiles.push(li);
 	renderImages();
