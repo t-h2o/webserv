@@ -24,7 +24,7 @@ const updateImageDisplay = () => {
 		image.style.height = '150px';
 		image.src = URL.createObjectURL(curFiles);
 		if (curFiles.type === 'application/pdf')
-			image.src = './PDF_file_icon.svg.png'
+			image.src = './PDF_file_icon.png'
 			listItem.appendChild(image);
 	}
 	else
@@ -104,7 +104,7 @@ const submitHandler = (e) => {
 	image.style.height = '150px';
 	image.src = URL.createObjectURL(curFiles[0]);
 	if (curFiles[0].type === 'application/pdf')
-		image.src = './PDF_file_icon.svg.png'
+		image.src = './PDF_file_icon.png'
 		li.appendChild(image);
 	li.addEventListener('click', deleteExistingFile);
 	submitedFiles.push(li);
