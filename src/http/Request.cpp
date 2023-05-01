@@ -110,7 +110,7 @@ Request::get_host() const
 	return _request_map.at("Host");
 }
 
-int
+bool
 Request::get_file_exist() const
 {
 	return (_request_map.find("FileName") != _request_map.end());
