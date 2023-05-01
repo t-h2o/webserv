@@ -24,6 +24,7 @@ _print_case(File &file, bool states[NSTATES])
 			  << states[RIGHT] << " RIGHT\n"
 			  << states[VALUE_FILLED] << " VALUE_FILLED\n"
 			  << states[END] << " END\n"
+			  << states[END_OBJECT] << " END_OBJECT\n"
 			  << std::endl;
 }
 
@@ -48,8 +49,9 @@ _set_states(char character, bool states[NSTATES])
 	}
 	else if (character == '}')
 	{
-		if (states[OBJECT] == 0)
-			throw std::runtime_error("Json: object didn't start by a '{'");
+		if (states[END_OBJECT] == 1)
+			throw std::runtime_error("Json: double }");
+		states[END_OBJECT] = 1;
 		states[OBJECT] = 0;
 	}
 	else if (character == '"')
@@ -66,6 +68,23 @@ _set_states(char character, bool states[NSTATES])
 	}
 }
 
+void
+check_last_state(bool states[NSTATES])
+{
+	if (!states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
+		&& states[VALUE_FILLED] && !states[END] && states[END_OBJECT])
+	{
+		std::cout << "Good" << std::endl;
+		return;
+	}
+	else
+	{
+		std::cout << "bad" << std::endl;
+		throw std::runtime_error("Json: last state isn't correct");
+		return;
+	}
+}
+
 /* process a line of the json */
 void
 _process_line(t_object *config, File &file, bool states[NSTATES])
@@ -73,23 +92,23 @@ _process_line(t_object *config, File &file, bool states[NSTATES])
 	std::pair<std::string, Value> value;
 	char						  actual_char;
 
-	actual_char = file.get_char();
+	actual_char = file.get_next_char();
 	while (!file.eof())
 	{
 		_set_states(actual_char, states);
 		if (LOG)
 			_print_case(file, states);
 
-		if (states[OBJECT] && states[STRING] && !states[KEY_FILLED] && !states[MIDDLE] && !states[RIGHT]
-			&& !states[VALUE_FILLED] && !states[END])
+		if (!states[OBJECT] && states[STRING] && !states[KEY_FILLED] && !states[MIDDLE] && !states[RIGHT]
+			&& !states[VALUE_FILLED] && !states[END] && !states[END_OBJECT])
 		{
 			if (LOG)
 				std::cout << "take the key" << std::endl;
 			value.first = file.get_string();
 			states[KEY_FILLED] = 1;
 		}
-		else if (states[OBJECT] && states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
-				 && !states[VALUE_FILLED] && !states[END])
+		else if (!states[OBJECT] && states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
+				 && !states[VALUE_FILLED] && !states[END] && !states[END_OBJECT])
 		{
 			if (LOG)
 				std::cout << "take the value (string)" << std::endl;
@@ -97,8 +116,8 @@ _process_line(t_object *config, File &file, bool states[NSTATES])
 			config->insert(value);
 			states[VALUE_FILLED] = 1;
 		}
-		else if (states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
-				 && !states[VALUE_FILLED] && !states[END])
+		else if (!states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
+				 && !states[VALUE_FILLED] && !states[END] && !states[END_OBJECT])
 		{
 			if (LOG)
 				std::cout << "take the value (number)" << std::endl;
@@ -106,41 +125,67 @@ _process_line(t_object *config, File &file, bool states[NSTATES])
 			config->insert(value);
 			states[VALUE_FILLED] = 1;
 		}
-		else if (states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
-				 && states[VALUE_FILLED] && !states[END])
+		else if (!states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
+				 && states[VALUE_FILLED] && !states[END] && !states[END_OBJECT])
 		{
 			if (LOG)
 				std::cout << "value end of string" << std::endl;
 		}
-		else if (states[OBJECT] && !states[STRING] && !states[KEY_FILLED] && !states[MIDDLE] && !states[RIGHT]
-				 && !states[VALUE_FILLED] && !states[END])
+		else if (!states[OBJECT] && !states[STRING] && !states[KEY_FILLED] && !states[MIDDLE]
+				 && !states[RIGHT] && !states[VALUE_FILLED] && !states[END] && !states[END_OBJECT])
 		{
 			if (LOG)
 				std::cout << "start object" << std::endl;
 		}
-		else if (!states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
-				 && states[VALUE_FILLED] && !states[END])
+		else if (!!states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
+				 && states[VALUE_FILLED] && !states[END] && !states[END_OBJECT])
 		{
 			if (LOG)
 				std::cout << "end of object" << std::endl;
 		}
-		else if (states[OBJECT] && !states[STRING] && states[KEY_FILLED] && states[MIDDLE] && !states[RIGHT]
-				 && !states[VALUE_FILLED] && !states[END])
+		else if (!states[OBJECT] && !states[STRING] && states[KEY_FILLED] && states[MIDDLE] && !states[RIGHT]
+				 && !states[VALUE_FILLED] && !states[END] && !states[END_OBJECT])
 		{
 			if (LOG)
 				std::cout << "middle -> ':'" << std::endl;
 		}
-		else if (states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && !states[RIGHT]
-				 && !states[VALUE_FILLED] && !states[END])
+		else if (!states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && !states[RIGHT]
+				 && !states[VALUE_FILLED] && !states[END] && !states[END_OBJECT])
 		{
 			if (LOG)
 				std::cout << "end of key" << std::endl;
 		}
-		else if (states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
-				 && states[VALUE_FILLED] && states[END])
+		else if (!states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
+				 && states[VALUE_FILLED] && states[END] && !states[END_OBJECT])
 		{
 			if (LOG)
 				std::cout << "comma" << std::endl;
+		}
+		else if (!states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
+				 && states[VALUE_FILLED] && !states[END] && states[END_OBJECT])
+		{
+			if (LOG)
+				std::cout << "end of the object, should break" << std::endl;
+			return;
+		}
+		else if (states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
+				 && !states[VALUE_FILLED] && !states[END] && !states[END_OBJECT])
+		{
+			bool new_set_of_states[NSTATES];
+			/* set at 0 each values of states */
+			std::memset(new_set_of_states, 0, sizeof(bool) * NSTATES);
+
+			t_object *object = new t_object;
+
+			if (LOG)
+				std::cout << "start a new object" << std::endl;
+			_process_line(object, file, new_set_of_states);
+			if (LOG)
+				std::cout << *object << std::endl;
+			value.second = Value(object);
+			config->insert(value);
+			states[VALUE_FILLED] = 1;
+			states[OBJECT] = 0;
 		}
 		else
 		{
@@ -150,6 +195,7 @@ _process_line(t_object *config, File &file, bool states[NSTATES])
 		}
 		actual_char = file.get_next_char();
 	}
+	check_last_state(states);
 }
 
 } /* namespace json */

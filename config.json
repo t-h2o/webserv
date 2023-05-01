@@ -1,4 +1,15 @@
 {
-  "port" : 6060,
-  "path" : "./test/website"
+
+  "foo.com": {
+    "port" : 6060,
+    "path" : "/path/of/foo.com"
+  },
+
+  "bar.org": {
+    "port" : 8080,
+    "path" : "/path/of/bar.org"
+  },
+
+  "php-cgi" : "/path/of/php-cgi"
+
 }

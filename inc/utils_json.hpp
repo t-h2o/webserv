@@ -13,7 +13,7 @@
 #include "File.hpp"
 #include "Json.hpp"
 
-#define NSTATES 7
+#define NSTATES 8
 
 #define OBJECT 0
 #define STRING 1
@@ -21,7 +21,8 @@
 #define MIDDLE 3
 #define RIGHT 4
 #define VALUE_FILLED 5
-#define END 6 /* ',' character */
+#define END 6		 /* ',' character */
+#define END_OBJECT 7 /* ',' character */
 
 #define LOG false
 
