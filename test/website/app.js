@@ -53,7 +53,7 @@ const updateImageDisplay = () => {
 const validFileType = (file) => { return fileTypes.includes(file.type); };
 
 // list of accepted image
-const fileTypes = [ 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml' ];
+const fileTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/x-icon', 'application/pdf' ];
 
 const renderImages = () => {
 	while (itemsList.firstChild)
