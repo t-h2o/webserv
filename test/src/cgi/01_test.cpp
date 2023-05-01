@@ -30,7 +30,7 @@ test_cgi_exec(void)
 			CGI exec(argument[0], argument[1], argument[2]);
 			output = exec.execution_cgi(argument[1]);
 			std::cout << "output php: " << output << std::endl;
-			if (output.find("hello World!") != std::string::npos)
+			if (output.find("hello World!") == std::string::npos)
 				return (1);
 		}
 	{
@@ -43,7 +43,7 @@ test_cgi_exec(void)
 		CGI exec(argument[0], argument[1], argument[2]);
 		output = exec.execution_cgi(argument[1]);
 		std::cout << "output php-cgi: " << output << std::endl;
-		if (output.find("hello World!") != std::string::npos)
+		if (output.find("hello World!") == std::string::npos)
 			return (1);
 	}
 	return (0);

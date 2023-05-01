@@ -6,10 +6,9 @@
 
 #define BUFFER_SIZE 4092
 
-CGI::CGI(void) : _pipefd(), _read_buffer() {}
+CGI::CGI(void) {}
 
 CGI::CGI(const std::string &bin, const std::string &file, const std::string &query)
-	: _pipefd(), _read_buffer()
 {
 	_args.push_back(const_cast<char *>(bin.c_str()));
 	_args.push_back(const_cast<char *>(file.c_str()));
@@ -126,7 +125,6 @@ std::string
 CGI::execution_cgi(char *args)
 {
 	char	  **env;
-	std::string output_cgi;
 	// Verify if pipe failed.
 	if (pipe(_pipefd) == -1)
 	{
@@ -146,8 +144,8 @@ CGI::execution_cgi(char *args)
 	else if (pid == 0)
 		child_process(env);
 	else
-		output_cgi = parent_process(pid);
-	return (output_cgi);
+		parent_process(pid);
+	return (_output_cgi);
 }
 
 CGI::~CGI(void){};

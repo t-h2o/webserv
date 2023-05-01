@@ -30,8 +30,7 @@ test_execve_cgi(void)
 		CGI exec(argument[0], argument[1], argument[2]);
 		output = exec.execution_cgi(argument[1]);
 		std::cout << "output hello: " << output << std::endl;
-		// output.find("My username is kdi-noce!") == std::string::npos ||
-		if (output.find("My username is dino!") == std::string::npos) {
+		if (output.find("My username is kdi-noce!") == std::string::npos) {
 			std::cout << "in 5" << std::endl;
 			return (1);
 		}
