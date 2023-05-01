@@ -113,15 +113,7 @@ Request::get_host() const
 int
 Request::get_file_exist() const
 {
-	try
-	{
-		_request_map.at("FileName");
-		return 1;
-	}
-	catch (std::out_of_range &e)
-	{
-		return 0;
-	}
+	return (_request_map.find("FileName") != _request_map.end());
 }
 
 bool
