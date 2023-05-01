@@ -13,7 +13,6 @@ Request::parse_buffer(std::string str_buff)
 	std::string				 delimiter = "\r\n";
 	std::string				 str;
 	int						 delimiter_position = str_buff.find(delimiter);
-
 	while (delimiter_position != -1)
 	{
 		str = str_buff.substr(0, delimiter_position);
@@ -21,12 +20,10 @@ Request::parse_buffer(std::string str_buff)
 		str_buff.erase(str_buff.begin(), str_buff.begin() + delimiter_position + 1);
 		delimiter_position = str_buff.find(delimiter);
 	}
-	if (str_buff.length() != 0)
-	{
-		_request_map["Body"] = this->trim(str_buff);
-	}
 	this->parse_first_line(tmp_vector[0]);
 	this->parse_other_lines(tmp_vector);
+	if (_request_map.find("Content-Type") != _request_map.end())
+		this->clean_content_type();
 }
 
 void
@@ -114,6 +111,12 @@ Request::get_host() const
 }
 
 bool
+Request::get_file_exist() const
+{
+	return (_request_map.find("FileName") != _request_map.end());
+}
+
+bool
 Request::method_is_authorized(std::string method) const
 {
 	return (method.compare("GET") == 0 || method.compare("POST") == 0 || method.compare("DELETE") == 0);
@@ -135,6 +138,18 @@ const Request::t_object &
 Request::get_map() const
 {
 	return _request_map;
+}
+
+void
+Request::clean_content_type()
+{
+	size_t end_of_first_part = _request_map["Content-Type"].find_first_of(";");
+	if (_request_map["Content-Type"].find("boundary=") != std::string::npos)
+	{
+		_request_map["boundary"]
+			= _request_map["Content-Type"].substr(_request_map["Content-Type"].find("boundary=") + 9);
+	}
+	_request_map["Content-Type"] = _request_map["Content-Type"].substr(0, end_of_first_part);
 }
 
 } /* namespace http */
