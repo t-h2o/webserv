@@ -118,7 +118,8 @@ Socket::multipart_handler()
 {
 	ssize_t		  byte_read;
 	char		  buffer[MAXLINE] = { 0 };
-	unsigned long content_length = std::stoul(_request._request_map["Content-Length"]);
+	char		 *end = NULL;
+	unsigned long content_length = std::strtoul(_request._request_map["Content-Length"].c_str(), &end, 10);
 
 	while (_body_str.size() < content_length)
 	{
