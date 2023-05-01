@@ -17,17 +17,19 @@ const updateImageDisplay = () => {
 	list.style.listStyleType = 'none';
 	preview.appendChild(list);
 	const listItem = document.createElement('li');
-	if (validFileType(curFiles)) {
+	if (validFileType(curFiles))
+	{
 		const image = document.createElement('img');
 		image.style.width = '250px';
 		image.style.height = '150px';
 		image.src = URL.createObjectURL(curFiles);
 		if (curFiles.type === 'application/pdf')
 			image.src = './PDF_file_icon.svg.png'
-		listItem.appendChild(image);
+			listItem.appendChild(image);
 	}
-	else {
-		para.textContent = `File name ${ curFiles.name }: Not a valid file type. Update your selection.`;
+	else
+	{
+		para.textContent = `File name ${curFiles.name}: Not a valid file type. Update your selection.`;
 		listItem.appendChild(para);
 	}
 	list.appendChild(listItem);
@@ -35,18 +37,22 @@ const updateImageDisplay = () => {
 
 const validFileType = (file) => { return fileTypes.includes(file.type); };
 
-const fileTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/x-icon', 'application/pdf'];
+const fileTypes =
+	[ 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/x-icon', 'application/pdf' ];
 
 const renderImages = () => {
-	while (itemsList.firstChild) {
+	while (itemsList.firstChild)
+	{
 		itemsList.removeChild(itemsList.firstChild);
 	}
 	if (submitedFiles.length === 0)
 		return;
-	for (const images of submitedFiles) {
+	for (const images of submitedFiles)
+	{
 		itemsList.appendChild(images);
 	}
-	while (preview.firstChild) {
+	while (preview.firstChild)
+	{
 		preview.removeChild(preview.firstChild);
 	}
 	input.value = null;
@@ -58,15 +64,17 @@ const deleteExistingFile = (e) => {
 	const id = e.target.parentElement.id;
 	// submitedFiles = submitedFiles.filter((el) => el.id !== e.target.parentElement.id);
 	submitedFiles.forEach((el, idx) => {
-		if (el.id === e.target.parentElement.id) {
+		if (el.id === e.target.parentElement.id)
+		{
 			submitedFiles.splice(idx, 1);
 			return;
 		}
 	})
 
-	fetch(`${ urlUpload }${ id }`, { method: 'DELETE' })
+	fetch(`${urlUpload}${id}`, { method : 'DELETE' })
 		.then((response) => {
-			if (!response.ok) {
+			if (!response.ok)
+			{
 				throw new Error('Network response was not ok');
 			}
 			console.log('Item deleted successfully');
@@ -77,24 +85,16 @@ const deleteExistingFile = (e) => {
 
 const submitHandler = (e) => {
 	e.preventDefault();
-	/**
-	 * * Backend part
-	 */
+	// Backend
 	const curFiles = input.files;
 	const data = new FormData();
-
 	const files = curFiles[0].name;
 	data.append(files, curFiles[0]);
-	fetch(urlUpload, { method: 'POST', mode: 'no-cors', body: data })
+	fetch(urlUpload, { method : 'POST', mode : 'no-cors', body : data })
 		.then((response) => response)
 		.then((data) => { console.log(data); })
 		.catch((error) => { console.error(error); });
-	console.log(data);
-
-	/**
-	 * * Frontend part
-	 */
-	console.log(files);
+	// Frontend
 	if (curFiles.length === 0)
 		return;
 	const li = document.createElement('li');
@@ -105,7 +105,7 @@ const submitHandler = (e) => {
 	image.src = URL.createObjectURL(curFiles[0]);
 	if (curFiles[0].type === 'application/pdf')
 		image.src = './PDF_file_icon.svg.png'
-	li.appendChild(image);
+		li.appendChild(image);
 	li.addEventListener('click', deleteExistingFile);
 	submitedFiles.push(li);
 	renderImages();
