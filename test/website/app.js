@@ -10,40 +10,27 @@ let submitedFiles = [];
 
 // Handle the front when a file is selected, preview.
 const updateImageDisplay = () => {
-	// remove image from preview div if have any
-	while (preview.firstChild) {
-		preview.removeChild(preview.firstChild);
-	}
-	const curFiles = input.files;
-	// display text if there is no files in preview
-	const para = document.createElement('p');
-	if (curFiles.length === 0) {
-		para.textContent = 'No files currently selected for upload';
-		preview.appendChild(para);
+	const curFiles = input.files[0];
+
+	// display the image preview
+	const list = document.createElement('ul');
+	list.style.listStyleType = 'none';
+	preview.appendChild(list);
+	const listItem = document.createElement('li');
+	if (validFileType(curFiles)) {
+		const image = document.createElement('img');
+		image.style.width = '250px';
+		image.style.height = '150px';
+		image.src = URL.createObjectURL(curFiles);
+		if (curFiles.type === 'application/pdf')
+			image.src = './PDF_file_icon.svg.png'
+		listItem.appendChild(image);
 	}
 	else {
-		// display the image preview
-		const list = document.createElement('ul');
-		list.style.listStyleType = 'none';
-		preview.appendChild(list);
-		for (const file of curFiles) {
-			const listItem = document.createElement('li');
-			if (validFileType(file)) {
-				const image = document.createElement('img');
-				image.style.width = '250px';
-				image.style.height = '150px';
-				image.src = URL.createObjectURL(file);
-				if (file.type === 'application/pdf')
-					image.src = './PDF_file_icon.svg.png'
-				listItem.appendChild(image);
-			}
-			else {
-				para.textContent = `File name ${ file.name }: Not a valid file type. Update your selection.`;
-				listItem.appendChild(para);
-			}
-			list.appendChild(listItem);
-		}
+		para.textContent = `File name ${ curFiles.name }: Not a valid file type. Update your selection.`;
+		listItem.appendChild(para);
 	}
+	list.appendChild(listItem);
 };
 
 const validFileType = (file) => { return fileTypes.includes(file.type); };
