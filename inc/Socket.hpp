@@ -42,7 +42,7 @@ class Socket
 	std::string		   get_file_full_name();
 	void			   create_new_file();
 	std::string		   clean_end_of_file(std::string const &str_to_clean);
-	std::string		   get_dir_path() const;
+	const std::string &get_dir_path() const;
 
   public:
 	Socket(int domain, unsigned short port, int type, int protocol, std::string path);
