@@ -206,7 +206,7 @@ Socket::clean_end_of_file(std::string const &str_to_clean)
 	return str_to_clean.substr(0, index);
 }
 
-std::string
+const std::string &
 Socket::get_dir_path() const
 {
 	return _dir_path;
