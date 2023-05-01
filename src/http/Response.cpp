@@ -64,7 +64,7 @@ Response::init_response_map()
 }
 
 void
-Response::load_response_get(int status_code, std::string path)
+Response::load_response_get(int status_code, const std::string &path)
 {
 	_response_map["Date"] = get_time_stamp();
 	_response_map["Status-line"]
