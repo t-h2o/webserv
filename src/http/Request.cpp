@@ -48,6 +48,8 @@ Request::parse_first_line(std::string firstLine)
 	_request_map["Path"] = tmp_vector[1];
 	_request_map["Protocol"] = tmp_vector[2];
 	check_if_has_query(_request_map["Path"]);
+	if (_has_query)
+		clean_path(_request_map["Path"]);
 }
 
 void
@@ -176,6 +178,13 @@ void
 Request::set_query_false()
 {
 	_has_query = false;
+}
+
+void
+Request::clean_path(std::string &path)
+{
+	size_t question_mark = path.find_first_of('?');
+	_request_map["Path"] = path.substr(0, question_mark - 1);
 }
 
 } /* namespace http */

@@ -38,6 +38,7 @@ class Request
 	void parse_other_lines(std::vector<std::string> tmp_vector);
 	void clean_content_type();
 	void check_if_has_query(std::string &path);
+	void clean_path(std::string &path);
 };
 
 std::ostream &operator<<(std::ostream &, Request const &);
