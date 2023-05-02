@@ -3,7 +3,7 @@
 namespace http
 {
 
-Request::Request() {}
+Request::Request() : _has_query(false) {}
 Request::~Request() {}
 
 void
@@ -47,6 +47,10 @@ Request::parse_first_line(std::string firstLine)
 	_request_map["Method"] = tmp_vector[0];
 	_request_map["Path"] = tmp_vector[1];
 	_request_map["Protocol"] = tmp_vector[2];
+	empty_path_handler();
+	check_if_has_query();
+	if (_has_query)
+		clean_path();
 }
 
 void
@@ -150,6 +154,46 @@ Request::clean_content_type()
 			= _request_map["Content-Type"].substr(_request_map["Content-Type"].find("boundary=") + 9);
 	}
 	_request_map["Content-Type"] = _request_map["Content-Type"].substr(0, end_of_first_part);
+}
+
+void
+Request::check_if_has_query()
+{
+	size_t		last_slash = _request_map["Path"].find_last_of('/');
+	std::string last_part = _request_map["Path"].substr(last_slash + 1);
+	size_t		question_mark = last_part.find_first_of('?');
+	if (question_mark == std::string::npos)
+		return;
+	_has_query = true;
+	_request_map["Query"] = last_part.substr(question_mark + 1);
+}
+
+bool
+Request::get_has_query() const
+{
+	return _has_query;
+}
+
+void
+Request::set_query_false()
+{
+	_has_query = false;
+}
+
+void
+Request::clean_path()
+{
+	size_t question_mark = _request_map["Path"].find_first_of('?');
+	_request_map["Path"] = _request_map["Path"].substr(0, question_mark);
+}
+
+void
+Request::empty_path_handler()
+{
+	if (_request_map["Path"].size() == 1 && _request_map["Path"][0] == '/')
+	{
+		_request_map["Path"] = "/index.html";
+	}
 }
 
 } /* namespace http */
