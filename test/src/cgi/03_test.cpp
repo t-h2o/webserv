@@ -8,7 +8,7 @@ test_execve_cgi_env(void)
 	std::string output;
 	char	   *arguments[4];
 	{
-		arguments[0] = (char *)"/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
+		arguments[0] = (char *)"/usr/bin/php-cgi";
 		arguments[1] = (char *)"test/src/cgi/env.php";
 		arguments[2] = (char *)"";
 		arguments[3] = NULL;
@@ -19,7 +19,7 @@ test_execve_cgi_env(void)
 			return (1);
 	}
 	{
-		arguments[0] = (char *)"/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
+		arguments[0] = (char *)"/usr/bin/php-cgi";
 		arguments[1] = (char *)"test/src/cgi/input.php";
 		arguments[2] = (char *)"";
 		arguments[3] = NULL;
