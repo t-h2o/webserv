@@ -47,6 +47,7 @@ Request::parse_first_line(std::string firstLine)
 	_request_map["Method"] = tmp_vector[0];
 	_request_map["Path"] = tmp_vector[1];
 	_request_map["Protocol"] = tmp_vector[2];
+	empty_path_handler(_request_map["Path"]);
 	check_if_has_query(_request_map["Path"]);
 	if (_has_query)
 		clean_path(_request_map["Path"]);
@@ -185,6 +186,16 @@ Request::clean_path(std::string &path)
 {
 	size_t question_mark = path.find_first_of('?');
 	_request_map["Path"] = path.substr(0, question_mark - 1);
+}
+
+void
+Request::empty_path_handler(std::string &path)
+{
+	std::cout << "PATH: " << path << std::endl;
+	if (path.size() == 1 && path[0] == '/')
+	{
+		_request_map["Path"] = "/index.html";
+	}
 }
 
 } /* namespace http */

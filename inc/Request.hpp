@@ -39,6 +39,7 @@ class Request
 	void clean_content_type();
 	void check_if_has_query(std::string &path);
 	void clean_path(std::string &path);
+	void empty_path_handler(std::string &path);
 };
 
 std::ostream &operator<<(std::ostream &, Request const &);
