@@ -21,7 +21,6 @@ class Request
 	int				parse_buffer(std::string);
 	bool			method_is_authorized(std::string method) const;
 	int				error_code;
-	unsigned long 	max_content_length;
 	std::string		get_method() const;
 	std::string		get_path() const;
 	std::string		get_protocol() const;
@@ -35,6 +34,7 @@ class Request
 	t_object		_request_map;
 
   private:
+	unsigned long 	_max_content_length;
 	bool _has_query;
 	int	 parse_first_line(std::string firstLine);
 	void parse_other_lines(std::vector<std::string> tmp_vector);

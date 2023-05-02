@@ -213,7 +213,7 @@ Request::check_header()
 
 void			Request::set_max_content_length(unsigned long max_length)
 {
-	max_content_length = max_length;
+	_max_content_length = max_length;
 }
 
 } /* namespace http */
