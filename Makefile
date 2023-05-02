@@ -35,6 +35,11 @@ SRCS	+=	$(SRCD)/arguments/check_argv_access.cpp
 SRCS	+=	$(SRCD)/serverTest/serverTest.cpp
 SRCS	+=	$(SRCD)/Socket/Socket.cpp
 
+# cgi
+
+SRCS	+=	$(SRCD)/cgi/execve.cpp
+SRCS	+=	$(SRCD)/cgi/utils.cpp
+
 # http
 
 SRCS	+=	$(SRCD)/http/Request.cpp
