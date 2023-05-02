@@ -41,6 +41,8 @@ class Response
 	void		construct_body_string(std::string path_to_file);
 	void		construct_full_response(void);
 	void		create_error_html_page(int code);
+	bool		has_php_extension(const Request &request) const;
+	void		php_handler(const Request &request) const;
 };
 
 std::ostream &operator<<(std::ostream &, Response const &);
