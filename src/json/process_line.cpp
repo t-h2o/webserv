@@ -164,6 +164,7 @@ _process_line(t_object *config, File &file, bool states[NSTATES])
 		{
 			if (LOG)
 				std::cout << "end of the object, should break" << std::endl;
+			check_last_state(states);
 			return;
 		}
 		else if (states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
