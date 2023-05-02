@@ -10,10 +10,22 @@ CGI::CGI(void) {}
 
 CGI::CGI(const std::string &bin, const std::string &file, const std::string &query)
 {
-	_args.push_back(const_cast<char *>(bin.c_str()));
-	_args.push_back(const_cast<char *>(file.c_str()));
+	char *b;
+	char *f;
+	char *q;
+
+	b = new char[bin.size() + 1];
+	f = new char[file.size() + 1];
+	std::memcpy(b, bin.c_str(), bin.size() + 1);
+	std::memcpy(f, file.c_str(), file.size() + 1);
+	_args.push_back(b);
+	_args.push_back(f);
 	if (!query.empty())
-		_args.push_back(const_cast<char *>(query.c_str()));
+	{
+		q = new char[query.size() + 1];
+		std::memcpy(q, query.c_str(), query.size() + 1);
+		_args.push_back(q);
+	}
 	_args.push_back(NULL);
 }
 
@@ -45,7 +57,7 @@ CGI::set_env(char *args)
 	//		// Donne les informations passées par un marqueur <FORM METHOD=GET>
 	//		_env["QUERY_STRING"] = "foo=bar&baz=qux";
 	//		// Donne la valeur de l'attribut METHOD du marqueur FORM utilisé lors de la requête CGI. En gros
-	//le
+	// le
 	//	 // type
 	//		// de requete http
 	//		_env["REQUEST_METHOD"] = "GET";
@@ -146,6 +158,11 @@ CGI::execution_cgi(char *args)
 		child_process(env);
 	else
 		parent_process(pid);
+	while (!_args.empty())
+	{
+		delete[] _args.back();
+		_args.pop_back();
+	}
 	return (_output_cgi);
 }
 
