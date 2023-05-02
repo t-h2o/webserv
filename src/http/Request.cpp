@@ -47,10 +47,10 @@ Request::parse_first_line(std::string firstLine)
 	_request_map["Method"] = tmp_vector[0];
 	_request_map["Path"] = tmp_vector[1];
 	_request_map["Protocol"] = tmp_vector[2];
-	empty_path_handler(_request_map["Path"]);
-	check_if_has_query(_request_map["Path"]);
+	empty_path_handler();
+	check_if_has_query();
 	if (_has_query)
-		clean_path(_request_map["Path"]);
+		clean_path();
 }
 
 void
@@ -157,11 +157,10 @@ Request::clean_content_type()
 }
 
 void
-Request::check_if_has_query(std::string &path)
+Request::check_if_has_query()
 {
-	// check if path = '/' first in another function
-	size_t		last_slash = path.find_last_of('/');
-	std::string last_part = path.substr(last_slash + 1);
+	size_t		last_slash = _request_map["Path"].find_last_of('/');
+	std::string last_part = _request_map["Path"].substr(last_slash + 1);
 	size_t		question_mark = last_part.find_first_of('?');
 	if (question_mark == std::string::npos)
 		return;
@@ -182,16 +181,16 @@ Request::set_query_false()
 }
 
 void
-Request::clean_path(std::string &path)
+Request::clean_path()
 {
-	size_t question_mark = path.find_first_of('?');
-	_request_map["Path"] = path.substr(0, question_mark - 1);
+	size_t question_mark = _request_map["Path"].find_first_of('?');
+	_request_map["Path"] = _request_map["Path"].substr(0, question_mark - 1);
 }
 
 void
-Request::empty_path_handler(std::string &path)
+Request::empty_path_handler()
 {
-	if (path.size() == 1 && path[0] == '/')
+	if (_request_map["Path"].size() == 1 && _request_map["Path"][0] == '/')
 	{
 		_request_map["Path"] = "/index.html";
 	}
