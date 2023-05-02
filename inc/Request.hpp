@@ -40,6 +40,7 @@ class Request
 	void check_if_has_query();
 	void clean_path();
 	void empty_path_handler();
+	int check_header();
 };
 
 std::ostream &operator<<(std::ostream &, Request const &);

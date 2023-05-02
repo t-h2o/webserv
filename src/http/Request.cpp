@@ -27,6 +27,7 @@ Request::parse_buffer(std::string str_buff)
 		return 1;
 	}
 	this->parse_other_lines(tmp_vector);
+	int check_header();
 	if (_request_map.find("Content-Type") != _request_map.end())
 		this->clean_content_type();
 	return 0;
@@ -201,6 +202,12 @@ Request::empty_path_handler()
 	{
 		_request_map["Path"] = "/index.html";
 	}
+}
+
+int Request::check_header()
+{
+
+	return 0;
 }
 
 } /* namespace http */
