@@ -184,7 +184,7 @@ void
 Request::clean_path()
 {
 	size_t question_mark = _request_map["Path"].find_first_of('?');
-	_request_map["Path"] = _request_map["Path"].substr(0, question_mark - 1);
+	_request_map["Path"] = _request_map["Path"].substr(0, question_mark);
 }
 
 void
