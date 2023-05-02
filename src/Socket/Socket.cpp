@@ -1,6 +1,7 @@
 #include "Socket.hpp"
 
-Socket::Socket(int domain, unsigned short port, int type, int protocol, std::string path, unsigned long max_length)
+Socket::Socket(int domain, unsigned short port, int type, int protocol, std::string path,
+			   unsigned long max_length)
 {
 	_address.sin_family = domain;
 	_address.sin_port = htons(port);
@@ -227,6 +228,8 @@ Socket::send_response()
 {
 	int			send_ret = 0;
 	std::string full_response_str(this->_response.get_http_response());
+	std::cout << "is send :" << std::endl;
+	std::cout << full_response_str << std::endl;
 	send_ret = send(_connection_fd, full_response_str.c_str(), full_response_str.length(), 0);
 	if (send_ret < static_cast<int>(full_response_str.length()))
 	{

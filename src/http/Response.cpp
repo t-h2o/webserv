@@ -26,34 +26,40 @@ Response::load_http_request(Request &request)
 	}
 	if (request.get_method().compare("GET") == 0)
 	{
-		if (access(path.c_str(), F_OK))
+		init_response_map();
+		std::string path = _dir_path;
+		path += request.get_path();
+		if (request.get_method().compare("GET") == 0)
 		{
-			load_response_get(404, path);
+			if (access(path.c_str(), F_OK))
+			{
+				load_response_get(404, path);
+			}
+			else
+			{
+				load_response_get(200, path);
+			}
+		}
+		else if (request.get_method().compare("POST") == 0)
+		{
+			if (request._request_map["FileName"].compare("exist") == 0)
+				load_response_post_delete(409);
+			else
+				load_response_post_delete(201);
+		}
+		else if (request.get_method().compare("DELETE") == 0)
+		{
+			if (request._request_map["FileName"].compare("exist") == 0)
+				load_response_post_delete(204);
+			else if (request._request_map["FileName"].compare("r_fail") == 0)
+				load_response_post_delete(500);
+			else
+				load_response_post_delete(404);
 		}
 		else
 		{
-			load_response_get(200, path);
+			load_response_get(405, path);
 		}
-	}
-	else if (request.get_method().compare("POST") == 0)
-	{
-		if (request._request_map["FileName"].compare("exist") == 0)
-			load_response_post_delete(409);
-		else
-			load_response_post_delete(201);
-	}
-	else if (request.get_method().compare("DELETE") == 0)
-	{
-		if (request._request_map["FileName"].compare("exist") == 0)
-			load_response_post_delete(204);
-		else if (request._request_map["FileName"].compare("r_fail") == 0)
-			load_response_post_delete(500);
-		else
-			load_response_post_delete(404);
-	}
-	else
-	{
-		load_response_get(405, path);
 	}
 }
 
@@ -100,6 +106,7 @@ Response::load_response_post_delete(int status_code)
 	_response_map["Status-line"]
 		= _response_map["Protocol"] + _status_code.get_key_value_formated(status_code);
 	set_content_length(_response_map["body-string"]);
+	_response_map["Connection"] = "Closed";
 	construct_header_string();
 	construct_full_response();
 }

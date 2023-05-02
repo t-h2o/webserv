@@ -34,15 +34,15 @@ class Request
 	t_object		_request_map;
 
   private:
-	unsigned long 	_max_content_length;
-	bool _has_query;
-	int	 parse_first_line(std::string firstLine);
-	void parse_other_lines(std::vector<std::string> tmp_vector);
-	void clean_content_type();
-	void check_if_has_query();
-	void clean_path();
-	void empty_path_handler();
-	int	 check_header();
+	unsigned long _max_content_length;
+	bool		  _has_query;
+	int			  parse_first_line(std::string firstLine);
+	void		  parse_other_lines(std::vector<std::string> tmp_vector);
+	void		  clean_content_type();
+	void		  check_if_has_query();
+	void		  clean_path();
+	void		  empty_path_handler();
+	int			  check_header();
 };
 
 std::ostream &operator<<(std::ostream &, Request const &);
