@@ -191,7 +191,6 @@ Request::clean_path(std::string &path)
 void
 Request::empty_path_handler(std::string &path)
 {
-	std::cout << "PATH: " << path << std::endl;
 	if (path.size() == 1 && path[0] == '/')
 	{
 		_request_map["Path"] = "/index.html";
