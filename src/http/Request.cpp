@@ -3,7 +3,7 @@
 namespace http
 {
 
-Request::Request() {}
+Request::Request(): _has_query(false){}
 Request::~Request() {}
 
 void

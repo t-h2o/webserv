@@ -34,6 +34,7 @@ class Request
 	void parse_first_line(std::string firstLine);
 	void parse_other_lines(std::vector<std::string> tmp_vector);
 	void clean_content_type();
+	bool _has_query;
 };
 
 std::ostream &operator<<(std::ostream &, Request const &);
