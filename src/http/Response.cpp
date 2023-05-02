@@ -217,7 +217,7 @@ Response::set_dir_path(std::string path)
 }
 
 bool
-Response::has_php_extension(Request &request) const
+Response::has_php_extension(const Request &request) const
 {
 	std::string path = request.get_path();
 	size_t		last_dot = path.find_last_of('.');
@@ -226,11 +226,12 @@ Response::has_php_extension(Request &request) const
 }
 
 void
-Response::php_handler(Request &request)
+Response::php_handler(const Request &request) const
 {
+	t_object req_map = request.get_map();
 	std::cout << "IT's a .php" << std::endl;
 	if (request.get_has_query())
-		std::cout << "the query string is : " << request._request_map["Query"] << std::endl;
+		std::cout << "the query string is : " << req_map["Query"] << std::endl;
 }
 
 } /* namespace http */
