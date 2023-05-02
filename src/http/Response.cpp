@@ -18,6 +18,7 @@ Response::load_http_request(Request &request)
 	if (has_php_extension(request))
 	{
 		php_handler(request);
+		return;
 	}
 	if (request.get_method().compare("GET") == 0)
 	{
