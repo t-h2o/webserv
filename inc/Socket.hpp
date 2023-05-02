@@ -45,7 +45,7 @@ class Socket
 	const std::string &get_dir_path() const;
 
   public:
-	Socket(int domain, unsigned short port, int type, int protocol, std::string path);
+	Socket(int domain, unsigned short port, int type, int protocol, std::string path, unsigned long max_length);
 	int	 socket_recv();
 	void socket_accept();
 	int	 get_sock_id() const;

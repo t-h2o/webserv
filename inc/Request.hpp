@@ -21,6 +21,7 @@ class Request
 	int				parse_buffer(std::string);
 	bool			method_is_authorized(std::string method) const;
 	int				error_code;
+	unsigned long 	max_content_length;
 	std::string		get_method() const;
 	std::string		get_path() const;
 	std::string		get_protocol() const;
@@ -28,6 +29,7 @@ class Request
 	bool			get_file_exist() const;
 	bool			get_has_query() const;
 	void			set_query_false();
+	void			set_max_content_length(unsigned long);
 	const t_object &get_map() const;
 	std::string		trim(const std::string &s);
 	t_object		_request_map;
@@ -40,7 +42,7 @@ class Request
 	void check_if_has_query();
 	void clean_path();
 	void empty_path_handler();
-	int check_header();
+	int	 check_header();
 };
 
 std::ostream &operator<<(std::ostream &, Request const &);

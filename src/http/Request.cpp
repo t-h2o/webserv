@@ -27,9 +27,7 @@ Request::parse_buffer(std::string str_buff)
 		return 1;
 	}
 	this->parse_other_lines(tmp_vector);
-	int check_header();
-	if (_request_map.find("Content-Type") != _request_map.end())
-		this->clean_content_type();
+	check_header();
 	return 0;
 }
 
@@ -55,9 +53,6 @@ Request::parse_first_line(std::string firstLine)
 	_request_map["Path"] = tmp_vector[1];
 	_request_map["Protocol"] = tmp_vector[2];
 	empty_path_handler();
-	check_if_has_query();
-	if (_has_query)
-		clean_path();
 	return 0;
 }
 
@@ -204,10 +199,21 @@ Request::empty_path_handler()
 	}
 }
 
-int Request::check_header()
+int
+Request::check_header()
 {
+	if (_request_map.find("Content-Type") != _request_map.end())
+		this->clean_content_type();
+	check_if_has_query();
+	if (_has_query)
+		clean_path();
 
 	return 0;
+}
+
+void			Request::set_max_content_length(unsigned long max_length)
+{
+	max_content_length = max_length;
 }
 
 } /* namespace http */

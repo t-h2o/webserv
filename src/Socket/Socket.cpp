@@ -1,15 +1,15 @@
 #include "Socket.hpp"
 
-Socket::Socket(int domain, unsigned short port, int type, int protocol, std::string path)
+Socket::Socket(int domain, unsigned short port, int type, int protocol, std::string path, unsigned long max_length)
 {
 	_address.sin_family = domain;
 	_address.sin_port = htons(port);
 	_address.sin_addr.s_addr = htonl(INADDR_ANY);
-
 	create_socket(domain, type, protocol);
 	set_socket_non_blocking();
 	binding_socket();
 	start_listening();
+	_request.set_max_content_length(max_length);
 	_header_str = "";
 	_body_str = "";
 	_dir_path = path;
