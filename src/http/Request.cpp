@@ -3,10 +3,10 @@
 namespace http
 {
 
-Request::Request() : _has_query(false) {}
+Request::Request() : error_code(0), _has_query(false) {}
 Request::~Request() {}
 
-void
+int
 Request::parse_buffer(std::string str_buff)
 {
 	std::vector<std::string> tmp_vector;
@@ -20,13 +20,19 @@ Request::parse_buffer(std::string str_buff)
 		str_buff.erase(str_buff.begin(), str_buff.begin() + delimiter_position + 1);
 		delimiter_position = str_buff.find(delimiter);
 	}
-	this->parse_first_line(tmp_vector[0]);
+	int ret = this->parse_first_line(tmp_vector[0]);
+	if (ret == 1)
+	{
+		error_code = 400;
+		return 1;
+	}
 	this->parse_other_lines(tmp_vector);
 	if (_request_map.find("Content-Type") != _request_map.end())
 		this->clean_content_type();
+	return 0;
 }
 
-void
+int
 Request::parse_first_line(std::string firstLine)
 {
 	std::vector<std::string> tmp_vector;
@@ -43,7 +49,7 @@ Request::parse_first_line(std::string firstLine)
 	tmp_vector.push_back(this->trim(firstLine));
 
 	if (tmp_vector.size() != 3)
-		return;
+		return 1;
 	_request_map["Method"] = tmp_vector[0];
 	_request_map["Path"] = tmp_vector[1];
 	_request_map["Protocol"] = tmp_vector[2];
@@ -51,6 +57,7 @@ Request::parse_first_line(std::string firstLine)
 	check_if_has_query();
 	if (_has_query)
 		clean_path();
+	return 0;
 }
 
 void

@@ -18,9 +18,9 @@ class Request
 	Request();
 	~Request();
 
-	void parse_buffer(std::string);
-	bool method_is_authorized(std::string method) const;
-
+	int				parse_buffer(std::string);
+	bool			method_is_authorized(std::string method) const;
+	int				error_code;
 	std::string		get_method() const;
 	std::string		get_path() const;
 	std::string		get_protocol() const;
@@ -34,7 +34,7 @@ class Request
 
   private:
 	bool _has_query;
-	void parse_first_line(std::string firstLine);
+	int	 parse_first_line(std::string firstLine);
 	void parse_other_lines(std::vector<std::string> tmp_vector);
 	void clean_content_type();
 	void check_if_has_query();
