@@ -46,8 +46,7 @@ cMap_to_cChar(std::map<std::string, std::string> myMap)
 	{
 		array[i] = new char[it->first.size() + it->second.size() + 4];
 		std::string tmps = it->first + "=" + it->second;
-		strcpy(array[i], tmps.c_str());
-		i++;
+		strcpy(array[i++], tmps.c_str());
 	}
 	array[i] = NULL;
 
