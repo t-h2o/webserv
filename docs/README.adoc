@@ -25,7 +25,9 @@ set separator ::
 
 class http::Request
 class http::Response
-class http::StatusCodes
+class http::StatusCode
+class http::Socket
+class json::File
 class json::Value
 ....
 
