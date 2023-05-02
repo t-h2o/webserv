@@ -42,7 +42,7 @@ cMap_to_cChar(std::map<std::string, std::string> myMap)
 	char **array = new char *[myMap.size() + 1];
 	int	   i = 0;
 	// Concaténation des chaînes
-	for (it = myMap.begin(); it != myMap.end(); ++it)
+	for (std::map<std::string, std::string>::iterator it = myMap.begin(); it != myMap.end(); ++it)
 	{
 		array[i] = new char[it->first.size() + it->second.size() + 4];
 		std::string tmps = it->first + "=" + it->second;
