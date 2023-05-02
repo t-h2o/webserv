@@ -49,10 +49,6 @@ cMap_to_cChar(std::map<std::string, std::string> myMap)
 		strcpy(array[i++], tmps.c_str());
 	}
 	array[i] = NULL;
-
-	//	// Libération de la mémoire
-	//	for (int j = 0; array[j]; j++)
-	//		delete[] array[j];
 	return (array);
 }
 }
