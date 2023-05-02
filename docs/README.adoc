@@ -23,6 +23,7 @@ client --> ws
 ....
 set separator ::
 
+class CGI
 class http::Request
 class http::Response
 class http::StatusCode
