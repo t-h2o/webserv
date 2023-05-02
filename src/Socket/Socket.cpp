@@ -219,6 +219,7 @@ Socket::clean_request()
 	_body_str = "";
 	_request._request_map.clear();
 	_request.set_query_false();
+	_request.error_code = 0;
 }
 
 void
