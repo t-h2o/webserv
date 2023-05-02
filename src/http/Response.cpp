@@ -219,7 +219,7 @@ Response::set_dir_path(std::string path)
 bool
 Response::has_php_extension(const Request &request) const
 {
-	std::string path = request.get_path();
+	std::string path(request.get_path());
 	size_t		last_dot = path.find_last_of('.');
 	std::string extenstion(path.substr(last_dot));
 	return (extenstion.compare(".php") == 0);
