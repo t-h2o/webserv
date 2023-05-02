@@ -40,7 +40,7 @@ cMap_to_cChar(std::map<std::string, std::string> myMap)
 
 	// Allocation de l'espace mémoire
 	char **array = new char *[myMap.size() + 1];
-	size_t	   i = 0;
+	size_t i = 0;
 	// Concaténation des chaînes
 	for (std::map<std::string, std::string>::iterator it = myMap.begin(); it != myMap.end(); ++it)
 	{
