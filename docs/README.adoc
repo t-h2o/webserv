@@ -17,7 +17,7 @@ package "Web server" as wbs {
 client --> ws
 ....
 
-=== Class diagram
+=== Classes diagram
 
 [plantuml, target=class, format=svg, width=60%]
 ....
