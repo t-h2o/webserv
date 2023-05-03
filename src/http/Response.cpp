@@ -162,6 +162,7 @@ Response::construct_header_string(void)
 									 + "Content-Length: " + _response_map["Content-Length"] + CRLF
 									 + "Content-Type: " + _response_map["Content-Type"] + CRLF
 									 + "Connection: " + _response_map["Connection"] + CRLF + CRLF;
+	std::cout << "header send :\n" << _response_map["header-string"] << std::endl;
 }
 
 void

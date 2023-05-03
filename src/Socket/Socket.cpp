@@ -2,6 +2,7 @@
 
 Socket::Socket(int domain, unsigned short port, int type, int protocol, std::string path,
 			   unsigned long max_length)
+	: _max_content_length(max_length)
 {
 	_address.sin_family = domain;
 	_address.sin_port = htons(port);
@@ -10,7 +11,6 @@ Socket::Socket(int domain, unsigned short port, int type, int protocol, std::str
 	set_socket_non_blocking();
 	binding_socket();
 	start_listening();
-	_max_content_length = max_length;
 	_header_str = "";
 	_body_str = "";
 	_dir_path = path;
@@ -131,7 +131,8 @@ Socket::multipart_handler()
 	if (LOG_SOCKET)
 		std::cout << "_body_str.size(): " << _body_str.size() << std::endl;
 	check_content_lenght_authorized();
-	create_new_file();
+	if (_request.get_error_code() == 0)
+		create_new_file();
 }
 
 void
@@ -229,8 +230,6 @@ Socket::send_response()
 {
 	int			send_ret = 0;
 	std::string full_response_str(this->_response.get_http_response());
-	std::cout << "is send :" << std::endl;
-	std::cout << full_response_str << std::endl;
 	send_ret = send(_connection_fd, full_response_str.c_str(), full_response_str.length(), 0);
 	if (send_ret < static_cast<int>(full_response_str.length()))
 	{
@@ -240,6 +239,15 @@ Socket::send_response()
 }
 
 void
-Socket::check_content_lenght_authorized() const
+Socket::check_content_lenght_authorized()
 {
+	http::Request::t_object req_map = _request.get_map();
+	if (req_map.find("Content-Length") != req_map.end())
+	{
+		char *end = NULL;
+		if (_max_content_length < std::strtoul(req_map["Content-Length"].c_str(), &end, 10))
+		{
+			this->_request.set_error_code(406);
+		}
+	}
 }

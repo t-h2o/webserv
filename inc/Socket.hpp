@@ -44,7 +44,7 @@ class Socket
 	void			   create_new_file();
 	std::string		   clean_end_of_file(std::string const &str_to_clean);
 	const std::string &get_dir_path() const;
-	void			   check_content_lenght_authorized() const;
+	void			   check_content_lenght_authorized();
 
   public:
 	Socket(int domain, unsigned short port, int type, int protocol, std::string path,
