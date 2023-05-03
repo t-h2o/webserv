@@ -17,15 +17,18 @@ package "Web server" as wbs {
 client --> ws
 ....
 
-=== Class diagram
+=== Classes diagram
 
 [plantuml, target=class, format=svg, width=60%]
 ....
 set separator ::
 
+class CGI
 class http::Request
 class http::Response
-class http::StatusCodes
+class http::StatusCode
+class http::Socket
+class json::File
 class json::Value
 ....
 
