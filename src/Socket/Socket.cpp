@@ -96,15 +96,15 @@ Socket::socket_recv()
 		if (LOG_SOCKET)
 			std::cout << "body str:" << _body_str << std::endl;
 	}
-	int ret = _request.parse_buffer(_header_str);
-	if (ret == 0 && _request._request_map["Content-Type"].compare("multipart/form-data") == 0)
+	_request.parse_buffer(_header_str);
+	if (_request._request_map["Content-Type"].compare("multipart/form-data") == 0)
 	{
 		if (LOG_SOCKET)
 			std::cout << "Content-type = multipart/form-data" << std::endl;
 		multipart_handler();
 		std::memset(buffer, 0, MAXLINE);
 	}
-	if (ret == 0 && _request.get_method().compare("DELETE") == 0)
+	if (_request.get_method().compare("DELETE") == 0)
 	{
 		delete_handler();
 	}

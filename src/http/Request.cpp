@@ -6,7 +6,7 @@ namespace http
 Request::Request() : error_code(0), _has_query(false) {}
 Request::~Request() {}
 
-int
+void
 Request::parse_buffer(std::string str_buff)
 {
 	std::vector<std::string> tmp_vector;
@@ -22,17 +22,9 @@ Request::parse_buffer(std::string str_buff)
 	}
 	int ret = this->parse_first_line(tmp_vector[0]);
 	if (ret == 1)
-	{
 		error_code = 400;
-		return 1;
-	}
 	this->parse_other_lines(tmp_vector);
 	ret = check_header();
-	if (ret == 1)
-	{
-		return 1;
-	}
-	return 0;
 }
 
 int
