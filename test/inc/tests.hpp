@@ -19,6 +19,11 @@ int test_cgi_exec(void);
 int test_execve_cgi(void);
 int test_execve_cgi_env(void);
 
+/* php:: */
+
+int	launch_php(void);
+int	test_php_output(void);
+
 /* http::Request */
 
 int launch_http_request(void);
