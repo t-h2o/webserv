@@ -195,7 +195,7 @@ Request::empty_path_handler()
 	}
 }
 
-int
+void
 Request::check_header()
 {
 	if (_request_map.find("Content-Type") != _request_map.end())
@@ -203,24 +203,17 @@ Request::check_header()
 	check_if_has_query();
 	if (_has_query)
 		clean_path();
-	if (_request_map.find("Content-Length") != _request_map.end())
-	{
-		std::cout << "CONTENT_LENGTH: " << _request_map["Content-Length"] << std::endl;
-		std::cout << "CONTENT_LENGTH_MAX " << _max_content_length << std::endl;
-		char *end = NULL;
-		if (_max_content_length < std::strtoul(_request_map["Content-Length"].c_str(), &end, 10))
-		{
-			set_error_code(406);
-			return 1;
-		}
-	}
-	return 0;
-}
-
-void
-Request::set_max_content_length(unsigned long max_length)
-{
-	_max_content_length = max_length;
+	// if (_request_map.find("Content-Length") != _request_map.end())
+	// {
+	// 	std::cout << "CONTENT_LENGTH: " << _request_map["Content-Length"] << std::endl;
+	// 	std::cout << "CONTENT_LENGTH_MAX " << _max_content_length << std::endl;
+	// 	char *end = NULL;
+	// 	if (_max_content_length < std::strtoul(_request_map["Content-Length"].c_str(), &end, 10))
+	// 	{
+	// 		set_error_code(406);
+	// 		return 1;
+	// 	}
+	// }
 }
 
 int

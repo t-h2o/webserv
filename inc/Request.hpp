@@ -27,7 +27,6 @@ class Request
 	bool			get_file_exist() const;
 	bool			get_has_query() const;
 	void			set_query_false();
-	void			set_max_content_length(unsigned long);
 	const t_object &get_map() const;
 	int				get_error_code() const;
 	void			set_error_code(int);
@@ -35,16 +34,15 @@ class Request
 	t_object		_request_map;
 
   private:
-	int			  _error_code;
-	unsigned long _max_content_length;
-	bool		  _has_query;
-	void		  parse_first_line(std::string firstLine);
-	void		  parse_other_lines(std::vector<std::string> tmp_vector);
-	void		  clean_content_type();
-	void		  check_if_has_query();
-	void		  clean_path();
-	void		  empty_path_handler();
-	int			  check_header();
+	int	 _error_code;
+	bool _has_query;
+	void parse_first_line(std::string firstLine);
+	void parse_other_lines(std::vector<std::string> tmp_vector);
+	void clean_content_type();
+	void check_if_has_query();
+	void clean_path();
+	void empty_path_handler();
+	void check_header();
 };
 
 std::ostream &operator<<(std::ostream &, Request const &);

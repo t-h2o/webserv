@@ -10,7 +10,7 @@ Socket::Socket(int domain, unsigned short port, int type, int protocol, std::str
 	set_socket_non_blocking();
 	binding_socket();
 	start_listening();
-	_request.set_max_content_length(max_length);
+	_max_content_length = max_length;
 	_header_str = "";
 	_body_str = "";
 	_dir_path = path;
@@ -130,6 +130,7 @@ Socket::multipart_handler()
 	}
 	if (LOG_SOCKET)
 		std::cout << "_body_str.size(): " << _body_str.size() << std::endl;
+	check_content_lenght_authorized();
 	create_new_file();
 }
 
@@ -236,4 +237,9 @@ Socket::send_response()
 		send_ret = send(_connection_fd, full_response_str.c_str(), full_response_str.length(), 0);
 	}
 	close(_connection_fd);
+}
+
+void
+Socket::check_content_lenght_authorized() const
+{
 }
