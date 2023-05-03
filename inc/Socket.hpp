@@ -3,6 +3,7 @@
 
 #include "Request.hpp"
 #include "Response.hpp"
+#include <climits>
 #include <cstring>
 #include <errno.h>
 #include <fcntl.h>
@@ -29,6 +30,7 @@ class Socket
 	int				   _connection_fd;
 	int				   _sock_id;
 	int				   _connection;
+	unsigned long	   _max_content_length;
 	struct sockaddr_in _address;
 	void			   create_socket(int domain, int type, int protocol);
 	void			   binding_socket();
@@ -43,12 +45,15 @@ class Socket
 	void			   create_new_file();
 	std::string		   clean_end_of_file(std::string const &str_to_clean);
 	const std::string &get_dir_path() const;
+	void			   check_content_lenght_authorized();
 
   public:
-	Socket(int domain, unsigned short port, int type, int protocol, std::string path);
+	Socket(int domain, unsigned short port, int type, int protocol, std::string path,
+		   unsigned long max_length = ULONG_MAX);
 	int	 socket_recv();
 	void socket_accept();
 	int	 get_sock_id() const;
+	void set_server_name(const std::string &);
 };
 
 #endif

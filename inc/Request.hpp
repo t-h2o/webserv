@@ -18,9 +18,8 @@ class Request
 	Request();
 	~Request();
 
-	void parse_buffer(std::string);
-	bool method_is_authorized(std::string method) const;
-
+	void			parse_buffer(std::string);
+	bool			method_is_authorized(std::string method) const;
 	std::string		get_method() const;
 	std::string		get_path() const;
 	std::string		get_protocol() const;
@@ -29,10 +28,13 @@ class Request
 	bool			get_has_query() const;
 	void			set_query_false();
 	const t_object &get_map() const;
+	int				get_error_code() const;
+	void			set_error_code(int);
 	std::string		trim(const std::string &s);
 	t_object		_request_map;
 
   private:
+	int	 _error_code;
 	bool _has_query;
 	void parse_first_line(std::string firstLine);
 	void parse_other_lines(std::vector<std::string> tmp_vector);
@@ -40,6 +42,7 @@ class Request
 	void check_if_has_query();
 	void clean_path();
 	void empty_path_handler();
+	void check_header();
 };
 
 std::ostream &operator<<(std::ostream &, Request const &);

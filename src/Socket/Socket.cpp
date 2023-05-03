@@ -1,11 +1,12 @@
 #include "Socket.hpp"
 
-Socket::Socket(int domain, unsigned short port, int type, int protocol, std::string path)
+Socket::Socket(int domain, unsigned short port, int type, int protocol, std::string path,
+			   unsigned long max_length)
+	: _max_content_length(max_length)
 {
 	_address.sin_family = domain;
 	_address.sin_port = htons(port);
 	_address.sin_addr.s_addr = htonl(INADDR_ANY);
-
 	create_socket(domain, type, protocol);
 	set_socket_non_blocking();
 	binding_socket();
@@ -129,7 +130,9 @@ Socket::multipart_handler()
 	}
 	if (LOG_SOCKET)
 		std::cout << "_body_str.size(): " << _body_str.size() << std::endl;
-	create_new_file();
+	check_content_lenght_authorized();
+	if (_request.get_error_code() == 0)
+		create_new_file();
 }
 
 void
@@ -140,10 +143,10 @@ Socket::delete_handler()
 	std::string fullpath = _dir_path + "/uploads" + file_name;
 	if (access(fullpath.c_str(), F_OK) != -1)
 	{
-		_request._request_map["FileName"] = "exist";
+		_request._request_map["fileStatus"] = "exist";
 		int ret = remove(fullpath.c_str());
 		if (ret != 0)
-			_request._request_map["FileName"] = "r_fail";
+			_request._request_map["fileStatus"] = "r_fail";
 	}
 }
 
@@ -193,7 +196,7 @@ Socket::create_new_file()
 	}
 	else
 	{
-		_request._request_map["FileName"] = "exist";
+		_request._request_map["fileStatus"] = "exist";
 	}
 }
 
@@ -219,6 +222,7 @@ Socket::clean_request()
 	_body_str = "";
 	_request._request_map.clear();
 	_request.set_query_false();
+	_request.set_error_code(0);
 }
 
 void
@@ -232,4 +236,24 @@ Socket::send_response()
 		send_ret = send(_connection_fd, full_response_str.c_str(), full_response_str.length(), 0);
 	}
 	close(_connection_fd);
+}
+
+void
+Socket::check_content_lenght_authorized()
+{
+	http::Request::t_object req_map = _request.get_map();
+	if (req_map.find("Content-Length") != req_map.end())
+	{
+		char *end = NULL;
+		if (_max_content_length < std::strtoul(req_map["Content-Length"].c_str(), &end, 10))
+		{
+			this->_request.set_error_code(413);
+		}
+	}
+}
+
+void
+Socket::set_server_name(const std::string &new_name)
+{
+	_response.server_name = new_name;
 }

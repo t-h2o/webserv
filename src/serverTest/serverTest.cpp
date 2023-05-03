@@ -31,6 +31,7 @@ serverTest(json::t_object *config)
 	unsigned short port = val.get("port").get<double>();
 	std::string	   path = val.get("path").get<std::string>();
 	Socket		   sock(AF_INET, port, SOCK_STREAM, 0, path);
+	sock.set_server_name("Server1");
 
 	create_upload_folder(val);
 	while (1)

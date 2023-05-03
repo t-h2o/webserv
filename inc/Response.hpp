@@ -21,6 +21,7 @@ class Response
 
 	Response();
 	~Response(void);
+	std::string		server_name;
 	std::string		get_http_response(void);
 	void			load_http_request(Request &req);
 	const t_object &get_map() const;

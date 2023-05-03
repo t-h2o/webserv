@@ -3,7 +3,7 @@
 namespace http
 {
 
-Request::Request() : _has_query(false) {}
+Request::Request() : _error_code(0), _has_query(false) {}
 Request::~Request() {}
 
 void
@@ -22,8 +22,7 @@ Request::parse_buffer(std::string str_buff)
 	}
 	this->parse_first_line(tmp_vector[0]);
 	this->parse_other_lines(tmp_vector);
-	if (_request_map.find("Content-Type") != _request_map.end())
-		this->clean_content_type();
+	check_header();
 }
 
 void
@@ -43,14 +42,14 @@ Request::parse_first_line(std::string firstLine)
 	tmp_vector.push_back(this->trim(firstLine));
 
 	if (tmp_vector.size() != 3)
+	{
+		set_error_code(400);
 		return;
+	}
 	_request_map["Method"] = tmp_vector[0];
 	_request_map["Path"] = tmp_vector[1];
 	_request_map["Protocol"] = tmp_vector[2];
 	empty_path_handler();
-	check_if_has_query();
-	if (_has_query)
-		clean_path();
 }
 
 void
@@ -117,7 +116,7 @@ Request::get_host() const
 bool
 Request::get_file_exist() const
 {
-	return (_request_map.find("FileName") != _request_map.end());
+	return (_request_map.find("fileStatus") != _request_map.end());
 }
 
 bool
@@ -194,6 +193,27 @@ Request::empty_path_handler()
 	{
 		_request_map["Path"] = "/index.html";
 	}
+}
+
+void
+Request::check_header()
+{
+	if (_request_map.find("Content-Type") != _request_map.end())
+		this->clean_content_type();
+	check_if_has_query();
+	if (_has_query)
+		clean_path();
+}
+
+int
+Request::get_error_code() const
+{
+	return _error_code;
+}
+void
+Request::set_error_code(int code)
+{
+	_error_code = code;
 }
 
 } /* namespace http */

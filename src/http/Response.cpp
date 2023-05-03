@@ -5,21 +5,27 @@ namespace http
 
 StatusCode Response::_status_code;
 
-Response::Response(void) {}
+Response::Response() : server_name("Webserver") {}
 
 Response::~Response(void) {}
 
 void
 Response::load_http_request(Request &request)
 {
-	init_response_map();
-	std::string path = _dir_path;
-	path += request.get_path();
+	if (request.get_error_code() != 0)
+	{
+		load_response_post_delete(request.get_error_code());
+		request.set_error_code(0);
+		return;
+	}
 	if (has_php_extension(request))
 	{
 		php_handler(request);
 		return;
 	}
+	init_response_map();
+	std::string path = _dir_path;
+	path += request.get_path();
 	if (request.get_method().compare("GET") == 0)
 	{
 		if (access(path.c_str(), F_OK))
@@ -33,16 +39,16 @@ Response::load_http_request(Request &request)
 	}
 	else if (request.get_method().compare("POST") == 0)
 	{
-		if (request._request_map["FileName"].compare("exist") == 0)
+		if (request._request_map["fileStatus"].compare("exist") == 0)
 			load_response_post_delete(409);
 		else
 			load_response_post_delete(201);
 	}
 	else if (request.get_method().compare("DELETE") == 0)
 	{
-		if (request._request_map["FileName"].compare("exist") == 0)
+		if (request._request_map["fileStatus"].compare("exist") == 0)
 			load_response_post_delete(204);
-		else if (request._request_map["FileName"].compare("r_fail") == 0)
+		else if (request._request_map["fileStatus"].compare("r_fail") == 0)
 			load_response_post_delete(500);
 		else
 			load_response_post_delete(404);
@@ -58,7 +64,7 @@ Response::init_response_map()
 {
 	_response_map["Status-line"] = "";
 	_response_map["Date"] = "";
-	_response_map["Server"] = "Webserver";
+	_response_map["Server"] = server_name;
 	_response_map["Content-Length"] = "";
 	_response_map["Content-Type"] = "";
 	_response_map["Connection"] = "Closed";
@@ -96,6 +102,7 @@ Response::load_response_post_delete(int status_code)
 	_response_map["Status-line"]
 		= _response_map["Protocol"] + _status_code.get_key_value_formated(status_code);
 	set_content_length(_response_map["body-string"]);
+	_response_map["Connection"] = "Closed";
 	construct_header_string();
 	construct_full_response();
 }
