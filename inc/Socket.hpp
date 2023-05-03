@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <climits>
 
 #define LISTEN_BACKLOG 10
 #define MAXLINE 4096

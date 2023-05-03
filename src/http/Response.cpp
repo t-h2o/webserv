@@ -15,51 +15,47 @@ Response::load_http_request(Request &request)
 	if (request.get_error_code() != 0)
 	{
 		load_response_post_delete(request.get_error_code());
+		request.set_error_code(0);
+		return;
 	}
-	init_response_map();
-	std::string path = _dir_path;
-	path += request.get_path();
 	if (has_php_extension(request))
 	{
 		php_handler(request);
 		return;
 	}
+	init_response_map();
+	std::string path = _dir_path;
+	path += request.get_path();
 	if (request.get_method().compare("GET") == 0)
 	{
-		init_response_map();
-		std::string path = _dir_path;
-		path += request.get_path();
-		if (request.get_method().compare("GET") == 0)
+		if (access(path.c_str(), F_OK))
 		{
-			if (access(path.c_str(), F_OK))
-			{
-				load_response_get(404, path);
-			}
-			else
-			{
-				load_response_get(200, path);
-			}
-		}
-		else if (request.get_method().compare("POST") == 0)
-		{
-			if (request._request_map["FileName"].compare("exist") == 0)
-				load_response_post_delete(409);
-			else
-				load_response_post_delete(201);
-		}
-		else if (request.get_method().compare("DELETE") == 0)
-		{
-			if (request._request_map["FileName"].compare("exist") == 0)
-				load_response_post_delete(204);
-			else if (request._request_map["FileName"].compare("r_fail") == 0)
-				load_response_post_delete(500);
-			else
-				load_response_post_delete(404);
+			load_response_get(404, path);
 		}
 		else
 		{
-			load_response_get(405, path);
+			load_response_get(200, path);
 		}
+	}
+	else if (request.get_method().compare("POST") == 0)
+	{
+		if (request._request_map["FileName"].compare("exist") == 0)
+			load_response_post_delete(409);
+		else
+			load_response_post_delete(201);
+	}
+	else if (request.get_method().compare("DELETE") == 0)
+	{
+		if (request._request_map["FileName"].compare("exist") == 0)
+			load_response_post_delete(204);
+		else if (request._request_map["FileName"].compare("r_fail") == 0)
+			load_response_post_delete(500);
+		else
+			load_response_post_delete(404);
+	}
+	else
+	{
+		load_response_get(405, path);
 	}
 }
 
