@@ -12,9 +12,9 @@ Response::~Response(void) {}
 void
 Response::load_http_request(Request &request)
 {
-	if (request.error_code != 0)
+	if (request.get_error_code() != 0)
 	{
-		load_response_post_delete(request.error_code);
+		load_response_post_delete(request.get_error_code());
 	}
 	init_response_map();
 	std::string path = _dir_path;

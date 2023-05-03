@@ -3,7 +3,7 @@
 namespace http
 {
 
-Request::Request() : error_code(0), _has_query(false) {}
+Request::Request() : _error_code(0), _has_query(false) {}
 Request::~Request() {}
 
 void
@@ -20,14 +20,12 @@ Request::parse_buffer(std::string str_buff)
 		str_buff.erase(str_buff.begin(), str_buff.begin() + delimiter_position + 1);
 		delimiter_position = str_buff.find(delimiter);
 	}
-	int ret = this->parse_first_line(tmp_vector[0]);
-	if (ret == 1)
-		error_code = 400;
+	this->parse_first_line(tmp_vector[0]);
 	this->parse_other_lines(tmp_vector);
-	ret = check_header();
+	check_header();
 }
 
-int
+void
 Request::parse_first_line(std::string firstLine)
 {
 	std::vector<std::string> tmp_vector;
@@ -44,12 +42,14 @@ Request::parse_first_line(std::string firstLine)
 	tmp_vector.push_back(this->trim(firstLine));
 
 	if (tmp_vector.size() != 3)
-		return 1;
+	{
+		set_error_code(400);
+		return;
+	}
 	_request_map["Method"] = tmp_vector[0];
 	_request_map["Path"] = tmp_vector[1];
 	_request_map["Protocol"] = tmp_vector[2];
 	empty_path_handler();
-	return 0;
 }
 
 void
@@ -210,7 +210,7 @@ Request::check_header()
 		char *end = NULL;
 		if (_max_content_length < std::strtoul(_request_map["Content-Length"].c_str(), &end, 10))
 		{
-			error_code = 406;
+			set_error_code(406);
 			return 1;
 		}
 	}
@@ -221,6 +221,17 @@ void
 Request::set_max_content_length(unsigned long max_length)
 {
 	_max_content_length = max_length;
+}
+
+int
+Request::get_error_code() const
+{
+	return _error_code;
+}
+void
+Request::set_error_code(int code)
+{
+	_error_code = code;
 }
 
 } /* namespace http */
