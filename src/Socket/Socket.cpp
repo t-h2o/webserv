@@ -253,7 +253,7 @@ Socket::check_content_lenght_authorized()
 }
 
 void
-Socket::set_server_name(std::string new_name)
+Socket::set_server_name(const std::string &new_name)
 {
 	_response.server_name = new_name;
 }
