@@ -1,8 +1,29 @@
 #include "utils_json.hpp"
 #include <iostream>
 
+#define DEFAULT_SERVER_NAME "default_server_name"
+
 namespace json
 {
+
+static int
+check_value_servername(t_object *config)
+{
+	if (config->find("server_name") != config->end())
+	{
+		(*config)["server_name"] = json::Value(new std::string(DEFAULT_SERVER_NAME));
+		return 0;
+	}
+	else
+	{
+		if (config->at("server_name").get_type() != JSON_STRING)
+		{
+			std::cerr << "Error: the server_name is not a string" << std::endl;
+			return 1;
+		}
+	}
+	return 0;
+}
 
 static int
 check_value_path(t_object *config)
@@ -48,6 +69,8 @@ check_config(t_object *config)
 	if (check_value_path(config))
 		return 1;
 	if (check_value_port(config))
+		return 1;
+	if (check_value_servername(config))
 		return 1;
 
 	return 0;
