@@ -1,8 +1,8 @@
 #include "Socket.hpp"
 
-Socket::Socket(int domain, unsigned short port, int type, int protocol, std::string path,
+Socket::Socket(int domain, unsigned short port, int type, int protocol, const json::Value &server_config,
 			   unsigned long max_length)
-	: _max_content_length(max_length)
+	: _server_config(server_config), _response(server_config), _max_content_length(max_length)
 {
 	_address.sin_family = domain;
 	_address.sin_port = htons(port);
@@ -13,7 +13,7 @@ Socket::Socket(int domain, unsigned short port, int type, int protocol, std::str
 	start_listening();
 	_header_str = "";
 	_body_str = "";
-	_dir_path = path;
+	_dir_path = _server_config.get("path").get<std::string>();
 	_response.set_dir_path(_dir_path);
 }
 

@@ -29,8 +29,7 @@ serverTest(json::t_object *config)
 	 */
 	json::Value	   val(config);
 	unsigned short port = val.get("port").get<double>();
-	std::string	   path = val.get("path").get<std::string>();
-	Socket		   sock(AF_INET, port, SOCK_STREAM, 0, path, 100000);
+	Socket		   sock(AF_INET, port, SOCK_STREAM, 0, val, 100000);
 	sock.set_server_name("Server1");
 
 	create_upload_folder(val);

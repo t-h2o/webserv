@@ -22,6 +22,7 @@
 class Socket
 {
   private:
+	const json::Value &_server_config;
 	http::Request	   _request;
 	http::Response	   _response;
 	std::string		   _header_str;
@@ -48,7 +49,7 @@ class Socket
 	void			   check_content_lenght_authorized();
 
   public:
-	Socket(int domain, unsigned short port, int type, int protocol, std::string path,
+	Socket(int domain, unsigned short port, int type, int protocol, const json::Value &,
 		   unsigned long max_length = ULONG_MAX);
 	int	 socket_recv();
 	void socket_accept();
