@@ -41,8 +41,8 @@ download_handle () {
 		return 0
 	fi
 
-	curl -LO "$1"
 	print_big_message "curl -LO ${1}"
+	curl -LO "$1"
 	printf "Download %s\n" "${FILE_DOWNLOADED}"
 	if ! tar xvzf "${FILE_DOWNLOADED}" 2>/dev/null ; then
 		print_big_message "do not find \"${FILE_DOWNLOADED}\"\n" "red"
