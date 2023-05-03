@@ -257,6 +257,9 @@ Response::php_handler(const Request &request) const
 	std::cout << "IT's a .php" << std::endl;
 	if (request.get_has_query())
 		std::cout << "the query string is : " << req_map["Query"] << std::endl;
+	std::map<std::string, std::string>::iterator it;
+	for (it = req_map.begin(); it != req_map.end(); ++it)
+		std::cout << "PHP loop: " << it->first << " " << it->second << std::endl;
 }
 
 bool
