@@ -50,12 +50,5 @@ test_php_output(void)
 	std::map<std::string, std::string>::iterator it;
 	for (it = map.begin(); it != map.end(); ++it)
 		std::cout << it->first << " " << it->second << std::endl;
-//	str = pp.get_http_response();
-//	std::cout << "str: " << str << std::endl;
-//	map = pp.get_map();
-//	std::cout << "map: " << map.size() << std::endl;
-//	std::map<std::string, std::string>::iterator it;
-//	for (it = map.begin(); it != map.end(); ++it)
-//		std::cout << it->first << " " << it->second << std::endl;
 	return (0);
 }
