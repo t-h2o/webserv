@@ -51,6 +51,7 @@ SRCS	+=	$(SRCD)/http/StatusCodes.cpp
 SRCS	+=	$(SRCD)/json/File.cpp
 SRCS	+=	$(SRCD)/json/read.cpp
 SRCS	+=	$(SRCD)/json/load_config.cpp
+SRCS	+=	$(SRCD)/json/check_config.cpp
 SRCS	+=	$(SRCD)/json/process_line.cpp
 SRCS	+=	$(SRCD)/json/utils.cpp
 SRCS	+=	$(SRCD)/json/Value.cpp

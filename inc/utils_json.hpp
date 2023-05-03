@@ -32,6 +32,7 @@ namespace json
 t_object   *read(char const *);
 void		_process_line(t_object *, File &, bool states[NSTATES]);
 std::string _get_string(std::string const &line, size_t &index);
+int			check_config(t_object *config);
 
 } /* namespace json */
 

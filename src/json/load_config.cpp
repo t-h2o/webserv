@@ -23,6 +23,9 @@ load_config(const char *path_config_file, t_object **config)
 	if (*config == 0)
 		return 1;
 
+	if (check_config(*config))
+		return 1;
+
 	return 0;
 }
 
