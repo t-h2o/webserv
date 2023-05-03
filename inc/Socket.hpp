@@ -48,7 +48,7 @@ class Socket
 
   public:
 	Socket(int domain, unsigned short port, int type, int protocol, std::string path,
-		   unsigned long max_length);
+		   unsigned long max_length = ULONG_MAX);
 	int	 socket_recv();
 	void socket_accept();
 	int	 get_sock_id() const;
