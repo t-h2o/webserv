@@ -3,6 +3,7 @@
 
 #include "Request.hpp"
 #include "Response.hpp"
+#include <climits>
 #include <cstring>
 #include <errno.h>
 #include <fcntl.h>
@@ -12,7 +13,6 @@
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <unistd.h>
-#include <climits>
 
 #define LISTEN_BACKLOG 10
 #define MAXLINE 4096
@@ -53,6 +53,7 @@ class Socket
 	int	 socket_recv();
 	void socket_accept();
 	int	 get_sock_id() const;
+	void set_server_name(std::string);
 };
 
 #endif
