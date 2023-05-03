@@ -39,16 +39,16 @@ Response::load_http_request(Request &request)
 	}
 	else if (request.get_method().compare("POST") == 0)
 	{
-		if (request._request_map["FileName"].compare("exist") == 0)
+		if (request._request_map["fileStatus"].compare("exist") == 0)
 			load_response_post_delete(409);
 		else
 			load_response_post_delete(201);
 	}
 	else if (request.get_method().compare("DELETE") == 0)
 	{
-		if (request._request_map["FileName"].compare("exist") == 0)
+		if (request._request_map["fileStatus"].compare("exist") == 0)
 			load_response_post_delete(204);
-		else if (request._request_map["FileName"].compare("r_fail") == 0)
+		else if (request._request_map["fileStatus"].compare("r_fail") == 0)
 			load_response_post_delete(500);
 		else
 			load_response_post_delete(404);

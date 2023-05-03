@@ -143,10 +143,10 @@ Socket::delete_handler()
 	std::string fullpath = _dir_path + "/uploads" + file_name;
 	if (access(fullpath.c_str(), F_OK) != -1)
 	{
-		_request._request_map["FileName"] = "exist";
+		_request._request_map["fileStatus"] = "exist";
 		int ret = remove(fullpath.c_str());
 		if (ret != 0)
-			_request._request_map["FileName"] = "r_fail";
+			_request._request_map["fileStatus"] = "r_fail";
 	}
 }
 
@@ -196,7 +196,7 @@ Socket::create_new_file()
 	}
 	else
 	{
-		_request._request_map["FileName"] = "exist";
+		_request._request_map["fileStatus"] = "exist";
 	}
 }
 
@@ -247,7 +247,7 @@ Socket::check_content_lenght_authorized()
 		char *end = NULL;
 		if (_max_content_length < std::strtoul(req_map["Content-Length"].c_str(), &end, 10))
 		{
-			this->_request.set_error_code(406);
+			this->_request.set_error_code(413);
 		}
 	}
 }
