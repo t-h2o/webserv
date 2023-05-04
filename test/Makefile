@@ -43,6 +43,10 @@ SRCS	+=	$(SRCD)/json/06_test.cpp
 SRCS	+=	$(SRCD)/json/07_test.cpp
 SRCS	+=	$(SRCD)/json/08_test.cpp
 
+SRCS	+=	$(SRCD)/check-json-config/00_launcher.cpp
+SRCS	+=	$(SRCD)/check-json-config/01_test.cpp
+SRCS	+=	$(SRCD)/check-json-config/02_test.cpp
+
 SRCS	+=	$(SRCD)/cgi/00_launcher.cpp
 SRCS	+=	$(SRCD)/cgi/01_test.cpp
 SRCS	+=	$(SRCD)/cgi/02_test.cpp

@@ -34,6 +34,12 @@ int test_http_response(void);
 int launch_status_code(void);
 int test_status_code(void);
 
+/* json::check_config(t_object *config) */
+
+int launch_check_json_config(void);
+int test_json_check_config_normal(void);
+int test_json_check_config_bad_port(void);
+
 /* Json::read(char const *path); */
 
 int launch_json(void);
