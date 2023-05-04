@@ -61,17 +61,19 @@ int
 test_cgi_with_php(void)
 {
 	std::string cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
+	std::string	cgi_file = "test/website/input.php";
 	std::map<std::string, std::string> map;
-	std::string	cgi_file;
-	std::string	str;
-	CGI	cgi;
+	std::string	output_cgi;
+//	std::string	cgi_query;
+	char*	str;
 
 	map = request();
 	std::map<std::string, std::string>::iterator it;
-	for (it = map.begin(); it != map.end(); ++it) {
-		if (it->second.find(".php") != std::string::npos)
-			cgi_file = it->second;
-	}
-	std::cout << "file " << cgi_file << std::endl;
+	CGI	cgi(cgi_path, cgi_file, "");
+
+	str = const_cast<char *>(cgi_file.c_str());
+	output_cgi = cgi.execution_cgi(str);
+
+	std::cout << "out_cgi = " << output_cgi << std::endl;
 	return (0);
 }
