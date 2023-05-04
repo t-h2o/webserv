@@ -12,6 +12,7 @@ int test_check_argc_number_2(void);
 int launch_arguments_argv(void);
 int test_check_argv_access_valid(void);
 int test_check_argv_access_unvalid(void);
+
 /* cgi:: */
 
 int launch_execve_cgi(void);
@@ -23,6 +24,7 @@ int test_execve_cgi_env(void);
 
 int	launch_php(void);
 int	test_php_output(void);
+int	test_cgi_with_php(void);
 
 /* http::Request */
 
