@@ -33,6 +33,8 @@ Response::load_http_request(Request &request)
 		}
 		return;
 	}
+	init_response_map();
+
 	if (request.get_method().compare("GET") == 0)
 	{
 		if (check_if_is_dir(path))
