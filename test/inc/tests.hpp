@@ -19,6 +19,7 @@ int launch_execve_cgi(void);
 int test_cgi_exec(void);
 int test_execve_cgi(void);
 int test_execve_cgi_env(void);
+int	test_cgi_with_php_query(void);
 
 /* php:: */
 
