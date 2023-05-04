@@ -63,6 +63,8 @@ check_value_port(t_object *config)
 	return 0;
 }
 
+/* check the content of the configuration file
+ */
 int
 check_config(t_object *config)
 {
