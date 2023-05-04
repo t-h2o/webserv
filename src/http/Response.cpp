@@ -26,6 +26,7 @@ Response::load_http_request(Request &request)
 	init_response_map();
 	std::string path = _dir_path;
 	path += request.get_path();
+	check_if_is_dir(path);
 	if (request.get_method().compare("GET") == 0)
 	{
 		if (access(path.c_str(), F_OK))
@@ -239,6 +240,17 @@ Response::php_handler(const Request &request) const
 	std::cout << "IT's a .php" << std::endl;
 	if (request.get_has_query())
 		std::cout << "the query string is : " << req_map["Query"] << std::endl;
+}
+
+bool
+Response::check_if_is_dir(const std::string &path)
+{
+	struct stat info;
+	if (stat(path.c_str(), &info) != 0)
+	{
+		return false;
+	}
+	return S_ISDIR(info.st_mode);
 }
 
 } /* namespace http */

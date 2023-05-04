@@ -5,6 +5,7 @@
 #include <map>
 #include <string.h>
 #include <string>
+#include <sys/stat.h>
 #include <vector>
 
 namespace http
@@ -43,7 +44,6 @@ class Request
 	void clean_path();
 	void empty_path_handler();
 	void check_header();
-	void check_if_is_dir();
 };
 
 std::ostream &operator<<(std::ostream &, Request const &);

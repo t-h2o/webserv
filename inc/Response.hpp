@@ -44,6 +44,7 @@ class Response
 	void		create_error_html_page(int code);
 	bool		has_php_extension(const Request &request) const;
 	void		php_handler(const Request &request) const;
+	bool		check_if_is_dir(const std::string &path);
 };
 
 std::ostream &operator<<(std::ostream &, Response const &);
