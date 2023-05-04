@@ -41,14 +41,37 @@ request(void)
 int
 test_php_output(void)
 {
-	http::Response	pp;
 	std::map<std::string, std::string> map;
-	std::string		str;
-	std::cout << "php test no problemo!" << std::endl;
+	std::string	str;
+	CGI	cgi;
+
+	map = request();
+	if (map.empty())
+	{
+		std::cerr << "map is empty" << std::endl;
+		return (1);
+	}
+//	std::map<std::string, std::string>::iterator it;
+//	for (it = map.begin(); it != map.end(); ++it)
+//		std::cout << it->first << " " << it->second << std::endl;
+	return (0);
+}
+
+int
+test_cgi_with_php(void)
+{
+	std::string cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
+	std::map<std::string, std::string> map;
+	std::string	cgi_file;
+	std::string	str;
+	CGI	cgi;
 
 	map = request();
 	std::map<std::string, std::string>::iterator it;
-	for (it = map.begin(); it != map.end(); ++it)
-		std::cout << it->first << " " << it->second << std::endl;
+	for (it = map.begin(); it != map.end(); ++it) {
+		if (it->second.find(".php") != std::string::npos)
+			cgi_file = it->second;
+	}
+	std::cout << "file " << cgi_file << std::endl;
 	return (0);
 }
