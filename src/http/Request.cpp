@@ -203,6 +203,7 @@ Request::check_header()
 	check_if_has_query();
 	if (_has_query)
 		clean_path();
+	check_if_is_dir();
 }
 
 int
@@ -214,6 +215,10 @@ void
 Request::set_error_code(int code)
 {
 	_error_code = code;
+}
+
+void Request::check_if_is_dir(){
+
 }
 
 } /* namespace http */
