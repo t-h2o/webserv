@@ -1,4 +1,5 @@
 #include "utils_json.hpp"
+#include <climits>
 #include <iostream>
 
 #define DEFAULT_SERVER_NAME "default_server_name"
@@ -55,7 +56,7 @@ check_value_port(t_object *config)
 		return 1;
 	}
 	double port(config->at("port").get<double>());
-	if (port < 0 || 65000 < port)
+	if (port < 0 || USHRT_MAX < port)
 	{
 		std::cerr << "Error: port over-range" << std::endl;
 		return 1;
