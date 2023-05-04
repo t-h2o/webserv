@@ -18,6 +18,7 @@ Response::load_http_request(Request &request)
 		request.set_error_code(0);
 		return;
 	}
+			std::cout << "it's ok ###################" << std::endl;
 	if (has_php_extension(request))
 	{
 		php_handler(request);
@@ -26,7 +27,6 @@ Response::load_http_request(Request &request)
 	init_response_map();
 	std::string path = _dir_path;
 	path += request.get_path();
-	check_if_is_dir(path);
 	if (request.get_method().compare("GET") == 0)
 	{
 		if (access(path.c_str(), F_OK))
@@ -229,8 +229,12 @@ Response::has_php_extension(const Request &request) const
 {
 	std::string path(request.get_path());
 	size_t		last_dot = path.find_last_of('.');
-	std::string extenstion(path.substr(last_dot));
-	return (extenstion.compare(".php") == 0);
+	if( last_dot != std::string::npos)
+	{
+		std::string extenstion(path.substr(last_dot));
+		return (extenstion.compare(".php") == 0);
+	}
+	return false;
 }
 
 void
