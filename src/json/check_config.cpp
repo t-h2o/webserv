@@ -9,7 +9,7 @@ namespace json
 static int
 check_value_servername(t_object *config)
 {
-	if (config->find("server_name") != config->end())
+	if (config->find("server_name") == config->end())
 	{
 		(*config)["server_name"] = json::Value(new std::string(DEFAULT_SERVER_NAME));
 		return 0;
@@ -28,7 +28,7 @@ check_value_servername(t_object *config)
 static int
 check_value_path(t_object *config)
 {
-	if (config->find("path") != config->end())
+	if (config->find("path") == config->end())
 	{
 		std::cerr << "Error: not path in the config" << std::endl;
 		return 1;
@@ -44,7 +44,7 @@ check_value_path(t_object *config)
 static int
 check_value_port(t_object *config)
 {
-	if (config->find("port") != config->end())
+	if (config->find("port") == config->end())
 	{
 		std::cerr << "Error: not port in the config" << std::endl;
 		return 1;
