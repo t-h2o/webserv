@@ -35,7 +35,7 @@ CGI::CGI(const std::string &bin, const std::string &file, const std::string &que
  * concerns, improved security, and easier management of dependencies and configurations.
  */
 void
-CGI::set_env(const std::map<std::string, std::string>& map)
+CGI::set_env(const std::map<std::string, std::string>& map, std::string args)
 {
 	//		// Définit la route par laquelle tous les utilisateurs seront authentifiés (dans les applications
 	//	 // prises
@@ -73,27 +73,54 @@ CGI::set_env(const std::map<std::string, std::string>& map)
 	//		_env["SERVER_SOFTWARE"] = "";
 	//		// Indique qu'une requête été redirigée en interne, elle est définie pour la gestion des erreurs.
 	//		_env["REDIRECT_STATUS"] = "CGI";
+
+
+	_env["AUTH_TYPE"] = "";
+
+	struct stat sa = {};
+	_env["SCRIPT_NAME"] = "";
+	if (stat("/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi", &sa) == 0)
+		_env["SCRIPT_FILENAME"] = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
+
 	std::map<std::string, std::string>::const_iterator it = map.find("Path");
 	_env["SCRIPT_FILENAME"] = "";
 	if (it != map.end() && !it->second.empty())
 	{
 		struct stat sb = {};
-		if (stat("test/website/input.php", &sb) == 0)
-			_env["SCRIPT_FILENAME"] = "test/website/input.php";
+		if (stat(args.c_str(), &sb) == 0)
+			_env["SCRIPT_FILENAME"] = args;
 	}
-	it = map.find("Method");
-	_env["REQUEST_METHOD"] = "";
-	if (it != map.end() && !it->second.empty())
-		_env["REQUEST_METHOD"] = it->second;
-	it = map.find("Query");
-	_env["QUERY_STRING"] = "";
-	if (it != map.end() && !it->second.empty())
-		_env["QUERY_STRING"] = it->second;
+
 	it = map.find("Content-Type");
 	_env["CONTENT_TYPE"] = "";
 	if (it != map.end() && !it->second.empty())
 		_env["CONTENT_TYPE"] = it->second;
-	_env["CONTENT_LENGTH"] = ""; // Set this to the content length if needed
+
+	it = map.find("Content-Length");
+	_env["CONTENT_LENGTH"] = "";
+	if (it != map.end() && !it->second.empty())
+		_env["CONTENT_LENGTH"] = it->second;
+
+	it = map.find("Method");
+	_env["REQUEST_METHOD"] = "";
+	if (it != map.end() && !it->second.empty())
+		_env["REQUEST_METHOD"] = it->second;
+
+	it = map.find("Query");
+	_env["QUERY_STRING"] = "";
+	if (it != map.end() && !it->second.empty())
+		_env["QUERY_STRING"] = it->second;
+
+	it = map.find("Server-Name");
+	_env["SERVER_NAME"] = "";
+	if (it != map.end() && !it->second.empty())
+		_env["SERVER_NAME"] = it->second;
+
+	it = map.find("Server-Test");
+	_env["SERVER_PORT"] = "";
+	if (it != map.end() && !it->second.empty())
+		_env["SERVER_PORT"] = it->second;
+
 	_env["REDIRECT_STATUS"] = "200";
 }
 
@@ -161,7 +188,7 @@ free_env(char **env)
 }
 
 std::string
-CGI::execution_cgi(const std::map<std::string, std::string>& map)
+CGI::execution_cgi(const std::map<std::string, std::string>& map, std::string args)
 {
 	char **env;
 	// Verify if pipe failed.
@@ -170,7 +197,7 @@ CGI::execution_cgi(const std::map<std::string, std::string>& map)
 		std::cerr << "error pipe" << std::endl;
 		exit(1);
 	}
-	set_env(map);
+	set_env(map, args);
 	env = utils::cMap_to_cChar(_env);
 
 	pid_t pid = fork();
