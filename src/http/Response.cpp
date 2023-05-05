@@ -12,6 +12,7 @@ Response::~Response(void) {}
 void
 Response::load_http_request(Request &request)
 {
+	init_response_map();
 	if (request.get_error_code() != 0)
 	{
 		load_response_post_delete(request.get_error_code());
@@ -32,10 +33,9 @@ Response::load_http_request(Request &request)
 		}
 		return;
 	}
-	init_response_map();
 	if (request.get_method().compare("GET") == 0)
 	{
-		if (access(path.c_str(), F_OK))
+		if (access(path.c_str(), F_OK) || check_if_is_dir(path))
 		{
 			load_response_get(404, path);
 		}
@@ -235,7 +235,7 @@ Response::has_php_extension(const Request &request) const
 {
 	std::string path(request.get_path());
 	size_t		last_dot = path.find_last_of('.');
-	if( last_dot != std::string::npos)
+	if (last_dot != std::string::npos)
 	{
 		std::string extenstion(path.substr(last_dot));
 		return (extenstion.compare(".php") == 0);
