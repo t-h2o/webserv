@@ -90,6 +90,9 @@ Response::load_response_get(int status_code, const std::string &path)
 	if (status_code != 200)
 	{
 		set_response_type("html");
+		// if (a file is specified)
+		// 	construct_body_string(specified_file);
+		// else
 		create_error_html_page(status_code);
 	}
 	else
