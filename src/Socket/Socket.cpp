@@ -25,8 +25,8 @@ Socket::create_socket(int domain, int type, int protocol)
 void
 Socket::binding_socket()
 {
-	_connection = bind(_socket_id, reinterpret_cast<struct sockaddr *>(&_address), sizeof(_address));
-	test_socket(_connection, "binding_socket() Fail!");
+	int res(bind(_socket_id, reinterpret_cast<struct sockaddr *>(&_address), sizeof(_address)));
+	test_socket(res, "binding_socket() Fail!");
 }
 
 void
