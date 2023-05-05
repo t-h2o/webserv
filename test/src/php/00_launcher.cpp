@@ -9,5 +9,6 @@ launch_php(void)
 	list.load_test("check_webs_output_php", &test_php_output);
 	list.load_test("check_cgi_php", &test_cgi_with_php);
 	list.load_test("check_cgi_php", &test_cgi_with_php_query);
+	list.load_test("check_cgi_php", &test_cgi_with_php_query2);
 	return (list.launch_tests());
 }
