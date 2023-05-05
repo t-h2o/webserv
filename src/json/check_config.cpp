@@ -15,13 +15,10 @@ check_value_servername(t_object *config)
 		(*config)["server_name"] = json::Value(new std::string(DEFAULT_SERVER_NAME));
 		return 0;
 	}
-	else
+	else if (config->at("server_name").get_type() != JSON_STRING)
 	{
-		if (config->at("server_name").get_type() != JSON_STRING)
-		{
-			std::cerr << "Error: the server_name is not a string" << std::endl;
-			return 1;
-		}
+		std::cerr << "Error: the server_name is not a string" << std::endl;
+		return 1;
 	}
 	return 0;
 }
