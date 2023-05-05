@@ -89,6 +89,8 @@ test_cgi_with_php_query(void)
 
 	if ((output_cgi = cgi.execution_cgi(map)).empty())
 		return (1);
+	if (output_cgi.find("No input file specified.") != std::string::npos)
+		return (1);
 	std::cout << "out_cgi = " << output_cgi << std::endl;
 	return (0);
 }

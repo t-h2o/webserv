@@ -9,6 +9,7 @@
 #include <iostream>
 #include <map>
 #include <sys/wait.h>
+#include <sys/stat.h>
 #include <typeinfo>
 #include <unistd.h>
 #include <vector>
