@@ -29,7 +29,7 @@ serverTest(json::t_object *config)
 	 */
 	json::Value	   val(config);
 	unsigned short port = val.get("port").get<double>();
-	Socket		   sock(AF_INET, port, SOCK_STREAM, 0, val, 100000);
+	Socket		   sock(AF_INET, port, SOCK_STREAM, 0, val);
 	sock.set_server_name("Server1");
 
 	create_upload_folder(val);
