@@ -31,8 +31,8 @@ serverTest(json::t_object *config)
 	json::Value server_config;
 	server_config.duplicate(val.get("foo.com").get<json::t_object>());
 	std::cout << server_config << std::endl;
-	unsigned short port = val.get("port").get<double>();
-	Socket		   sock(AF_INET, port, SOCK_STREAM, 0, val);
+	unsigned short port = server_config.get("port").get<double>();
+	Socket		   sock(AF_INET, port, SOCK_STREAM, 0, server_config);
 	sock.set_server_name("Server1");
 
 	return;
