@@ -69,7 +69,7 @@ test_cgi_with_php(void)
 	std::map<std::string, std::string>::iterator it;
 	CGI	cgi(cgi_path, cgi_file, "");
 
-	if ((output_cgi = cgi.execution_cgi(map)).empty())
+	if ((output_cgi = cgi.execution_cgi(map, cgi_file)).empty())
 		return (1);
 	std::cout << "out_cgi = " << output_cgi << std::endl;
 	return (0);
@@ -87,7 +87,7 @@ test_cgi_with_php_query(void)
 	std::map<std::string, std::string>::iterator it;
 	CGI	cgi(cgi_path, cgi_file, "");
 
-	if ((output_cgi = cgi.execution_cgi(map)).empty())
+	if ((output_cgi = cgi.execution_cgi(map, cgi_file)).empty())
 		return (1);
 	if (output_cgi.find("No input file specified.") != std::string::npos)
 		return (1);
