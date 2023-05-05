@@ -12,6 +12,7 @@ main(void)
 	result |= launch_http_response();
 	result |= launch_status_code();
 	result |= launch_json();
+	result |= launch_check_json_config();
 	result |= launch_file();
 	result |= launch_execve_cgi();
 
