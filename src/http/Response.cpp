@@ -18,7 +18,6 @@ Response::load_http_request(Request &request)
 		request.set_error_code(0);
 		return;
 	}
-			std::cout << "it's ok ###################" << std::endl;
 	if (has_php_extension(request))
 	{
 		php_handler(request);
