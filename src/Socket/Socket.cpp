@@ -70,17 +70,14 @@ Socket::socket_recv()
 	char		buffer[MAXLINE] = { 0 };
 	ssize_t		byte_read;
 	std::string tmp_buffer;
-	std::cout << "CONNECTION ID IN SOCKET: " << this->_connection_fd << std::endl;
 	byte_read = recv(this->_connection_fd, buffer, MAXLINE - 1, 0);
 	if (byte_read == 0 || byte_read == -1)
 	{
-		return (-1);
+		return byte_read;
 	}
 	tmp_buffer = std::string(buffer);
 	size_t header_body_delimiter = tmp_buffer.find("\r\n\r\n");
 	_header_str += tmp_buffer.substr(0, header_body_delimiter);
-	std::cout << "HEADER STR:\n" << _header_str << std::endl;
-
 	if (header_body_delimiter + 4 < tmp_buffer.size())
 	{
 		for (size_t i = header_body_delimiter + 4; i < static_cast<unsigned long>(byte_read); i++)
@@ -103,7 +100,7 @@ Socket::socket_recv()
 	_response.load_http_request(_request);
 	clean_request();
 	send_response();
-	return 0;
+	return byte_read;
 }
 
 void

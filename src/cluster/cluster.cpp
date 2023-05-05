@@ -56,74 +56,55 @@ Cluster::run()
 
 		while (select_return == 0)
 		{
-			std::cout << "select while loop" << std::endl;
 			FD_ZERO(&reading_set);
 			std::memcpy(&reading_set, &_master_fd_set, sizeof(_master_fd_set));
-			std::cout << "waiting for select" << std::endl;
 			select_return = select(_max_fd + 1, &reading_set, NULL, NULL, NULL);
 		}
 		if (select_return > 0)
 		{
-			// one or more socket_fd is ready to be read.
-			for (std::map<int, Socket>::iterator it = _sockets.begin(); it != _sockets.end(); it++)
+			int max_search = select_return;
+			for (int i = 0; i <= _max_fd && max_search; i++)
 			{
-				std::cout << "trying to accept" << std::endl;
-
-				if (FD_ISSET(it->first, &reading_set))
+				if (FD_ISSET(i, &reading_set))
 				{
-					int new_sd;
-
-					new_sd = it->second.socket_accept();
-					std::cout << "Accepted" << std::endl;
-					if (new_sd < 0)
+					std::map<int, Socket>::iterator it = _sockets.find(i);
+					if (it != _sockets.end())
 					{
-						if (errno != EWOULDBLOCK)
-						{
-							std::cerr << "Error with accept() " << std::endl;
-							end_server = 1;
-						}
-						break;
+						int new_sd = it->second.socket_accept();
+						if (new_sd > 0)
+							_sockets_accepted.insert(std::make_pair(new_sd, it->second));
+						if (new_sd > _max_fd)
+							_max_fd = new_sd;
+						max_search--;
 					}
-					_sockets_accepted.insert(std::make_pair(new_sd, it->second));
-					FD_SET(new_sd, &reading_set);
-					if (new_sd > _max_fd)
-						_max_fd = new_sd;
 				}
 			}
-
-			for (std::map<int, Socket>::iterator it = _sockets_accepted.begin();
-				 it != _sockets_accepted.end(); it++)
+			std::map<int, Socket>::iterator it = _sockets_accepted.begin();
+			while (it != _sockets_accepted.end())
 			{
-				std::cout << "trying to read" << std::endl;
-				if (FD_ISSET(it->first, &reading_set))
-				{
-					std::cout << "is set" << std::endl;
-					std::cout << "CONNECTION ID OUTSIDE SOCKET: " << it->first << std::endl;
-					int ret;
+				int ret;
 
-					ret = it->second.socket_recv();
-					std::cout << "ret: " << ret << std::endl;
-					if (errno == EWOULDBLOCK)
-						std::cout << "ret: EWOULDBLOCK" << std::endl;
-					if (ret == 0)
-					{
-						FD_CLR(it->first, &reading_set);
-						it = _sockets_accepted.begin();
-					}
+				ret = it->second.socket_recv();
+				if (ret == -1)
+				{
+					it = _sockets_accepted.begin();
+					continue;
 				}
+				if (ret == 0)
+				{
+					close(it->first);
+				}
+				_sockets_accepted.erase(it);
+				it = _sockets_accepted.begin();
 			}
 		}
 		else if (select_return < 0)
 		{
 			// problem with select, cleaning up.
 			std::cerr << "Error with select()" << std::endl;
-			_servers_vector.clear();
+			_sockets_accepted.clear();
 			_sockets.clear();
 			end_server = 1;
 		}
 	}
 }
-
-// EWOULDBLOCK cannot check it?
-//  how to check it again?
-// maybe arr or ready to read  and pop it if finished?
