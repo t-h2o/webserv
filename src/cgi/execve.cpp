@@ -73,10 +73,22 @@ CGI::set_env(const std::map<std::string, std::string>& map)
 	//		_env["SERVER_SOFTWARE"] = "";
 	//		// Indique qu'une requête été redirigée en interne, elle est définie pour la gestion des erreurs.
 	//		_env["REDIRECT_STATUS"] = "CGI";
-	_env["SCRIPT_FILENAME"] = args;
-	_env["REQUEST_METHOD"] = "POST";
-	_env["QUERY_STRING"] = "";	 // Set this to the query string if there is one
-	_env["CONTENT_TYPE"] = "";	 // Set this to the content type if needed
+	std::map<std::string, std::string>::const_iterator it = map.find("Path");
+	_env["SCRIPT_FILENAME"] = "";
+	if (it != map.end() && !it->second.empty())
+		_env["SCRIPT_FILENAME"] = it->second;
+	it = map.find("Method");
+	_env["REQUEST_METHOD"] = "";
+	if (it != map.end() && !it->second.empty())
+		_env["REQUEST_METHOD"] = it->second;
+	it = map.find("Query");
+	_env["QUERY_STRING"] = "";
+	if (it != map.end() && !it->second.empty())
+		_env["QUERY_STRING"] = it->second;
+	it = map.find("Content-Type");
+	_env["CONTENT_TYPE"] = "";
+	if (it != map.end() && !it->second.empty())
+		_env["CONTENT_TYPE"] = it->second;	 // Set this to the content type if needed
 	_env["CONTENT_LENGTH"] = ""; // Set this to the content length if needed
 	_env["REDIRECT_STATUS"] = "200";
 }
