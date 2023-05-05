@@ -117,6 +117,15 @@ Value::get(std::string const &key) const
 	return get<t_object>().at(key);
 }
 
+void
+Value::duplicate(t_object const &object)
+{
+	delete_value();
+
+	_value = new t_object(object);
+	_type = JSON_OBJECT;
+}
+
 /* extra */
 
 std::ostream &

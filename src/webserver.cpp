@@ -17,7 +17,5 @@ webserver(const char *path_config_file)
 
 	serverTest(config);
 
-	delete config;
-
 	return 0;
 }

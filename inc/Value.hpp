@@ -37,6 +37,8 @@ class Value
 	enum e_type get_type(void) const;
 	Value	   &get(std::string const &) const;
 
+	void duplicate(t_object const &);
+
 	/* templates functions */
 	template <typename T> T &get(void) const;
 
