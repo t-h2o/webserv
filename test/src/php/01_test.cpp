@@ -64,14 +64,12 @@ test_cgi_with_php(void)
 	std::string	cgi_file = "test/website/input.php";
 	std::map<std::string, std::string> map;
 	std::string	output_cgi;
-	char*	str;
 
 	map = request();
 	std::map<std::string, std::string>::iterator it;
 	CGI	cgi(cgi_path, cgi_file, "");
 
-	str = const_cast<char *>(cgi_file.c_str());
-	if ((output_cgi = cgi.execution_cgi(str, map)).empty())
+	if ((output_cgi = cgi.execution_cgi(map)).empty())
 		return (1);
 	std::cout << "out_cgi = " << output_cgi << std::endl;
 	return (0);
@@ -84,13 +82,11 @@ test_cgi_with_php_query(void)
 	std::string	cgi_file = "test/website/input.php";
 	std::map<std::string, std::string> map;
 	std::string	output_cgi;
-	char*	str;
 
 	map = request();
 	std::map<std::string, std::string>::iterator it;
 	CGI	cgi(cgi_path, cgi_file, "");
 
-//	str = const_cast<char *>(cgi_file.c_str());
 	if ((output_cgi = cgi.execution_cgi(map)).empty())
 		return (1);
 	std::cout << "out_cgi = " << output_cgi << std::endl;
