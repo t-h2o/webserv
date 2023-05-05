@@ -5,7 +5,7 @@ namespace http
 
 StatusCode Response::_status_code;
 
-Response::Response(const json::Value &server_config) : server_name("Webserver"), _server_config(server_config) {}
+Response::Response(const json::Value &server_config) : server_name("Webserver"), _server_config(server_config) {(void) _server_config;}
 
 Response::~Response(void) {}
 
