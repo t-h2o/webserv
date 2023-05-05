@@ -12,23 +12,30 @@ Response::~Response(void) {}
 void
 Response::load_http_request(Request &request)
 {
+	init_response_map();
 	if (request.get_error_code() != 0)
 	{
 		load_response_post_delete(request.get_error_code());
 		request.set_error_code(0);
 		return;
 	}
-	if (has_php_extension(request))
-	{
-		php_handler(request);
-		return;
-	}
-	init_response_map();
 	std::string path = _dir_path;
 	path += request.get_path();
-	if (request.get_method().compare("GET") == 0)
+	if (has_php_extension(request))
 	{
 		if (access(path.c_str(), F_OK))
+		{
+			load_response_get(404, path);
+		}
+		else
+		{
+			php_handler(request);
+		}
+		return;
+	}
+	if (request.get_method().compare("GET") == 0)
+	{
+		if (access(path.c_str(), F_OK) || check_if_is_dir(path))
 		{
 			load_response_get(404, path);
 		}
@@ -83,6 +90,9 @@ Response::load_response_get(int status_code, const std::string &path)
 	if (status_code != 200)
 	{
 		set_response_type("html");
+		// if (a file is specified from json::Value)
+		// 	construct_body_string(specified_file);
+		// else
 		create_error_html_page(status_code);
 	}
 	else
@@ -228,8 +238,12 @@ Response::has_php_extension(const Request &request) const
 {
 	std::string path(request.get_path());
 	size_t		last_dot = path.find_last_of('.');
-	std::string extenstion(path.substr(last_dot));
-	return (extenstion.compare(".php") == 0);
+	if (last_dot != std::string::npos)
+	{
+		std::string extenstion(path.substr(last_dot));
+		return (extenstion.compare(".php") == 0);
+	}
+	return false;
 }
 
 void
@@ -239,6 +253,17 @@ Response::php_handler(const Request &request) const
 	std::cout << "IT's a .php" << std::endl;
 	if (request.get_has_query())
 		std::cout << "the query string is : " << req_map["Query"] << std::endl;
+}
+
+bool
+Response::check_if_is_dir(const std::string &path)
+{
+	struct stat info;
+	if (stat(path.c_str(), &info) != 0)
+	{
+		return false;
+	}
+	return S_ISDIR(info.st_mode);
 }
 
 } /* namespace http */

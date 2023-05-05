@@ -5,6 +5,7 @@
 #include <map>
 #include <string.h>
 #include <string>
+#include <sys/stat.h>
 #include <vector>
 
 namespace http
