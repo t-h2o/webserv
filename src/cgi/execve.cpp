@@ -35,7 +35,7 @@ CGI::CGI(const std::string &bin, const std::string &file, const std::string &que
  * concerns, improved security, and easier management of dependencies and configurations.
  */
 void
-CGI::set_env(char *args)
+CGI::set_env(const std::map<std::string, std::string>& map)
 {
 	//		// Définit la route par laquelle tous les utilisateurs seront authentifiés (dans les applications
 	//	 // prises
@@ -145,7 +145,7 @@ free_env(char **env)
 }
 
 std::string
-CGI::execution_cgi(char *args)
+CGI::execution_cgi(const std::map<std::string, std::string>& map)
 {
 	char **env;
 	// Verify if pipe failed.
@@ -154,7 +154,7 @@ CGI::execution_cgi(char *args)
 		std::cerr << "error pipe" << std::endl;
 		exit(1);
 	}
-	set_env(args);
+	set_env(map);
 	env = utils::cMap_to_cChar(_env);
 
 	pid_t pid = fork();

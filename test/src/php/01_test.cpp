@@ -71,8 +71,8 @@ test_cgi_with_php(void)
 	CGI	cgi(cgi_path, cgi_file, "");
 
 	str = const_cast<char *>(cgi_file.c_str());
-	output_cgi = cgi.execution_cgi(str);
-
+	if ((output_cgi = cgi.execution_cgi(str, map)).empty())
+		return (1);
 	std::cout << "out_cgi = " << output_cgi << std::endl;
 	return (0);
 }
@@ -90,9 +90,9 @@ test_cgi_with_php_query(void)
 	std::map<std::string, std::string>::iterator it;
 	CGI	cgi(cgi_path, cgi_file, "");
 
-	str = const_cast<char *>(cgi_file.c_str());
-	output_cgi = cgi.execution_cgi(str);
-
+//	str = const_cast<char *>(cgi_file.c_str());
+	if ((output_cgi = cgi.execution_cgi(map)).empty())
+		return (1);
 	std::cout << "out_cgi = " << output_cgi << std::endl;
 	return (0);
 }
