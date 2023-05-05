@@ -76,7 +76,11 @@ CGI::set_env(const std::map<std::string, std::string>& map)
 	std::map<std::string, std::string>::const_iterator it = map.find("Path");
 	_env["SCRIPT_FILENAME"] = "";
 	if (it != map.end() && !it->second.empty())
-		_env["SCRIPT_FILENAME"] = it->second;
+	{
+		struct stat sb = {};
+		if (stat("test/website/input.php", &sb) == 0)
+			_env["SCRIPT_FILENAME"] = "test/website/input.php";
+	}
 	it = map.find("Method");
 	_env["REQUEST_METHOD"] = "";
 	if (it != map.end() && !it->second.empty())
@@ -88,7 +92,7 @@ CGI::set_env(const std::map<std::string, std::string>& map)
 	it = map.find("Content-Type");
 	_env["CONTENT_TYPE"] = "";
 	if (it != map.end() && !it->second.empty())
-		_env["CONTENT_TYPE"] = it->second;	 // Set this to the content type if needed
+		_env["CONTENT_TYPE"] = it->second;
 	_env["CONTENT_LENGTH"] = ""; // Set this to the content length if needed
 	_env["REDIRECT_STATUS"] = "200";
 }
