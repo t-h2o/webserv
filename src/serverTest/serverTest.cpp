@@ -27,11 +27,14 @@ serverTest(json::t_object *config)
 	 *	AF_INET + SOCK_STREAM always protocol = 0,
 	 *	address for this socket, let the OS choose = INADDR_ANY
 	 */
-	json::Value	   val(config);
+	json::Value val(config);
+	json::Value server_config(&(val.get("foo.com").get<json::t_object>()));
+	std::cout << server_config << std::endl;
 	unsigned short port = val.get("port").get<double>();
 	Socket		   sock(AF_INET, port, SOCK_STREAM, 0, val);
 	sock.set_server_name("Server1");
 
+	return;
 	create_upload_folder(val);
 	while (1)
 	{
