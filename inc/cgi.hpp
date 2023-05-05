@@ -30,10 +30,10 @@ class CGI
 	CGI(void);
 	CGI(const std::string &bin, const std::string &file, const std::string &query);
 
-	std::string execution_cgi(char *args);
+	std::string execution_cgi(const std::map<std::string, std::string>& map);
 	std::string parent_process(pid_t &pid);
 	void		child_process(char **);
-	void		set_env(char *args);
+	void		set_env(const std::map<std::string, std::string>& map);
 	~CGI(void);
 };
 

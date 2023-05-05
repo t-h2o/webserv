@@ -13,7 +13,7 @@ main(void)
 	result |= launch_json();
 	result |= launch_check_json_config();
 	result |= launch_file();
-	result |= launch_execve_cgi();
+//	result |= launch_execve_cgi();
 	result |= launch_php();
 
 	return result;
