@@ -36,7 +36,7 @@ Cluster::setup()
 	{
 		int	   fd;
 		Socket new_socket(AF_INET, it->port, SOCK_STREAM, 0, it->path);
-		fd = new_socket.get_sock_id();
+		fd = new_socket.get_socket_id();
 		FD_SET(fd, &_master_fd_set);
 		_sockets.insert(std::make_pair(fd, new_socket));
 		if (fd > _max_fd)

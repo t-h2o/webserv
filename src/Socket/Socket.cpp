@@ -18,14 +18,14 @@ Socket::Socket(int domain, unsigned short port, int type, int protocol, const js
 void
 Socket::create_socket(int domain, int type, int protocol)
 {
-	_sock_id = socket(domain, type, protocol);
-	test_socket(_sock_id, "create_socket() Fail!");
+	_socket_id = socket(domain, type, protocol);
+	test_socket(_socket_id, "create_socket() Fail!");
 }
 
 void
 Socket::binding_socket()
 {
-	_connection = bind(_sock_id, reinterpret_cast<struct sockaddr *>(&_address), sizeof(_address));
+	_connection = bind(_socket_id, reinterpret_cast<struct sockaddr *>(&_address), sizeof(_address));
 	test_socket(_connection, "binding_socket() Fail!");
 }
 
@@ -41,15 +41,15 @@ Socket::test_socket(int item_to_test, const char *msg)
 {
 	if (item_to_test < 0)
 	{
-		close(_sock_id);
+		close(_socket_id);
 		throw std::runtime_error(msg);
 	}
 }
 
 int
-Socket::get_sock_id() const
+Socket::get_socket_id() const
 {
-	return _sock_id;
+	return _socket_id;
 }
 
 void
@@ -60,7 +60,7 @@ Socket::set_socket_non_blocking()
 	test_socket(ret, "setsockopt() Fail!");
 
 	// Following code only working after select() is implemented
-	ret = fcntl(_sock_id, F_SETFL, O_NONBLOCK);
+	ret = fcntl(_socket_id, F_SETFL, O_NONBLOCK);
 	test_socket(ret, "fcnt() Fail!");
 }
 
@@ -145,7 +145,7 @@ Socket::delete_handler()
 int
 Socket::socket_accept()
 {
-	this->_connection_fd = accept(get_sock_id(), NULL, NULL);
+	this->_connection_fd = accept(get_socket_id(), NULL, NULL);
 	return this->_connection_fd;
 }
 
