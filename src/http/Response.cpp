@@ -18,14 +18,21 @@ Response::load_http_request(Request &request)
 		request.set_error_code(0);
 		return;
 	}
+	std::string path = _dir_path;
+	path += request.get_path();
 	if (has_php_extension(request))
 	{
-		php_handler(request);
+		if (access(path.c_str(), F_OK))
+		{
+			load_response_get(404, path);
+		}
+		else
+		{
+			php_handler(request);
+		}
 		return;
 	}
 	init_response_map();
-	std::string path = _dir_path;
-	path += request.get_path();
 	if (request.get_method().compare("GET") == 0)
 	{
 		if (access(path.c_str(), F_OK))
