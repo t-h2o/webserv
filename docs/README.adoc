@@ -5,6 +5,54 @@
 
 == Web server UML diagram
 
+=== Mindmap diagram
+
+[plantuml, target=mindmap, format=svg, width=60%]
+....
+@startmindmap
+
+<style>
+mindmapDiagram {
+  .green {
+    BackgroundColor lightgreen
+  }
+  .rose {
+    BackgroundColor #FFBBCC
+  }
+  .red {
+    BackgroundColor red
+  }
+  .yellow {
+    BackgroundColor yellow
+  }
+  .blue {
+    BackgroundColor lightblue
+  }
+}
+</style>
+
+* web server
+** configuration file
+*** server list
+**** each server need
+***** server name <<yellow>>
+***** port number <<red>>
+***** path to the website <<red>>
+*** path to a php-cgi
+** connection loop
+*** create a socket instance for each server
+***:manage socket in
+<code>
+select()
+</code>;
+
+legend left
+  <<red>>: obligatoire
+  <<yellow>>: faculatif
+endlegend
+@endmindmap
+....
+
 === Usecase diagram
 
 [plantuml, target=usecase, format=svg, width=60%]
