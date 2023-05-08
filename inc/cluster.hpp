@@ -18,16 +18,10 @@ class Cluster
 	void setup();
 	void run();
 	void create_upload_folder(json::Value &config);
-	typedef struct host_port
-	{
-		double		port;
-		std::string host;
-		std::string path;
-		json::Value server_config;
-	} t_host_port;
 
   private:
-	std::vector<t_host_port> _servers_vector;
+	typedef std::vector<json::Value> t_array;
+	t_array							 _all_server_config;
 	// map of socket_fd and the socket itself
 	std::map<int, Socket> _sockets;
 	std::map<int, Socket> _sockets_accepted;

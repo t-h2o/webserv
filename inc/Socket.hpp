@@ -48,9 +48,9 @@ class Socket
   public:
 	Socket(int domain, unsigned short port, int type, int protocol, const json::Value &,
 		   unsigned long max_length = ULONG_MAX);
-	int	 socket_recv();
+	int socket_recv();
 	int socket_accept();
-	int	 get_socket_id() const;
+	int get_socket_id() const;
 };
 
 #endif
