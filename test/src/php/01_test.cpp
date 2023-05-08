@@ -4,7 +4,7 @@
 #include "../../../inc/Response.hpp"
 
 std::map<std::string, std::string>
-request(void)
+request_GET(void)
 {
 	std::map<std::string, std::string> map;
 	char array[] = "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8\n"
@@ -45,9 +45,8 @@ test_php_output(void)
 	std::string	str;
 	CGI	cgi;
 
-	map = request();
-	if (map.empty())
-	{
+	map = request_GET();
+	if (map.empty()) {
 		std::cerr << "map is empty" << std::endl;
 		return (1);
 	}
@@ -61,16 +60,18 @@ int
 test_cgi_with_php(void)
 {
 	std::string cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
-	std::string	cgi_file = "test/website/input.php";
+	std::string	cgi_file = "test/website/cgi/input.php";
 	std::map<std::string, std::string> map;
 	std::string	output_cgi;
 
-	map = request();
+	map = request_GET();
 	std::map<std::string, std::string>::iterator it;
 	CGI	cgi(cgi_path, cgi_file, "");
 
-	if ((output_cgi = cgi.execution_cgi(map, cgi_file)).empty())
+	if ((output_cgi = cgi.execution_cgi(map, cgi_file)).empty()) {
+		std::cerr << "2.1 Error: output: " << output_cgi << std::endl;
 		return (1);
+	}
 	std::cout << "out_cgi = " << output_cgi << std::endl;
 	return (0);
 }
@@ -79,18 +80,22 @@ int
 test_cgi_with_php_query(void)
 {
 	std::string cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
-	std::string	cgi_file = "test/website/input.php";
+	std::string	cgi_file = "test/website/cgi/input.php";
 	std::map<std::string, std::string> map;
 	std::string	output_cgi;
 
-	map = request();
+	map = request_GET();
 	std::map<std::string, std::string>::iterator it;
 	CGI	cgi(cgi_path, cgi_file, "");
 
-	if ((output_cgi = cgi.execution_cgi(map, cgi_file)).empty())
+	if ((output_cgi = cgi.execution_cgi(map, cgi_file)).empty()) {
+		std::cerr << "3.1 Error: output: " << output_cgi << std::endl;
 		return (1);
-	if (output_cgi.find("No input file specified.") != std::string::npos)
+	}
+	if (output_cgi.find("No input file specified.") != std::string::npos) {
+		std::cerr << "3.2 Error: output: " << output_cgi << std::endl;
 		return (1);
+	}
 	std::cout << "out_cgi = " << output_cgi << std::endl;
 	return (0);
 }
@@ -98,18 +103,23 @@ int
 test_cgi_with_php_query2(void)
 {
 	std::string cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
-	std::string	cgi_file = "test/website/input2.php";
+	std::string	cgi_file = "test/website/cgi/path_info.php";
 	std::map<std::string, std::string> map;
 	std::string	output_cgi;
 
-	map = request();
+	map = request_GET();
+	std::string cgi_query = get_query(map);
 	std::map<std::string, std::string>::iterator it;
-	CGI	cgi(cgi_path, cgi_file, "");
+	CGI	cgi(cgi_path, cgi_file, cgi_query);
 
-	if ((output_cgi = cgi.execution_cgi(map, cgi_file)).empty())
+	if ((output_cgi = cgi.execution_cgi(map, cgi_file)).empty()) {
+		std::cerr << "4.1 Error: output: " << output_cgi << std::endl;
 		return (1);
-	if (output_cgi.find("No input file specified.") != std::string::npos)
+	}
+	if (output_cgi.find("No input file specified.") != std::string::npos) {
+		std::cerr << "4.2 Error: output: " << output_cgi << std::endl;
 		return (1);
+	}
 	std::cout << "out_cgi = " << output_cgi << std::endl;
 	return (0);
 }
