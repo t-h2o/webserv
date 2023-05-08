@@ -4,14 +4,14 @@ build:
 test:
 	docker run --tty \
 	--name python-http \
-	--network host \
-	--add-host webserv.com:127.0.0.1 \
+	--network bridge \
+	--add-host webserv.com:host-gateway \
 	--rm  my-python \
 
 exec:
 	docker run --tty \
 	--name python-http \
-	--network host \
-	--add-host webserv.com:127.0.0.1 \
+	--network bridge \
+	--add-host webserv.com:host-gateway \
 	--rm  my-python \
 	python

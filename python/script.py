@@ -12,7 +12,7 @@ def request_get (url, expected_status_code):
         print ("good")
 
 def main ():
-    request_get("http://localhost:6060/index.html", 200)
+    request_get("http://webserv.com:6060/index.html", 200)
     request_get("http://webserv.com:6060/index.html", 200)
 
 if __name__ == "__main__":
