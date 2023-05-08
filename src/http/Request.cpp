@@ -11,11 +11,10 @@ Request::parse_buffer(std::string str_buff)
 {
 	std::vector<std::string> tmp_vector;
 	std::string				 delimiter = "\r\n";
-	std::string				 str;
 	int						 delimiter_position = str_buff.find(delimiter);
 	while (delimiter_position != -1)
 	{
-		str = str_buff.substr(0, delimiter_position);
+		std::string str = str_buff.substr(0, delimiter_position);
 		tmp_vector.push_back(str);
 		str_buff.erase(str_buff.begin(), str_buff.begin() + delimiter_position + 1);
 		delimiter_position = str_buff.find(delimiter);
@@ -30,11 +29,10 @@ Request::parse_first_line(std::string firstLine)
 {
 	std::vector<std::string> tmp_vector;
 	std::string				 delimiter = " ";
-	std::string				 str;
 	int						 delimiter_position = firstLine.find(delimiter);
 	while (delimiter_position != -1)
 	{
-		str = firstLine.substr(0, delimiter_position);
+		std::string str = firstLine.substr(0, delimiter_position);
 		tmp_vector.push_back(this->trim(str));
 		firstLine.erase(firstLine.begin(), firstLine.begin() + delimiter_position + 1);
 		delimiter_position = firstLine.find(delimiter);
