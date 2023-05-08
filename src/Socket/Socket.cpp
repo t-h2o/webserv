@@ -14,7 +14,6 @@ Socket::Socket(int domain, unsigned short port, int type, int protocol, const js
 	_header_str = "";
 	_body_str = "";
 	_dir_path = _server_config.get("path").get<std::string>();
-	_response.set_dir_path(_dir_path);
 }
 
 void

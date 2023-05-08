@@ -24,13 +24,11 @@ class Response
 	std::string		get_http_response(void);
 	void			load_http_request(Request &req);
 	const t_object &get_map() const;
-	void			set_dir_path(std::string);
 
   private:
 	const json::Value &_server_config;
 	static StatusCode  _status_code;
 	t_object		   _response_map;
-	std::string		   _dir_path;
 	void			   set_content_length(std::string str);
 	void			   init_response_map(void);
 	void			   set_response_type(std::string path);

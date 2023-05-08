@@ -19,7 +19,7 @@ Response::load_http_request(Request &request)
 		request.set_error_code(0);
 		return;
 	}
-	std::string path = _dir_path;
+	std::string path = _server_config.get("path").get<std::string>();
 	path += request.get_path();
 	if (has_php_extension(request))
 	{
@@ -35,7 +35,6 @@ Response::load_http_request(Request &request)
 	}
 	if (request.get_method().compare("GET") == 0)
 	{
-		std::cout << check_if_is_dir(path) << std::endl;
 		if (access(path.c_str(), F_OK) || check_if_is_dir(path))
 		{
 			if (check_if_is_dir(path))
@@ -94,6 +93,8 @@ Response::load_response_get(int status_code, const std::string &path)
 	if (status_code != 200)
 	{
 		set_response_type("html");
+		// std::string dir_path = _server_config.get("is_dir_file").get<std::string>();
+		// std::cout << dir_path << std::endl;
 		// if (a file is specified from json::Value)
 		// 	construct_body_string(specified_file);
 		// else
@@ -229,12 +230,6 @@ const Response::t_object &
 Response::get_map() const
 {
 	return _response_map;
-}
-
-void
-Response::set_dir_path(std::string path)
-{
-	_dir_path = path;
 }
 
 bool
