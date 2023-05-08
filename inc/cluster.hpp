@@ -23,6 +23,7 @@ class Cluster
 		double		port;
 		std::string host;
 		std::string path;
+		json::Value server_config;
 	} t_host_port;
 
   private:

@@ -16,13 +16,16 @@ void
 Cluster::load_cluster(json::t_object *config)
 {
 	json::Value val(config);
-	create_upload_folder(val);
+	json::Value server_config;
+	server_config.duplicate(val.get("nicesite.com").get<json::t_object>());
+	create_upload_folder(server_config);
 
 	t_host_port new_server;
 
-	new_server.port = val.get("port").get<double>();
-	new_server.path = val.get("path").get<std::string>();
-	new_server.host = "";
+	new_server.port = server_config.get("port").get<double>();
+	new_server.path = server_config.get("path").get<std::string>();
+	new_server.host = "nicesite.com";
+	new_server.server_config = server_config;
 	_servers_vector.push_back(new_server);
 	setup();
 }
@@ -35,7 +38,7 @@ Cluster::setup()
 	for (std::vector<t_host_port>::iterator it(_servers_vector.begin()); it != _servers_vector.end(); it++)
 	{
 		int	   fd;
-		Socket new_socket(AF_INET, it->port, SOCK_STREAM, 0, it->path);
+		Socket new_socket(AF_INET, it->port, SOCK_STREAM, 0, it->server_config);
 		fd = new_socket.get_socket_id();
 		FD_SET(fd, &_master_fd_set);
 		_sockets.insert(std::make_pair(fd, new_socket));

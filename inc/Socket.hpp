@@ -28,8 +28,7 @@ class Socket
 	std::string		   _header_str;
 	std::string		   _body_str;
 	int				   _connection_fd;
-	int				   _sock_id;
-	int				   _connection;
+	int				   _socket_id;
 	unsigned long	   _max_content_length;
 	struct sockaddr_in _address;
 	void			   create_socket(int domain, int type, int protocol);
@@ -51,7 +50,7 @@ class Socket
 		   unsigned long max_length = ULONG_MAX);
 	int	 socket_recv();
 	int socket_accept();
-	int	 get_sock_id() const;
+	int	 get_socket_id() const;
 };
 
 #endif
