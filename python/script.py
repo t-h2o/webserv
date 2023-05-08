@@ -2,11 +2,18 @@
 
 import requests
 
-print("start the python3 script")
-request_index = requests.get('http://172.17.0.1:6060/index.html')
-print(request_index.text)
-print(request_index.status_code)
+def request_get (url, expected_status_code):
+    print("Request get on: " + url)
+    print("method GET on " + url)
+    request_index = requests.get(url)
+    if request_index.status_code != expected_status_code:
+        print ("error")
+    else:
+        print ("good")
 
-request_index = requests.get('http://172.17.0.1:6060/asdf')
-print(request_index.text)
-print(request_index.status_code)
+def main ():
+    request_get("http://localhost:6060/index.html", 200)
+    request_get("http://webserv.com:6060/index.html", 200)
+
+if __name__ == "__main__":
+    main()
