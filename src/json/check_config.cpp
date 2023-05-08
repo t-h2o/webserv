@@ -8,14 +8,14 @@ namespace json
 {
 
 static int
-check_value_servername(t_object *config)
+check_value_servername(t_object &config)
 {
-	if (config->find("server_name") == config->end())
+	if (config.find("server_name") == config.end())
 	{
-		(*config)["server_name"] = json::Value(new std::string(DEFAULT_SERVER_NAME));
+		config["server_name"] = json::Value(new std::string(DEFAULT_SERVER_NAME));
 		return 0;
 	}
-	else if (config->at("server_name").get_type() != JSON_STRING)
+	else if (config.at("server_name").get_type() != JSON_STRING)
 	{
 		std::cerr << "Error: the server_name is not a string" << std::endl;
 		return 1;
@@ -24,14 +24,14 @@ check_value_servername(t_object *config)
 }
 
 static int
-check_value_path(t_object *config)
+check_value_path(t_object const &config)
 {
-	if (config->find("path") == config->end())
+	if (config.find("path") == config.end())
 	{
 		std::cerr << "Error: not path in the config" << std::endl;
 		return 1;
 	}
-	if (config->at("path").get_type() != JSON_STRING)
+	if (config.at("path").get_type() != JSON_STRING)
 	{
 		std::cerr << "Error: the path is not a string" << std::endl;
 		return 1;
@@ -40,19 +40,19 @@ check_value_path(t_object *config)
 }
 
 static int
-check_value_port(t_object *config)
+check_value_port(t_object const &config)
 {
-	if (config->find("port") == config->end())
+	if (config.find("port") == config.end())
 	{
 		std::cerr << "Error: not port in the config" << std::endl;
 		return 1;
 	}
-	if (config->at("port").get_type() != JSON_NUMBER)
+	if (config.at("port").get_type() != JSON_NUMBER)
 	{
 		std::cerr << "Error: the port is not a number" << std::endl;
 		return 1;
 	}
-	double port(config->at("port").get<double>());
+	double port(config.at("port").get<double>());
 	if (port < 0 || USHRT_MAX < port)
 	{
 		std::cerr << "Error: port over-range" << std::endl;
@@ -66,12 +66,18 @@ check_value_port(t_object *config)
 int
 check_config(t_object *config)
 {
-	if (check_value_path(config))
-		return 1;
-	if (check_value_port(config))
-		return 1;
-	if (check_value_servername(config))
-		return 1;
+	for (t_object::iterator server_config(config->begin()); server_config != config->end(); ++server_config)
+	{
+		if (server_config->second.get_type() == JSON_OBJECT)
+		{
+			if (check_value_path(server_config->second.get<t_object>()))
+				return 1;
+			if (check_value_port(server_config->second.get<t_object>()))
+				return 1;
+			if (check_value_servername(server_config->second.get<t_object>()))
+				return 1;
+		}
+	}
 
 	return 0;
 }

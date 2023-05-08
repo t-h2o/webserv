@@ -1,14 +1,15 @@
 {
-
-  "foo.com": {
-    "port" : 6060,
-    "path" : "/path/of/foo.com"
-  },
-
-  "bar.org": {
-    "port" : 8080,
-    "path" : "/path/of/bar.org"
-  },
+	
+	"nicesite.com": {
+	  "port" : 6060,
+	  "path" : "./test/website",
+	  "dir_error": "is_dir.html"	
+	},
+	
+	"bar.org": {
+		"port" : 8080,
+		"path" : "/path/of/bar.org"
+	},
 
   "php-cgi" : "/path/of/php-cgi"
 

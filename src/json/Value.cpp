@@ -117,6 +117,24 @@ Value::get(std::string const &key) const
 	return get<t_object>().at(key);
 }
 
+bool
+Value::if_exist(std::string const &key) const
+{
+	if (get_type() != JSON_OBJECT)
+		return false;
+
+	return (get<t_object>().find(key) != get<t_object>().end());
+}
+
+void
+Value::duplicate(t_object const &object)
+{
+	delete_value();
+
+	_value = new t_object(object);
+	_type = JSON_OBJECT;
+}
+
 /* extra */
 
 std::ostream &

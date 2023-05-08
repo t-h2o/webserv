@@ -22,11 +22,11 @@
 class Socket
 {
   private:
+	const json::Value &_server_config;
 	http::Request	   _request;
 	http::Response	   _response;
 	std::string		   _header_str;
 	std::string		   _body_str;
-	std::string		   _dir_path;
 	int				   _connection_fd;
 	int				   _sock_id;
 	int				   _connection;
@@ -44,16 +44,14 @@ class Socket
 	std::string		   get_file_full_name();
 	void			   create_new_file();
 	std::string		   clean_end_of_file(std::string const &str_to_clean);
-	const std::string &get_dir_path() const;
 	void			   check_content_lenght_authorized();
 
   public:
-	Socket(int domain, unsigned short port, int type, int protocol, std::string path,
+	Socket(int domain, unsigned short port, int type, int protocol, const json::Value &,
 		   unsigned long max_length = ULONG_MAX);
 	int	 socket_recv();
 	void socket_accept();
 	int	 get_sock_id() const;
-	void set_server_name(const std::string &);
 };
 
 #endif

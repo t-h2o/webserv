@@ -5,7 +5,7 @@ namespace http
 
 StatusCode Response::_status_code;
 
-Response::Response() : server_name("Webserver") {}
+Response::Response(const json::Value &server_config) : _server_config(server_config) {}
 
 Response::~Response(void) {}
 
@@ -19,7 +19,7 @@ Response::load_http_request(Request &request)
 		request.set_error_code(0);
 		return;
 	}
-	std::string path = _dir_path;
+	std::string path = _server_config.get("path").get<std::string>();
 	path += request.get_path();
 	if (has_php_extension(request))
 	{
@@ -35,7 +35,9 @@ Response::load_http_request(Request &request)
 	}
 	if (request.get_method().compare("GET") == 0)
 	{
-		if (access(path.c_str(), F_OK) || check_if_is_dir(path))
+		if (check_if_is_dir(path))
+			load_response_get(401, path);
+		else if (access(path.c_str(), F_OK))
 		{
 			load_response_get(404, path);
 		}
@@ -71,7 +73,7 @@ Response::init_response_map()
 {
 	_response_map["Status-line"] = "";
 	_response_map["Date"] = "";
-	_response_map["Server"] = server_name;
+	_response_map["Server"] = _server_config.get("server_name").get<std::string>();
 	_response_map["Content-Length"] = "";
 	_response_map["Content-Type"] = "";
 	_response_map["Connection"] = "Closed";
@@ -90,10 +92,18 @@ Response::load_response_get(int status_code, const std::string &path)
 	if (status_code != 200)
 	{
 		set_response_type("html");
-		// if (a file is specified from json::Value)
-		// 	construct_body_string(specified_file);
-		// else
-		create_error_html_page(status_code);
+		if (_server_config.if_exist("dir_error"))
+		{
+			std::string file_path = _server_config.get("path").get<std::string>() + "/"
+									+ _server_config.get("dir_error").get<std::string>();
+			std::cout << file_path << std::endl;
+			if (access(file_path.c_str(), F_OK))
+				create_error_html_page(status_code);
+			else
+				construct_body_string(file_path);
+		}
+		else
+			create_error_html_page(status_code);
 	}
 	else
 	{
@@ -225,12 +235,6 @@ const Response::t_object &
 Response::get_map() const
 {
 	return _response_map;
-}
-
-void
-Response::set_dir_path(std::string path)
-{
-	_dir_path = path;
 }
 
 bool
