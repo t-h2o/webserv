@@ -36,6 +36,7 @@ class Value
 	size_t		size(void) const;
 	enum e_type get_type(void) const;
 	Value	   &get(std::string const &) const;
+	bool		if_exist(std::string const &key) const;
 
 	void duplicate(t_object const &);
 
