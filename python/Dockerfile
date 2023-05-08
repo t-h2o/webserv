@@ -7,4 +7,3 @@ RUN mkdir -p /script
 COPY script.py /script
 
 ENTRYPOINT ["python3", "/script/script.py"]
-
