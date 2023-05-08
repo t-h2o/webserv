@@ -74,9 +74,7 @@ Request::trim(const std::string &s)
 {
 	const std::string _WHITESPACE = " \n\r\t\f\v";
 	std::string		  left_trimed_string = "";
-	size_t			  start;
-	size_t			  end;
-	start = s.find_first_not_of(_WHITESPACE);
+	size_t			  start = s.find_first_not_of(_WHITESPACE);
 	if (start == std::string::npos)
 	{
 		return left_trimed_string;
@@ -85,7 +83,7 @@ Request::trim(const std::string &s)
 	{
 		left_trimed_string = s.substr(start);
 	}
-	end = left_trimed_string.find_last_not_of(_WHITESPACE);
+	size_t end = left_trimed_string.find_last_not_of(_WHITESPACE);
 	return left_trimed_string.substr(0, end + 1);
 }
 
@@ -136,9 +134,8 @@ Request::method_is_authorized(std::string method) const
 std::ostream &
 operator<<(std::ostream &output, Request const &req)
 {
-	Request::t_object::const_iterator start;
-
-	for (start = req.get_map().begin(); start != req.get_map().end(); ++start)
+	for (Request::t_object::const_iterator start = req.get_map().begin(); start != req.get_map().end();
+		 ++start)
 	{
 		output << start->first << " : " << start->second << "\n";
 	}
