@@ -6,6 +6,16 @@
 
 #define BUFFER_SIZE 4092
 
+std::string	get_query(const std::map<std::string, std::string>& map)
+{
+	std::map<std::string, std::string>::const_iterator it = map.find("Query");
+	std::string ret;
+	ret = "";
+	if (it != map.end() && !it->second.empty())
+		ret = it->second;
+	return (ret);
+}
+
 CGI::CGI(void) {}
 
 CGI::CGI(const std::string &bin, const std::string &file, const std::string &query)
@@ -29,13 +39,58 @@ CGI::CGI(const std::string &bin, const std::string &file, const std::string &que
 	_args.push_back(NULL);
 }
 
+void	CGI::check_map(const std::map<std::string, std::string>& map, const std::string& name_file)
+{
+	struct stat sa = {};
+	_script_name = "";
+	if (stat("/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi", &sa) == 0)
+		_script_name = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
+
+	std::map<std::string, std::string>::const_iterator it = map.find("Path");
+	_script_path = "";
+	if (it != map.end() && !it->second.empty())
+	{
+		struct stat sb = {};
+		if (stat(name_file.c_str(), &sb) == 0)
+			_script_path = name_file;
+	}
+	it = map.find("Content-Type");
+	_cont_type = "";
+	if (it != map.end() && !it->second.empty())
+		_cont_type = it->second;
+	it = map.find("Content-Length");
+	_cont_length = "";
+	if (it != map.end() && !it->second.empty())
+		_cont_length= it->second;
+	it = map.find("Method");
+	_method = "";
+	if (it != map.end() && !it->second.empty())
+		_method = it->second;
+	it = map.find("Query");
+	_query = "";
+	if (it != map.end() && !it->second.empty())
+		_query = it->second;
+	it = map.find("Server-Name");
+	_env_Host = "";
+	if (it != map.end() && !it->second.empty())
+		_env_Host = it->second;
+	it = map.find("Server-Test");
+	_port = "";
+	if (it != map.end() && !it->second.empty())
+		_port = it->second;
+	it = map.find("Server-Test");
+	_port = "";
+	if (it != map.end() && !it->second.empty())
+		_port = it->second;
+}
+
 /*
  * Environment variables in PHP-CGI serve as a way to provide configuration values, system
  * information, and sensitive data to PHP scripts during their execution, allowing for better separation of
  * concerns, improved security, and easier management of dependencies and configurations.
  */
 void
-CGI::set_env(const std::map<std::string, std::string>& map, std::string args)
+CGI::set_env(const std::map<std::string, std::string>& map, std::string script_name)
 {
 	//		// Définit la route par laquelle tous les utilisateurs seront authentifiés (dans les applications
 	//	 // prises
@@ -75,52 +130,20 @@ CGI::set_env(const std::map<std::string, std::string>& map, std::string args)
 	//		_env["REDIRECT_STATUS"] = "CGI";
 
 
+	check_map(map, script_name);
+
 	_env["AUTH_TYPE"] = "";
+	_env["CONTENT_TYPE"] = _cont_type;
+	_env["CONTENT_LENGTH"] = _cont_length;
 
-	struct stat sa = {};
-	_env["SCRIPT_NAME"] = "";
-	if (stat("/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi", &sa) == 0)
-		_env["SCRIPT_FILENAME"] = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
+	_env["GATEWAY_INTERFACE"] = "CGI/1.1";
 
-	std::map<std::string, std::string>::const_iterator it = map.find("Path");
-	_env["SCRIPT_FILENAME"] = "";
-	if (it != map.end() && !it->second.empty())
-	{
-		struct stat sb = {};
-		if (stat(args.c_str(), &sb) == 0)
-			_env["SCRIPT_FILENAME"] = args;
-	}
+	_env["SERVER_PORT"] = _port;
 
-	it = map.find("Content-Type");
-	_env["CONTENT_TYPE"] = "";
-	if (it != map.end() && !it->second.empty())
-		_env["CONTENT_TYPE"] = it->second;
-
-	it = map.find("Content-Length");
-	_env["CONTENT_LENGTH"] = "";
-	if (it != map.end() && !it->second.empty())
-		_env["CONTENT_LENGTH"] = it->second;
-
-	it = map.find("Method");
-	_env["REQUEST_METHOD"] = "";
-	if (it != map.end() && !it->second.empty())
-		_env["REQUEST_METHOD"] = it->second;
-
-	it = map.find("Query");
-	_env["QUERY_STRING"] = "";
-	if (it != map.end() && !it->second.empty())
-		_env["QUERY_STRING"] = it->second;
-
-	it = map.find("Server-Name");
-	_env["SERVER_NAME"] = "";
-	if (it != map.end() && !it->second.empty())
-		_env["SERVER_NAME"] = it->second;
-
-	it = map.find("Server-Test");
-	_env["SERVER_PORT"] = "";
-	if (it != map.end() && !it->second.empty())
-		_env["SERVER_PORT"] = it->second;
-
+	_env["REQUEST_METHOD"] = _method;
+	_env["SCRIPT_NAME"] = _script_name;
+	_env["SCRIPT_FILENAME"] = _script_path;
+	_env["QUERY_STRING"] = _query;
 	_env["REDIRECT_STATUS"] = "200";
 }
 
@@ -188,7 +211,7 @@ free_env(char **env)
 }
 
 std::string
-CGI::execution_cgi(const std::map<std::string, std::string>& map, std::string args)
+CGI::execution_cgi(const std::map<std::string, std::string>& map, const std::string& args)
 {
 	char **env;
 	// Verify if pipe failed.

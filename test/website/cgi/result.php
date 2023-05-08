@@ -11,7 +11,6 @@
 
 <p>content post : <?php if( isset($_POST["contentPost"]) ) {echo $_POST["contentPost"];} ?></p>
 <p>content get : <?php if( isset($_GET["contentGet"]) ) {echo $_GET["contentGet"];} ?></p>
-<p>content lastvisit : <?php echo $_COOKIE["lastvisit"]; ?></p>
 
 <?php
 
