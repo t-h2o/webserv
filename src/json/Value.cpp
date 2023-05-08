@@ -123,7 +123,7 @@ Value::if_exist(std::string const &key) const
 	if (get_type() != JSON_OBJECT)
 		return false;
 
-	return (get<t_object>().find(key) == get<t_object>().end());
+	return (get<t_object>().find(key) != get<t_object>().end());
 }
 
 void
