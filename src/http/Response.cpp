@@ -35,12 +35,11 @@ Response::load_http_request(Request &request)
 	}
 	if (request.get_method().compare("GET") == 0)
 	{
-		if (access(path.c_str(), F_OK) || check_if_is_dir(path))
+		if (check_if_is_dir(path))
+			load_response_get(401, path);
+		else if (access(path.c_str(), F_OK))
 		{
-			if (check_if_is_dir(path))
-				load_response_get(401, path);
-			else
-				load_response_get(404, path);
+			load_response_get(404, path);
 		}
 		else
 		{
