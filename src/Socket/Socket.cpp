@@ -13,7 +13,6 @@ Socket::Socket(int domain, unsigned short port, int type, int protocol, const js
 	start_listening();
 	_header_str = "";
 	_body_str = "";
-	_dir_path = _server_config.get("path").get<std::string>();
 }
 
 void
@@ -138,8 +137,8 @@ void
 Socket::delete_handler()
 {
 	std::string file_name = _request.get_path();
-
-	std::string fullpath = _dir_path + "/uploads" + file_name;
+	std::string path = _server_config.get("path").get<std::string>();
+	std::string fullpath = path + "/uploads" + file_name;
 	if (access(fullpath.c_str(), F_OK) != -1)
 	{
 		_request._request_map["fileStatus"] = "exist";
@@ -206,12 +205,6 @@ Socket::clean_end_of_file(std::string const &str_to_clean)
 	while (str_to_clean[index] == '-' || str_to_clean[index] == '\n')
 		--index;
 	return str_to_clean.substr(0, index);
-}
-
-const std::string &
-Socket::get_dir_path() const
-{
-	return _dir_path;
 }
 
 void
