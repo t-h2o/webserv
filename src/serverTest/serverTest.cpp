@@ -33,7 +33,6 @@ serverTest(json::t_object *config)
 	std::cout << server_config << std::endl;
 	unsigned short port = server_config.get("port").get<double>();
 	Socket		   sock(AF_INET, port, SOCK_STREAM, 0, server_config);
-	sock.set_server_name("Server1");
 
 	return;
 	create_upload_folder(val);

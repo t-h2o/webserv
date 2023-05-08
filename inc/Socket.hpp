@@ -54,7 +54,6 @@ class Socket
 	int	 socket_recv();
 	void socket_accept();
 	int	 get_sock_id() const;
-	void set_server_name(const std::string &);
 };
 
 #endif
