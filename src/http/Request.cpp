@@ -92,25 +92,33 @@ Request::trim(const std::string &s)
 std::string
 Request::get_method() const
 {
-	return _request_map.at("Method");
+	if (_request_map.find("Method") != _request_map.end())
+		return _request_map.at("Method");
+	return "";
 }
 
 std::string
 Request::get_path() const
 {
-	return _request_map.at("Path");
+	if (_request_map.find("Path") != _request_map.end())
+		return _request_map.at("Path");
+	return "";
 }
 
 std::string
 Request::get_protocol() const
 {
-	return _request_map.at("Protocol");
+	if (_request_map.find("Protocol") != _request_map.end())
+		return _request_map.at("Protocol");
+	return "";
 }
 
 std::string
 Request::get_host() const
 {
-	return _request_map.at("Host");
+	if (_request_map.find("Host") != _request_map.end())
+		return _request_map.at("Host");
+	return "";
 }
 
 bool
