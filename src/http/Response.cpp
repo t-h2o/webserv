@@ -92,12 +92,18 @@ Response::load_response_get(int status_code, const std::string &path)
 	if (status_code != 200)
 	{
 		set_response_type("html");
-		// std::string dir_path = _server_config.get("is_dir_file").get<std::string>();
-		// std::cout << dir_path << std::endl;
-		// if (a file is specified from json::Value)
-		// 	construct_body_string(specified_file);
-		// else
-		create_error_html_page(status_code);
+		if (_server_config.if_exist("dir_error"))
+		{
+			std::string file_path = _server_config.get("path").get<std::string>() + "/"
+									+ _server_config.get("dir_error").get<std::string>();
+			std::cout << file_path << std::endl;
+			if (access(file_path.c_str(), F_OK))
+				create_error_html_page(status_code);
+			else
+				construct_body_string(file_path);
+		}
+		else
+			create_error_html_page(status_code);
 	}
 	else
 	{

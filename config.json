@@ -2,7 +2,8 @@
 	
 	"nicesite.com": {
 	  "port" : 6060,
-	  "path" : "./test/website"
+	  "path" : "./test/website",
+	  "dir_error": "is_dir.html"	
 	},
 	
 	"bar.org": {
