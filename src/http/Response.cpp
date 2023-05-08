@@ -5,10 +5,7 @@ namespace http
 
 StatusCode Response::_status_code;
 
-Response::Response(const json::Value &server_config) : _server_config(server_config)
-{
-	(void)_server_config;
-}
+Response::Response(const json::Value &server_config) : _server_config(server_config) { (void)_server_config; }
 
 Response::~Response(void) {}
 
@@ -38,9 +35,13 @@ Response::load_http_request(Request &request)
 	}
 	if (request.get_method().compare("GET") == 0)
 	{
+		std::cout << check_if_is_dir(path) << std::endl;
 		if (access(path.c_str(), F_OK) || check_if_is_dir(path))
 		{
-			load_response_get(404, path);
+			if (check_if_is_dir(path))
+				load_response_get(401, path);
+			else
+				load_response_get(404, path);
 		}
 		else
 		{
