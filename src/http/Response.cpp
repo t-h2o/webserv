@@ -5,7 +5,7 @@ namespace http
 
 StatusCode Response::_status_code;
 
-Response::Response(const json::Value &server_config) : server_name("Webserver"), _server_config(server_config)
+Response::Response(const json::Value &server_config) : _server_config(server_config)
 {
 	(void)_server_config;
 }
@@ -74,7 +74,7 @@ Response::init_response_map()
 {
 	_response_map["Status-line"] = "";
 	_response_map["Date"] = "";
-	_response_map["Server"] = server_name;
+	_response_map["Server"] = _server_config.get("server_name").get<std::string>();
 	_response_map["Content-Length"] = "";
 	_response_map["Content-Type"] = "";
 	_response_map["Connection"] = "Closed";
