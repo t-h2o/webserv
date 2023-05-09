@@ -12,22 +12,15 @@
 //{
 //	std::map<std::string, std::string> map;
 //	char array[] = "Accept:
-//text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8\n" 												 "Accept-Encoding:
-//gzip, deflate, br\n" 												 "Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;\n" 												 "q=0.3 Connection: keep-alive\n"
-//												 "Content-Type:\n"
-//												 "Content-Length: 19\n"
-//												 "Cookie: wp-settings-time-1=1677339113\n"
-//												 "Host: localhost:6060\n"
-//												 "Method: POST\n"
-//												 "Path: /input.php\n"
-//												 "Protocol: HTTP/1.1\n"
-//												 "Query:\n"
-//												 "Sec-Fetch-Dest: document\n"
-//												 "Sec-Fetch-Mode: navigate\n"
-//												 "Sec-Fetch-Site: none\n"
-//												 "Upgrade-Insecure-Requests: 1\n"
-//												 "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:107.0) Gecko/20100101
-//Firefox/107.0\n"; 	std::stringstream ss(array); 	std::string line; 	while (std::getline(ss, line))
+// text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8\n"
+// "Accept-Encoding: gzip, deflate, br\n" 												 "Accept-Language:
+// fr,fr-FR;q=0.8,en-US;q=0.5,en;\n" 												 "q=0.3 Connection:
+// keep-alive\n" 												 "Content-Type:\n" 												 "Content-Length: 19\n" 												 "Cookie: wp-settings-time-1=1677339113\n" 												 "Host:
+//localhost:6060\n" 												 "Method: POST\n" 												 "Path: /input.php\n" 												 "Protocol: HTTP/1.1\n" 												 "Query:\n" 												 "Sec-Fetch-Dest:
+//document\n" 												 "Sec-Fetch-Mode: navigate\n" 												 "Sec-Fetch-Site: none\n" 												 "Upgrade-Insecure-Requests: 1\n"
+//												 "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:107.0)
+//Gecko/20100101 Firefox/107.0\n"; 	std::stringstream ss(array); 	std::string line; 	while
+// (std::getline(ss, line))
 //	{
 //		size_t s_count = line.find(": ");
 //		if (s_count != std::string::npos)
