@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>HTML Result Page for Testing</title>
 </head>
-
+<form action="php_post.php" method="post" enctype="multipart/form-data">
 <body>
 
 <h1>Testing result</h1>

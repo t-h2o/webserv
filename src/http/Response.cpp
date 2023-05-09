@@ -258,7 +258,7 @@ Response::php_handler(const Request &request) const
 	t_object req_map = request.get_map();
 	std::cout << "IT's a .php" << std::endl;
 
-//	char*	cgi = (char*)"/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
+	//	char*	cgi = (char*)"/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
 	if (request.get_has_query())
 		std::cout << "the query string is : " << req_map["Query"] << std::endl;
 	std::map<std::string, std::string>::iterator it;
