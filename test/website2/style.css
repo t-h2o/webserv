@@ -84,23 +84,3 @@ label {
 .title {
   font-size: 5rem;
 }
-
-form {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  max-width: 60%;
-  min-height: 25rem;
-  margin: 2rem auto;
-  border-radius: 5px;
-  background-color: var(--secondary-color);
-}
-
-ul {
-  list-style-type: none;
-}
-
-li {
-  margin-bottom: 1rem;
-}
