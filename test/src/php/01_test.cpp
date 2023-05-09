@@ -53,8 +53,6 @@ test_php_output(void)
 		std::cerr << "map is empty" << std::endl;
 		return (1);
 	}
-	//	std::map<std::string, std::string>::iterator it;
-	//	for (it = map.begin(); it != map.end(); ++it)
 	return (0);
 }
 
