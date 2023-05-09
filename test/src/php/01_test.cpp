@@ -55,7 +55,6 @@ test_php_output(void)
 	}
 	//	std::map<std::string, std::string>::iterator it;
 	//	for (it = map.begin(); it != map.end(); ++it)
-	//		std::cout << it->first << " " << it->second << std::endl;
 	return (0);
 }
 
@@ -153,7 +152,6 @@ test_cgi_with_files(void)
 		std::cerr << "5.1.2 Error: output: " << output_cgi << std::endl;
 		return (1);
 	}
-	std::cout << "out_cgi1 = " << output_cgi << std::endl;
 
 	cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
 	cgi_file = "test/website/cgi/php_post.php";
@@ -170,7 +168,6 @@ test_cgi_with_files(void)
 		std::cerr << "5.2.2 Error: output: " << output_cgi << std::endl;
 		return (1);
 	}
-	std::cout << "out_cgi2 = " << output_cgi << std::endl;
 
 	cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
 	cgi_file = "test/website/cgi/result.php";
@@ -187,7 +184,6 @@ test_cgi_with_files(void)
 		std::cerr << "5.3.2 Error: output: " << output_cgi << std::endl;
 		return (1);
 	}
-	std::cout << "out_cgi3 = " << output_cgi << std::endl;
 
 	cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
 	cgi_file = "test/website/cgi/post.html";
@@ -204,7 +200,6 @@ test_cgi_with_files(void)
 		std::cerr << "5.4.2 Error: output: " << output_cgi << std::endl;
 		return (1);
 	}
-	std::cout << "out_cgi4 = " << output_cgi << std::endl;
 
 	cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
 	cgi_file = "test/website/cgi/status.php";
@@ -221,7 +216,6 @@ test_cgi_with_files(void)
 		std::cerr << "5.5.2 Error: output: " << output_cgi << std::endl;
 		return (1);
 	}
-	std::cout << "out_cgi5 = " << output_cgi << std::endl;
 
 	cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
 	cgi_file = "test/website/cgi/test.php";
@@ -238,7 +232,6 @@ test_cgi_with_files(void)
 		std::cerr << "5.6.2 Error: output: " << output_cgi << std::endl;
 		return (1);
 	}
-	std::cout << "out_cgi6 = " << output_cgi << std::endl;
 
 	return (0);
 }
