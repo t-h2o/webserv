@@ -1,6 +1,9 @@
 #!/bin/python3
 
 import requests
+import sys
+
+exit_code = 0
 
 class bcolors:
     HEADER    = '\033[95m'
@@ -20,14 +23,16 @@ def print_success(message):
     print(bcolors.OKGREEN + message + bcolors.ENDC)
 
 def request_get (url, expected_status_code):
+    global exit_code
     print("Request get on: " + url)
 
     request_index = requests.get(url)
 
     if request_index.status_code != expected_status_code:
-        print_error(f"[KO] : http status code : {expected_status_code} / {request_index.status_code}")
+        print_error(f"[KO] : http status code : {request_index.status_code} / {expected_status_code}")
+        exit_code = 1
     else:
-        print_success(f"[OK] : http status code : {expected_status_code} / {request_index.status_code}")
+        print_success(f"[OK] : http status code : {request_index.status_code} / {expected_status_code}")
 
     print()
 
@@ -40,3 +45,4 @@ def main ():
 
 if __name__ == "__main__":
     main()
+    sys.exit(exit_code)
