@@ -66,48 +66,21 @@ CGI::check_map(const std::map<std::string, std::string> &map, const std::string 
 		if (stat(name_file.c_str(), &sb) == 0)
 			_script_path = name_file;
 	}
+
 	/*----- CONTENT_TYPE -----*/
-	it = map.find("Content-Type");
-	_cont_type = "";
-	if (it != map.end() && !it->second.empty())
-		_cont_type = it->second;
-
+	set_private_attribute(map.find("Content-Type"), map.end(), _cont_type);
 	/*----- CONTENT_LENGTH -----*/
-	it = map.find("Content-Length");
-	_cont_length = "";
-	if (it != map.end() && !it->second.empty())
-		_cont_length = it->second;
-
+	set_private_attribute(map.find("Content-Length"), map.end(), _cont_length);
 	/*----- PATH_INFO -----*/
-	it = map.find("Path-Info");
-	_location = "";
-	if (it != map.end() && !it->second.empty())
-		_location = it->second;
-
+	set_private_attribute(map.find("Path-Info"), map.end(), _location);
 	/*----- PATH_TRANSLATED -----*/
-	it = map.find("Path-Translated");
-	_location = "";
-	if (it != map.end() && !it->second.empty())
-		_location = it->second;
-
+	set_private_attribute(map.find("Path-Translated"), map.end(), _location);
 	/*----- REQUEST_URI -----*/
-	it = map.find("Request-Uri");
-	_location = "";
-	if (it != map.end() && !it->second.empty())
-		_location = it->second;
-
+	set_private_attribute(map.find("Request-Uri"), map.end(), _location);
 	/*----- REQUEST_METHOD -----*/
-	it = map.find("Method");
-	_method = "";
-	if (it != map.end() && !it->second.empty())
-		_method = it->second;
-
+	set_private_attribute(map.find("Method"), map.end(), _method);
 	/*----- QUERY_STRING -----*/
-	it = map.find("Query");
-	_query = "";
-	if (it != map.end() && !it->second.empty())
-		_query = it->second;
-
+	set_private_attribute(map.find("Query"), map.end(), _query);
 	/*----- SERVER_NAME -----*/
 	set_private_attribute(map.find("Server-Name"), map.end(), _env_Host);
 	/*----- SERVER_PROTOCOLE -----*/
