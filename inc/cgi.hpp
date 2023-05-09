@@ -47,7 +47,7 @@ class CGI
 	std::string execution_cgi(const std::map<std::string, std::string> &map, const std::string &args);
 	std::string parent_process(pid_t &pid);
 	void		child_process(char **);
-	void		set_env(const std::map<std::string, std::string> &map, const std::string& args);
+	void		set_env(const std::map<std::string, std::string> &map, const std::string &args);
 	void		check_map(const std::map<std::string, std::string> &map, const std::string &name_file);
 	~CGI(void);
 };
