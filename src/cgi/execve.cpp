@@ -40,6 +40,14 @@ CGI::CGI(const std::string &bin, const std::string &file, const std::string &que
 	_args.push_back(NULL);
 }
 
+static void
+set_private_attribute(const std::map<std::string, std::string>::const_iterator &it,
+					  const std::map<std::string, std::string>::const_iterator end, std::string &attribute)
+{
+	attribute = "";
+	if (it != end && !it->second.empty())
+		attribute = it->second;
+}
 void
 CGI::check_map(const std::map<std::string, std::string> &map, const std::string &name_file)
 {
@@ -101,22 +109,11 @@ CGI::check_map(const std::map<std::string, std::string> &map, const std::string 
 		_query = it->second;
 
 	/*----- SERVER_NAME -----*/
-	it = map.find("Server-Name");
-	_env_Host = "";
-	if (it != map.end() && !it->second.empty())
-		_env_Host = it->second;
-
+	set_private_attribute(map.find("Server-Name"), map.end(), _env_Host);
 	/*----- SERVER_PROTOCOLE -----*/
-	it = map.find("Server-Protocole");
-	_http_version = "";
-	if (it != map.end() && !it->second.empty())
-		_http_version = it->second;
-
+	set_private_attribute(map.find("Server-Protocole"), map.end(), _http_version);
 	/*----- SERVER_PORT -----*/
-	it = map.find("Port");
-	_port = "";
-	if (it != map.end() && !it->second.empty())
-		_port = it->second;
+	set_private_attribute(map.find("Port"), map.end(), _port);
 }
 
 /*
@@ -125,7 +122,7 @@ CGI::check_map(const std::map<std::string, std::string> &map, const std::string 
  * concerns, improved security, and easier management of dependencies and configurations.
  */
 void
-CGI::set_env(const std::map<std::string, std::string> &map, const std::string& script_name)
+CGI::set_env(const std::map<std::string, std::string> &map, const std::string &script_name)
 {
 
 	check_map(map, script_name);
