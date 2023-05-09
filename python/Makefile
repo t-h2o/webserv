@@ -2,7 +2,7 @@ build:
 	docker build . -t my-python
 
 test:
-	docker run --tty \
+	docker run \
 	--name python-http \
 	--network bridge \
 	--add-host webserv.com:host-gateway \
