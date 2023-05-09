@@ -26,7 +26,7 @@ test_execve_cgi(void)
 
 		CGI exec(argument[0], argument[1], argument[2]);
 		output = exec.execution_cgi(argument[1]);
-		if (output.find("My username is "WHOAMI) == std::string::npos)
+		if (output.find(std::string(std::string("My username is ") + WHOAMI)) == std::string::npos)
 		{
 			std::cout << "in 5" << std::endl;
 			return (1);
