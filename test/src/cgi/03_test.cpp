@@ -1,6 +1,6 @@
 #include "../../../inc/cgi.hpp"
 
-#include "php.hpp"
+#include "setting.hpp"
 
 int
 test_execve_cgi_env(void)
