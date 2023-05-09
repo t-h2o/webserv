@@ -6,9 +6,9 @@
 	  "dir_error": "is_dir.html"	
 	},
 	
-	"bar.org": {
+	"dummywebsite.com": {
 		"port" : 8080,
-		"path" : "/path/of/bar.org"
+		"path" : "./test/website2"
 	},
 
   "php-cgi" : "/path/of/php-cgi"
