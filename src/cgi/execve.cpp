@@ -6,10 +6,11 @@
 
 #define BUFFER_SIZE 4092
 
-std::string	get_query(const std::map<std::string, std::string>& map)
+std::string
+get_query(const std::map<std::string, std::string> &map)
 {
 	std::map<std::string, std::string>::const_iterator it = map.find("Query");
-	std::string ret;
+	std::string										   ret;
 	ret = "";
 	if (it != map.end() && !it->second.empty())
 		ret = it->second;
@@ -39,14 +40,17 @@ CGI::CGI(const std::string &bin, const std::string &file, const std::string &que
 	_args.push_back(NULL);
 }
 
-void	CGI::check_map(const std::map<std::string, std::string>& map, const std::string& name_file)
+void
+CGI::check_map(const std::map<std::string, std::string> &map, const std::string &name_file)
 {
+	/*----- SCRIPT_NAME -----*/
 	struct stat sa = {};
 	_script_name = "";
 	if (stat("/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi", &sa) == 0)
 		_script_name = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
 
 	std::map<std::string, std::string>::const_iterator it = map.find("Path");
+	/*----- SCRIPT_FILENAME -----*/
 	_script_path = "";
 	if (it != map.end() && !it->second.empty())
 	{
@@ -54,31 +58,98 @@ void	CGI::check_map(const std::map<std::string, std::string>& map, const std::st
 		if (stat(name_file.c_str(), &sb) == 0)
 			_script_path = name_file;
 	}
+	/*----- CONTENT_TYPE -----*/
 	it = map.find("Content-Type");
 	_cont_type = "";
 	if (it != map.end() && !it->second.empty())
 		_cont_type = it->second;
+
+	/*----- CONTENT_LENGTH -----*/
 	it = map.find("Content-Length");
 	_cont_length = "";
 	if (it != map.end() && !it->second.empty())
-		_cont_length= it->second;
+		_cont_length = it->second;
+
+	/*----- PATH_INFO -----*/
+	it = map.find("Path-Info");
+	_location = "";
+	if (it != map.end() && !it->second.empty())
+		_location = it->second;
+
+	// en charge).
+
+	// Donne le nombre d'octets transmis par le client.
+
+	// Donne le type de donnée transmise par le client si l'attribut METHOD a pour valeur POST.
+
+	// Donne la version du CGI utilisé.
+
+	// Donne l'extra path information utilisée.
+
+	// identifies the resource or sub-resource to be returned by the script, and is derived from the
+
+	// portion of the URI path hierarchy following the part that identifies the script itself
+
+	// Donne une traduction d'un chemin virtuel passé dans l'extra path information.
+
+	// Donne les informations passées par un marqueur <FORM METHOD=GET>
+
+	// Donne la valeur de l'attribut METHOD du marqueur FORM utilisé lors de la requête CGI. En gros
+
+	// de requete http
+
+	// Donne le chemin virtuel du script utilisé. Le nom du script.
+
+	// Donne l'IP ou le DNS du serveur.
+
+	// Donne le nom et la version du protocole utilisé par le serveur et le client.
+
+	// Cette variable contient généralement une chaîne de texte telle que "HTTP/1.1" ou "HTTP/2.0",
+
+	// qui indique la version du protocole utilisée.
+
+	// Donne le nom et la version du serveur Web utilisé.
+
+	// Indique qu'une requête été redirigée en interne, elle est définie pour la gestion des erreurs.
+
+	/*----- PATH_TRANSLATED -----*/
+	it = map.find("Path-Translated");
+	_location = "";
+	if (it != map.end() && !it->second.empty())
+		_location = it->second;
+
+	/*----- REQUEST_URI -----*/
+	it = map.find("Request-Uri");
+	_location = "";
+	if (it != map.end() && !it->second.empty())
+		_location = it->second;
+
+	/*----- REQUEST_METHOD -----*/
 	it = map.find("Method");
 	_method = "";
 	if (it != map.end() && !it->second.empty())
 		_method = it->second;
+
+	/*----- QUERY_STRING -----*/
 	it = map.find("Query");
 	_query = "";
 	if (it != map.end() && !it->second.empty())
 		_query = it->second;
+
+	/*----- SERVER_NAME -----*/
 	it = map.find("Server-Name");
 	_env_Host = "";
 	if (it != map.end() && !it->second.empty())
 		_env_Host = it->second;
-	it = map.find("Server-Test");
-	_port = "";
+
+	/*----- SERVER_PROTOCOLE -----*/
+	it = map.find("Server-Protocole");
+	_http_version = "";
 	if (it != map.end() && !it->second.empty())
-		_port = it->second;
-	it = map.find("Server-Test");
+		_http_version = it->second;
+
+	/*----- SERVER_PORT -----*/
+	it = map.find("Port");
 	_port = "";
 	if (it != map.end() && !it->second.empty())
 		_port = it->second;
@@ -90,60 +161,53 @@ void	CGI::check_map(const std::map<std::string, std::string>& map, const std::st
  * concerns, improved security, and easier management of dependencies and configurations.
  */
 void
-CGI::set_env(const std::map<std::string, std::string>& map, std::string script_name)
+CGI::set_env(const std::map<std::string, std::string> &map, std::string script_name)
 {
-	//		// Définit la route par laquelle tous les utilisateurs seront authentifiés (dans les applications
-	//	 // prises
-	//		// en charge).
-	//		_env["AUTH_TYPE"] = "";
-	//		// Donne le nombre d'octets transmis par le client.
-	//		_env["CONTENT_LENGTH"] = "1000";
-	//		// Donne le type de donnée transmise par le client si l'attribut METHOD a pour valeur POST.
-	//		_env["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
-	//		// Donne la version du CGI utilisé.
-	//		_env["GATEWAY_INTERFACE"] = "CGI/1.1";
-	//		// Donne l'extra path information utilisée.
-	//		// identifies the resource or sub-resource to be returned by the script, and is derived from the
-	//		// portion of the URI path hierarchy following the part that identifies the script itself
-	//	 	// http://some.machine/cgi-bin/display.pl/cgi/cgi_doc.txt => /cgi/cgi_doc.txt
-	//		_env["PATH_INFO"] = "/foo/bar";
-	//		// Donne une traduction d'un chemin virtuel passé dans l'extra path information.
-	//		_env["PATH_TRANSLATED"] = args;
-	//		// Donne les informations passées par un marqueur <FORM METHOD=GET>
-	//		_env["QUERY_STRING"] = "foo=bar&baz=qux";
-	//		// Donne la valeur de l'attribut METHOD du marqueur FORM utilisé lors de la requête CGI. En gros
-	// le
-	//	 // type
-	//		// de requete http
-	//		_env["REQUEST_METHOD"] = "GET";
-	//		// Donne le chemin virtuel du script utilisé. Le nom du script.
-	//		_env["SCRIPT_NAME"] = args;
-	//		// Donne l'IP ou le DNS du serveur.
-	//		_env["SERVER_NAME"] = "";
-	//		// Donne le nom et la version du protocole utilisé par le serveur et le client.
-	//		// Cette variable contient généralement une chaîne de texte telle que "HTTP/1.1" ou "HTTP/2.0",
-	//		// qui indique la version du protocole utilisée.
-	//		_env["SERVER_PROTOCOL"] = "";
-	//		// Donne le nom et la version du serveur Web utilisé.
-	//		_env["SERVER_SOFTWARE"] = "";
-	//		// Indique qu'une requête été redirigée en interne, elle est définie pour la gestion des erreurs.
-	//		_env["REDIRECT_STATUS"] = "CGI";
-
 
 	check_map(map, script_name);
 
+	// Définit la route par laquelle tous les utilisateurs seront authentifiés
+	// (dans les applications prises en charge).
 	_env["AUTH_TYPE"] = "";
+	// Type de média Internet des données d'entrée si la méthode PUT ou POST est utilisée, tel que fourni par
+	// l'en-tête HTTP.
 	_env["CONTENT_TYPE"] = _cont_type;
+	// Taille des données d'entrée (décimale, en octets) si elles sont fournies via la page HTTP.
 	_env["CONTENT_LENGTH"] = _cont_length;
 
+	// Donne la version du CGI utilisé.
 	_env["GATEWAY_INTERFACE"] = "CGI/1.1";
+	// Contient toutes les informations sur le chemin d'accès fournies par le client, après le nom de fichier
+	// du script mais avant la chaîne de requête, si elles sont disponibles.
+	// Par exemple, si le script actuel a été accédé via l'URI
+	// http://www.example.com/php/path_info.php/some/stuff?foo=bar,
+	// $_SERVER['PATH_INFO'] contiendra /some/stuff.
+	_env["PATH_INFO"] = _location;
+	// Chemin complet correspondant tel que supposé par le serveur, si PATH_INFO est présent.
+	_env["PATH_TRANSLATED"] = _location;
+	// L'URI qui a été donné pour accéder à cette page ; par exemple, "/index.html".
+	// Uniform Resource Identifier (URI) utilisé dans HTTP pour identifier les ressources.
+	_env["REQUEST_URI"] = _location;
 
+	// Donne l'IP ou le DNS du serveur.
+	_env["SERVER_NAME"] = _env_Host;
+	// Donne le nom et la version du protocole utilisé par le serveur et le client.
+	// Cette variable contient généralement une chaîne de texte telle que "HTTP/1.1" ou "HTTP/2.0",
+	// qui indique la version du protocole utilisée.
+	_env["SERVER_PROTOCOL"] = _http_version;
+	// TCP port (decimal).
 	_env["SERVER_PORT"] = _port;
 
+	// Donne la valeur de l'attribut METHOD du marqueur FORM utilisé lors de la requête CGI.
+	// En gros le type de requête http.
 	_env["REQUEST_METHOD"] = _method;
+	// Chemin relatif vers le programme, comme /cgi-bin/script.cgi.
 	_env["SCRIPT_NAME"] = _script_name;
+	// Chemin absolu vers le programme, comme /cgi-bin/script.cgi.
 	_env["SCRIPT_FILENAME"] = _script_path;
+	// Donne les informations passées par un marqueur <FORM METHOD=GET>
 	_env["QUERY_STRING"] = _query;
+	// Très utile si vous faites pointer toutes vos pages d'erreur vers le même fichier.
 	_env["REDIRECT_STATUS"] = "200";
 }
 
@@ -211,7 +275,7 @@ free_env(char **env)
 }
 
 std::string
-CGI::execution_cgi(const std::map<std::string, std::string>& map, const std::string& args)
+CGI::execution_cgi(const std::map<std::string, std::string> &map, const std::string &args)
 {
 	char **env;
 	// Verify if pipe failed.
