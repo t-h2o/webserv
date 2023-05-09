@@ -26,7 +26,11 @@ def request_get (url, expected_status_code):
     global exit_code
     print("Request get on: " + url)
 
-    request_index = requests.get(url)
+    try:
+        request_index = requests.get(url)
+    except Exception as e:
+        print ("error: script.py not connectable")
+        sys.exit(1)
 
     if request_index.status_code != expected_status_code:
         print_error(f"[KO] : http status code : {request_index.status_code} / {expected_status_code}")
