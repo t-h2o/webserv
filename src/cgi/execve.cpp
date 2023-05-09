@@ -76,42 +76,6 @@ CGI::check_map(const std::map<std::string, std::string> &map, const std::string 
 	if (it != map.end() && !it->second.empty())
 		_location = it->second;
 
-	// en charge).
-
-	// Donne le nombre d'octets transmis par le client.
-
-	// Donne le type de donnée transmise par le client si l'attribut METHOD a pour valeur POST.
-
-	// Donne la version du CGI utilisé.
-
-	// Donne l'extra path information utilisée.
-
-	// identifies the resource or sub-resource to be returned by the script, and is derived from the
-
-	// portion of the URI path hierarchy following the part that identifies the script itself
-
-	// Donne une traduction d'un chemin virtuel passé dans l'extra path information.
-
-	// Donne les informations passées par un marqueur <FORM METHOD=GET>
-
-	// Donne la valeur de l'attribut METHOD du marqueur FORM utilisé lors de la requête CGI. En gros
-
-	// de requete http
-
-	// Donne le chemin virtuel du script utilisé. Le nom du script.
-
-	// Donne l'IP ou le DNS du serveur.
-
-	// Donne le nom et la version du protocole utilisé par le serveur et le client.
-
-	// Cette variable contient généralement une chaîne de texte telle que "HTTP/1.1" ou "HTTP/2.0",
-
-	// qui indique la version du protocole utilisée.
-
-	// Donne le nom et la version du serveur Web utilisé.
-
-	// Indique qu'une requête été redirigée en interne, elle est définie pour la gestion des erreurs.
-
 	/*----- PATH_TRANSLATED -----*/
 	it = map.find("Path-Translated");
 	_location = "";
@@ -161,7 +125,7 @@ CGI::check_map(const std::map<std::string, std::string> &map, const std::string 
  * concerns, improved security, and easier management of dependencies and configurations.
  */
 void
-CGI::set_env(const std::map<std::string, std::string> &map, std::string script_name)
+CGI::set_env(const std::map<std::string, std::string> &map, const std::string& script_name)
 {
 
 	check_map(map, script_name);
