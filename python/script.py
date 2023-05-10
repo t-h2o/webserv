@@ -41,11 +41,22 @@ def request_get (url, expected_status_code):
     print()
 
 def main ():
-    request_get("http://webserv.com:6060/index.html", 200)
-    request_get("http://webserv.com:6060/", 200)
-    request_get("http://webserv.com:6060/bad_page", 404)
-    request_get("http://webserv.com:6060/uploads", 401)
-    request_get("http://webserv.com:6060/favicon.ico", 200)
+    request_get("http://webserv.com:8082/index.html", 200)
+    request_get("http://webserv.com:8082/", 200)
+    request_get("http://webserv.com:8082/bad_page", 404)
+    request_get("http://webserv.com:8082/uploads", 401)
+
+    request_get("http://webserv.com:8081/index.html", 200)
+    request_get("http://webserv.com:8081/", 200)
+    request_get("http://webserv.com:8081/bad_page", 404)
+    request_get("http://webserv.com:8081/uploads", 401)
+    request_get("http://webserv.com:8081/favicon.ico", 200)
+
+    request_get("http://webserv.com:8080/index.html", 200)
+    request_get("http://webserv.com:8080/", 200)
+    request_get("http://webserv.com:8080/bad_page", 404)
+    request_get("http://webserv.com:8080/uploads", 401)
+    request_get("http://webserv.com:8080/favicon.ico", 404)
 
 if __name__ == "__main__":
     main()
