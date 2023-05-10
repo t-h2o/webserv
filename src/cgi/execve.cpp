@@ -42,9 +42,10 @@ static void
 set_private_attribute(const std::map<std::string, std::string>::const_iterator &it,
 					  const std::map<std::string, std::string>::const_iterator end, std::string &attribute)
 {
-	attribute = "";
 	if (it != end && !it->second.empty())
 		attribute = it->second;
+	else
+		attribute = "";
 }
 void
 CGI::check_map(const std::map<std::string, std::string> &map, const std::string &name_file)
