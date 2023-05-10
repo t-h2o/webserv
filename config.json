@@ -3,7 +3,7 @@
 	"nicesite.com": {
 	  "port" : 8081,
 	  "path" : "./test/website",
-	  "max_length": 10000
+	  "max_length": 10000000
 	},
 	
 	"dummywebsite.com": {

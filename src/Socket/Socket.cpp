@@ -153,7 +153,7 @@ Socket::get_file_full_name()
 	size_t		position_quote_start(start_looking.find_first_of('"') + 1);
 	size_t		length(start_looking.find_first_of('"', +1) - position_quote_start);
 	std::string file_name = start_looking.substr(position_quote_start, length);
-	std::string fullpath = "test/website/uploads/" + file_name;
+	std::string fullpath = _server_config.get("path").get<std::string>() + "/uploads/" + file_name;
 	return fullpath;
 }
 
@@ -221,10 +221,11 @@ void
 Socket::check_content_lenght_authorized()
 {
 	http::Request::t_object req_map = _request.get_map();
-	if (req_map.find("Content-Length") != req_map.end())
+	if (_server_config.if_exist("max_length") && (req_map.find("Content-Length") != req_map.end()))
 	{
 		char *end = NULL;
-		if (_max_content_length < std::strtoul(req_map["Content-Length"].c_str(), &end, 10))
+		if (_server_config.get("max_length").get<double>()
+			< std::strtoul(req_map["Content-Length"].c_str(), &end, 10))
 		{
 			this->_request.set_error_code(413);
 		}
