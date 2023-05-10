@@ -129,6 +129,7 @@ Socket::delete_handler()
 	std::string file_name = _request.get_path();
 	std::string path = _server_config.get("path").get<std::string>();
 	std::string fullpath = path + "/uploads" + file_name;
+	std::cout << fullpath << std::endl;
 	if (access(fullpath.c_str(), F_OK) != -1)
 	{
 		_request._request_map["fileStatus"] = "exist";
