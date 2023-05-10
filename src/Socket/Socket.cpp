@@ -129,6 +129,8 @@ Socket::delete_handler()
 	std::string file_name = _request.get_path();
 	std::string path = _server_config.get("path").get<std::string>();
 	std::string fullpath = path + "/uploads" + file_name;
+	std::cout << fullpath << std::endl;
+	fullpath = my_replace(fullpath, "%20", " ");
 	if (access(fullpath.c_str(), F_OK) != -1)
 	{
 		_request._request_map["fileStatus"] = "exist";
@@ -230,6 +232,18 @@ Socket::check_content_lenght_authorized()
 			_request.set_error_code(413);
 		}
 	}
+}
+
+std::string
+Socket::my_replace(std::string str, std::string find, std::string replace)
+{
+	for (int i = str.find(find); i != -1; i = str.find(find))
+	{
+		str.erase(i, find.length());
+		str.insert(i, replace);
+	}
+
+	return str;
 }
 
 /*

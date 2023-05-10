@@ -44,6 +44,7 @@ class Socket
 	void			   create_new_file();
 	std::string		   clean_end_of_file(std::string const &str_to_clean);
 	void			   check_content_lenght_authorized();
+	std::string		   my_replace(std::string str, std::string find, std::string replace);
 
   public:
 	Socket(int domain, unsigned short port, int type, int protocol, const json::Value &);
