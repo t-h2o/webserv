@@ -10,11 +10,9 @@ std::string
 get_query(const std::map<std::string, std::string> &map)
 {
 	std::map<std::string, std::string>::const_iterator it = map.find("Query");
-	std::string										   ret;
-	ret = "";
 	if (it != map.end() && !it->second.empty())
-		ret = it->second;
-	return (ret);
+		return it->second;
+	return "";
 }
 
 CGI::CGI(void) {}
