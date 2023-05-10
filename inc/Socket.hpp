@@ -29,7 +29,6 @@ class Socket
 	std::string		   _body_str;
 	int				   _connection_fd;
 	int				   _socket_id;
-	// unsigned long	   _max_content_length;
 	struct sockaddr_in _address;
 	void			   create_socket(int domain, int type, int protocol);
 	void			   binding_socket();
