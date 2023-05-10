@@ -151,7 +151,6 @@ test_cgi_with_files(void)
 		return (1);
 	}
 
-	cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
 	cgi_file = "test/website/cgi/php_post.php";
 
 	CGI cgi1(cgi_path, cgi_file, cgi_query);
@@ -167,7 +166,6 @@ test_cgi_with_files(void)
 		return (1);
 	}
 
-	cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
 	cgi_file = "test/website/cgi/result.php";
 
 	CGI cgi2(cgi_path, cgi_file, cgi_query);
@@ -183,7 +181,6 @@ test_cgi_with_files(void)
 		return (1);
 	}
 
-	cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
 	cgi_file = "test/website/cgi/post.html";
 
 	CGI cgi3(cgi_path, cgi_file, cgi_query);
@@ -199,7 +196,6 @@ test_cgi_with_files(void)
 		return (1);
 	}
 
-	cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
 	cgi_file = "test/website/cgi/status.php";
 
 	CGI cgi4(cgi_path, cgi_file, cgi_query);
@@ -215,7 +211,6 @@ test_cgi_with_files(void)
 		return (1);
 	}
 
-	cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
 	cgi_file = "test/website/cgi/test.php";
 
 	CGI cgi5(cgi_path, cgi_file, cgi_query);
