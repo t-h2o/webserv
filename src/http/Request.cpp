@@ -11,11 +11,10 @@ Request::parse_buffer(std::string str_buff)
 {
 	std::vector<std::string> tmp_vector;
 	std::string				 delimiter = "\r\n";
-	std::string				 str;
 	int						 delimiter_position = str_buff.find(delimiter);
 	while (delimiter_position != -1)
 	{
-		str = str_buff.substr(0, delimiter_position);
+		std::string str = str_buff.substr(0, delimiter_position);
 		tmp_vector.push_back(str);
 		str_buff.erase(str_buff.begin(), str_buff.begin() + delimiter_position + 1);
 		delimiter_position = str_buff.find(delimiter);
@@ -30,11 +29,10 @@ Request::parse_first_line(std::string firstLine)
 {
 	std::vector<std::string> tmp_vector;
 	std::string				 delimiter = " ";
-	std::string				 str;
 	int						 delimiter_position = firstLine.find(delimiter);
 	while (delimiter_position != -1)
 	{
-		str = firstLine.substr(0, delimiter_position);
+		std::string str = firstLine.substr(0, delimiter_position);
 		tmp_vector.push_back(this->trim(str));
 		firstLine.erase(firstLine.begin(), firstLine.begin() + delimiter_position + 1);
 		delimiter_position = firstLine.find(delimiter);
@@ -74,9 +72,7 @@ Request::trim(const std::string &s)
 {
 	const std::string _WHITESPACE = " \n\r\t\f\v";
 	std::string		  left_trimed_string = "";
-	size_t			  start;
-	size_t			  end;
-	start = s.find_first_not_of(_WHITESPACE);
+	size_t			  start = s.find_first_not_of(_WHITESPACE);
 	if (start == std::string::npos)
 	{
 		return left_trimed_string;
@@ -85,7 +81,7 @@ Request::trim(const std::string &s)
 	{
 		left_trimed_string = s.substr(start);
 	}
-	end = left_trimed_string.find_last_not_of(_WHITESPACE);
+	size_t end = left_trimed_string.find_last_not_of(_WHITESPACE);
 	return left_trimed_string.substr(0, end + 1);
 }
 
@@ -136,9 +132,8 @@ Request::method_is_authorized(std::string method) const
 std::ostream &
 operator<<(std::ostream &output, Request const &req)
 {
-	Request::t_object::const_iterator start;
-
-	for (start = req.get_map().begin(); start != req.get_map().end(); ++start)
+	for (Request::t_object::const_iterator start = req.get_map().begin(); start != req.get_map().end();
+		 ++start)
 	{
 		output << start->first << " : " << start->second << "\n";
 	}
