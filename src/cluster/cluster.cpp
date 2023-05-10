@@ -25,6 +25,7 @@ Cluster::load_cluster(json::t_object *config)
 			create_upload_folder(_all_server_config.back());
 		}
 	}
+	setup();
 }
 
 void
@@ -59,6 +60,7 @@ Cluster::run()
 		{
 			FD_ZERO(&reading_set);
 			std::memcpy(&reading_set, &_master_fd_set, sizeof(_master_fd_set));
+			std::cout << "++++++ Waiting for new connection ++++++" << std::endl;
 			select_return = select(_max_fd + 1, &reading_set, NULL, NULL, NULL);
 		}
 		if (select_return > 0)
