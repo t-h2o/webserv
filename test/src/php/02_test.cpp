@@ -12,20 +12,21 @@ request_POST(void)
 		  "Accept-Encoding: gzip, deflate, br\n"
 		  "Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3\n"
 		  "Connection: keep-alive\n"
+		  "Content-Length: 1\n"
 		  "Content-Type: multipart/form-data\n"
 		  "Cookie: wp-settings-time-1=1677339113\n"
-		  "Host: localhost:6060\n"
+		  "Host: localhost:8081\n"
 		  "Method: POST\n"
-		  "Origin: http://localhost:6060\n"
-		  "Path: /input.php\n"
+		  "Origin: http://localhost:8081\n"
+		  "Path: /index.html\n"
 		  "Protocol: HTTP/1.1\n"
-		  "Query:\n"
-		  "Referer: http://localhost:6060/submitPage.html\n"
-		  "Sec-Fetch-Dest: document\n"
-		  "Sec-Fetch-Mode: navigate\n"
+		  "Referer: http://localhost:8081/submitPage.html\n"
+		  "Sec-Fetch-Dest: empty\n"
+		  "Sec-Fetch-Mode: no-cors\n"
 		  "Sec-Fetch-Site: none\n"
 		  "Upgrade-Insecure-Requests:\n"
 		  "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:107.0) Gecko/20100101 Firefox/107.0\n";
+
 	std::stringstream ss(array);
 	std::string		  line;
 	while (std::getline(ss, line))
@@ -63,7 +64,7 @@ int
 test_cgi_POST(void)
 {
 	std::string						   cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
-	std::string						   cgi_file = "test/website/cgi/status.php";
+	std::string						   cgi_file = "test/website/cgi/result.php";
 	std::string						   output_cgi;
 	std::map<std::string, std::string> map;
 	std::string						   str;
@@ -71,7 +72,7 @@ test_cgi_POST(void)
 	map = request_POST();
 	std::string									 cgi_query = get_query(map);
 	CGI											 cgi(cgi_path, cgi_file, cgi_query);
-	std::map<std::string, std::string>::iterator it;
+
 	if ((output_cgi = cgi.execution_cgi(map, cgi_file)).empty())
 	{
 		std::cerr << "1.1 Error: output: " << output_cgi << std::endl;
