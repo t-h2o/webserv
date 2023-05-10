@@ -1,8 +1,7 @@
 #include "Socket.hpp"
 
-Socket::Socket(int domain, unsigned short port, int type, int protocol, const json::Value &server_config,
-			   unsigned long max_length)
-	: _server_config(server_config), _response(server_config), _max_content_length(max_length)
+Socket::Socket(int domain, unsigned short port, int type, int protocol, const json::Value &server_config)
+	: _server_config(server_config), _response(server_config)
 {
 	_address.sin_family = domain;
 	_address.sin_port = htons(port);
@@ -142,8 +141,8 @@ Socket::delete_handler()
 int
 Socket::socket_accept()
 {
-	this->_connection_fd = accept(get_socket_id(), NULL, NULL);
-	return this->_connection_fd;
+	_connection_fd = accept(get_socket_id(), NULL, NULL);
+	return _connection_fd;
 }
 
 std::string
@@ -231,3 +230,7 @@ Socket::check_content_lenght_authorized()
 		}
 	}
 }
+
+/*
+	check with _server_config
+*/
