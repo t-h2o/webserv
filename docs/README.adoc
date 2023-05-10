@@ -41,7 +41,7 @@ mindmapDiagram {
 *** path to a php-cgi
 ** connection loop
 *** create a socket instance for each server
-***:manage socket in
+***:manage socket with
 <code>
 select()
 </code>;
