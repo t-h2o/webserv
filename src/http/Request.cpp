@@ -23,6 +23,9 @@ Request::parse_buffer(std::string str_buff)
 	this->parse_first_line(tmp_vector[0]);
 	this->parse_other_lines(tmp_vector);
 	check_header();
+	std::map<std::string, std::string>::iterator it;
+	for (it = _request_map.begin(); it != _request_map.end(); ++it)
+		std::cout << it->first << " " << it->second << std::endl;
 }
 
 void
