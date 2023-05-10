@@ -51,12 +51,14 @@ Cluster::create_upload_folder(json::Value &config)
 void
 Cluster::load_cluster(json::t_object *config)
 {
+	const json::Value empty_value;
+
 	for (json::t_object::iterator this_server_config(config->begin()); this_server_config != config->end();
 		 ++this_server_config)
 	{
 		if (this_server_config->second.get_type() == json::JSON_OBJECT)
 		{
-			_all_server_config.reserve(_all_server_config.size() + 1);
+			_all_server_config.push_back(empty_value);
 			_all_server_config.back().duplicate(this_server_config->second.get<json::t_object>());
 			create_upload_folder(_all_server_config.back());
 		}
