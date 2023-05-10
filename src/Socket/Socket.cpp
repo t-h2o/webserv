@@ -129,7 +129,6 @@ Socket::delete_handler()
 	std::string file_name = _request.get_path();
 	std::string path = _server_config.get("path").get<std::string>();
 	std::string fullpath = path + "/uploads" + file_name;
-	std::cout << fullpath << std::endl;
 	if (access(fullpath.c_str(), F_OK) != -1)
 	{
 		_request._request_map["fileStatus"] = "exist";
@@ -228,7 +227,7 @@ Socket::check_content_lenght_authorized()
 		if (_server_config.get("max_length").get<double>()
 			< std::strtoul(req_map["Content-Length"].c_str(), &end, 10))
 		{
-			this->_request.set_error_code(413);
+			_request.set_error_code(413);
 		}
 	}
 }
