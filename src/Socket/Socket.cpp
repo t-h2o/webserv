@@ -32,7 +32,7 @@ Socket::binding_socket()
 void
 Socket::start_listening()
 {
-	int res = listen(_sock_id, LISTEN_BACKLOG);
+	int res = listen(_socket_id, LISTEN_BACKLOG);
 	test_socket(res, "start_listening() Fail!");
 }
 
@@ -56,7 +56,7 @@ void
 Socket::set_socket_non_blocking()
 {
 	int val = 1;
-	int ret = setsockopt(_sock_id, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val));
+	int ret = setsockopt(_socket_id, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val));
 	test_socket(ret, "setsockopt() Fail!");
 
 	// Following code only working after select() is implemented

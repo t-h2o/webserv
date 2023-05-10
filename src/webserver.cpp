@@ -17,6 +17,7 @@ webserver(const char *path_config_file)
 
 	Cluster cluster;
 	cluster.load_cluster(config);
+	cluster.setup();
 	cluster.run();
 
 	// serverTest(config);
