@@ -13,6 +13,7 @@ launch_php(void)
 	list.load_test("test_multiple_file", &test_cgi_with_files);
 
 	list.load_test("test_cgi_simple_POST", &test_cgi_simple_POST);
+	list.load_test("test_cgi_POST", &test_cgi_POST);
 
 	return (list.launch_tests());
 }
