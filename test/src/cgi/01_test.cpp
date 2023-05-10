@@ -1,6 +1,6 @@
-#include "StatusCodes.hpp"
-
 #include "../../../inc/cgi.hpp"
+
+#include "setting.hpp"
 
 int
 test_cgi_exec(void)
@@ -19,7 +19,7 @@ test_cgi_exec(void)
 			return (1);
 	}
 	{
-		argument[0] = (char *)"/usr/bin/php";
+		argument[0] = (char *)PATH_CGI_PHP;
 		argument[1] = (char *)"test/src/cgi/test.php";
 		argument[2] = (char *)"";
 		argument[3] = NULL;
@@ -30,7 +30,7 @@ test_cgi_exec(void)
 			return (1);
 	}
 	{
-		argument[0] = (char *)"/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
+		argument[0] = (char *)PATH_CGI_PHP;
 		argument[1] = (char *)"test/src/cgi/test.php";
 		argument[2] = (char *)"";
 		argument[3] = NULL;
