@@ -1,8 +1,7 @@
 #include "Socket.hpp"
 
-Socket::Socket(int domain, unsigned short port, int type, int protocol, const json::Value &server_config,
-			   unsigned long max_length)
-	: _server_config(server_config), _response(server_config), _max_content_length(max_length)
+Socket::Socket(int domain, unsigned short port, int type, int protocol, const json::Value &server_config)
+	: _server_config(server_config), _response(server_config)
 {
 	_address.sin_family = domain;
 	_address.sin_port = htons(port);
@@ -18,21 +17,21 @@ Socket::Socket(int domain, unsigned short port, int type, int protocol, const js
 void
 Socket::create_socket(int domain, int type, int protocol)
 {
-	_sock_id = socket(domain, type, protocol);
-	test_socket(_sock_id, "create_socket() Fail!");
+	_socket_id = socket(domain, type, protocol);
+	test_socket(_socket_id, "create_socket() Fail!");
 }
 
 void
 Socket::binding_socket()
 {
-	_connection = bind(_sock_id, reinterpret_cast<struct sockaddr *>(&_address), sizeof(_address));
-	test_socket(_connection, "binding_socket() Fail!");
+	int res(bind(_socket_id, reinterpret_cast<struct sockaddr *>(&_address), sizeof(_address)));
+	test_socket(res, "binding_socket() Fail!");
 }
 
 void
 Socket::start_listening()
 {
-	int res = listen(_sock_id, LISTEN_BACKLOG);
+	int res = listen(_socket_id, LISTEN_BACKLOG);
 	test_socket(res, "start_listening() Fail!");
 }
 
@@ -41,27 +40,27 @@ Socket::test_socket(int item_to_test, const char *msg)
 {
 	if (item_to_test < 0)
 	{
-		close(_sock_id);
+		close(_socket_id);
 		throw std::runtime_error(msg);
 	}
 }
 
 int
-Socket::get_sock_id() const
+Socket::get_socket_id() const
 {
-	return _sock_id;
+	return _socket_id;
 }
 
 void
 Socket::set_socket_non_blocking()
 {
 	int val = 1;
-	int ret = setsockopt(_sock_id, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val));
+	int ret = setsockopt(_socket_id, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val));
 	test_socket(ret, "setsockopt() Fail!");
 
 	// Following code only working after select() is implemented
-	// ret = fcntl(_sock_id, F_SETFL, O_NONBLOCK);
-	// test_socket(ret, "fcnt() Fail!");
+	ret = fcntl(_socket_id, F_SETFL, O_NONBLOCK);
+	test_socket(ret, "fcnt() Fail!");
 }
 
 int
@@ -70,21 +69,14 @@ Socket::socket_recv()
 	char		buffer[MAXLINE] = { 0 };
 	ssize_t		byte_read;
 	std::string tmp_buffer;
-
-	byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
+	byte_read = recv(this->_connection_fd, buffer, MAXLINE - 1, 0);
 	if (byte_read == 0 || byte_read == -1)
 	{
-		close(_connection_fd);
-		if (byte_read == 0)
-			std::cout << "\rConnection was closed by client.\n" << std::endl;
-		else
-			std::cout << "\rRead error, closing connection.\n" << std::endl;
-		return (-1);
+		return byte_read;
 	}
 	tmp_buffer = std::string(buffer);
 	size_t header_body_delimiter = tmp_buffer.find("\r\n\r\n");
 	_header_str += tmp_buffer.substr(0, header_body_delimiter);
-
 	if (header_body_delimiter + 4 < tmp_buffer.size())
 	{
 		for (size_t i = header_body_delimiter + 4; i < static_cast<unsigned long>(byte_read); i++)
@@ -107,7 +99,7 @@ Socket::socket_recv()
 	_response.load_http_request(_request);
 	clean_request();
 	send_response();
-	return 0;
+	return byte_read;
 }
 
 void
@@ -121,7 +113,7 @@ Socket::multipart_handler()
 	while (_body_str.size() < content_length)
 	{
 		std::memset(buffer, 0, MAXLINE);
-		byte_read = recv(_connection_fd, buffer, MAXLINE - 1, 0);
+		byte_read = recv(this->_connection_fd, buffer, MAXLINE - 1, 0);
 		_body_str.append(buffer, byte_read);
 	}
 	if (LOG_SOCKET)
@@ -137,6 +129,7 @@ Socket::delete_handler()
 	std::string file_name = _request.get_path();
 	std::string path = _server_config.get("path").get<std::string>();
 	std::string fullpath = path + "/uploads" + file_name;
+	fullpath = my_replace(fullpath, "%20", " ");
 	if (access(fullpath.c_str(), F_OK) != -1)
 	{
 		_request._request_map["fileStatus"] = "exist";
@@ -146,14 +139,11 @@ Socket::delete_handler()
 	}
 }
 
-void
+int
 Socket::socket_accept()
 {
-	_connection_fd = accept(get_sock_id(), NULL, NULL);
-	if (_connection_fd < 0)
-	{
-		std::cout << "connection_fd: " << _connection_fd << " Failed!" << std::endl;
-	}
+	_connection_fd = accept(get_socket_id(), NULL, NULL);
+	return _connection_fd;
 }
 
 std::string
@@ -164,7 +154,7 @@ Socket::get_file_full_name()
 	size_t		position_quote_start(start_looking.find_first_of('"') + 1);
 	size_t		length(start_looking.find_first_of('"', +1) - position_quote_start);
 	std::string file_name = start_looking.substr(position_quote_start, length);
-	std::string fullpath = "test/website/uploads/" + file_name;
+	std::string fullpath = _server_config.get("path").get<std::string>() + "/uploads/" + file_name;
 	return fullpath;
 }
 
@@ -232,12 +222,29 @@ void
 Socket::check_content_lenght_authorized()
 {
 	http::Request::t_object req_map = _request.get_map();
-	if (req_map.find("Content-Length") != req_map.end())
+	if (_server_config.if_exist("max_length") && (req_map.find("Content-Length") != req_map.end()))
 	{
 		char *end = NULL;
-		if (_max_content_length < std::strtoul(req_map["Content-Length"].c_str(), &end, 10))
+		if (_server_config.get("max_length").get<double>()
+			< std::strtoul(req_map["Content-Length"].c_str(), &end, 10))
 		{
-			this->_request.set_error_code(413);
+			_request.set_error_code(413);
 		}
 	}
 }
+
+std::string
+Socket::my_replace(std::string str, std::string find, std::string replace)
+{
+	for (int i = str.find(find); i != -1; i = str.find(find))
+	{
+		str.erase(i, find.length());
+		str.insert(i, replace);
+	}
+
+	return str;
+}
+
+/*
+	check with _server_config
+*/

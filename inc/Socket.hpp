@@ -28,9 +28,7 @@ class Socket
 	std::string		   _header_str;
 	std::string		   _body_str;
 	int				   _connection_fd;
-	int				   _sock_id;
-	int				   _connection;
-	unsigned long	   _max_content_length;
+	int				   _socket_id;
 	struct sockaddr_in _address;
 	void			   create_socket(int domain, int type, int protocol);
 	void			   binding_socket();
@@ -45,13 +43,13 @@ class Socket
 	void			   create_new_file();
 	std::string		   clean_end_of_file(std::string const &str_to_clean);
 	void			   check_content_lenght_authorized();
+	std::string		   my_replace(std::string str, std::string find, std::string replace);
 
   public:
-	Socket(int domain, unsigned short port, int type, int protocol, const json::Value &,
-		   unsigned long max_length = ULONG_MAX);
-	int	 socket_recv();
-	void socket_accept();
-	int	 get_sock_id() const;
+	Socket(int domain, unsigned short port, int type, int protocol, const json::Value &);
+	int socket_recv();
+	int socket_accept();
+	int get_socket_id() const;
 };
 
 #endif

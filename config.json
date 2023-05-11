@@ -1,14 +1,19 @@
 {
-	
+
 	"nicesite.com": {
-	  "port" : 6060,
-	  "path" : "./test/website",
-	  "dir_error": "is_dir.html"	
+		"port" : 8081,
+		"path" : "./test/website"
 	},
-	
-	"bar.org": {
+
+	"dummywebsite.com": {
 		"port" : 8080,
-		"path" : "/path/of/bar.org"
+		"path" : "./test/website2",
+		"dir_error": "is_dir.html"	
+	},
+
+	"docs.com": {
+		"port" : 8082,
+		"path" : "./docs"
 	},
 
   "php-cgi" : "/path/of/php-cgi"

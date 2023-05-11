@@ -32,7 +32,6 @@ SRCS	=	$(SRCD)/main.cpp
 SRCS	+=	$(SRCD)/webserver.cpp
 SRCS	+=	$(SRCD)/arguments/check_argc_number.cpp
 SRCS	+=	$(SRCD)/arguments/check_argv_access.cpp
-SRCS	+=	$(SRCD)/serverTest/serverTest.cpp
 SRCS	+=	$(SRCD)/Socket/Socket.cpp
 
 # cgi
@@ -60,6 +59,9 @@ SRCS	+=	$(SRCD)/json/Value.cpp
 
 SRCS	+=	$(SRCD)/std98/to_string.cpp
 
+# cluster
+
+SRCS	+=	$(SRCD)/cluster/cluster.cpp
 
 #	Headers
 

@@ -3,7 +3,7 @@ const preview = document.querySelector('.preview');
 const itemsList = document.getElementById('items-hook');
 const submitBtn = document.querySelector('#submit-btn');
 
-let urlUpload = 'http://localhost:6060/';
+let urlUpload = 'http://localhost:8081/';
 let url = '';
 
 let submitedFiles = [];

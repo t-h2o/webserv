@@ -96,7 +96,6 @@ Response::load_response_get(int status_code, const std::string &path)
 		{
 			std::string file_path = _server_config.get("path").get<std::string>() + "/"
 									+ _server_config.get("dir_error").get<std::string>();
-			std::cout << file_path << std::endl;
 			if (access(file_path.c_str(), F_OK))
 				create_error_html_page(status_code);
 			else

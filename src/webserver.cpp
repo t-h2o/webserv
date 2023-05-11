@@ -1,6 +1,5 @@
 #include "Json.hpp"
-#include "serverTest.hpp"
-
+#include "cluster.hpp"
 #include <iostream>
 
 int
@@ -15,7 +14,10 @@ webserver(const char *path_config_file)
 
 	std::cout << *config << std::endl;
 
-	serverTest(config);
+	Cluster cluster;
+	cluster.load_cluster(config);
+	cluster.setup();
+	cluster.run();
 
 	return 0;
 }
