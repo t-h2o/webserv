@@ -186,12 +186,10 @@ CGI::child_process(char **env)
 {
 	close(_pipefd[0]);
 	// Replace the old FD
-	if (dup2(_pipefd[1], 1) == -1)
-	{
+	if (dup2(_pipefd[1], STDOUT_FILENO) == -1)
 		perror("dup2");
-		close(_pipefd[1]);
-	}
 	close(_pipefd[1]);
+
 	// Execute new process
 	if (execve(_args[0], &_args[0], env) == -1)
 		perror("execve");

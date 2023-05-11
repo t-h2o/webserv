@@ -4,8 +4,7 @@
 </head>
 <body>
 <?php
-echo phpinfo();
-echo '<p>Hello World</p>';
+echo "Hello World";
 ?>
 </body>
 </html>

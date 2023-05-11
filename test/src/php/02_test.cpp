@@ -12,7 +12,7 @@ request_POST(void)
 		  "Accept-Encoding: gzip, deflate, br\n"
 		  "Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3\n"
 		  "Connection: keep-alive\n"
-		  "Content-Length: 3\n"
+		  "Content-Length: 2\n"
 		  "Content-Type: multipart/form-data; boundary=\n"
 		  "Cookie: wp-settings-time-1=1677339113\n"
 		  "Host: localhost:8081\n"
