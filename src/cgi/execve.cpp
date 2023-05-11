@@ -106,7 +106,8 @@ CGI::set_env(const std::map<std::string, std::string> &map, const std::string &s
 	// l'en-tête HTTP.
 	_env["CONTENT_TYPE"] = _cont_type;
 	// Taille des données d'entrée (décimale, en octets) si elles sont fournies via la page HTTP.
-	_env["CONTENT_LENGTH"] = _cont_length;
+	std::string len = _cont_length;
+	_env["CONTENT_LENGTH"] = len;
 
 	// Donne la version du CGI utilisé.
 	_env["GATEWAY_INTERFACE"] = "CGI/1.1";
