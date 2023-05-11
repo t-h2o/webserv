@@ -41,6 +41,7 @@ SRCS	+=	$(SRCD)/cgi/utils.cpp
 
 # http
 
+SRCS	+=	$(SRCD)/http/Method.cpp
 SRCS	+=	$(SRCD)/http/Request.cpp
 SRCS	+=	$(SRCD)/http/Response.cpp
 SRCS	+=	$(SRCD)/http/StatusCodes.cpp
