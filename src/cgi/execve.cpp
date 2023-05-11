@@ -106,7 +106,8 @@ CGI::set_env(const std::map<std::string, std::string> &map, const std::string &s
 	// l'en-tête HTTP.
 	_env["CONTENT_TYPE"] = _cont_type;
 	// Taille des données d'entrée (décimale, en octets) si elles sont fournies via la page HTTP.
-	_env["CONTENT_LENGTH"] = _cont_length;
+	std::string len = _cont_length;
+	_env["CONTENT_LENGTH"] = len;
 
 	// Donne la version du CGI utilisé.
 	_env["GATEWAY_INTERFACE"] = "CGI/1.1";
@@ -151,7 +152,7 @@ CGI::parent_process(pid_t &pid)
 	close(_pipefd[1]);
 	if (waitpid(pid, &ret, 0) == -1)
 	{
-		std::cout << ret << std::endl;
+		perror("waitpid");
 		throw(std::exception());
 	}
 	ssize_t bytes_read;
@@ -219,7 +220,6 @@ CGI::execution_cgi(const std::map<std::string, std::string> &map, const std::str
 	}
 	set_env(map, args);
 	env = utils::cMap_to_cChar(_env);
-
 	pid_t pid = fork();
 	// Verify if fork failed
 	if (pid == -1)
