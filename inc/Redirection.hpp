@@ -16,7 +16,7 @@ class Redirection
 
 	/* if it's a rediction, return true else false
 	 * arguments:
-	 * - 1: the root
+	 * - 1: the route
 	 * - 2: URL of the rediction, set in the function
 	 */
 	bool is_redirection(std::string const &, std::string &);

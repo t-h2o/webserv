@@ -13,9 +13,9 @@ Redirection::Redirection(json::t_object const &redirections) : _redirections(red
 Redirection::~Redirection() {}
 
 bool
-Redirection::is_redirection(std::string const &root, std::string &url)
+Redirection::is_redirection(std::string const &route, std::string &url)
 {
-	json::t_object::const_iterator redirection = _redirections.find(root);
+	json::t_object::const_iterator redirection = _redirections.find(route);
 
 	if (redirection == _redirections.end())
 	{
