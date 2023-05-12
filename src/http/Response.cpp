@@ -15,6 +15,32 @@ Response::load_http_request(Request &request)
 	init_response_map();
 	if (request.get_error_code() != 0)
 	{
+		std::cout << "HERE 1, code error : " << request.get_error_code() << std::endl;
+		if (_server_config.if_exist(std98::to_string(request.get_error_code())))
+		{
+			std::cout << "HERE 2" << std::endl;
+
+			int			status_code = request.get_error_code();
+			std::string file_name = std98::to_string(status_code) + ".html";
+			std::string fullpath = _server_config.get("path").get<std::string>() + "/" + file_name;
+			_response_map["Date"] = get_time_stamp();
+			_response_map["Status-line"]
+				= _response_map["Protocol"] + _status_code.get_key_value_formated(status_code);
+			if (access(fullpath.c_str(), F_OK))
+			{
+				std::cout << "haven't found the file: " << fullpath << std::endl;
+				create_error_html_page(status_code);
+			}
+			else
+			{
+				construct_body_string(fullpath);
+				std::cout << "have found the file: " << fullpath << std::endl;
+			}
+			set_content_length(_response_map["body-string"]);
+			construct_header_string();
+			construct_full_response();
+			return;
+		}
 		load_response_post_delete(request.get_error_code());
 		request.set_error_code(0);
 		return;
@@ -35,9 +61,10 @@ Response::load_http_request(Request &request)
 	}
 	if (request.get_method().compare("GET") == 0)
 	{
-		if (check_if_is_dir(path))
-			load_response_get(401, path);
-		else if (access(path.c_str(), F_OK))
+		std::cout << "simple get\npath : " << path << std::endl;
+		// if (check_if_is_dir(path))
+		// 	load_response_get(401, path);
+		if (access(path.c_str(), F_OK))
 		{
 			load_response_get(404, path);
 		}
@@ -89,10 +116,13 @@ Response::load_response_get(int status_code, const std::string &path)
 	_response_map["Date"] = get_time_stamp();
 	_response_map["Status-line"]
 		= _response_map["Protocol"] + _status_code.get_key_value_formated(status_code);
+
+	if (check_if_is_dir(path))
+		status_code = 401;
 	if (status_code != 200)
 	{
 		set_response_type("html");
-		if (_server_config.if_exist("dir_error"))
+		if (_server_config.if_exist("dir_error") && status_code == 401)
 		{
 			std::string file_path = _server_config.get("path").get<std::string>() + "/"
 									+ _server_config.get("dir_error").get<std::string>();

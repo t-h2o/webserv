@@ -232,9 +232,8 @@ Request::check_path_and_method()
 		return;
 	if (!_server_config.if_exist("method_allowed"))
 		return;
-	std::cout << get_path() << "\t" <<get_method() << std::endl;
+	std::cout << get_path() << "\t" << get_method() << std::endl;
 	Method method(_server_config.get("method_allowed").get<json::t_object>());
-
 
 	std::cout << "Method is allowed: " << method.is_allowed(get_path(), get_method()) << std::endl;
 	if (!method.is_allowed(get_path(), get_method()))

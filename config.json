@@ -7,14 +7,17 @@
 			"/uploads" : 6,
 			"/index.html" : 1,
 			"/path/two" : 3
-		},
-		"404" : "/404.html"
+		}
 	},
-
+	
 	"dummywebsite.com": {
 		"port" : 8080,
 		"path" : "./test/website2",
-		"dir_error": "is_dir.html"	
+		"dir_error": "is_dir.html",	
+		"405" : "405.html",
+		"method_allowed": {
+			"/index.html" : 2
+		}
 	},
 
 	"docs.com": {
