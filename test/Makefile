@@ -29,9 +29,6 @@ SRCS	+=	$(SRCD)/arguments-argv/02_test.cpp
 SRCS	+=	$(SRCD)/http-method/00_launcher.cpp
 SRCS	+=	$(SRCD)/http-method/01_test.cpp
 
-SRCS	+=	$(SRCD)/http-request/00_launcher.cpp
-SRCS	+=	$(SRCD)/http-request/01_test.cpp
-
 SRCS	+=	$(SRCD)/http-status-code/00_launcher.cpp
 SRCS	+=	$(SRCD)/http-status-code/01_test.cpp
 

@@ -24,11 +24,6 @@ int test_execve_cgi_env(void);
 int launch_http_method(void);
 int test_http_method(void);
 
-/* http::Request */
-
-int launch_http_request(void);
-int test_http_request(void);
-
 /* http::Response */
 
 int launch_http_response(void);
