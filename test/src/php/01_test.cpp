@@ -152,7 +152,7 @@ test_cgi_with_files(void)
 		return (1);
 	}
 
-	cgi_file = "test/website/cgi/php_post.php";
+	cgi_file = "test/website/cgi/input.php";
 
 	CGI cgi1(cgi_path, cgi_file, cgi_query);
 
