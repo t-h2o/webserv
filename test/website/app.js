@@ -3,7 +3,7 @@ const preview = document.querySelector('.preview');
 const itemsList = document.getElementById('items-hook');
 const submitBtn = document.querySelector('#submit-btn');
 
-let urlUpload = 'http://localhost:8081/';
+let urlUpload = 'http://localhost:8081/uploads';
 let url = '';
 
 let submitedFiles = [];
@@ -71,7 +71,7 @@ const deleteExistingFile = (e) => {
 		}
 	})
 
-	fetch(`${urlUpload}${id}`, { method : 'DELETE' })
+	fetch(`${urlUpload}/${id}`, { method : 'DELETE' })
 		.then((response) => {
 			if (!response.ok)
 			{

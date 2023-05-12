@@ -1,12 +1,14 @@
 #ifndef REQUEST_HPP
 #define REQUEST_HPP
 
+#include "Method.hpp"
 #include "Value.hpp"
 #include <iostream>
 #include <map>
 #include <string.h>
 #include <string>
 #include <sys/stat.h>
+#include <unistd.h>
 #include <vector>
 
 namespace http
@@ -36,17 +38,17 @@ class Request
 	t_object		_request_map;
 
   private:
-  const json::Value &_server_config;
-	int	 _error_code;
-	bool _has_query;
-	void parse_first_line(std::string firstLine);
-	void parse_other_lines(std::vector<std::string> tmp_vector);
-	void clean_content_type();
-	void check_if_has_query();
-	void clean_path();
-	void empty_path_handler();
-	void check_header();
-	void check_path_and_method();
+	const json::Value &_server_config;
+	int				   _error_code;
+	bool			   _has_query;
+	void			   parse_first_line(std::string firstLine);
+	void			   parse_other_lines(std::vector<std::string> tmp_vector);
+	void			   clean_content_type();
+	void			   check_if_has_query();
+	void			   clean_path();
+	void			   empty_path_handler();
+	void			   check_header();
+	void			   check_path_and_method();
 };
 
 std::ostream &operator<<(std::ostream &, Request const &);

@@ -1,7 +1,7 @@
 #include "Socket.hpp"
 
 Socket::Socket(int domain, unsigned short port, int type, int protocol, const json::Value &server_config)
-	: _server_config(server_config), _request(server_config),_response(server_config)
+	: _server_config(server_config), _request(server_config), _response(server_config)
 {
 	_address.sin_family = domain;
 	_address.sin_port = htons(port);
@@ -128,7 +128,8 @@ Socket::delete_handler()
 {
 	std::string file_name = _request.get_path();
 	std::string path = _server_config.get("path").get<std::string>();
-	std::string fullpath = path + "/uploads" + file_name;
+	std::string fullpath = path + file_name;
+	std::cout << fullpath << std::endl;
 	fullpath = my_replace(fullpath, "%20", " ");
 	if (access(fullpath.c_str(), F_OK) != -1)
 	{

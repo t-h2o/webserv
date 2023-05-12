@@ -3,7 +3,10 @@
 namespace http
 {
 
-Request::Request(const json::Value &server_config) : _server_config(server_config), _error_code(0), _has_query(false) {}
+Request::Request(const json::Value &server_config)
+	: _server_config(server_config), _error_code(0), _has_query(false)
+{
+}
 Request::~Request() {}
 
 void
@@ -206,7 +209,7 @@ Request::check_header()
 	check_if_has_query();
 	if (_has_query)
 		clean_path();
-	// implement ccheck methode + path.
+	check_path_and_method();
 }
 
 int
@@ -220,11 +223,24 @@ Request::set_error_code(int code)
 	_error_code = code;
 }
 
-void Request::check_path_and_method()
+void
+Request::check_path_and_method()
 {
-	if (_server_config.if_exist("method_allowed"))
+	std::string path = _server_config.get("path").get<std::string>();
+	path += get_path();
+	if (access(path.c_str(), F_OK))
+		return;
+	if (!_server_config.if_exist("method_allowed"))
+		return;
+	std::cout << get_path() << "\t" <<get_method() << std::endl;
+	Method method(_server_config.get("method_allowed").get<json::t_object>());
+
+
+	std::cout << "Method is allowed: " << method.is_allowed(get_path(), get_method()) << std::endl;
+	if (!method.is_allowed(get_path(), get_method()))
 	{
-		// fdsafdsa
+		if (get_error_code() == 0)
+			set_error_code(405);
 	}
 }
 

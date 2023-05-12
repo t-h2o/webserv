@@ -4,10 +4,11 @@
 		"port" : 8081,
 		"path" : "./test/website",
 		"method_allowed": {
-			"/uploads" : 1,
-			"/index.html" : 2,
+			"/uploads" : 6,
+			"/index.html" : 1,
 			"/path/two" : 3
-		}
+		},
+		"404" : "/404.html"
 	},
 
 	"dummywebsite.com": {
