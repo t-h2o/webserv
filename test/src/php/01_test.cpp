@@ -23,7 +23,8 @@ request_GET(void)
 		  "Sec-Fetch-Mode: navigate\n"
 		  "Sec-Fetch-Site: none\n"
 		  "Upgrade-Insecure-Requests: 1\n"
-		  "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:107.0) Gecko/20100101 Firefox/107.0\n";
+		  "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:107.0) Gecko/20100101 "
+		  "Firefox/107.0\n";
 	std::stringstream ss(array);
 	std::string		  line;
 	while (std::getline(ss, line))
