@@ -87,7 +87,7 @@ bool
 Method::permission_method_converter(const unsigned int permission, std::string const &method)
 {
 	// over-range
-	if (permission < 0 || 7 < permission)
+	if (7 < permission)
 		return true;
 
 	// GET    : 1 3 5 7
