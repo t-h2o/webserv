@@ -44,6 +44,7 @@ class Request
 	void clean_path();
 	void empty_path_handler();
 	void check_header();
+	void check_path_and_method();
 };
 
 std::ostream &operator<<(std::ostream &, Request const &);

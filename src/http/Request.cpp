@@ -22,6 +22,7 @@ Request::parse_buffer(std::string str_buff)
 	this->parse_first_line(tmp_vector[0]);
 	this->parse_other_lines(tmp_vector);
 	check_header();
+	empty_path_handler();
 }
 
 void
@@ -47,7 +48,6 @@ Request::parse_first_line(std::string firstLine)
 	_request_map["Method"] = tmp_vector[0];
 	_request_map["Path"] = tmp_vector[1];
 	_request_map["Protocol"] = tmp_vector[2];
-	empty_path_handler();
 }
 
 void
@@ -206,6 +206,7 @@ Request::check_header()
 	check_if_has_query();
 	if (_has_query)
 		clean_path();
+	// implement ccheck methode + path.
 }
 
 int
@@ -217,6 +218,11 @@ void
 Request::set_error_code(int code)
 {
 	_error_code = code;
+}
+
+void Request::check_path_and_method()
+{
+
 }
 
 } /* namespace http */
