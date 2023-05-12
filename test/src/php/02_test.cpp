@@ -78,11 +78,11 @@ test_cgi_POST(void)
 		std::cout << "1.1 Error: output: " << output_cgi << std::endl;
 		return (1);
 	}
-//	if (output_cgi.find("No input file specified.") != std::string::npos)
-//	{
-//		std::cerr << "1.2 Error: output: " << output_cgi << std::endl;
-//		return (1);
-//	}
+	if (output_cgi.find("No input file specified.") != std::string::npos)
+	{
+		std::cerr << "1.2 Error: output: " << output_cgi << std::endl;
+		return (1);
+	}
 	std::cout << output_cgi << std::endl;
 	return (0);
 }
