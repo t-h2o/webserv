@@ -3,7 +3,7 @@
 namespace http
 {
 
-Request::Request() : _error_code(0), _has_query(false) {}
+Request::Request(const json::Value &server_config) : _server_config(server_config), _error_code(0), _has_query(false) {}
 Request::~Request() {}
 
 void
@@ -222,7 +222,10 @@ Request::set_error_code(int code)
 
 void Request::check_path_and_method()
 {
-
+	if (_server_config.if_exist("method_allowed"))
+	{
+		// fdsafdsa
+	}
 }
 
 } /* namespace http */

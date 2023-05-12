@@ -1,6 +1,7 @@
 #ifndef REQUEST_HPP
 #define REQUEST_HPP
 
+#include "Value.hpp"
 #include <iostream>
 #include <map>
 #include <string.h>
@@ -16,7 +17,7 @@ class Request
   public:
 	typedef std::map<std::string, std::string> t_object;
 
-	Request();
+	Request(const json::Value &server_config);
 	~Request();
 
 	void			parse_buffer(std::string);
@@ -35,6 +36,7 @@ class Request
 	t_object		_request_map;
 
   private:
+  const json::Value &_server_config;
 	int	 _error_code;
 	bool _has_query;
 	void parse_first_line(std::string firstLine);

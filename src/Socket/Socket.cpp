@@ -1,7 +1,7 @@
 #include "Socket.hpp"
 
 Socket::Socket(int domain, unsigned short port, int type, int protocol, const json::Value &server_config)
-	: _server_config(server_config), _response(server_config)
+	: _server_config(server_config), _request(server_config),_response(server_config)
 {
 	_address.sin_family = domain;
 	_address.sin_port = htons(port);
