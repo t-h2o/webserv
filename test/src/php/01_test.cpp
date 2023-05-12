@@ -1,4 +1,5 @@
 #include "StatusCodes.hpp"
+#include "setting.hpp"
 
 #include "../../../inc/Response.hpp"
 #include "../../../inc/cgi.hpp"
@@ -59,7 +60,7 @@ test_php_output(void)
 int
 test_cgi_with_php(void)
 {
-	std::string						   cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
+	std::string						   cgi_path = PATH_CGI_PHP;
 	std::string						   cgi_file = "test/website/cgi/input.php";
 	std::map<std::string, std::string> map;
 	std::string						   output_cgi;
@@ -79,7 +80,7 @@ test_cgi_with_php(void)
 int
 test_cgi_with_php_query(void)
 {
-	std::string						   cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
+	std::string						   cgi_path = PATH_CGI_PHP;
 	std::string						   cgi_file = "test/website/cgi/input.php";
 	std::map<std::string, std::string> map;
 	std::string						   output_cgi;
@@ -104,7 +105,7 @@ test_cgi_with_php_query(void)
 int
 test_cgi_with_php_query2(void)
 {
-	std::string						   cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
+	std::string						   cgi_path = PATH_CGI_PHP;
 	std::string						   cgi_file = "test/website/cgi/path_info.php";
 	std::map<std::string, std::string> map;
 	std::string						   output_cgi;
@@ -130,7 +131,7 @@ test_cgi_with_php_query2(void)
 int
 test_cgi_with_files(void)
 {
-	std::string						   cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
+	std::string						   cgi_path = PATH_CGI_PHP;
 	std::string						   cgi_file = "test/website/cgi/path_info.php";
 	std::map<std::string, std::string> map;
 	std::string						   output_cgi;
