@@ -4,7 +4,7 @@
 		"port" : 8081,
 		"path" : "./test/website",
 		"method_allowed": {
-			"/uploads" : 5,
+			"/uploads" : 2,
 			"/index.html" : 1,
 			"/path/two" : 3
 		}

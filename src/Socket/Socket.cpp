@@ -58,7 +58,6 @@ Socket::set_socket_non_blocking()
 	int ret = setsockopt(_socket_id, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val));
 	test_socket(ret, "setsockopt() Fail!");
 
-	// Following code only working after select() is implemented
 	ret = fcntl(_socket_id, F_SETFL, O_NONBLOCK);
 	test_socket(ret, "fcnt() Fail!");
 }
@@ -130,7 +129,7 @@ Socket::delete_handler()
 	std::string path = _server_config.get("path").get<std::string>();
 	std::string fullpath = path + file_name;
 	std::cout << fullpath << std::endl;
-	fullpath = my_replace(fullpath, "%20", " ");
+	fullpath = utils::my_replace(fullpath, "%20", " ");
 	if (access(fullpath.c_str(), F_OK) != -1)
 	{
 		_request._request_map["fileStatus"] = "exist";
@@ -156,7 +155,7 @@ Socket::get_file_full_name()
 	size_t		length(start_looking.find_first_of('"', +1) - position_quote_start);
 	std::string file_name = start_looking.substr(position_quote_start, length);
 	std::string fullpath = _server_config.get("path").get<std::string>() + "/uploads/" + file_name;
-	return fullpath;
+	return utils::my_replace(fullpath, "%20", " ");
 }
 
 void
@@ -232,18 +231,6 @@ Socket::check_content_lenght_authorized()
 			_request.set_error_code(413);
 		}
 	}
-}
-
-std::string
-Socket::my_replace(std::string str, std::string find, std::string replace)
-{
-	for (int i = str.find(find); i != -1; i = str.find(find))
-	{
-		str.erase(i, find.length());
-		str.insert(i, replace);
-	}
-
-	return str;
 }
 
 /*

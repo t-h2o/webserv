@@ -64,10 +64,13 @@ SRCS	+=	$(SRCD)/std98/to_string.cpp
 
 SRCS	+=	$(SRCD)/cluster/cluster.cpp
 
+# utils
+
+SRCS	+=  $(SRCD)/utils/my_replace.cpp
+
 #	Headers
 
 INCD	=	inc
-
 
 #	Objets
 
