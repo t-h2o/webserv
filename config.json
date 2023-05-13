@@ -9,7 +9,7 @@
 			"/path/two" : 3
 		}
 	},
-	
+
 	"dummywebsite.com": {
 		"port" : 8080,
 		"path" : "./test/website2",
@@ -25,6 +25,6 @@
 		"path" : "./docs"
 	},
 
-  "php-cgi" : "/path/of/php-cgi"
+	"php-cgi" : "/path/of/php-cgi"
 
 }
