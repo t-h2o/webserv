@@ -23,7 +23,7 @@ Response::load_http_request(Request &request)
 	if (has_php_extension(request))
 	{
 		if (access(path.c_str(), F_OK))
-			load_resonse_with_path(404, path);
+			load_response_with_path(404, path);
 		else
 			php_handler(request);
 		return;
@@ -31,9 +31,9 @@ Response::load_http_request(Request &request)
 	if (request.get_method().compare("GET") == 0)
 	{
 		if (access(path.c_str(), F_OK))
-			load_resonse_with_path(404, path);
+			load_response_with_path(404, path);
 		else
-			load_resonse_with_path(200, path);
+			load_response_with_path(200, path);
 	}
 	else if (request.get_method().compare("POST") == 0)
 	{
@@ -52,7 +52,7 @@ Response::load_http_request(Request &request)
 			load_response_without_path(404);
 	}
 	else
-		load_resonse_with_path(405, path);
+		load_response_with_path(405, path);
 }
 
 void
@@ -71,7 +71,7 @@ Response::init_response_map()
 }
 
 void
-Response::load_resonse_with_path(int status_code, const std::string &path)
+Response::load_response_with_path(int status_code, const std::string &path)
 {
 	if (check_if_is_dir(path))
 		status_code = 401;
