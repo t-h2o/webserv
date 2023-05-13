@@ -243,7 +243,7 @@ Request::check_path_and_method()
 		{
 			set_error_code(405);
 		}
-			return 1;
+		return 1;
 	}
 	return 0;
 }
