@@ -3,10 +3,13 @@
 namespace http
 {
 
-Request::Request() : _error_code(0), _has_query(false) {}
+Request::Request(const json::Value &server_config)
+	: _server_config(server_config), _error_code(0), _has_query(false)
+{
+}
 Request::~Request() {}
 
-void
+int
 Request::parse_buffer(std::string str_buff)
 {
 	std::vector<std::string> tmp_vector;
@@ -22,6 +25,8 @@ Request::parse_buffer(std::string str_buff)
 	this->parse_first_line(tmp_vector[0]);
 	this->parse_other_lines(tmp_vector);
 	check_header();
+	empty_path_handler();
+	return check_path_and_method();
 }
 
 void
@@ -47,7 +52,6 @@ Request::parse_first_line(std::string firstLine)
 	_request_map["Method"] = tmp_vector[0];
 	_request_map["Path"] = tmp_vector[1];
 	_request_map["Protocol"] = tmp_vector[2];
-	empty_path_handler();
 }
 
 void
@@ -217,6 +221,31 @@ void
 Request::set_error_code(int code)
 {
 	_error_code = code;
+}
+
+int
+Request::check_path_and_method()
+{
+	std::string path = _server_config.get("path").get<std::string>();
+	path += get_path();
+	path = utils::my_replace(path, "%20", " ");
+	if (access(path.c_str(), F_OK))
+		return 0;
+	if (!_server_config.if_exist("method_allowed"))
+		return 0;
+	std::cout << get_path() << "\t" << get_method() << std::endl;
+	Method method(_server_config.get("method_allowed").get<json::t_object>());
+
+	std::cout << "Method is allowed: " << method.is_allowed(get_path(), get_method()) << std::endl;
+	if (!method.is_allowed(get_path(), get_method()))
+	{
+		if (get_error_code() == 0)
+		{
+			set_error_code(405);
+		}
+		return 1;
+	}
+	return 0;
 }
 
 } /* namespace http */

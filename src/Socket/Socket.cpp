@@ -1,7 +1,7 @@
 #include "Socket.hpp"
 
 Socket::Socket(int domain, unsigned short port, int type, int protocol, const json::Value &server_config)
-	: _server_config(server_config), _response(server_config)
+	: _server_config(server_config), _request(server_config), _response(server_config)
 {
 	_address.sin_family = domain;
 	_address.sin_port = htons(port);
@@ -58,7 +58,6 @@ Socket::set_socket_non_blocking()
 	int ret = setsockopt(_socket_id, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val));
 	test_socket(ret, "setsockopt() Fail!");
 
-	// Following code only working after select() is implemented
 	ret = fcntl(_socket_id, F_SETFL, O_NONBLOCK);
 	test_socket(ret, "fcnt() Fail!");
 }
@@ -84,7 +83,7 @@ Socket::socket_recv()
 		if (LOG_SOCKET)
 			std::cout << "body str:" << _body_str << std::endl;
 	}
-	_request.parse_buffer(_header_str);
+	int ret = _request.parse_buffer(_header_str);
 	if (_request._request_map["Content-Type"].compare("multipart/form-data") == 0)
 	{
 		if (LOG_SOCKET)
@@ -92,7 +91,8 @@ Socket::socket_recv()
 		multipart_handler();
 		std::memset(buffer, 0, MAXLINE);
 	}
-	if (_request.get_method().compare("DELETE") == 0)
+	std::cout << "ret: " << ret << std::endl;
+	if (_request.get_method().compare("DELETE") == 0 && !ret)
 	{
 		delete_handler();
 	}
@@ -128,8 +128,9 @@ Socket::delete_handler()
 {
 	std::string file_name = _request.get_path();
 	std::string path = _server_config.get("path").get<std::string>();
-	std::string fullpath = path + "/uploads" + file_name;
-	fullpath = my_replace(fullpath, "%20", " ");
+	std::string fullpath = path + file_name;
+	std::cout << fullpath << std::endl;
+	fullpath = utils::my_replace(fullpath, "%20", " ");
 	if (access(fullpath.c_str(), F_OK) != -1)
 	{
 		_request._request_map["fileStatus"] = "exist";
@@ -155,7 +156,7 @@ Socket::get_file_full_name()
 	size_t		length(start_looking.find_first_of('"', +1) - position_quote_start);
 	std::string file_name = start_looking.substr(position_quote_start, length);
 	std::string fullpath = _server_config.get("path").get<std::string>() + "/uploads/" + file_name;
-	return fullpath;
+	return utils::my_replace(fullpath, "%20", " ");
 }
 
 void
@@ -232,19 +233,3 @@ Socket::check_content_lenght_authorized()
 		}
 	}
 }
-
-std::string
-Socket::my_replace(std::string str, std::string find, std::string replace)
-{
-	for (int i = str.find(find); i != -1; i = str.find(find))
-	{
-		str.erase(i, find.length());
-		str.insert(i, replace);
-	}
-
-	return str;
-}
-
-/*
-	check with _server_config
-*/

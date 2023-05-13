@@ -15,8 +15,7 @@ Response::load_http_request(Request &request)
 	init_response_map();
 	if (request.get_error_code() != 0)
 	{
-		load_response_post_delete(request.get_error_code());
-		request.set_error_code(0);
+		handle_request_with_error(request);
 		return;
 	}
 	std::string path = _server_config.get("path").get<std::string>();
@@ -24,48 +23,36 @@ Response::load_http_request(Request &request)
 	if (has_php_extension(request))
 	{
 		if (access(path.c_str(), F_OK))
-		{
-			load_response_get(404, path);
-		}
+			load_response_with_path(404, path);
 		else
-		{
 			php_handler(request);
-		}
 		return;
 	}
 	if (request.get_method().compare("GET") == 0)
 	{
-		if (check_if_is_dir(path))
-			load_response_get(401, path);
-		else if (access(path.c_str(), F_OK))
-		{
-			load_response_get(404, path);
-		}
+		if (access(path.c_str(), F_OK))
+			load_response_with_path(404, path);
 		else
-		{
-			load_response_get(200, path);
-		}
+			load_response_with_path(200, path);
 	}
 	else if (request.get_method().compare("POST") == 0)
 	{
 		if (request._request_map["fileStatus"].compare("exist") == 0)
-			load_response_post_delete(409);
+			load_response_without_path(409);
 		else
-			load_response_post_delete(201);
+			load_response_without_path(201);
 	}
 	else if (request.get_method().compare("DELETE") == 0)
 	{
 		if (request._request_map["fileStatus"].compare("exist") == 0)
-			load_response_post_delete(204);
+			load_response_without_path(204);
 		else if (request._request_map["fileStatus"].compare("r_fail") == 0)
-			load_response_post_delete(500);
+			load_response_without_path(500);
 		else
-			load_response_post_delete(404);
+			load_response_without_path(404);
 	}
 	else
-	{
-		load_response_get(405, path);
-	}
+		load_response_with_path(405, path);
 }
 
 void
@@ -84,46 +71,26 @@ Response::init_response_map()
 }
 
 void
-Response::load_response_get(int status_code, const std::string &path)
+Response::load_response_with_path(int status_code, const std::string &path)
 {
-	_response_map["Date"] = get_time_stamp();
-	_response_map["Status-line"]
-		= _response_map["Protocol"] + _status_code.get_key_value_formated(status_code);
+	if (check_if_is_dir(path))
+		status_code = 401;
+	fill_header_firstpart(status_code);
 	if (status_code != 200)
-	{
-		set_response_type("html");
-		if (_server_config.if_exist("dir_error"))
-		{
-			std::string file_path = _server_config.get("path").get<std::string>() + "/"
-									+ _server_config.get("dir_error").get<std::string>();
-			if (access(file_path.c_str(), F_OK))
-				create_error_html_page(status_code);
-			else
-				construct_body_string(file_path);
-		}
-		else
-			create_error_html_page(status_code);
-	}
+		handle_response_with_status_code(status_code);
 	else
 	{
 		set_response_type(path);
 		construct_body_string(path);
 	}
-	set_content_length(_response_map["body-string"]);
-	construct_header_string();
-	construct_full_response();
+	fill_header_lastpart();
 }
 
 void
-Response::load_response_post_delete(int status_code)
+Response::load_response_without_path(int status_code)
 {
-	_response_map["Date"] = get_time_stamp();
-	_response_map["Status-line"]
-		= _response_map["Protocol"] + _status_code.get_key_value_formated(status_code);
-	set_content_length(_response_map["body-string"]);
-	_response_map["Connection"] = "Closed";
-	construct_header_string();
-	construct_full_response();
+	fill_header_firstpart(status_code);
+	fill_header_lastpart();
 }
 
 std::string
@@ -267,6 +234,60 @@ Response::check_if_is_dir(const std::string &path)
 		return false;
 	}
 	return S_ISDIR(info.st_mode);
+}
+
+void
+Response::handle_request_with_error(Request &request)
+{
+	if (_server_config.if_exist(std98::to_string(request.get_error_code())))
+	{
+		int			status_code = request.get_error_code();
+		std::string file_name = std98::to_string(status_code) + ".html";
+		std::string fullpath = _server_config.get("path").get<std::string>() + "/" + file_name;
+		fill_header_firstpart(status_code);
+		if (access(fullpath.c_str(), F_OK))
+			create_error_html_page(status_code);
+		else
+			construct_body_string(fullpath);
+		fill_header_lastpart();
+		return;
+	}
+	load_response_without_path(request.get_error_code());
+	request.set_error_code(0);
+	return;
+}
+
+void
+Response::fill_header_firstpart(int status_code)
+{
+	_response_map["Date"] = get_time_stamp();
+	_response_map["Status-line"]
+		= _response_map["Protocol"] + _status_code.get_key_value_formated(status_code);
+}
+
+void
+Response::fill_header_lastpart()
+{
+	set_content_length(_response_map["body-string"]);
+	construct_header_string();
+	construct_full_response();
+}
+
+void
+Response::handle_response_with_status_code(int status_code)
+{
+	set_response_type("html");
+	if (_server_config.if_exist("dir_error") && status_code == 401)
+	{
+		std::string file_path = _server_config.get("path").get<std::string>() + "/"
+								+ _server_config.get("dir_error").get<std::string>();
+		if (access(file_path.c_str(), F_OK))
+			create_error_html_page(status_code);
+		else
+			construct_body_string(file_path);
+	}
+	else
+		create_error_html_page(status_code);
 }
 
 } /* namespace http */

@@ -41,6 +41,7 @@ SRCS	+=	$(SRCD)/cgi/utils.cpp
 
 # http
 
+SRCS	+=	$(SRCD)/http/Method.cpp
 SRCS	+=	$(SRCD)/http/Request.cpp
 SRCS	+=	$(SRCD)/http/Response.cpp
 SRCS	+=	$(SRCD)/http/StatusCodes.cpp
@@ -63,10 +64,13 @@ SRCS	+=	$(SRCD)/std98/to_string.cpp
 
 SRCS	+=	$(SRCD)/cluster/cluster.cpp
 
+# utils
+
+SRCS	+=  $(SRCD)/utils/my_replace.cpp
+
 #	Headers
 
 INCD	=	inc
-
 
 #	Objets
 

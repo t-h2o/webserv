@@ -2,13 +2,22 @@
 
 	"nicesite.com": {
 		"port" : 8081,
-		"path" : "./test/website"
+		"path" : "./test/website",
+		"method_allowed": {
+			"/uploads" : 7,
+			"/index.html" : 1,
+			"/path/two" : 3
+		}
 	},
 
 	"dummywebsite.com": {
 		"port" : 8080,
 		"path" : "./test/website2",
-		"dir_error": "is_dir.html"	
+		"dir_error": "is_dir.html",	
+		"405" : "405.html",
+		"method_allowed": {
+			"/index.html" : 1
+		}
 	},
 
 	"docs.com": {
@@ -16,6 +25,6 @@
 		"path" : "./docs"
 	},
 
-  "php-cgi" : "/path/of/php-cgi"
+	"php-cgi" : "/path/of/php-cgi"
 
 }
