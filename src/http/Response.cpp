@@ -80,18 +80,7 @@ Response::load_resonse_with_path(int status_code, const std::string &path)
 	fill_header_firstpart(status_code);
 	if (status_code != 200)
 	{
-		set_response_type("html");
-		if (_server_config.if_exist("dir_error") && status_code == 401)
-		{
-			std::string file_path = _server_config.get("path").get<std::string>() + "/"
-									+ _server_config.get("dir_error").get<std::string>();
-			if (access(file_path.c_str(), F_OK))
-				create_error_html_page(status_code);
-			else
-				construct_body_string(file_path);
-		}
-		else
-			create_error_html_page(status_code);
+		handle_response_with_status_code(status_code);
 	}
 	else
 	{
@@ -283,9 +272,26 @@ Response::fill_header_firstpart(int status_code)
 void
 Response::fill_header_lastpart()
 {
-		set_content_length(_response_map["body-string"]);
-		construct_header_string();
-		construct_full_response();
+	set_content_length(_response_map["body-string"]);
+	construct_header_string();
+	construct_full_response();
+}
+
+void
+Response::handle_response_with_status_code(int status_code)
+{
+	set_response_type("html");
+	if (_server_config.if_exist("dir_error") && status_code == 401)
+	{
+		std::string file_path = _server_config.get("path").get<std::string>() + "/"
+								+ _server_config.get("dir_error").get<std::string>();
+		if (access(file_path.c_str(), F_OK))
+			create_error_html_page(status_code);
+		else
+			construct_body_string(file_path);
+	}
+	else
+		create_error_html_page(status_code);
 }
 
 } /* namespace http */

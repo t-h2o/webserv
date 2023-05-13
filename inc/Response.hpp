@@ -45,7 +45,8 @@ class Response
 	bool		check_if_is_dir(const std::string &path);
 	void		handle_request_with_error(Request &request);
 	void		fill_header_firstpart(int status_code);
-	void fill_header_lastpart();
+	void		fill_header_lastpart();
+	void		handle_response_with_status_code(int status_code);
 };
 
 std::ostream &operator<<(std::ostream &, Response const &);
