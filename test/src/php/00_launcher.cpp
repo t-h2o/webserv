@@ -1,6 +1,6 @@
 #include "Unit_test.hpp"
-#include "tests.hpp"
 #include "setting.hpp"
+#include "tests.hpp"
 
 int
 launch_php(void)
