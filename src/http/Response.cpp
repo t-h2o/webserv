@@ -15,34 +15,7 @@ Response::load_http_request(Request &request)
 	init_response_map();
 	if (request.get_error_code() != 0)
 	{
-		std::cout << "HERE 1, code error : " << request.get_error_code() << std::endl;
-		if (_server_config.if_exist(std98::to_string(request.get_error_code())))
-		{
-			std::cout << "HERE 2" << std::endl;
-
-			int			status_code = request.get_error_code();
-			std::string file_name = std98::to_string(status_code) + ".html";
-			std::string fullpath = _server_config.get("path").get<std::string>() + "/" + file_name;
-			_response_map["Date"] = get_time_stamp();
-			_response_map["Status-line"]
-				= _response_map["Protocol"] + _status_code.get_key_value_formated(status_code);
-			if (access(fullpath.c_str(), F_OK))
-			{
-				std::cout << "haven't found the file: " << fullpath << std::endl;
-				create_error_html_page(status_code);
-			}
-			else
-			{
-				construct_body_string(fullpath);
-				std::cout << "have found the file: " << fullpath << std::endl;
-			}
-			set_content_length(_response_map["body-string"]);
-			construct_header_string();
-			construct_full_response();
-			return;
-		}
-		load_response_post_delete(request.get_error_code());
-		request.set_error_code(0);
+		handle_request_with_error(request);
 		return;
 	}
 	std::string path = _server_config.get("path").get<std::string>();
@@ -50,48 +23,37 @@ Response::load_http_request(Request &request)
 	if (has_php_extension(request))
 	{
 		if (access(path.c_str(), F_OK))
-		{
-			load_response_get(404, path);
-		}
+			load_resonse_with_path(404, path);
 		else
-		{
 			php_handler(request);
-		}
 		return;
 	}
 	if (request.get_method().compare("GET") == 0)
 	{
-		std::cout << "simple get\npath : " << path << std::endl;
-		// if (check_if_is_dir(path))
-		// 	load_response_get(401, path);
 		if (access(path.c_str(), F_OK))
-		{
-			load_response_get(404, path);
-		}
+			load_resonse_with_path(404, path);
 		else
-		{
-			load_response_get(200, path);
-		}
+			load_resonse_with_path(200, path);
 	}
 	else if (request.get_method().compare("POST") == 0)
 	{
 		if (request._request_map["fileStatus"].compare("exist") == 0)
-			load_response_post_delete(409);
+			load_response_without_path(409);
 		else
-			load_response_post_delete(201);
+			load_response_without_path(201);
 	}
 	else if (request.get_method().compare("DELETE") == 0)
 	{
 		if (request._request_map["fileStatus"].compare("exist") == 0)
-			load_response_post_delete(204);
+			load_response_without_path(204);
 		else if (request._request_map["fileStatus"].compare("r_fail") == 0)
-			load_response_post_delete(500);
+			load_response_without_path(500);
 		else
-			load_response_post_delete(404);
+			load_response_without_path(404);
 	}
 	else
 	{
-		load_response_get(405, path);
+		load_resonse_with_path(405, path);
 	}
 }
 
@@ -111,14 +73,14 @@ Response::init_response_map()
 }
 
 void
-Response::load_response_get(int status_code, const std::string &path)
+Response::load_resonse_with_path(int status_code, const std::string &path)
 {
+	if (check_if_is_dir(path))
+		status_code = 401;
 	_response_map["Date"] = get_time_stamp();
 	_response_map["Status-line"]
 		= _response_map["Protocol"] + _status_code.get_key_value_formated(status_code);
 
-	if (check_if_is_dir(path))
-		status_code = 401;
 	if (status_code != 200)
 	{
 		set_response_type("html");
@@ -145,7 +107,7 @@ Response::load_response_get(int status_code, const std::string &path)
 }
 
 void
-Response::load_response_post_delete(int status_code)
+Response::load_response_without_path(int status_code)
 {
 	_response_map["Date"] = get_time_stamp();
 	_response_map["Status-line"]
@@ -297,6 +259,40 @@ Response::check_if_is_dir(const std::string &path)
 		return false;
 	}
 	return S_ISDIR(info.st_mode);
+}
+
+void
+Response::handle_request_with_error(Request &request)
+{
+	std::cout << "HERE 1, code error : " << request.get_error_code() << std::endl;
+	if (_server_config.if_exist(std98::to_string(request.get_error_code())))
+	{
+		std::cout << "HERE 2" << std::endl;
+
+		int			status_code = request.get_error_code();
+		std::string file_name = std98::to_string(status_code) + ".html";
+		std::string fullpath = _server_config.get("path").get<std::string>() + "/" + file_name;
+		_response_map["Date"] = get_time_stamp();
+		_response_map["Status-line"]
+			= _response_map["Protocol"] + _status_code.get_key_value_formated(status_code);
+		if (access(fullpath.c_str(), F_OK))
+		{
+			std::cout << "haven't found the file: " << fullpath << std::endl;
+			create_error_html_page(status_code);
+		}
+		else
+		{
+			construct_body_string(fullpath);
+			std::cout << "have found the file: " << fullpath << std::endl;
+		}
+		set_content_length(_response_map["body-string"]);
+		construct_header_string();
+		construct_full_response();
+		return;
+	}
+	load_response_without_path(request.get_error_code());
+	request.set_error_code(0);
+	return;
 }
 
 } /* namespace http */

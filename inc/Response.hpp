@@ -32,8 +32,8 @@ class Response
 	void			   set_content_length(std::string str);
 	void			   init_response_map(void);
 	void			   set_response_type(std::string path);
-	void			   load_response_get(int status_code, const std::string &path);
-	void			   load_response_post_delete(int status_code);
+	void			   load_resonse_with_path(int status_code, const std::string &path);
+	void			   load_response_without_path(int status_code);
 
 	std::string get_time_stamp(void);
 	void		construct_header_string(void);
@@ -43,6 +43,7 @@ class Response
 	bool		has_php_extension(const Request &request) const;
 	void		php_handler(const Request &request) const;
 	bool		check_if_is_dir(const std::string &path);
+	void		handle_request_with_error(Request &request);
 };
 
 std::ostream &operator<<(std::ostream &, Response const &);
