@@ -108,7 +108,6 @@ Response::load_response_without_path(int status_code)
 {
 	fill_header_firstpart(status_code);
 	set_content_length(_response_map["body-string"]);
-	_response_map["Connection"] = "Closed";
 	construct_header_string();
 	construct_full_response();
 }
@@ -259,25 +258,16 @@ Response::check_if_is_dir(const std::string &path)
 void
 Response::handle_request_with_error(Request &request)
 {
-	std::cout << "HERE 1, code error : " << request.get_error_code() << std::endl;
 	if (_server_config.if_exist(std98::to_string(request.get_error_code())))
 	{
-		std::cout << "HERE 2" << std::endl;
-
 		int			status_code = request.get_error_code();
 		std::string file_name = std98::to_string(status_code) + ".html";
 		std::string fullpath = _server_config.get("path").get<std::string>() + "/" + file_name;
 		fill_header_firstpart(status_code);
 		if (access(fullpath.c_str(), F_OK))
-		{
-			std::cout << "haven't found the file: " << fullpath << std::endl;
 			create_error_html_page(status_code);
-		}
 		else
-		{
 			construct_body_string(fullpath);
-			std::cout << "have found the file: " << fullpath << std::endl;
-		}
 		set_content_length(_response_map["body-string"]);
 		construct_header_string();
 		construct_full_response();
