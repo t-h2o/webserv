@@ -9,7 +9,7 @@ Request::Request(const json::Value &server_config)
 }
 Request::~Request() {}
 
-void
+int
 Request::parse_buffer(std::string str_buff)
 {
 	std::vector<std::string> tmp_vector;
@@ -26,6 +26,7 @@ Request::parse_buffer(std::string str_buff)
 	this->parse_other_lines(tmp_vector);
 	check_header();
 	empty_path_handler();
+	return check_path_and_method();
 }
 
 void
@@ -209,7 +210,6 @@ Request::check_header()
 	check_if_has_query();
 	if (_has_query)
 		clean_path();
-	check_path_and_method();
 }
 
 int
@@ -223,15 +223,16 @@ Request::set_error_code(int code)
 	_error_code = code;
 }
 
-void
+int
 Request::check_path_and_method()
 {
 	std::string path = _server_config.get("path").get<std::string>();
 	path += get_path();
+	path = utils::my_replace(path, "%20", " ");
 	if (access(path.c_str(), F_OK))
-		return;
+		return 0;
 	if (!_server_config.if_exist("method_allowed"))
-		return;
+		return 0;
 	std::cout << get_path() << "\t" << get_method() << std::endl;
 	Method method(_server_config.get("method_allowed").get<json::t_object>());
 
@@ -239,8 +240,12 @@ Request::check_path_and_method()
 	if (!method.is_allowed(get_path(), get_method()))
 	{
 		if (get_error_code() == 0)
+		{
 			set_error_code(405);
+		}
+			return 1;
 	}
+	return 0;
 }
 
 } /* namespace http */

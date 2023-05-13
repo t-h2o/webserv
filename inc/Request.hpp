@@ -3,6 +3,7 @@
 
 #include "Method.hpp"
 #include "Value.hpp"
+#include "utils.hpp"
 #include <iostream>
 #include <map>
 #include <string.h>
@@ -22,7 +23,7 @@ class Request
 	Request(const json::Value &server_config);
 	~Request();
 
-	void			parse_buffer(std::string);
+	int				parse_buffer(std::string);
 	bool			method_is_authorized(std::string method) const;
 	std::string		get_method() const;
 	std::string		get_path() const;
@@ -48,7 +49,7 @@ class Request
 	void			   clean_path();
 	void			   empty_path_handler();
 	void			   check_header();
-	void			   check_path_and_method();
+	int				   check_path_and_method();
 };
 
 std::ostream &operator<<(std::ostream &, Request const &);
