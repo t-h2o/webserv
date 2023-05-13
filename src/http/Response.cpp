@@ -98,18 +98,14 @@ Response::load_resonse_with_path(int status_code, const std::string &path)
 		set_response_type(path);
 		construct_body_string(path);
 	}
-	set_content_length(_response_map["body-string"]);
-	construct_header_string();
-	construct_full_response();
+	fill_header_lastpart();
 }
 
 void
 Response::load_response_without_path(int status_code)
 {
 	fill_header_firstpart(status_code);
-	set_content_length(_response_map["body-string"]);
-	construct_header_string();
-	construct_full_response();
+	fill_header_lastpart();
 }
 
 std::string
@@ -268,9 +264,7 @@ Response::handle_request_with_error(Request &request)
 			create_error_html_page(status_code);
 		else
 			construct_body_string(fullpath);
-		set_content_length(_response_map["body-string"]);
-		construct_header_string();
-		construct_full_response();
+		fill_header_lastpart();
 		return;
 	}
 	load_response_without_path(request.get_error_code());
@@ -284,6 +278,14 @@ Response::fill_header_firstpart(int status_code)
 	_response_map["Date"] = get_time_stamp();
 	_response_map["Status-line"]
 		= _response_map["Protocol"] + _status_code.get_key_value_formated(status_code);
+}
+
+void
+Response::fill_header_lastpart()
+{
+		set_content_length(_response_map["body-string"]);
+		construct_header_string();
+		construct_full_response();
 }
 
 } /* namespace http */
