@@ -77,10 +77,7 @@ Response::load_resonse_with_path(int status_code, const std::string &path)
 {
 	if (check_if_is_dir(path))
 		status_code = 401;
-	_response_map["Date"] = get_time_stamp();
-	_response_map["Status-line"]
-		= _response_map["Protocol"] + _status_code.get_key_value_formated(status_code);
-
+	fill_header_firstpart(status_code);
 	if (status_code != 200)
 	{
 		set_response_type("html");
@@ -109,9 +106,7 @@ Response::load_resonse_with_path(int status_code, const std::string &path)
 void
 Response::load_response_without_path(int status_code)
 {
-	_response_map["Date"] = get_time_stamp();
-	_response_map["Status-line"]
-		= _response_map["Protocol"] + _status_code.get_key_value_formated(status_code);
+	fill_header_firstpart(status_code);
 	set_content_length(_response_map["body-string"]);
 	_response_map["Connection"] = "Closed";
 	construct_header_string();
@@ -272,9 +267,7 @@ Response::handle_request_with_error(Request &request)
 		int			status_code = request.get_error_code();
 		std::string file_name = std98::to_string(status_code) + ".html";
 		std::string fullpath = _server_config.get("path").get<std::string>() + "/" + file_name;
-		_response_map["Date"] = get_time_stamp();
-		_response_map["Status-line"]
-			= _response_map["Protocol"] + _status_code.get_key_value_formated(status_code);
+		fill_header_firstpart(status_code);
 		if (access(fullpath.c_str(), F_OK))
 		{
 			std::cout << "haven't found the file: " << fullpath << std::endl;
@@ -293,6 +286,14 @@ Response::handle_request_with_error(Request &request)
 	load_response_without_path(request.get_error_code());
 	request.set_error_code(0);
 	return;
+}
+
+void
+Response::fill_header_firstpart(int status_code)
+{
+	_response_map["Date"] = get_time_stamp();
+	_response_map["Status-line"]
+		= _response_map["Protocol"] + _status_code.get_key_value_formated(status_code);
 }
 
 } /* namespace http */

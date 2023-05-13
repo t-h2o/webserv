@@ -44,6 +44,7 @@ class Response
 	void		php_handler(const Request &request) const;
 	bool		check_if_is_dir(const std::string &path);
 	void		handle_request_with_error(Request &request);
+	void		fill_header_firstpart(int status_code);
 };
 
 std::ostream &operator<<(std::ostream &, Response const &);
