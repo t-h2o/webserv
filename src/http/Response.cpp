@@ -52,9 +52,7 @@ Response::load_http_request(Request &request)
 			load_response_without_path(404);
 	}
 	else
-	{
 		load_resonse_with_path(405, path);
-	}
 }
 
 void
@@ -79,9 +77,7 @@ Response::load_resonse_with_path(int status_code, const std::string &path)
 		status_code = 401;
 	fill_header_firstpart(status_code);
 	if (status_code != 200)
-	{
 		handle_response_with_status_code(status_code);
-	}
 	else
 	{
 		set_response_type(path);
