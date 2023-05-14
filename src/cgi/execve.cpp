@@ -152,7 +152,7 @@ CGI::parent_process(pid_t &pid)
 	close(_pipefd[1]);
 	if (waitpid(pid, &ret, 0) == -1)
 	{
-		std::cout << ret << std::endl;
+		perror("waitpid");
 		throw(std::exception());
 	}
 	ssize_t bytes_read;
@@ -161,9 +161,7 @@ CGI::parent_process(pid_t &pid)
 		// Fill _read_buffer with 0
 		std::memset(_read_buffer, 0, BUFFER_SIZE);
 		// Initialize bytes_read with the return value from read, for error checking.
-		bytes_read = read(_pipefd[0], _read_buffer, BUFFER_SIZE);
-		// Condition if read fail
-		if (bytes_read == -1)
+		if ((bytes_read = read(_pipefd[0], _read_buffer, BUFFER_SIZE)) == -1)
 		{
 			perror("read");
 			close(_pipefd[0]);
@@ -186,12 +184,10 @@ CGI::child_process(char **env)
 {
 	close(_pipefd[0]);
 	// Replace the old FD
-	if (dup2(_pipefd[1], 1) == -1)
-	{
+	if (dup2(_pipefd[1], STDOUT_FILENO) == -1)
 		perror("dup2");
-		close(_pipefd[1]);
-	}
 	close(_pipefd[1]);
+
 	// Execute new process
 	if (execve(_args[0], &_args[0], env) == -1)
 		perror("execve");
@@ -220,7 +216,6 @@ CGI::execution_cgi(const std::map<std::string, std::string> &map, const std::str
 	}
 	set_env(map, args);
 	env = utils::cMap_to_cChar(_env);
-
 	pid_t pid = fork();
 	// Verify if fork failed
 	if (pid == -1)

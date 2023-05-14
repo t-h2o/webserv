@@ -1,5 +1,8 @@
 #include "StatusCodes.hpp"
+<<<<<<< HEAD
 #include "setting.hpp"
+=======
+>>>>>>> cgi-query-post
 
 #include "../../../inc/Response.hpp"
 #include "../../../inc/cgi.hpp"
