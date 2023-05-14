@@ -5,6 +5,7 @@ import sys
 import threading
 
 exit_code = 0
+TREADS_NUMBER = 15
 
 class bcolors:
     HEADER    = '\033[95m'
@@ -65,9 +66,9 @@ def my_thread (name):
 def multi_request ():
     all_treads = []
 
-    for i in range(5):
+    for i in range(TREADS_NUMBER):
         all_treads.append(threading.Thread(target=my_thread, args=[1,]))
-    for i in range(5):
+    for i in range(TREADS_NUMBER):
         all_treads[i].run()
 
 def main ():
