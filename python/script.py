@@ -60,7 +60,7 @@ def basic_status_code_test ():
     request_get("http://webserv.com:8080/favicon.ico", 404)
 
 def my_thread (name):
-    print("yolo")
+    basic_status_code_test()
 
 def multi_request ():
     all_treads = []
