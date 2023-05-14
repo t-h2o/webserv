@@ -15,21 +15,17 @@ int test_check_argv_access_unvalid(void);
 
 /* php:: */
 
-<<<<<<< HEAD
 int launch_php(void);
 int test_php_output(void);
 int test_cgi_with_php(void);
 int test_cgi_with_php_query(void);
 int test_cgi_with_php_query2(void);
 int test_cgi_with_files(void);
-=======
+
 /* http::Redirection */
 
 int launch_http_redirection(void);
 int test_http_redirection(void);
-
-/* http::Request */
->>>>>>> http::Redirection
 
 /* http::Method */
 
