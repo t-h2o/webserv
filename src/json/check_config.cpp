@@ -61,6 +61,18 @@ check_value_port(t_object const &config)
 	return 0;
 }
 
+static int
+check_server_config(t_object &config)
+{
+	if (check_value_path(config))
+		return 1;
+	if (check_value_port(config))
+		return 1;
+	if (check_value_servername(config))
+		return 1;
+	return 0;
+}
+
 /* check the content of the configuration file
  */
 int
@@ -70,11 +82,7 @@ check_config(t_object *config)
 	{
 		if (server_config->second.get_type() == JSON_OBJECT)
 		{
-			if (check_value_path(server_config->second.get<t_object>()))
-				return 1;
-			if (check_value_port(server_config->second.get<t_object>()))
-				return 1;
-			if (check_value_servername(server_config->second.get<t_object>()))
+			if (check_server_config(server_config->second.get<t_object>()))
 				return 1;
 		}
 	}
