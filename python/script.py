@@ -2,6 +2,7 @@
 
 import requests
 import sys
+import threading
 
 exit_code = 0
 
@@ -58,8 +59,19 @@ def basic_status_code_test ():
     request_get("http://webserv.com:8080/uploads", 401)
     request_get("http://webserv.com:8080/favicon.ico", 404)
 
+def my_thread (name):
+    print("yolo")
+
+def multi_request ():
+    all_treads = []
+
+    for i in range(5):
+        all_treads.append(threading.Thread(target=my_thread, args=[1,]))
+    for i in range(5):
+        all_treads[i].run()
+
 def main ():
-    basic_status_code_test()
+    multi_request()
 
 if __name__ == "__main__":
     main()
