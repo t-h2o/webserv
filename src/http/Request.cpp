@@ -26,6 +26,7 @@ Request::parse_buffer(std::string str_buff)
 	this->parse_other_lines(tmp_vector);
 	check_header();
 	empty_path_handler();
+	check_redirection();
 	return check_path_and_method();
 }
 
@@ -246,6 +247,22 @@ Request::check_path_and_method()
 		return 1;
 	}
 	return 0;
+}
+
+void
+Request::check_redirection()
+{
+	if (_server_config.if_exist("redirection"))
+	{
+		Redirection redirection(_server_config.get("redirection").get<json::t_object>());
+		std::string x = "";
+		if (redirection.is_redirection(get_path(), x))
+		{
+			_request_map["Location"] = get_path();
+			if (get_error_code() == 0)
+				set_error_code(301);
+		}
+	}
 }
 
 } /* namespace http */

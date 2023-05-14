@@ -13,11 +13,12 @@ void
 Response::load_http_request(Request &request)
 {
 	init_response_map();
-	if (request.get_error_code() != 0)
-	{
-		handle_request_with_error(request);
-		return;
-	}
+	if (http::Redirection::is_redirection())
+		if (request.get_error_code() != 0)
+		{
+			handle_request_with_error(request);
+			return;
+		}
 	std::string path = _server_config.get("path").get<std::string>();
 	path += request.get_path();
 	if (has_php_extension(request))
