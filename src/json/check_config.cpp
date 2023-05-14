@@ -1,6 +1,7 @@
 #include "utils_json.hpp"
 #include <climits>
 #include <iostream>
+#include <unistd.h>
 
 #define DEFAULT_SERVER_NAME "default_server_name"
 
@@ -34,6 +35,27 @@ check_value_path(t_object const &config)
 	if (config.at("path").get_type() != JSON_STRING)
 	{
 		std::cerr << "Error: the path is not a string" << std::endl;
+		return 1;
+	}
+	return 0;
+}
+
+static int
+check_cgi(t_object const *config)
+{
+	if (config->find("php-cgi") == config->end())
+	{
+		std::cerr << "Error: not \"php-cgi\" path in the config" << std::endl;
+		return 1;
+	}
+	if (config->at("php-cgi").get_type() != JSON_STRING)
+	{
+		std::cerr << "Error: the php-cgi is not a string" << std::endl;
+		return 1;
+	}
+	if (access(config->at("php-cgi").get<std::string>().c_str(), X_OK))
+	{
+		std::cerr << "Error: the php-cgi can't be execute" << std::endl;
 		return 1;
 	}
 	return 0;
@@ -86,6 +108,9 @@ check_config(t_object *config)
 				return 1;
 		}
 	}
+
+	if (check_cgi(config))
+		return 1;
 
 	return 0;
 }
