@@ -224,12 +224,12 @@ Response::php_handler(const Request &request) const
 	t_object req_map = request.get_map();
 	std::cout << "IT's a .php" << std::endl;
 
-	//	char*	cgi = (char*)"/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
+	char*	cgi_path = PATH_CGI_PHP;
 	if (request.get_has_query())
 		std::cout << "the query string is : " << req_map["Query"] << std::endl;
-	std::map<std::string, std::string>::iterator it;
-	for (it = req_map.begin(); it != req_map.end(); ++it)
-		std::cout << it->first << " " << it->second << std::endl;
+	std::string cgi_file = get_file(req_map);
+	std::string cgi_query = get_query(req_map);
+	CGI		cgi(cgi_path, cgi_file, cgi_query);
 }
 
 bool

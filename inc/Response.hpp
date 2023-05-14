@@ -10,6 +10,7 @@
 #include <sstream>
 #include <string>
 #include <unistd.h>
+#include "cgi.hpp"
 
 namespace http
 {
