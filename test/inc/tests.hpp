@@ -14,14 +14,6 @@ int test_check_argv_access_valid(void);
 int test_check_argv_access_unvalid(void);
 
 /* php:: */
-<<<<<<< HEAD
-=======
-
-int launch_php(void);
-int test_php_output(void);
-int test_cgi_with_php(void);
-int test_cgi_with_files(void);
->>>>>>> f260d47e39e7d83a6e6de47f66be4a9911220898
 
 int launch_php(void);
 int test_php_output(void);
