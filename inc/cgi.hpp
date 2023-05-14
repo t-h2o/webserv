@@ -1,6 +1,7 @@
 #ifndef WEBSERV_CGI_HPP
 #define WEBSERV_CGI_HPP
 
+#include "setting.hpp"
 #include <cassert>
 #include <cstdlib>
 #include <cstring>
@@ -18,7 +19,7 @@
 
 void print_container_map(std::map<std::string, std::string> myMap);
 
-std::string get_key(const std::map<std::string, std::string> &map, std::string key);
+std::string get_key(const std::map<std::string, std::string> &map, const std::string &key);
 
 class CGI
 {

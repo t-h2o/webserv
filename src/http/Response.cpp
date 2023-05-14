@@ -224,15 +224,24 @@ Response::php_handler(const Request &request) const
 	t_object req_map = request.get_map();
 	std::cout << "IT's a .php" << std::endl;
 
-	char*	cgi_path = PATH_CGI_PHP;
+	std::string cgi_path = PATH_CGI_PHP;
 	if (request.get_has_query())
 		std::cout << "the query string is : " << req_map["Query"] << std::endl;
-	std::string cgi_file = get_key(req_map, "Query");
+
+	std::string cgi_file = "test/website" + get_key(req_map, "Path");
 	std::string cgi_query = get_key(req_map, "Query");
 	std::string output_cgi;
-	CGI		cgi(cgi_path, cgi_file, cgi_query);
+	CGI			cgi(cgi_path, cgi_file, cgi_query);
+
 	output_cgi = cgi.execution_cgi(req_map, cgi_file);
-	std::cout << output_cgi << std::endl;
+	size_t pos;
+	if ((pos = output_cgi.find('<')) == std::string::npos)
+		std::cerr << "wrong format file" << std::endl;
+	else
+	{
+		output_cgi = output_cgi.substr(pos);
+		std::cout << "output = \n" << output_cgi << std::endl;
+	}
 }
 
 bool

@@ -7,7 +7,7 @@
 #define BUFFER_SIZE 4092
 
 std::string
-get_key(const std::map<std::string, std::string> &map, const std::string& key)
+get_key(const std::map<std::string, std::string> &map, const std::string &key)
 {
 	std::map<std::string, std::string>::const_iterator it = map.find(key);
 	if (it != map.end() && !it->second.empty())

@@ -1,4 +1,5 @@
 #include "StatusCodes.hpp"
+#include "setting.hpp"
 
 #include "../../../inc/Response.hpp"
 #include "../../../inc/cgi.hpp"
@@ -7,25 +8,25 @@ std::map<std::string, std::string>
 request_POST(void)
 {
 	std::map<std::string, std::string> map;
-	char							   array[]
-		= "Accept: */*\n"
-		  "Accept-Encoding: gzip, deflate, br\n"
-		  "Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3\n"
-		  "Connection: keep-alive\n"
-		  "Content-Length: 2\n"
-		  "Content-Type: multipart/form-data; boundary=\n"
-		  "Cookie: wp-settings-time-1=1677339113\n"
-		  "Host: localhost:8081\n"
-		  "Method: POST\n"
-		  "Origin: http://localhost:8081\n"
-		  "Path: /index.html\n"
-		  "Protocol: HTTP/1.1\n"
-		  "Referer: http://localhost:8081/submitPage.html\n"
-		  "Sec-Fetch-Dest: empty\n"
-		  "Sec-Fetch-Mode: no-cors\n"
-		  "Sec-Fetch-Site: none\n"
-		  "Upgrade-Insecure-Requests:\n"
-		  "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:107.0) Gecko/20100101 Firefox/107.0\n";
+	char							   array[] = "Accept: */*\n"
+												 "Accept-Encoding: gzip, deflate, br\n"
+												 "Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3\n"
+												 "Connection: keep-alive\n"
+												 "Content-Length: 2\n"
+												 "Content-Type: multipart/form-data; boundary=\n"
+												 "Cookie: wp-settings-time-1=1677339113\n"
+												 "Host: localhost:8081\n"
+												 "Method: POST\n"
+												 "Origin: http://localhost:8081\n"
+												 "Path: /index.html\n"
+												 "Protocol: HTTP/1.1\n"
+												 "Referer: http://localhost:8081/submitPage.html\n"
+												 "Sec-Fetch-Dest: empty\n"
+												 "Sec-Fetch-Mode: no-cors\n"
+												 "Sec-Fetch-Site: none\n"
+												 "Upgrade-Insecure-Requests:\n"
+												 "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:107.0) Gecko/20100101 "
+												 "Firefox/107.0\n";
 
 	std::stringstream ss(array);
 	std::string		  line;
@@ -70,8 +71,8 @@ test_cgi_POST(void)
 	std::string						   str;
 
 	map = request_POST();
-	std::string									 cgi_query = get_query(map);
-	CGI											 cgi(cgi_path, cgi_file, cgi_query);
+	std::string cgi_query = get_key(map, "Query");
+	CGI			cgi(cgi_path, cgi_file, cgi_query);
 
 	if ((output_cgi = cgi.execution_cgi(map, cgi_file)).empty())
 	{
