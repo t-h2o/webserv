@@ -20,7 +20,7 @@ namespace http
 		}
 		std::string path = _server_config.get("path").get<std::string>();
 		path += request.get_path();
-		if (has_php_extension(request))
+		if (has_php_extension(request) && (request.get_method().compare("POST") != 0))
 		{
 			if (access(path.c_str(), F_OK))
 				load_response_with_path(404, path);
