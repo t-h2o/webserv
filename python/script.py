@@ -40,7 +40,7 @@ def request_get (url, expected_status_code):
 
     print()
 
-def main ():
+def basic_status_code_test ():
     request_get("http://webserv.com:8082/index.html", 200)
     request_get("http://webserv.com:8082/", 200)
     request_get("http://webserv.com:8082/bad_page", 404)
@@ -57,6 +57,9 @@ def main ():
     request_get("http://webserv.com:8080/bad_page", 404)
     request_get("http://webserv.com:8080/uploads", 401)
     request_get("http://webserv.com:8080/favicon.ico", 404)
+
+def main ():
+    basic_status_code_test()
 
 if __name__ == "__main__":
     main()
