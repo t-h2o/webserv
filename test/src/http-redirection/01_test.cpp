@@ -1,7 +1,7 @@
 #include "Redirection.hpp"
 
-#define GOOGLE	"google.com"
-#define DUCK	"duckduckgo.com"
+#define GOOGLE "google.com"
+#define DUCK "duckduckgo.com"
 
 int
 test_http_redirection(void)
