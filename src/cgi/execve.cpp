@@ -7,9 +7,9 @@
 #define BUFFER_SIZE 4092
 
 std::string
-get_query(const std::map<std::string, std::string> &map)
+get_key(const std::map<std::string, std::string> &map, const std::string& key)
 {
-	std::map<std::string, std::string>::const_iterator it = map.find("Query");
+	std::map<std::string, std::string>::const_iterator it = map.find(key);
 	if (it != map.end() && !it->second.empty())
 		return it->second;
 	return "";
