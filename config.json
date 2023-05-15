@@ -1,5 +1,6 @@
 {
-    "nicesite.com": {
+    "1": {
+        "hostname": "nicesite.com",
         "port": 8081,
         "path": "./test/website",
         "method_allowed": {
@@ -13,7 +14,8 @@
         }
     },
 
-    "dummywebsite.com": {
+    "2": {
+        "hostname": "dummywebsite.com",
         "port": 8080,
         "path": "./test/website2",
         "dir_error": "is_dir.html",
@@ -23,7 +25,8 @@
         }
     },
 
-    "docs.com": {
+    "3": {
+        "hostname": "docs.com",
         "port": 8082,
         "path": "./docs"
     },
