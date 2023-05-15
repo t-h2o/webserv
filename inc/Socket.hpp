@@ -39,7 +39,7 @@ class Socket
 	void			   multipart_handler();
 	void			   delete_handler();
 	void			   clean_request();
-	void			   send_response();
+	int				   send_response();
 	std::string		   get_file_full_name();
 	void			   create_new_file();
 	std::string		   clean_end_of_file(std::string const &str_to_clean);

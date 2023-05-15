@@ -4,14 +4,16 @@ Cluster::Cluster(void) {}
 
 Cluster::~Cluster(void) {}
 
-void Cluster::create_upload_folder(json::Value &config)
+void
+Cluster::create_upload_folder(json::Value &config)
 {
 	std::string website_path(config.get("path").get<std::string>() + "/uploads");
 
 	mkdir(website_path.c_str(), S_IRWXU);
 }
 
-void Cluster::load_cluster(json::t_object *config)
+void
+Cluster::load_cluster(json::t_object *config)
 {
 	const json::Value empty_value;
 
@@ -27,31 +29,33 @@ void Cluster::load_cluster(json::t_object *config)
 	}
 }
 
-void Cluster::setup()
+void
+Cluster::setup()
 {
 	FD_ZERO(&_master_fd_set);
 	_max_fd = 0;
 	for (t_array::iterator it(_all_server_config.begin()); it != _all_server_config.end(); it++)
 	{
-		int fd;
+		int	   fd;
 		Socket new_socket(AF_INET, it->get("port").get<double>(), SOCK_STREAM, 0, *it);
 		fd = new_socket.get_socket_id();
 		FD_SET(fd, &_master_fd_set);
 		_sockets.insert(std::make_pair(fd, new_socket));
 		if (fd > _max_fd)
 			_max_fd = fd;
-		std::cout << it->get("hostname").get<std::string>()
-				  << ":" << it->get("port").get<double>() << std::endl;
+		std::cout << it->get("hostname").get<std::string>() << ":" << it->get("port").get<double>()
+				  << std::endl;
 	}
 }
 
-void Cluster::run()
+void
+Cluster::run()
 {
 	int end_server = 0;
 	while (end_server == 0)
 	{
 		fd_set reading_set;
-		int select_return = 0;
+		int	   select_return = 0;
 
 		while (select_return == 0)
 		{
