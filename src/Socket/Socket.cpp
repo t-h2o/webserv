@@ -61,15 +61,11 @@ int Socket::socket_recv()
 	char buffer[MAXLINE] = {0};
 	ssize_t byte_read;
 	std::string tmp_buffer;
-	std::cout << "socket_recv() started" << std::endl;
 	byte_read = recv(this->_connection_fd, buffer, MAXLINE - 1, 0);
 	if (byte_read == 0 || byte_read == -1)
 	{
-		std::cout << "socket_recv() ended" << std::endl;
 		return byte_read;
 	}
-	std::cout << "socket_recv() byte_read: " << byte_read << std::endl;
-
 	tmp_buffer = std::string(buffer);
 	size_t header_body_delimiter = tmp_buffer.find("\r\n\r\n");
 	_header_str += tmp_buffer.substr(0, header_body_delimiter);
@@ -100,7 +96,6 @@ int Socket::socket_recv()
 	_response.load_http_request(_request);
 	clean_request();
 	send_response();
-	std::cout << "socket_recv() ended" << std::endl;
 	return byte_read;
 }
 
@@ -110,8 +105,6 @@ void Socket::multipart_handler()
 	char buffer[MAXLINE] = {0};
 	char *end = NULL;
 	unsigned long content_length = std::strtoul(_request._request_map["Content-Length"].c_str(), &end, 10);
-	std::cout << "content_length: " << content_length << std::endl;
-	std::cout << "_body_str.max_size(): " << _body_str.max_size() << std::endl;
 	while (_body_str.size() < content_length)
 	{
 		std::memset(buffer, 0, MAXLINE);
@@ -130,7 +123,6 @@ void Socket::delete_handler()
 	std::string file_name = _request.get_path();
 	std::string path = _server_config.get("path").get<std::string>();
 	std::string fullpath = path + file_name;
-	std::cout << fullpath << std::endl;
 	fullpath = utils::my_replace(fullpath, "%20", " ");
 	if (access(fullpath.c_str(), F_OK) != -1)
 	{
