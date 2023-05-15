@@ -5,7 +5,7 @@ namespace http
 
 StatusCode Response::_status_code;
 
-Response::Response(const json::Value &server_config) : _server_config(server_config) {}
+Response::Response(const json::Value &server_config) : _server_config(server_config) { }
 
 Response::~Response(void) {}
 
@@ -233,6 +233,7 @@ Response::php_handler(const Request &request) const
 {
 	t_object req_map = request.get_map();
 	std::cout << "IT's a .php" << std::endl;
+	std::cout << body_post_cgi << std::endl;
 
 	//	char*	cgi = (char*)"/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
 	if (request.get_has_query())
