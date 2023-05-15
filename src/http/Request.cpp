@@ -26,6 +26,7 @@ Request::parse_buffer(std::string str_buff)
 	this->parse_other_lines(tmp_vector);
 	check_header();
 	empty_path_handler();
+	check_redirection();
 	return check_path_and_method();
 }
 
@@ -233,10 +234,7 @@ Request::check_path_and_method()
 		return 0;
 	if (!_server_config.if_exist("method_allowed"))
 		return 0;
-	std::cout << get_path() << "\t" << get_method() << std::endl;
 	Method method(_server_config.get("method_allowed").get<json::t_object>());
-
-	std::cout << "Method is allowed: " << method.is_allowed(get_path(), get_method()) << std::endl;
 	if (!method.is_allowed(get_path(), get_method()))
 	{
 		if (get_error_code() == 0)
@@ -246,6 +244,22 @@ Request::check_path_and_method()
 		return 1;
 	}
 	return 0;
+}
+
+void
+Request::check_redirection()
+{
+	if (_server_config.if_exist("redirection"))
+	{
+		Redirection redirection(_server_config.get("redirection").get<json::t_object>());
+		std::string new_url = "";
+		if (redirection.is_redirection(get_path(), new_url))
+		{
+			_request_map["Location"] = new_url;
+			if (get_error_code() == 0)
+				set_error_code(301);
+		}
+	}
 }
 
 } /* namespace http */

@@ -20,7 +20,7 @@ Response::load_http_request(Request &request)
 	}
 	std::string path = _server_config.get("path").get<std::string>();
 	path += request.get_path();
-	if (has_php_extension(request))
+	if (has_php_extension(request) && (request.get_method().compare("POST") != 0))
 	{
 		if (access(path.c_str(), F_OK))
 			load_response_with_path(404, path);
@@ -63,8 +63,6 @@ Response::init_response_map()
 	_response_map["Status-line"] = "";
 	_response_map["Date"] = "";
 	_response_map["Server"] = _server_config.get("server_name").get<std::string>();
-	_response_map["Content-Length"] = "";
-	_response_map["Content-Type"] = "";
 	_response_map["Connection"] = "Closed";
 	_response_map["Protocol"] = "HTTP/1.1 ";
 	_response_map["header-string"] = "";
@@ -143,9 +141,21 @@ Response::construct_header_string(void)
 
 	_response_map["header-string"] = _response_map["Status-line"] + CRLF + "Date: " + _response_map["Date"]
 									 + CRLF + "Server: " + _response_map["Server"] + CRLF
-									 + "Content-Length: " + _response_map["Content-Length"] + CRLF
-									 + "Content-Type: " + _response_map["Content-Type"] + CRLF
-									 + "Connection: " + _response_map["Connection"] + CRLF + CRLF;
+									 + "Connection: " + _response_map["Connection"] + CRLF;
+
+	if (_response_map.find("Content-Length") != _response_map.end())
+	{
+		_response_map["header-string"] += "Content-Length: " + _response_map["Content-Length"] + CRLF;
+	}
+	if (_response_map.find("Content-Type") != _response_map.end())
+	{
+		_response_map["header-string"] += +"Content-Type: " + _response_map["Content-Type"] + CRLF;
+	}
+	if (_response_map.find("Location") != _response_map.end())
+	{
+		_response_map["header-string"] += "Location: " + _response_map["Location"] + CRLF;
+	}
+	_response_map["header-string"] += CRLF;
 }
 
 void
@@ -246,9 +256,14 @@ Response::check_if_is_dir(const std::string &path)
 void
 Response::handle_request_with_error(Request &request)
 {
-	if (_server_config.if_exist(std98::to_string(request.get_error_code())))
+	int status_code = request.get_error_code();
+	if (status_code == 301)
 	{
-		int			status_code = request.get_error_code();
+		_response_map["Location"] = request._request_map["Location"];
+		load_response_without_path(status_code);
+	}
+	if (_server_config.if_exist(std98::to_string(status_code)))
+	{
 		std::string file_name = std98::to_string(status_code) + ".html";
 		std::string fullpath = _server_config.get("path").get<std::string>() + "/" + file_name;
 		fill_header_firstpart(status_code);
@@ -259,7 +274,7 @@ Response::handle_request_with_error(Request &request)
 		fill_header_lastpart();
 		return;
 	}
-	load_response_without_path(request.get_error_code());
+	load_response_without_path(status_code);
 	request.set_error_code(0);
 	return;
 }

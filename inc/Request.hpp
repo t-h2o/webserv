@@ -2,6 +2,7 @@
 #define REQUEST_HPP
 
 #include "Method.hpp"
+#include "Redirection.hpp"
 #include "Value.hpp"
 #include "utils.hpp"
 #include <iostream>
@@ -50,6 +51,7 @@ class Request
 	void			   empty_path_handler();
 	void			   check_header();
 	int				   check_path_and_method();
+	void			   check_redirection();
 };
 
 std::ostream &operator<<(std::ostream &, Request const &);

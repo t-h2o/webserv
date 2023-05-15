@@ -91,7 +91,6 @@ Socket::socket_recv()
 		multipart_handler();
 		std::memset(buffer, 0, MAXLINE);
 	}
-	std::cout << "ret: " << ret << std::endl;
 	if (_request.get_method().compare("DELETE") == 0 && !ret)
 	{
 		delete_handler();
