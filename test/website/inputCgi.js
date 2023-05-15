@@ -8,7 +8,11 @@ let url = '';
 
 const submitHandler = (e) => {
 	e.preventDefault();
-	console.log(e.target.value);
+	if (input.value.trim().length() > 0)
+	{
+		console.log(input.value);
+
+	}
 }
 
 
