@@ -255,11 +255,10 @@ Request::check_redirection()
 	if (_server_config.if_exist("redirection"))
 	{
 		Redirection redirection(_server_config.get("redirection").get<json::t_object>());
-		std::string x = "";
-		if (redirection.is_redirection(get_path(), x))
+		std::string new_url = "";
+		if (redirection.is_redirection(get_path(), new_url))
 		{
-			std::cout << x << std::endl;
-			_request_map["Location"] = x;
+			_request_map["Location"] = new_url;
 			if (get_error_code() == 0)
 				set_error_code(301);
 		}
