@@ -113,7 +113,8 @@ Socket::multipart_handler()
 	char		  buffer[MAXLINE] = { 0 };
 	char		 *end = NULL;
 	unsigned long content_length = std::strtoul(_request._request_map["Content-Length"].c_str(), &end, 10);
-
+	std::cout << "content_length: " << content_length << std::endl;
+	std::cout << "_body_str.max_size(): " << _body_str.max_size() << std::endl;
 	while (_body_str.size() < content_length)
 	{
 		std::memset(buffer, 0, MAXLINE);
