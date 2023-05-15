@@ -176,6 +176,7 @@ test_cgi_with_files(void)
 		std::cerr << "5.3.1 Error: output: " << output_cgi << std::endl;
 		return (1);
 	}
+	std::cout << output_cgi << std::endl;
 	if (output_cgi.find("No input file specified.") != std::string::npos)
 	{
 		std::cerr << "5.3.2 Error: output: " << output_cgi << std::endl;
