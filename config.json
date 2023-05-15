@@ -9,8 +9,7 @@
 			"/path/two" : 3
 		},
 		"redirection" : {
-			"/site_sheep" : "google.com",
-			"/site_duck" : "duckduckgo.com"
+			"/redir" : "submitPage.html"
 		}
 	},
 

@@ -63,8 +63,8 @@ Response::init_response_map()
 	_response_map["Status-line"] = "";
 	_response_map["Date"] = "";
 	_response_map["Server"] = _server_config.get("server_name").get<std::string>();
-	_response_map["Content-Length"] = "";
-	_response_map["Content-Type"] = "";
+	// _response_map["Content-Length"] = "";
+	// _response_map["Content-Type"] = "";
 	_response_map["Connection"] = "Closed";
 	_response_map["Protocol"] = "HTTP/1.1 ";
 	_response_map["header-string"] = "";
@@ -143,9 +143,21 @@ Response::construct_header_string(void)
 
 	_response_map["header-string"] = _response_map["Status-line"] + CRLF + "Date: " + _response_map["Date"]
 									 + CRLF + "Server: " + _response_map["Server"] + CRLF
-									 + "Content-Length: " + _response_map["Content-Length"] + CRLF
-									 + "Content-Type: " + _response_map["Content-Type"] + CRLF
-									 + "Connection: " + _response_map["Connection"] + CRLF + CRLF;
+									 + "Connection: " + _response_map["Connection"] + CRLF;
+
+	if (_response_map.find("Content-Length") != _response_map.end())
+	{
+		_response_map["header-string"] += "Content-Length: " + _response_map["Content-Length"] + CRLF;
+	}
+	if (_response_map.find("Content-Type") != _response_map.end())
+	{
+		_response_map["header-string"] += + "Content-Type: " + _response_map["Content-Type"] + CRLF;
+	}
+	if (_response_map.find("Location") != _response_map.end())
+	{
+		_response_map["header-string"] += "Location: " + _response_map["Location"] + CRLF;
+	}
+	_response_map["header-string"] += CRLF;
 }
 
 void

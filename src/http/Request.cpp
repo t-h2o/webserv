@@ -258,7 +258,8 @@ Request::check_redirection()
 		std::string x = "";
 		if (redirection.is_redirection(get_path(), x))
 		{
-			_request_map["Location"] = get_path();
+			std::cout << x << std::endl;
+			_request_map["Location"] = x;
 			if (get_error_code() == 0)
 				set_error_code(301);
 		}
