@@ -151,7 +151,7 @@ Response::construct_header_string(void)
 	}
 	if (_response_map.find("Content-Type") != _response_map.end())
 	{
-		_response_map["header-string"] += + "Content-Type: " + _response_map["Content-Type"] + CRLF;
+		_response_map["header-string"] += +"Content-Type: " + _response_map["Content-Type"] + CRLF;
 	}
 	if (_response_map.find("Location") != _response_map.end())
 	{
