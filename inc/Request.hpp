@@ -51,8 +51,7 @@ class Request
 	void			   empty_path_handler();
 	void			   check_header();
 	int				   check_path_and_method();
-	void
-	check_redirection()
+	void			   check_redirection();
 };
 
 std::ostream &operator<<(std::ostream &, Request const &);
