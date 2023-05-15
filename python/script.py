@@ -61,13 +61,14 @@ def basic_status_code_test ():
     request_get("http://webserv.com:8080/favicon.ico", 404)
 
 def my_thread (name):
+    print(f"tread number {name}")
     basic_status_code_test()
 
 def multi_request ():
     all_treads = []
 
     for i in range(TREADS_NUMBER):
-        all_treads.append(threading.Thread(target=my_thread, args=[1,]))
+        all_treads.append(threading.Thread(target=my_thread, args=[i]))
     for i in range(TREADS_NUMBER):
         all_treads[i].run()
 
