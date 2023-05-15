@@ -5,9 +5,7 @@ namespace http
 
 StatusCode Response::_status_code;
 
-Response::Response(const json::Value &server_config) : _server_config(server_config) {
-	body_post_cgi = "";
-}
+Response::Response(const json::Value &server_config) : _server_config(server_config) { body_post_cgi = ""; }
 
 Response::~Response(void) {}
 
