@@ -46,7 +46,7 @@ request_POST(void)
 int
 test_cgi_simple_POST(void)
 {
-	std::string						   cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
+	std::string						   cgi_path = PATH_CGI_PHP;
 	std::string						   cgi_file = "test/website/cgi/path_info.php";
 	std::string						   output_cgi;
 	std::map<std::string, std::string> map;
@@ -64,7 +64,7 @@ test_cgi_simple_POST(void)
 int
 test_cgi_POST(void)
 {
-	std::string						   cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
+	std::string						   cgi_path = PATH_CGI_PHP;
 	std::string						   cgi_file = "test/website/cgi/input.php";
 	std::string						   output_cgi;
 	std::map<std::string, std::string> map;
