@@ -130,7 +130,7 @@ Request::get_file_exist() const
 }
 
 bool
-Request::method_is_authorized(std::string method) const
+Request::method_is_authorized(const std::string &method) const
 {
 	return (method.compare("GET") == 0 || method.compare("POST") == 0 || method.compare("DELETE") == 0);
 }
