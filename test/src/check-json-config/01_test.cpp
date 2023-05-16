@@ -1,5 +1,6 @@
 #include "Stream.hpp"
 #include "utils_json.hpp"
+#include "setting.hpp"
 
 int
 test_json_check_config_normal(void)
@@ -20,6 +21,8 @@ test_json_check_config_normal(void)
 	(*server_2)["port"] = json::Value(new double(82));
 	(*server_2)["path"] = json::Value(new std::string("/path/server2"));
 	(*config)["server 2"] = json::Value(server_2);
+
+	(*config)["php-cgi"] = json::Value(new std::string(PATH_CGI_PHP));
 
 	if (json::check_config(config))
 	{
