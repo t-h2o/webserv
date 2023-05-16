@@ -31,5 +31,11 @@
         "path": "./docs"
     },
 
+    "4": {
+        "hostname": "empty.com",
+        "port": 8084,
+        "path": "./test/webempty"
+    },
+
     "php-cgi": "/path/of/php-cgi"
 }

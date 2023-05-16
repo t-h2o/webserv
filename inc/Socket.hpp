@@ -15,7 +15,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-#define LISTEN_BACKLOG 10
+#define LISTEN_BACKLOG 1000
 #define MAXLINE 4096
 
 #define LOG_SOCKET false
