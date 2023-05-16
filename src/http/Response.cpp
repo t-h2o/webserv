@@ -104,7 +104,7 @@ Response::get_time_stamp(void)
 }
 
 void
-Response::set_content_length(std::string str)
+Response::set_content_length(const std::string &str)
 {
 	_response_map["Content-Length"] = std98::to_string(str.length());
 }
