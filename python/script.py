@@ -2,8 +2,10 @@
 
 import requests
 import sys
+import threading
 
 exit_code = 0
+TREADS_NUMBER = 15
 
 class bcolors:
     HEADER    = '\033[95m'
@@ -40,7 +42,7 @@ def request_get (url, expected_status_code):
 
     print()
 
-def main ():
+def basic_status_code_test ():
     request_get("http://webserv.com:8082/index.html", 200)
     request_get("http://webserv.com:8082/", 200)
     request_get("http://webserv.com:8082/bad_page", 404)
@@ -57,6 +59,21 @@ def main ():
     request_get("http://webserv.com:8080/bad_page", 404)
     request_get("http://webserv.com:8080/uploads", 401)
     request_get("http://webserv.com:8080/favicon.ico", 404)
+
+def my_thread (name):
+    print(f"tread number {name}")
+    basic_status_code_test()
+
+def multi_request ():
+    all_treads = []
+
+    for i in range(TREADS_NUMBER):
+        all_treads.append(threading.Thread(target=my_thread, args=[i]))
+    for i in range(TREADS_NUMBER):
+        all_treads[i].run()
+
+def main ():
+    multi_request()
 
 if __name__ == "__main__":
     main()
