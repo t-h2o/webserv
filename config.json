@@ -37,5 +37,5 @@
         "path": "./test/webempty"
     },
 
-    "php-cgi": "/path/of/php-cgi"
+    "php-cgi": "/Users/rburri/goinfre//php/php-8.2.5/sapi/cgi/php-cgi"
 }
