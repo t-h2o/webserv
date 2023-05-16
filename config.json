@@ -11,7 +11,8 @@
             "/site_sheep": "http://www.google.com/",
             "/site_duck": "http://www.duckduckgo.com",
             "/redir": "submitPage.html"
-        }
+        },
+		"max_length": 500000
     },
 
     "2": {
