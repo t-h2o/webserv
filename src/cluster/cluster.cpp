@@ -36,15 +36,24 @@ Cluster::setup()
 	_max_fd = 0;
 	for (t_array::iterator it(_all_server_config.begin()); it != _all_server_config.end(); it++)
 	{
-		int	   fd;
-		Socket new_socket(AF_INET, it->get("port").get<double>(), SOCK_STREAM, 0, *it);
-		fd = new_socket.get_socket_id();
-		FD_SET(fd, &_master_fd_set);
-		_sockets.insert(std::make_pair(fd, new_socket));
-		if (fd > _max_fd)
-			_max_fd = fd;
-		std::cout << it->get("hostname").get<std::string>() << ":" << it->get("port").get<double>()
-				  << std::endl;
+		int fd;
+		try
+		{
+			Socket new_socket(AF_INET, it->get("port").get<double>(), SOCK_STREAM, 0, *it);
+
+			fd = new_socket.get_socket_id();
+			FD_SET(fd, &_master_fd_set);
+			_sockets.insert(std::make_pair(fd, new_socket));
+			if (fd > _max_fd)
+				_max_fd = fd;
+			std::cout << it->get("hostname").get<std::string>() << ":" << it->get("port").get<double>()
+					  << std::endl;
+		}
+		catch (std::runtime_error)
+		{
+			std::cerr << it->get("hostname").get<std::string>() << " => Socket error, couldn't create it."
+					  << std::endl;
+		}
 	}
 }
 

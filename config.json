@@ -16,7 +16,7 @@
 
     "2": {
         "hostname": "dummywebsite.com",
-        "port": 8080,
+        "port": 8081,
         "path": "./test/website2",
         "dir_error": "is_dir.html",
         "405": "405.html",
