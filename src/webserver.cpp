@@ -12,8 +12,6 @@ webserver(const char *path_config_file)
 	if (json::load_config(path_config_file, &config))
 		return 1;
 
-	std::cout << *config << std::endl;
-
 	Cluster cluster;
 	cluster.load_cluster(config);
 	cluster.setup();
