@@ -57,7 +57,7 @@ Request::parse_first_line(std::string firstLine)
 }
 
 void
-Request::parse_other_lines(std::vector<std::string> tmp_vector)
+Request::parse_other_lines(std::vector<std::string> &tmp_vector)
 {
 	std::string delimiter = ":";
 	std::string key;

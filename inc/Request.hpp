@@ -44,7 +44,7 @@ class Request
 	int				   _error_code;
 	bool			   _has_query;
 	void			   parse_first_line(std::string firstLine);
-	void			   parse_other_lines(std::vector<std::string> tmp_vector);
+	void			   parse_other_lines(std::vector<std::string> &);
 	void			   clean_content_type();
 	void			   check_if_has_query();
 	void			   clean_path();

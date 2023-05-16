@@ -22,10 +22,10 @@ class Cluster
   private:
 	typedef std::vector<json::Value> t_array;
 	t_array							 _all_server_config;
-	std::map<int, Socket *> _sockets;
-	std::map<int, Socket *> _sockets_accepted;
-	fd_set					_master_fd_set;
-	int						_max_fd;
+	std::map<int, Socket *>			 _sockets;
+	std::map<int, Socket *>			 _sockets_accepted;
+	fd_set							 _master_fd_set;
+	int								 _max_fd;
 };
 
 #endif
