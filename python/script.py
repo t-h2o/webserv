@@ -54,7 +54,7 @@ def basic_status_code_test ():
     request_get("http://webserv.com:8081/uploads", 401)
     request_get("http://webserv.com:8081/favicon.ico", 200)
 
-    request_get("http://webserv.com:8080/index.html", 200)
+    request_get("http://webserv.com:8080/index.html", 405)
     request_get("http://webserv.com:8080/", 200)
     request_get("http://webserv.com:8080/bad_page", 404)
     request_get("http://webserv.com:8080/uploads", 401)
