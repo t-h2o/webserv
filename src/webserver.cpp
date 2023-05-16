@@ -10,7 +10,10 @@ webserver(const char *path_config_file)
 	json::t_object *config(0);
 
 	if (json::load_config(path_config_file, &config))
+	{
+		delete config;
 		return 1;
+	}
 
 	Cluster cluster;
 	cluster.load_cluster(config);
