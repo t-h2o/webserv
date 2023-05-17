@@ -30,7 +30,7 @@ class Response
 	const json::Value &_server_config;
 	static StatusCode  _status_code;
 	t_object		   _response_map;
-	void			   set_content_length(std::string str);
+	void			   set_content_length(const std::string &str);
 	void			   init_response_map(void);
 	void			   set_response_type(std::string path);
 	void			   load_response_with_path(int status_code, const std::string &path);

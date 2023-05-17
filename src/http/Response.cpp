@@ -5,7 +5,7 @@ namespace http
 
 StatusCode Response::_status_code;
 
-Response::Response(const json::Value &server_config) : _server_config(server_config) { }
+Response::Response(const json::Value &server_config) : _server_config(server_config) {}
 
 Response::~Response(void) {}
 
@@ -104,7 +104,7 @@ Response::get_time_stamp(void)
 }
 
 void
-Response::set_content_length(std::string str)
+Response::set_content_length(const std::string &str)
 {
 	_response_map["Content-Length"] = std98::to_string(str.length());
 }
@@ -130,6 +130,8 @@ Response::set_response_type(std::string path)
 		_response_map["Content-Type"] = "image/x-icon";
 	else if (type == "json")
 		_response_map["Content-Type"] = "application/json";
+	else if (type == "svg")
+		_response_map["Content-Type"] = "image/svg+xml";
 	else
 		_response_map["Content-Type"] = "text/plain";
 }

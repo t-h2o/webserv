@@ -25,9 +25,10 @@ Request::parse_buffer(std::string str_buff)
 	this->parse_first_line(tmp_vector[0]);
 	this->parse_other_lines(tmp_vector);
 	check_header();
-	empty_path_handler();
 	check_redirection();
-	return check_path_and_method();
+	int ret = check_path_and_method();
+	empty_path_handler();
+	return ret;
 }
 
 void
@@ -56,7 +57,7 @@ Request::parse_first_line(std::string firstLine)
 }
 
 void
-Request::parse_other_lines(std::vector<std::string> tmp_vector)
+Request::parse_other_lines(std::vector<std::string> &tmp_vector)
 {
 	std::string delimiter = ":";
 	std::string key;
@@ -129,7 +130,7 @@ Request::get_file_exist() const
 }
 
 bool
-Request::method_is_authorized(std::string method) const
+Request::method_is_authorized(const std::string &method) const
 {
 	return (method.compare("GET") == 0 || method.compare("POST") == 0 || method.compare("DELETE") == 0);
 }

@@ -36,15 +36,22 @@ Cluster::setup()
 	_max_fd = 0;
 	for (t_array::iterator it(_all_server_config.begin()); it != _all_server_config.end(); it++)
 	{
-		int	   fd;
-		Socket new_socket(AF_INET, it->get("port").get<double>(), SOCK_STREAM, 0, *it);
-		fd = new_socket.get_socket_id();
-		FD_SET(fd, &_master_fd_set);
-		_sockets.insert(std::make_pair(fd, new_socket));
-		if (fd > _max_fd)
-			_max_fd = fd;
-		std::cout << ""
-				  << ":" << it->get("port").get<double>() << " set up" << std::endl;
+		try
+		{
+			Socket *new_socket = new Socket(AF_INET, it->get("port").get<double>(), SOCK_STREAM, 0, *it);
+			int		fd = new_socket->get_socket_id();
+			FD_SET(fd, &_master_fd_set);
+			_sockets.insert(std::make_pair(fd, new_socket));
+			if (fd > _max_fd)
+				_max_fd = fd;
+			std::cout << it->get("hostname").get<std::string>() << ":" << it->get("port").get<double>()
+					  << std::endl;
+		}
+		catch (std::exception &e)
+		{
+			std::cerr << it->get("hostname").get<std::string>() << " => Socket error, couldn't create it."
+					  << std::endl;
+		}
 	}
 }
 
@@ -71,10 +78,10 @@ Cluster::run()
 			{
 				if (FD_ISSET(i, &reading_set))
 				{
-					std::map<int, Socket>::iterator it = _sockets.find(i);
+					std::map<int, Socket *>::iterator it = _sockets.find(i);
 					if (it != _sockets.end())
 					{
-						int new_sd = it->second.socket_accept();
+						int new_sd = it->second->socket_accept();
 						if (new_sd > 0)
 							_sockets_accepted.insert(std::make_pair(new_sd, it->second));
 						if (new_sd > _max_fd)
@@ -83,12 +90,12 @@ Cluster::run()
 					}
 				}
 			}
-			std::map<int, Socket>::iterator it = _sockets_accepted.begin();
+			std::map<int, Socket *>::iterator it = _sockets_accepted.begin();
 			while (it != _sockets_accepted.end())
 			{
 				int ret;
 
-				ret = it->second.socket_recv();
+				ret = it->second->socket_recv();
 				if (ret == -1)
 				{
 					it = _sockets_accepted.begin();
@@ -104,9 +111,12 @@ Cluster::run()
 		}
 		else if (select_return < 0)
 		{
-			// problem with select, cleaning up.
 			std::cerr << "Error with select()" << std::endl;
 			_sockets_accepted.clear();
+			for (std::map<int, Socket *>::iterator it(_sockets.begin()); it != _sockets.end(); it++)
+			{
+				delete it->second;
+			}
 			_sockets.clear();
 			end_server = 1;
 		}
