@@ -47,7 +47,7 @@ Cluster::setup()
 			std::cout << it->get("hostname").get<std::string>() << ":" << it->get("port").get<double>()
 					  << std::endl;
 		}
-		catch (std::exception & e)
+		catch (std::exception &e)
 		{
 			std::cerr << it->get("hostname").get<std::string>() << " => Socket error, couldn't create it."
 					  << std::endl;
