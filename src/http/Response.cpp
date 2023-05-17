@@ -130,6 +130,8 @@ Response::set_response_type(std::string path)
 		_response_map["Content-Type"] = "image/x-icon";
 	else if (type == "json")
 		_response_map["Content-Type"] = "application/json";
+	else if (type == "svg")
+		_response_map["Content-Type"] = "image/svg+xml";
 	else
 		_response_map["Content-Type"] = "text/plain";
 }
