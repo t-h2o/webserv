@@ -6,6 +6,7 @@
 #include <cstring>
 #include <iostream>
 #include <map>
+#include <sys/select.h>
 #include <sys/stat.h>
 #include <vector>
 
