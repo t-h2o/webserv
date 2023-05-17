@@ -84,21 +84,17 @@ Socket::socket_recv()
 			std::cout << "body str:" << _body_str << std::endl;
 	}
 	int ret = _request.parse_buffer(_header_str);
-	if (_request._request_map["Content-Type"].compare("multipart/form-data") == 0)
+	std::cout << _request << std::endl;
+	if (_request.get_method().compare("POST") == 0)
 	{
 		if (LOG_SOCKET)
-			std::cout << "Content-type = multipart/form-data" << std::endl;
+			std::cout << "Method: POST" << std::endl;
 		multipart_handler();
 		std::memset(buffer, 0, MAXLINE);
 	}
 	if (_request.get_method().compare("DELETE") == 0 && !ret)
 	{
 		delete_handler();
-	}
-	if (_request.get_method().compare("POST") == 0 && !ret
-		&& (_request._request_map["Content-Type"].compare("multipart/form-data") != 0))
-	{
-		_response.body_post_cgi = _body_str;
 	}
 	_response.load_http_request(_request);
 	clean_request();
@@ -122,9 +118,31 @@ Socket::multipart_handler()
 	}
 	if (LOG_SOCKET)
 		std::cout << "_body_str.size(): " << _body_str.size() << std::endl;
+	body_handler();
+}
+
+void
+Socket::body_handler()
+{
 	check_content_lenght_authorized();
 	if (_request.get_error_code() == 0)
-		create_new_file();
+	{
+		if (_request._request_map["Content-Type"].compare("multipart/form-data") == 0)
+			create_new_file();
+		else if (_request._request_map["Content-Type"].compare("text/plain") == 0)
+		{
+			if (!has_php_extension())
+			{
+				_request.set_error_code(202);
+				std::cout << _body_str << std::endl;
+			}
+			_response.body_post_cgi = _body_str;
+		}
+		else
+		{
+			_request.set_error_code(415);
+		}
+	}
 }
 
 void
@@ -244,4 +262,17 @@ Socket::check_content_lenght_authorized()
 			_request.set_error_code(413);
 		}
 	}
+}
+
+bool
+Socket::has_php_extension() const
+{
+	std::string path(_request.get_path());
+	size_t		last_dot = path.find_last_of('.');
+	if (last_dot != std::string::npos)
+	{
+		std::string extenstion(path.substr(last_dot));
+		return (extenstion.compare(".php") == 0);
+	}
+	return false;
 }
