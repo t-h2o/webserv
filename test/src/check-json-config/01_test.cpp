@@ -1,6 +1,6 @@
 #include "Stream.hpp"
-#include "utils_json.hpp"
 #include "setting.hpp"
+#include "utils_json.hpp"
 
 int
 test_json_check_config_normal(void)
