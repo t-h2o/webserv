@@ -100,14 +100,19 @@ $(LIB): $(OBJS)
 	@$(MAKE) --directory=test re
 	@printf "$(GREEN)---> test$(DEFAULT)\n"
 
-test: $(LIB) setting
+test: $(LIB) setting test-cpp test-python
+
+test-cpp:
 	@$(MAKE) --directory=test
 	@printf "$(YELLOW)Launching test..$(DEFAULT)\n"
 	@(test/test && printf "$(GREEN)test: SUCCESS$(DEFAULT)\n") || printf "$(RED)test: ERROR$(DEFAULT)\n"
+
+test-python:
 	@$(MAKE) --directory=python 2>/dev/null
 	@(docker run \
 	--name python-http \
 	--network bridge \
+	--volume $(shell pwd):/workdir \
 	--add-host webserv.com:host-gateway \
 	--rm  my-python && \
 	printf "$(GREEN)test: SUCCESS$(DEFAULT)\n") || printf "$(RED)test: ERROR$(DEFAULT)\n"

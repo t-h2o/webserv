@@ -1,6 +1,7 @@
 #include "utils_json.hpp"
 #include <climits>
 #include <iostream>
+#include <unistd.h>
 
 #define DEFAULT_SERVER_NAME "default_server_name"
 
@@ -40,6 +41,27 @@ check_value_path(t_object const &config)
 }
 
 static int
+check_cgi(t_object const *config)
+{
+	if (config->find("php-cgi") == config->end())
+	{
+		std::cerr << "Error: not \"php-cgi\" path in the config" << std::endl;
+		return 1;
+	}
+	if (config->at("php-cgi").get_type() != JSON_STRING)
+	{
+		std::cerr << "Error: the php-cgi is not a string" << std::endl;
+		return 1;
+	}
+	if (access(config->at("php-cgi").get<std::string>().c_str(), X_OK))
+	{
+		std::cerr << "Error: the php-cgi can't be execute" << std::endl;
+		return 1;
+	}
+	return 0;
+}
+
+static int
 check_value_port(t_object const &config)
 {
 	if (config.find("port") == config.end())
@@ -61,6 +83,18 @@ check_value_port(t_object const &config)
 	return 0;
 }
 
+static int
+check_server_config(t_object &config)
+{
+	if (check_value_path(config))
+		return 1;
+	if (check_value_port(config))
+		return 1;
+	if (check_value_servername(config))
+		return 1;
+	return 0;
+}
+
 /* check the content of the configuration file
  */
 int
@@ -70,14 +104,13 @@ check_config(t_object *config)
 	{
 		if (server_config->second.get_type() == JSON_OBJECT)
 		{
-			if (check_value_path(server_config->second.get<t_object>()))
-				return 1;
-			if (check_value_port(server_config->second.get<t_object>()))
-				return 1;
-			if (check_value_servername(server_config->second.get<t_object>()))
+			if (check_server_config(server_config->second.get<t_object>()))
 				return 1;
 		}
 	}
+
+	if (check_cgi(config))
+		return 1;
 
 	return 0;
 }

@@ -63,8 +63,6 @@ Response::init_response_map()
 	_response_map["Status-line"] = "";
 	_response_map["Date"] = "";
 	_response_map["Server"] = _server_config.get("server_name").get<std::string>();
-	_response_map["Content-Length"] = "";
-	_response_map["Content-Type"] = "";
 	_response_map["Connection"] = "Closed";
 	_response_map["Protocol"] = "HTTP/1.1 ";
 	_response_map["header-string"] = "";
@@ -106,7 +104,7 @@ Response::get_time_stamp(void)
 }
 
 void
-Response::set_content_length(std::string str)
+Response::set_content_length(const std::string &str)
 {
 	_response_map["Content-Length"] = std98::to_string(str.length());
 }
@@ -132,6 +130,8 @@ Response::set_response_type(std::string path)
 		_response_map["Content-Type"] = "image/x-icon";
 	else if (type == "json")
 		_response_map["Content-Type"] = "application/json";
+	else if (type == "svg")
+		_response_map["Content-Type"] = "image/svg+xml";
 	else
 		_response_map["Content-Type"] = "text/plain";
 }
@@ -143,9 +143,21 @@ Response::construct_header_string(void)
 
 	_response_map["header-string"] = _response_map["Status-line"] + CRLF + "Date: " + _response_map["Date"]
 									 + CRLF + "Server: " + _response_map["Server"] + CRLF
-									 + "Content-Length: " + _response_map["Content-Length"] + CRLF
-									 + "Content-Type: " + _response_map["Content-Type"] + CRLF
-									 + "Connection: " + _response_map["Connection"] + CRLF + CRLF;
+									 + "Connection: " + _response_map["Connection"] + CRLF;
+
+	if (_response_map.find("Content-Length") != _response_map.end())
+	{
+		_response_map["header-string"] += "Content-Length: " + _response_map["Content-Length"] + CRLF;
+	}
+	if (_response_map.find("Content-Type") != _response_map.end())
+	{
+		_response_map["header-string"] += +"Content-Type: " + _response_map["Content-Type"] + CRLF;
+	}
+	if (_response_map.find("Location") != _response_map.end())
+	{
+		_response_map["header-string"] += "Location: " + _response_map["Location"] + CRLF;
+	}
+	_response_map["header-string"] += CRLF;
 }
 
 void
@@ -223,6 +235,7 @@ Response::php_handler(const Request &request) const
 {
 	t_object req_map = request.get_map();
 	std::cout << "IT's a .php" << std::endl;
+	std::cout << body_post_cgi << std::endl;
 
 
 //	std::string cgi_path = _server_config.get("php-cgi").get<std::string>();
@@ -260,9 +273,14 @@ Response::check_if_is_dir(const std::string &path)
 void
 Response::handle_request_with_error(Request &request)
 {
-	if (_server_config.if_exist(std98::to_string(request.get_error_code())))
+	int status_code = request.get_error_code();
+	if (status_code == 301)
 	{
-		int			status_code = request.get_error_code();
+		_response_map["Location"] = request._request_map["Location"];
+		load_response_without_path(status_code);
+	}
+	if (_server_config.if_exist(std98::to_string(status_code)))
+	{
 		std::string file_name = std98::to_string(status_code) + ".html";
 		std::string fullpath = _server_config.get("path").get<std::string>() + "/" + file_name;
 		fill_header_firstpart(status_code);
@@ -273,7 +291,7 @@ Response::handle_request_with_error(Request &request)
 		fill_header_lastpart();
 		return;
 	}
-	load_response_without_path(request.get_error_code());
+	load_response_without_path(status_code);
 	request.set_error_code(0);
 	return;
 }

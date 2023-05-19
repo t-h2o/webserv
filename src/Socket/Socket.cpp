@@ -84,21 +84,21 @@ Socket::socket_recv()
 			std::cout << "body str:" << _body_str << std::endl;
 	}
 	int ret = _request.parse_buffer(_header_str);
-	if (_request._request_map["Content-Type"].compare("multipart/form-data") == 0)
+	std::cout << _request << std::endl;
+	if (_request.get_method().compare("POST") == 0)
 	{
 		if (LOG_SOCKET)
-			std::cout << "Content-type = multipart/form-data" << std::endl;
+			std::cout << "Method: POST" << std::endl;
 		multipart_handler();
 		std::memset(buffer, 0, MAXLINE);
 	}
-	std::cout << "ret: " << ret << std::endl;
 	if (_request.get_method().compare("DELETE") == 0 && !ret)
 	{
 		delete_handler();
 	}
 	_response.load_http_request(_request);
 	clean_request();
-	send_response();
+	byte_read = send_response();
 	return byte_read;
 }
 
@@ -109,18 +109,40 @@ Socket::multipart_handler()
 	char		  buffer[MAXLINE] = { 0 };
 	char		 *end = NULL;
 	unsigned long content_length = std::strtoul(_request._request_map["Content-Length"].c_str(), &end, 10);
-
 	while (_body_str.size() < content_length)
 	{
 		std::memset(buffer, 0, MAXLINE);
 		byte_read = recv(this->_connection_fd, buffer, MAXLINE - 1, 0);
-		_body_str.append(buffer, byte_read);
+		for (int i = 0; i < byte_read; i++)
+			_body_str.push_back(buffer[i]);
 	}
 	if (LOG_SOCKET)
 		std::cout << "_body_str.size(): " << _body_str.size() << std::endl;
+	body_handler();
+}
+
+void
+Socket::body_handler()
+{
 	check_content_lenght_authorized();
 	if (_request.get_error_code() == 0)
-		create_new_file();
+	{
+		if (_request._request_map["Content-Type"].compare("multipart/form-data") == 0)
+			create_new_file();
+		else if (_request._request_map["Content-Type"].compare("text/plain") == 0)
+		{
+			if (!has_php_extension())
+			{
+				_request.set_error_code(202);
+				std::cout << _body_str << std::endl;
+			}
+			_response.body_post_cgi = _body_str;
+		}
+		else
+		{
+			_request.set_error_code(415);
+		}
+	}
 }
 
 void
@@ -129,7 +151,6 @@ Socket::delete_handler()
 	std::string file_name = _request.get_path();
 	std::string path = _server_config.get("path").get<std::string>();
 	std::string fullpath = path + file_name;
-	std::cout << fullpath << std::endl;
 	fullpath = utils::my_replace(fullpath, "%20", " ");
 	if (access(fullpath.c_str(), F_OK) != -1)
 	{
@@ -206,17 +227,26 @@ Socket::clean_request()
 	_request.set_error_code(0);
 }
 
-void
+int
 Socket::send_response()
 {
 	int			send_ret = 0;
 	std::string full_response_str(this->_response.get_http_response());
 	send_ret = send(_connection_fd, full_response_str.c_str(), full_response_str.length(), 0);
+	if (send_ret == 0 || send_ret == -1)
+	{
+		return send_ret;
+	}
 	if (send_ret < static_cast<int>(full_response_str.length()))
 	{
 		send_ret = send(_connection_fd, full_response_str.c_str(), full_response_str.length(), 0);
+		if (send_ret == 0 || send_ret == -1)
+		{
+			return send_ret;
+		}
 	}
 	close(_connection_fd);
+	return send_ret;
 }
 
 void
@@ -232,4 +262,17 @@ Socket::check_content_lenght_authorized()
 			_request.set_error_code(413);
 		}
 	}
+}
+
+bool
+Socket::has_php_extension() const
+{
+	std::string path(_request.get_path());
+	size_t		last_dot = path.find_last_of('.');
+	if (last_dot != std::string::npos)
+	{
+		std::string extenstion(path.substr(last_dot));
+		return (extenstion.compare(".php") == 0);
+	}
+	return false;
 }

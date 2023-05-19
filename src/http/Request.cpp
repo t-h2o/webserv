@@ -25,8 +25,10 @@ Request::parse_buffer(std::string str_buff)
 	this->parse_first_line(tmp_vector[0]);
 	this->parse_other_lines(tmp_vector);
 	check_header();
+	check_redirection();
+	int ret = check_path_and_method();
 	empty_path_handler();
-	return check_path_and_method();
+	return ret;
 }
 
 void
@@ -55,7 +57,7 @@ Request::parse_first_line(std::string firstLine)
 }
 
 void
-Request::parse_other_lines(std::vector<std::string> tmp_vector)
+Request::parse_other_lines(std::vector<std::string> &tmp_vector)
 {
 	std::string delimiter = ":";
 	std::string key;
@@ -128,7 +130,7 @@ Request::get_file_exist() const
 }
 
 bool
-Request::method_is_authorized(std::string method) const
+Request::method_is_authorized(const std::string &method) const
 {
 	return (method.compare("GET") == 0 || method.compare("POST") == 0 || method.compare("DELETE") == 0);
 }
@@ -233,10 +235,7 @@ Request::check_path_and_method()
 		return 0;
 	if (!_server_config.if_exist("method_allowed"))
 		return 0;
-	std::cout << get_path() << "\t" << get_method() << std::endl;
 	Method method(_server_config.get("method_allowed").get<json::t_object>());
-
-	std::cout << "Method is allowed: " << method.is_allowed(get_path(), get_method()) << std::endl;
 	if (!method.is_allowed(get_path(), get_method()))
 	{
 		if (get_error_code() == 0)
@@ -246,6 +245,22 @@ Request::check_path_and_method()
 		return 1;
 	}
 	return 0;
+}
+
+void
+Request::check_redirection()
+{
+	if (_server_config.if_exist("redirection"))
+	{
+		Redirection redirection(_server_config.get("redirection").get<json::t_object>());
+		std::string new_url = "";
+		if (redirection.is_redirection(get_path(), new_url))
+		{
+			_request_map["Location"] = new_url;
+			if (get_error_code() == 0)
+				set_error_code(301);
+		}
+	}
 }
 
 } /* namespace http */
