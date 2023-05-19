@@ -1,4 +1,5 @@
 #include "Json.hpp"
+#include "cgi.hpp"
 #include "cluster.hpp"
 #include <iostream>
 
@@ -14,6 +15,8 @@ webserver(const char *path_config_file)
 		delete config;
 		return 1;
 	}
+
+	CGI::set_php_binary(config->at("php-cgi").get<std::string>());
 
 	Cluster cluster;
 	cluster.load_cluster(config);

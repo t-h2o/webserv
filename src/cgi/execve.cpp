@@ -6,6 +6,8 @@
 
 #define BUFFER_SIZE 4092
 
+std::string CGI::_path_php_binary = "";
+
 std::string
 get_query(const std::map<std::string, std::string> &map)
 {
@@ -53,8 +55,8 @@ CGI::check_map(const std::map<std::string, std::string> &map, const std::string 
 	/*----- SCRIPT_NAME -----*/
 	struct stat sa = {};
 	_script_name = "";
-	if (stat("/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi", &sa) == 0)
-		_script_name = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
+	if (stat(_path_php_binary, &sa) == 0)
+		_script_name = _path_php_binary;
 
 	std::map<std::string, std::string>::const_iterator it = map.find("Path");
 	/*----- SCRIPT_FILENAME -----*/
@@ -86,6 +88,12 @@ CGI::check_map(const std::map<std::string, std::string> &map, const std::string 
 	set_private_attribute(map.find("Server-Protocole"), map.end(), _http_version);
 	/*----- SERVER_PORT -----*/
 	set_private_attribute(map.find("Port"), map.end(), _port);
+}
+
+void
+CGI::set_php_binary(std::string const &path_binary)
+{
+	_path_php_binary = path_binary;
 }
 
 /*
