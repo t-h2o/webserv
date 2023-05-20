@@ -184,3 +184,9 @@ libunit : - framework obj
 === Tools
 
 * Create UML diagram with https://plantuml.com/[plantUML]
+
+=== JSON parsing
+
+* wikipedia: https://en.wikipedia.org/wiki/JSON[JSON]
+* json.org: https://www.json.org/json-en.html[diagram]
+* RFC: https://www.rfc-editor.org/rfc/rfc7159#section-2[JSON]
