@@ -74,12 +74,10 @@ check_last_state(bool states[NSTATES])
 	if (!states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
 		&& states[VALUE_FILLED] && !states[END] && states[END_OBJECT])
 	{
-		std::cout << "Good" << std::endl;
 		return;
 	}
 	else
 	{
-		std::cout << "bad" << std::endl;
 		throw std::runtime_error("Json: last state isn't correct");
 		return;
 	}
@@ -166,6 +164,7 @@ _process_line(t_object *config, File &file, bool states[NSTATES])
 		{
 			if (LOG)
 				std::cout << "end of the object, should break" << std::endl;
+			check_last_state(states);
 			return;
 		}
 		else if (states[OBJECT] && !states[STRING] && states[KEY_FILLED] && !states[MIDDLE] && states[RIGHT]
