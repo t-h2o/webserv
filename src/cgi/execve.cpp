@@ -21,21 +21,16 @@ CGI::CGI(void) {}
 
 CGI::CGI(const std::string &file, const std::string &query)
 {
-	char *b;
-	char *f;
-	char *q;
+	_args.push_back(new char[_path_php_binary.size() + 1]);
+	std::memcpy(_args.back(), _path_php_binary.c_str(), _path_php_binary.size() + 1);
 
-	b = new char[_path_php_binary.size() + 1];
-	f = new char[file.size() + 1];
-	std::memcpy(b, _path_php_binary.c_str(), _path_php_binary.size() + 1);
-	std::memcpy(f, file.c_str(), file.size() + 1);
-	_args.push_back(b);
-	_args.push_back(f);
+	_args.push_back(new char[file.size() + 1]);
+	std::memcpy(_args.back(), file.c_str(), file.size() + 1);
+
 	if (!query.empty())
 	{
-		q = new char[query.size() + 1];
-		std::memcpy(q, query.c_str(), query.size() + 1);
-		_args.push_back(q);
+		_args.push_back(new char[query.size() + 1]);
+		std::memcpy(_args.back(), query.c_str(), query.size() + 1);
 	}
 	_args.push_back(NULL);
 }
