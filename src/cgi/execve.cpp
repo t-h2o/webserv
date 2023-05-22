@@ -55,7 +55,7 @@ CGI::check_map(const std::map<std::string, std::string> &map, const std::string 
 	/*----- SCRIPT_NAME -----*/
 	struct stat sa = {};
 	_script_name = "";
-	if (stat(_path_php_binary, &sa) == 0)
+	if (stat(_path_php_binary.c_str(), &sa) == 0)
 		_script_name = _path_php_binary;
 
 	std::map<std::string, std::string>::const_iterator it = map.find("Path");
