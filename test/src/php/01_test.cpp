@@ -111,7 +111,7 @@ test_cgi_with_php_query2(void)
 	std::string						   output_cgi;
 
 	map = request_GET();
-	std::string									 cgi_query = get_query(map);
+	std::string									 cgi_query = get_key(map, "Query");
 	std::map<std::string, std::string>::iterator it;
 	CGI											 cgi(cgi_path, cgi_file, cgi_query);
 
@@ -137,7 +137,7 @@ test_cgi_with_files(void)
 	std::string						   output_cgi;
 
 	map = request_GET();
-	std::string									 cgi_query = get_query(map);
+	std::string									 cgi_query = get_key(map, "Query");
 	std::map<std::string, std::string>::iterator it;
 	CGI											 cgi(cgi_path, cgi_file, cgi_query);
 

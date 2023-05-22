@@ -51,6 +51,7 @@ SRCS	+=	$(SRCD)/check-json-config/02_test.cpp
 
 SRCS	+=	$(SRCD)/php/00_launcher.cpp
 SRCS	+=	$(SRCD)/php/01_test.cpp
+SRCS	+=	$(SRCD)/php/02_test.cpp
 
 SRCS	+=	$(SRCD)/Value/00_launcher.cpp
 SRCS	+=	$(SRCD)/Value/01_test.cpp

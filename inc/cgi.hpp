@@ -18,7 +18,7 @@
 
 void print_container_map(std::map<std::string, std::string> myMap);
 
-std::string get_query(const std::map<std::string, std::string> &map);
+std::string get_key(const std::map<std::string, std::string> &map, const std::string &key);
 
 class CGI
 {

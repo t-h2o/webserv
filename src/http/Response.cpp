@@ -20,7 +20,7 @@ Response::load_http_request(Request &request)
 	}
 	std::string path = _server_config.get("path").get<std::string>();
 	path += request.get_path();
-	if (has_php_extension(request))
+	if (has_php_extension(request) && (request.get_method().compare("POST") != 0))
 	{
 		if (access(path.c_str(), F_OK))
 			load_response_with_path(404, path);
@@ -237,12 +237,25 @@ Response::php_handler(const Request &request) const
 	std::cout << "IT's a .php" << std::endl;
 	std::cout << body_post_cgi << std::endl;
 
-	//	char*	cgi = (char*)"/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
+	//	std::string cgi_path = _server_config.get("php-cgi").get<std::string>();
+	std::string cgi_path = "/Users/kdi-noce/goinfre/php/php-8.2.5/sapi/cgi/php-cgi";
 	if (request.get_has_query())
 		std::cout << "the query string is : " << req_map["Query"] << std::endl;
-	std::map<std::string, std::string>::iterator it;
-	for (it = req_map.begin(); it != req_map.end(); ++it)
-		std::cout << it->first << " " << it->second << std::endl;
+
+	std::string cgi_file = "test/website" + get_key(req_map, "Path");
+	std::string cgi_query = get_key(req_map, "Query");
+	std::string output_cgi;
+	CGI			cgi(cgi_path, cgi_file, cgi_query);
+
+	output_cgi = cgi.execution_cgi(req_map, cgi_file);
+	size_t pos;
+	if ((pos = output_cgi.find('<')) == std::string::npos)
+		std::cerr << "wrong format file" << std::endl;
+	else
+	{
+		output_cgi = output_cgi.substr(pos);
+		std::cout << "output = \n" << output_cgi << std::endl;
+	}
 }
 
 bool

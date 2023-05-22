@@ -21,6 +21,8 @@ int test_cgi_with_php(void);
 int test_cgi_with_php_query(void);
 int test_cgi_with_php_query2(void);
 int test_cgi_with_files(void);
+int test_cgi_simple_POST(void);
+int test_cgi_POST(void);
 
 /* http::Redirection */
 

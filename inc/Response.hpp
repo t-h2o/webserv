@@ -4,6 +4,7 @@
 #include "Request.hpp"
 #include "StatusCodes.hpp"
 #include "Value.hpp"
+#include "cgi.hpp"
 #include "std98.hpp"
 #include <ctime>
 #include <fstream>
