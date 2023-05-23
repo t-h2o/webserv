@@ -5,7 +5,7 @@ namespace http
 
 StatusCode Response::_status_code;
 
-Response::Response(const json::Value &server_config) : _server_config(server_config) { }
+Response::Response(const json::Value &server_config) : _server_config(server_config) {}
 
 Response::~Response(void) {}
 
@@ -247,7 +247,6 @@ Response::php_handler(const Request &request) const
 	std::string cgi_query = get_key(req_map, "Query");
 	std::string output_cgi;
 	CGI			cgi(cgi_path, cgi_file, cgi_query);
-
 
 	output_cgi = cgi.execution_cgi(req_map, cgi_file, body_post_cgi);
 	size_t pos;
