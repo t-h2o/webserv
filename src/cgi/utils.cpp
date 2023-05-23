@@ -53,7 +53,7 @@ cMap_to_cChar(std::map<std::string, std::string> myMap)
 }
 
 std::string
-toUpper(std::string s)
+to_upper(std::string s)
 {
 	std::transform(s.begin(), s.end(), s.begin(), ::toupper);
 	return (s);

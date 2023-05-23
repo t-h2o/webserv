@@ -156,7 +156,7 @@ CGI::set_env(const std::map<std::string, std::string> &map, const std::string &s
 	{
 		if (!i->second.empty())
 		{
-			std::string header = "HTTP_" + utils::toUpper(i->first);
+			std::string header = "HTTP_" + utils::to_upper(i->first);
 			std::replace(header.begin(), header.end(), '-', '_');
 			_env[header] = i->second;
 		}
