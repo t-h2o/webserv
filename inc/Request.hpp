@@ -25,12 +25,10 @@ class Request
 	~Request();
 
 	int				parse_buffer(std::string);
-	bool			method_is_authorized(const std::string &) const;
 	std::string		get_method() const;
 	std::string		get_path() const;
 	std::string		get_protocol() const;
 	std::string		get_host() const;
-	bool			get_file_exist() const;
 	bool			get_has_query() const;
 	void			set_query_false();
 	const t_object &get_map() const;
