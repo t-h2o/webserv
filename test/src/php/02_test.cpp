@@ -74,9 +74,9 @@ test_cgi_POST(void)
 	std::string cgi_query = get_key(map, "Query");
 	CGI			cgi(cgi_path, cgi_file, cgi_query);
 
-	if ((output_cgi = cgi.execution_cgi(map, cgi_file)).empty())
+	if ((output_cgi = cgi.execution_cgi(map, cgi_file, "salut")).empty())
 	{
-		std::cout << "1.1 Error: output: " << output_cgi << std::endl;
+		std::cerr << "1.1 Error: output: " << output_cgi << std::endl;
 		return (1);
 	}
 	if (output_cgi.find("No input file specified.") != std::string::npos)
@@ -84,6 +84,5 @@ test_cgi_POST(void)
 		std::cerr << "1.2 Error: output: " << output_cgi << std::endl;
 		return (1);
 	}
-	std::cout << output_cgi << std::endl;
 	return (0);
 }
