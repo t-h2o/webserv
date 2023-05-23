@@ -5,7 +5,7 @@ namespace http
 
 StatusCode Response::_status_code;
 
-Response::Response(const json::Value &server_config) : _server_config(server_config) {}
+Response::Response(const json::Value &server_config) : _server_config(server_config) { }
 
 Response::~Response(void) {}
 
@@ -222,6 +222,7 @@ Response::has_php_extension(const Request &request) const
 {
 	std::string path(request.get_path());
 	size_t		last_dot = path.find_last_of('.');
+
 	if (last_dot != std::string::npos)
 	{
 		std::string extenstion(path.substr(last_dot));
@@ -247,7 +248,8 @@ Response::php_handler(const Request &request) const
 	std::string output_cgi;
 	CGI			cgi(cgi_path, cgi_file, cgi_query);
 
-	output_cgi = cgi.execution_cgi(req_map, cgi_file);
+
+	output_cgi = cgi.execution_cgi(req_map, cgi_file, body_post_cgi);
 	size_t pos;
 	if ((pos = output_cgi.find('<')) == std::string::npos)
 		std::cerr << "wrong format file" << std::endl;
