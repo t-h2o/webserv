@@ -235,10 +235,7 @@ void
 Response::php_handler(const Request &request)
 {
 	t_object req_map = request.get_map();
-	std::cout << "IT's a .php" << std::endl;
-	std::cout << body_post_cgi << std::endl;
 
-	//	std::string cgi_path = _server_config.get("php-cgi").get<std::string>();
 	std::string cgi_path = "/whatever";
 	if (request.get_has_query())
 		std::cout << "the query string is : " << req_map["Query"] << std::endl;
@@ -257,9 +254,7 @@ Response::php_handler(const Request &request)
 	}
 	else
 	{
-		output_cgi = output_cgi.substr(pos);
-		std::cout << "output = \n" << output_cgi << std::endl;
-		_response_map["body-string"] = output_cgi;
+		_response_map["body-string"] = output_cgi.substr(pos);
 		load_response_cgi(200);
 	}
 }
