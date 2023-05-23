@@ -1,5 +1,6 @@
 NAME	=	webserv
 LIB		=	lib$(NAME).a
+LIBSO	=	lib$(NAME).so
 
 
 CXX		=	g++
@@ -100,9 +101,14 @@ $(LIB): $(OBJS)
 	@$(MAKE) --directory=test re
 	@printf "$(GREEN)---> test$(DEFAULT)\n"
 
-test: $(LIB) setting test-cpp test-python
+$(LIBSO): $(OBJS)
+	@printf "$(YELLOW)Creating $(LIBSO)..$(DEFAULT)\n"
+	@$(CXX) -shared -o $(LIBSO) $(OBJS)
+	@printf "$(GREEN)---> $(LIBSO) is ready$(DEFAULT)\n"
 
-test-cpp:
+test: $(LIBSO) setting test-cpp test-python
+
+test-cpp: $(LIBSO)
 	@$(MAKE) --directory=test
 	@printf "$(YELLOW)Launching test..$(DEFAULT)\n"
 	@(test/test && printf "$(GREEN)test: SUCCESS$(DEFAULT)\n") || printf "$(RED)test: ERROR$(DEFAULT)\n"

@@ -79,7 +79,7 @@ INCS	+=	$(INCD)/tests.hpp
 
 INCD_FLAGS	=	$(addprefix -I, $(INCD) framework/inc ../inc)
 
-LIBS_FLAGS	=	$(addprefix -l, webserv unit) $(addprefix -L, .. framework)
+LIBS_FLAGS	=	$(addprefix -l, unit) $(addprefix -L, .. framework)
 
 #	Objets
 
@@ -94,7 +94,7 @@ all : $(NAME)
 $(NAME):	$(OBJS)
 	@$(MAKE) --directory=framework
 	@printf "$(YELLOW)Creating executable..$(DEFAULT)\n"
-	@$(CXX) $(OBJS) $(LIBS_FLAGS) $(OFLAGS) -o $(NAME)
+	@$(CXX) $(OBJS) -L .. $(LIBS_FLAGS) $(OFLAGS) -lwebserv -o $(NAME)
 	@printf "$(GREEN)---> $(NAME) is ready$(DEFAULT)\n"
 
 $(OBJD)/%.o: $(SRCD)/%.cpp
