@@ -83,6 +83,11 @@ Method::get_value(std::string const &path_file)
  * for a value of 5 and method "POST"
  * this function return false.
  */
+
+#define FLAG_GET 0b001
+#define FLAG_POST 0b010
+#define FLAG_DELETE 0b100
+
 bool
 Method::permission_method_converter(const unsigned int permission, std::string const &method)
 {
@@ -92,15 +97,15 @@ Method::permission_method_converter(const unsigned int permission, std::string c
 
 	// GET    : 1 3 5 7
 	if (!method.compare("GET"))
-		return permission % 2;
+		return permission & FLAG_GET;
 
 	// POST   : 2 3 6 7
 	if (!method.compare("POST"))
-		return 1 < permission % 4;
+		return permission & FLAG_POST;
 
 	// DELETE : 4 5 6 7
 	if (!method.compare("DELETE"))
-		return 3 < permission;
+		return permission & FLAG_DELETE;
 
 	return false;
 }
