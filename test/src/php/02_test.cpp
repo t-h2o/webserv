@@ -46,7 +46,7 @@ request_POST(void)
 int
 test_cgi_simple_POST(void)
 {
-	std::string						   cgi_path = PATH_CGI_PHP;
+	CGI::set_php_binary(PATH_CGI_PHP);
 	std::string						   cgi_file = "test/website/cgi/path_info.php";
 	std::string						   output_cgi;
 	std::map<std::string, std::string> map;
@@ -64,7 +64,7 @@ test_cgi_simple_POST(void)
 int
 test_cgi_POST(void)
 {
-	std::string						   cgi_path = PATH_CGI_PHP;
+	CGI::set_php_binary(PATH_CGI_PHP);
 	std::string						   cgi_file = "test/website/cgi/input.php";
 	std::string						   output_cgi;
 	std::map<std::string, std::string> map;
@@ -72,7 +72,7 @@ test_cgi_POST(void)
 
 	map = request_POST();
 	std::string cgi_query = get_key(map, "Query");
-	CGI			cgi(cgi_path, cgi_file, cgi_query);
+	CGI			cgi(cgi_file, cgi_query);
 
 	if ((output_cgi = cgi.execution_cgi(map, cgi_file, "salut")).empty())
 	{

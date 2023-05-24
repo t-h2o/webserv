@@ -60,14 +60,14 @@ test_php_output(void)
 int
 test_cgi_with_php(void)
 {
-	std::string						   cgi_path = PATH_CGI_PHP;
+	CGI::set_php_binary(PATH_CGI_PHP);
 	std::string						   cgi_file = "test/website/cgi/input.php";
 	std::map<std::string, std::string> map;
 	std::string						   output_cgi;
 
 	map = request_GET();
 	std::map<std::string, std::string>::iterator it;
-	CGI											 cgi(cgi_path, cgi_file, "");
+	CGI											 cgi(cgi_file, "");
 
 	if ((output_cgi = cgi.execution_cgi(map, cgi_file, "salut")).empty())
 	{
@@ -80,14 +80,14 @@ test_cgi_with_php(void)
 int
 test_cgi_with_php_query(void)
 {
-	std::string						   cgi_path = PATH_CGI_PHP;
+	CGI::set_php_binary(PATH_CGI_PHP);
 	std::string						   cgi_file = "test/website/cgi/input.php";
 	std::map<std::string, std::string> map;
 	std::string						   output_cgi;
 
 	map = request_GET();
 	std::map<std::string, std::string>::iterator it;
-	CGI											 cgi(cgi_path, cgi_file, "");
+	CGI											 cgi(cgi_file, "");
 
 	if ((output_cgi = cgi.execution_cgi(map, cgi_file, "salut")).empty())
 	{
@@ -105,7 +105,7 @@ test_cgi_with_php_query(void)
 int
 test_cgi_with_php_query2(void)
 {
-	std::string						   cgi_path = PATH_CGI_PHP;
+	CGI::set_php_binary(PATH_CGI_PHP);
 	std::string						   cgi_file = "test/website/cgi/path_info.php";
 	std::map<std::string, std::string> map;
 	std::string						   output_cgi;
@@ -113,7 +113,7 @@ test_cgi_with_php_query2(void)
 	map = request_GET();
 	std::string									 cgi_query = get_key(map, "Query");
 	std::map<std::string, std::string>::iterator it;
-	CGI											 cgi(cgi_path, cgi_file, cgi_query);
+	CGI											 cgi(cgi_file, cgi_query);
 
 	if ((output_cgi = cgi.execution_cgi(map, cgi_file, "salut")).empty())
 	{
@@ -131,7 +131,7 @@ test_cgi_with_php_query2(void)
 int
 test_cgi_with_files(void)
 {
-	std::string						   cgi_path = PATH_CGI_PHP;
+	CGI::set_php_binary(PATH_CGI_PHP);
 	std::string						   cgi_file = "test/website/cgi/path_info.php";
 	std::map<std::string, std::string> map;
 	std::string						   output_cgi;
@@ -139,7 +139,7 @@ test_cgi_with_files(void)
 	map = request_GET();
 	std::string									 cgi_query = get_key(map, "Query");
 	std::map<std::string, std::string>::iterator it;
-	CGI											 cgi(cgi_path, cgi_file, cgi_query);
+	CGI											 cgi(cgi_file, cgi_query);
 
 	if ((output_cgi = cgi.execution_cgi(map, cgi_file, "salut")).empty())
 	{
@@ -154,7 +154,7 @@ test_cgi_with_files(void)
 
 	cgi_file = "test/website/cgi/input.php";
 
-	CGI cgi1(cgi_path, cgi_file, cgi_query);
+	CGI cgi1(cgi_file, cgi_query);
 
 	if ((output_cgi = cgi1.execution_cgi(map, cgi_file, "salut")).empty())
 	{
@@ -169,7 +169,7 @@ test_cgi_with_files(void)
 
 	cgi_file = "test/website/cgi/result.php";
 
-	CGI cgi2(cgi_path, cgi_file, cgi_query);
+	CGI cgi2(cgi_file, cgi_query);
 
 	if ((output_cgi = cgi2.execution_cgi(map, cgi_file, "salut")).empty())
 	{
@@ -184,7 +184,7 @@ test_cgi_with_files(void)
 
 	cgi_file = "test/website/cgi/post.html";
 
-	CGI cgi3(cgi_path, cgi_file, cgi_query);
+	CGI cgi3(cgi_file, cgi_query);
 
 	if ((output_cgi = cgi3.execution_cgi(map, cgi_file, "salut")).empty())
 	{
@@ -199,7 +199,7 @@ test_cgi_with_files(void)
 
 	cgi_file = "test/website/cgi/status.php";
 
-	CGI cgi4(cgi_path, cgi_file, cgi_query);
+	CGI cgi4(cgi_file, cgi_query);
 
 	if ((output_cgi = cgi4.execution_cgi(map, cgi_file, "salut")).empty())
 	{

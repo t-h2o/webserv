@@ -4,7 +4,6 @@ int
 main(void)
 {
 	int result;
-
 	result = launch_arguments();
 	result |= launch_arguments_argv();
 	result |= launch_http_method();
