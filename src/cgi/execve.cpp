@@ -21,6 +21,7 @@ CGI::CGI(void) {}
 
 CGI::CGI(const std::string &file, const std::string &query)
 {
+	(void)bin;
 	char *b;
 	char *f;
 	char *q;
