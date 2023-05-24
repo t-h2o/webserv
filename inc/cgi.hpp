@@ -43,9 +43,11 @@ class CGI
 	std::string _query;
 	std::string _uri;
 
+	static std::string _path_php_binary;
+
   public:
 	CGI(void);
-	CGI(const std::string &bin, const std::string &file, const std::string &query);
+	CGI(const std::string &file, const std::string &query);
 
 	std::string execution_cgi(const std::map<std::string, std::string> &map, const std::string &args,
 							  const std::string &body_post_cgi);
@@ -54,7 +56,6 @@ class CGI
 	void		set_env(const std::map<std::string, std::string> &map, const std::string &args);
 	void		check_map(const std::map<std::string, std::string> &map, const std::string &name_file);
 
-	static std::string _path_php_binary;
 	static void set_php_binary(std::string const &);
 
 	~CGI(void);

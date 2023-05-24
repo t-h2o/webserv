@@ -19,15 +19,15 @@ get_key(const std::map<std::string, std::string> &map, const std::string &key)
 
 CGI::CGI(void) {}
 
-CGI::CGI(const std::string &bin, const std::string &file, const std::string &query)
+CGI::CGI(const std::string &file, const std::string &query)
 {
 	char *b;
 	char *f;
 	char *q;
 
-	b = new char[bin.size() + 1];
+	b = new char[_path_php_binary.size() + 1];
 	f = new char[file.size() + 1];
-	std::memcpy(b, bin.c_str(), bin.size() + 1);
+	std::memcpy(b, _path_php_binary.c_str(), _path_php_binary.size() + 1);
 	std::memcpy(f, file.c_str(), file.size() + 1);
 	_args.push_back(b);
 	_args.push_back(f);

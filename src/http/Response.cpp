@@ -242,7 +242,7 @@ Response::php_handler(const Request &request) const
 	std::string cgi_file = "test/website" + get_key(req_map, "Path");
 	std::string cgi_query = get_key(req_map, "Query");
 	std::string output_cgi;
-	CGI			cgi(CGI::_path_php_binary, cgi_file, cgi_query);
+	CGI			cgi(cgi_file, cgi_query);
 
 	output_cgi = cgi.execution_cgi(req_map, cgi_file, body_post_cgi);
 	size_t pos;
