@@ -47,7 +47,7 @@ class CGI
 
   public:
 	CGI(void);
-	CGI(const std::string &bin, const std::string &file, const std::string &query);
+	CGI(const std::string &file, const std::string &query);
 
 	std::string execution_cgi(const std::map<std::string, std::string> &map, const std::string &args,
 							  const std::string &body_post_cgi);

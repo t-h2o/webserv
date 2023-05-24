@@ -236,14 +236,13 @@ Response::php_handler(const Request &request)
 {
 	t_object req_map = request.get_map();
 
-	std::string cgi_path = "/whatever";
 	if (request.get_has_query())
 		std::cout << "the query string is : " << req_map["Query"] << std::endl;
 
 	std::string cgi_file = "test/website" + get_key(req_map, "Path");
 	std::string cgi_query = get_key(req_map, "Query");
 	std::string output_cgi;
-	CGI			cgi(cgi_path, cgi_file, cgi_query);
+	CGI			cgi(cgi_file, cgi_query);
 
 	output_cgi = cgi.execution_cgi(req_map, cgi_file, body_post_cgi);
 	size_t pos;

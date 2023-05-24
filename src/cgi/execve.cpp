@@ -19,9 +19,8 @@ get_key(const std::map<std::string, std::string> &map, const std::string &key)
 
 CGI::CGI(void) {}
 
-CGI::CGI(const std::string &bin, const std::string &file, const std::string &query)
+CGI::CGI(const std::string &file, const std::string &query)
 {
-	(void)bin;
 	char *b;
 	char *f;
 	char *q;
