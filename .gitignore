@@ -3,3 +3,7 @@
 *.swp
 .asciidoctor
 webserv
+.idea
+.vscode
+.DS_Store
+setting.hpp

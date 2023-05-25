@@ -1,15 +1,26 @@
 #include "arguments.hpp"
-#include <iostream>
+#include "webserver.hpp"
+
+#define DEFAULT_CONFIG "./config.json"
 
 int
 main(int argc, char **argv)
 {
-	(void)argv;
-
-	if (check_argc_number(argc))
+	if (arguments::check_argc_number(argc))
 		return 1;
 
-	std::cout << "Web server C++98" << std::endl;
+	if (argc == 2)
+	{
+		if (arguments::check_argv_access(argv[1]))
+			return 1;
 
-	return 0;
+		return webserver(argv[1]);
+	}
+	else if (argc == 1)
+	{
+		if (arguments::check_argv_access(DEFAULT_CONFIG))
+			return 1;
+
+		return webserver(DEFAULT_CONFIG);
+	}
 }

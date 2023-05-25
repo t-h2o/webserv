@@ -19,9 +19,56 @@ OFLAGS	=	-fsanitize=address
 SRCD	=	src
 
 SRCS	=	$(SRCD)/main.cpp
-SRCS	+=	$(SRCD)/arguments/00_launcher.cpp
-SRCS	+=	$(SRCD)/arguments/01_test.cpp
-SRCS	+=	$(SRCD)/arguments/02_test.cpp
+SRCS	+=	$(SRCD)/arguments-argc/00_launcher.cpp
+SRCS	+=	$(SRCD)/arguments-argc/01_test.cpp
+SRCS	+=	$(SRCD)/arguments-argc/02_test.cpp
+SRCS	+=	$(SRCD)/arguments-argv/00_launcher.cpp
+SRCS	+=	$(SRCD)/arguments-argv/01_test.cpp
+SRCS	+=	$(SRCD)/arguments-argv/02_test.cpp
+
+SRCS	+=	$(SRCD)/http-method/00_launcher.cpp
+SRCS	+=	$(SRCD)/http-method/01_test.cpp
+
+SRCS	+=	$(SRCD)/http-redirection/00_launcher.cpp
+SRCS	+=	$(SRCD)/http-redirection/01_test.cpp
+
+SRCS	+=	$(SRCD)/http-status-code/00_launcher.cpp
+SRCS	+=	$(SRCD)/http-status-code/01_test.cpp
+
+SRCS	+=	$(SRCD)/json/00_launcher.cpp
+SRCS	+=	$(SRCD)/json/01_test.cpp
+SRCS	+=	$(SRCD)/json/02_test.cpp
+SRCS	+=	$(SRCD)/json/03_test.cpp
+SRCS	+=	$(SRCD)/json/04_test.cpp
+SRCS	+=	$(SRCD)/json/05_test.cpp
+SRCS	+=	$(SRCD)/json/06_test.cpp
+SRCS	+=	$(SRCD)/json/07_test.cpp
+SRCS	+=	$(SRCD)/json/08_test.cpp
+
+SRCS	+=	$(SRCD)/check-json-config/00_launcher.cpp
+SRCS	+=	$(SRCD)/check-json-config/01_test.cpp
+SRCS	+=	$(SRCD)/check-json-config/02_test.cpp
+
+SRCS	+=	$(SRCD)/php/00_launcher.cpp
+SRCS	+=	$(SRCD)/php/01_test.cpp
+SRCS	+=	$(SRCD)/php/02_test.cpp
+
+SRCS	+=	$(SRCD)/Value/00_launcher.cpp
+SRCS	+=	$(SRCD)/Value/01_test.cpp
+SRCS	+=	$(SRCD)/Value/02_test.cpp
+SRCS	+=	$(SRCD)/Value/03_test.cpp
+SRCS	+=	$(SRCD)/Value/04_test.cpp
+SRCS	+=	$(SRCD)/Value/05_test.cpp
+SRCS	+=	$(SRCD)/Value/06_test.cpp
+SRCS	+=	$(SRCD)/Value/07_test.cpp
+
+SRCS	+=	$(SRCD)/File/00_launcher.cpp
+SRCS	+=	$(SRCD)/File/01_test.cpp
+SRCS	+=	$(SRCD)/File/02_test.cpp
+SRCS	+=	$(SRCD)/File/03_test.cpp
+SRCS	+=	$(SRCD)/File/04_test.cpp
+SRCS	+=	$(SRCD)/File/05_test.cpp
+SRCS	+=	$(SRCD)/File/06_test.cpp
 
 
 #	Headers

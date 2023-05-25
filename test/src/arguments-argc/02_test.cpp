@@ -11,7 +11,7 @@ test_check_argc_number_2(void)
 	output.open();
 
 	/* run the function to test */
-	fresutl = check_argc_number(2);
+	fresutl = arguments::check_argc_number(2);
 
 	output.close();
 

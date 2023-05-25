@@ -5,6 +5,54 @@
 
 == Web server UML diagram
 
+=== Mindmap diagram
+
+[plantuml, target=mindmap, format=svg, width=60%]
+....
+@startmindmap
+
+<style>
+mindmapDiagram {
+  .green {
+    BackgroundColor lightgreen
+  }
+  .rose {
+    BackgroundColor #FFBBCC
+  }
+  .red {
+    BackgroundColor red
+  }
+  .yellow {
+    BackgroundColor yellow
+  }
+  .blue {
+    BackgroundColor lightblue
+  }
+}
+</style>
+
+* web server
+** configuration file
+*** server list
+**** each server need
+***** server name <<yellow>>
+***** port number <<red>>
+***** path to the website <<red>>
+*** path to a php-cgi
+** connection loop
+*** create a socket instance for each server
+***:manage socket with
+<code>
+select()
+</code>;
+
+legend left
+  <<red>>: obligatoire
+  <<yellow>>: faculatif
+endlegend
+@endmindmap
+....
+
 === Usecase diagram
 
 [plantuml, target=usecase, format=svg, width=60%]
@@ -15,6 +63,21 @@ package "Web server" as wbs {
   usecase "Web site" as ws
 }
 client --> ws
+....
+
+=== Classes diagram
+
+[plantuml, target=class, format=svg, width=60%]
+....
+set separator ::
+
+class CGI
+class http::Request
+class http::Response
+class http::StatusCode
+class http::Socket
+class json::File
+class json::Value
 ....
 
 === Sequence diagram
@@ -121,3 +184,9 @@ libunit : - framework obj
 === Tools
 
 * Create UML diagram with https://plantuml.com/[plantUML]
+
+=== JSON parsing
+
+* wikipedia: https://en.wikipedia.org/wiki/JSON[JSON]
+* json.org: https://www.json.org/json-en.html[diagram]
+* RFC: https://www.rfc-editor.org/rfc/rfc7159#section-2[JSON]

@@ -1,0 +1,44 @@
+{
+    "1": {
+        "hostname": "nicesite.com",
+        "port": 8081,
+        "path": "./test/website",
+        "method_allowed": {
+            "/uploads": 7,
+            "/index.html": 1
+        },
+        "redirection": {
+            "/site_sheep": "http://www.google.com/",
+            "/site_duck": "http://www.duckduckgo.com",
+            "/redir": "submitPage.html"
+        },
+		"max_length": 500000
+    },
+
+
+    "2": {
+        "hostname": "dummywebsite.com",
+        "port": 8080,
+        "path": "./test/website2",
+        "dir_error": "is_dir.html",
+        "405": "405.html",
+        "method_allowed": {
+            "/index.html": 2
+        }
+    },
+
+    "3": {
+        "hostname": "docs.com",
+        "port": 8082,
+        "path": "./docs"
+    },
+
+
+    "4": {
+        "hostname": "empty.com",
+        "port": 8084,
+        "path": "./test/webempty"
+    },
+
+    "php-cgi": "/Users/kdi-noce/goinfre//php/php-8.2.5/sapi/cgi/php-cgi"
+}
