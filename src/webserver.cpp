@@ -23,5 +23,7 @@ webserver(const char *path_config_file)
 	cluster.setup();
 	cluster.run();
 
+	delete config;
+
 	return 0;
 }

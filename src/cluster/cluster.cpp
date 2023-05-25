@@ -121,4 +121,7 @@ Cluster::run()
 			end_server = 1;
 		}
 	}
+
+	for (std::map<int, Socket *>::const_iterator it(_sockets.begin()); it != _sockets.end(); ++it)
+		delete it->second;
 }
