@@ -140,9 +140,10 @@ docdocker:
 	@printf "$(YELLOW)launch the asciidoctor/docker-asciidoctor docker image..$(DEFAULT)\n"
 	@docker run --rm -v $(shell pwd):/documents/ asciidoctor/docker-asciidoctor make doc
 
-man:
+man: $(MANUAL)
 	@printf "$(YELLOW)Generating manual..$(DEFAULT)\n"
-	@$(ADOC) -b manpage $(MANUAL)
+	@$(ADOC) -b manpage $<
+	@gzip --force man/webserv.8
 
 mandocker:
 	@printf "$(YELLOW)launch the asciidoctor/docker-asciidoctor docker image..$(DEFAULT)\n"
