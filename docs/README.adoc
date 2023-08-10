@@ -129,9 +129,18 @@ This diagram represents:
 ....
 state "Web server repository" as repository {
   state "Makefile" as makefile
+  state "python" as python {
+	state "Dockerfile" as python_dockerfile
+	state "Makefile" as python_makefile
+	state "script.py" as python_script
+  }
   state "docs" as docs {
   	state "index.html" as index
   	state "README.adoc" as adoc
+  }
+  state "man" as man {
+	state "webserv.adoc" as man_adoc
+	state "webserv.8.gz" as man_man
   }
   state "src" as src
   state "obj" as obj
@@ -154,8 +163,10 @@ state "Web server repository" as repository {
   }
   makefile --> program : make
   makefile --> index : make doc
-  makefile --> test_makefile : make test
-  makefile --> libwebserv : make test
+  makefile --> test_makefile : make test cpp
+  makefile --> libwebserv : make test cpp
+  makefile --> python_makefile : make test python
+  makefile --> man_man : make man
   test_makefile --> test_program : make
   test_makefile --> framework_makefile : make
   framework_makefile --> libunit : make
